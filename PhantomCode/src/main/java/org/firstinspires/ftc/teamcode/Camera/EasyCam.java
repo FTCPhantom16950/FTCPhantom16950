@@ -17,7 +17,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 public class EasyCam extends Camera {
     WebcamName firstWebcamName, secondWebcamName;
-    OpenCvCameraRotation rotation;
+    OpenCvInternalCamera.CameraDirection rotation;
     boolean UsingCamera = false;
     boolean IsOpenCvTrue = false;
     boolean IsAprilTagTrue = false;
@@ -70,6 +70,8 @@ public class EasyCam extends Camera {
         IsTensorFlowTrue = isTensorFlowTrue;
     }
 
+
+
     /**
      * конструктор для вашей камеры
      * constructor for your camera
@@ -79,7 +81,7 @@ public class EasyCam extends Camera {
      * @param isAprilTagTrue используете ли вы април тэги; Do you use AprilTag
      * @param isTensorFlowTrue используете ли вы тэнсор флоу; Do you use TensorFlow
      */
-    public EasyCam(OpenCvCameraRotation rotation, boolean usingCamera, boolean isOpenCvTrue, boolean isAprilTagTrue, boolean isTensorFlowTrue) {
+    public EasyCam(OpenCvInternalCamera.CameraDirection rotation, boolean usingCamera, boolean isOpenCvTrue, boolean isAprilTagTrue, boolean isTensorFlowTrue) {
         this.rotation = rotation;
         UsingCamera = usingCamera;
         IsOpenCvTrue = isOpenCvTrue;
@@ -91,7 +93,7 @@ public class EasyCam extends Camera {
      * async listener for your external webcam
      * ассинхронный слушатель для нашей камеры
      */
-    OpenCvCamera.AsyncCameraOpenListener cameraListener = new OpenCvCamera.AsyncCameraOpenListener() {
+    OpenCvCamera.AsyncCameraOpenListener external = new OpenCvCamera.AsyncCameraOpenListener() {
         @Override
         public void onOpened() {
             if (UsingCamera){
@@ -108,10 +110,28 @@ public class EasyCam extends Camera {
             toast.setText("Камера не может запуститься");
         }
     };
+    OpenCvCamera.AsyncCameraOpenListener internal = new OpenCvCamera.AsyncCameraOpenListener() {
+        @Override
+        public void onOpened() {
+            if (!UsingCamera){
+                phonecam = OpenCvCameraFactory.getInstance().createInternalCamera(rotation, viewPort[1]);
+                phonecam.setPipeline(new OpenCvOld.StageSwitchingPipeline());
+                phonecam.startStreaming(cameraWidth, cameraHeight);
+            }
+        }
+
+        @Override
+        public void onError(int errorCode) {
+            FtcRobotControllerActivity activity = new FtcRobotControllerActivity();
+            Toast toast = new Toast(activity);
+            toast.setText("Камера не может запуститься");
+        }
+    };
 
     /**
      * старт вашей камеры
      */
     public void startEasyCam(){
+
     }
 }
