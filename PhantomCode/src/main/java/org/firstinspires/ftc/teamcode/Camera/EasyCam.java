@@ -21,7 +21,7 @@ public class EasyCam extends Camera {
     boolean IsOpenCvTrue;
     boolean IsAprilTagTrue;
     boolean IsTensorFlowTrue;
-    int valLeft, valRight;
+    public int valLeft, valRight;
     public OpenCvWebcam camera;
     public OpenCvInternalCamera phonecam;
     int cameraHeight = 640;
@@ -31,8 +31,8 @@ public class EasyCam extends Camera {
     Thread valGetter = new Thread(() -> {
         while (opModeInInit()){
             while (true){
-                valLeft = getValLeft();
-                valRight = getValRight();
+                valLeft = Camera.getValLeft();
+                valRight = Camera.getValRight();
             }
         }
     });
