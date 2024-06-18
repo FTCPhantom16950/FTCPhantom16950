@@ -197,9 +197,6 @@ public class Camera extends LinearOpMode {
         }
 
     }
-    public class OpenCVnew{
-
-    }
     public class AprilTagOld{
             public void startApriltag(){
                 aprilTagProcessor = new AprilTagProcessor.Builder()

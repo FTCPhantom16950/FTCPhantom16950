@@ -79,3 +79,7 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+/TeamCode/eocvsim_workspace.json
+/eocvsim_workspace.json
+/PhantomCode/eocvsim_workspace.json
+/PhantomCode/src/main/java/org/firstinspires/ftc/teamcode/eocvsim/eocvsim_workspace.json
