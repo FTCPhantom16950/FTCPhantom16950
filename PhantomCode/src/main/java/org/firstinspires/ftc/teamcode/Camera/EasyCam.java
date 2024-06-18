@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Camera;
 
 import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
 
-import android.content.Context;
 import android.widget.Toast;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
@@ -12,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Camera.Basement.Camera;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
