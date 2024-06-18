@@ -49,9 +49,9 @@ public class Camera extends LinearOpMode {
 
 
 
-    VisionPortal visionPortal;
-    AprilTagProcessor aprilTagProcessor;
-    TfodProcessor tfod;
+    public VisionPortal visionPortal;
+    public AprilTagProcessor aprilTagProcessor;
+    public TfodProcessor tfod;
 
 
 

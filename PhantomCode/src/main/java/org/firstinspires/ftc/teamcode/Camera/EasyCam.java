@@ -6,6 +6,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.Basement.Camera;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -18,22 +19,26 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class EasyCam extends Camera {
     WebcamName firstWebcamName, secondWebcamName;
     OpenCvInternalCamera.CameraDirection rotation;
-    boolean UsingCamera = false;
-    boolean IsOpenCvTrue = false;
-    boolean IsAprilTagTrue = false;
-    boolean IsTensorFlowTrue = false;
+    boolean UsingCamera;
+    boolean IsOpenCvTrue;
+    boolean IsAprilTagTrue;
+    boolean IsTensorFlowTrue;
     int valLeft, valRight;
     public OpenCvWebcam camera;
     public OpenCvInternalCamera phonecam;
     int cameraHeight = 640;
     int cameraWidth = 480;
     int[] viewPort = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+
     Thread valGetter = new Thread(() -> {
         while (opModeInInit()){
-            valLeft = getValLeft();
-            valRight = getValRight();
+            while (true){
+                valLeft = getValLeft();
+                valRight = getValRight();
+            }
         }
     });
+
     /**
      * конструктор для вашей камеры
      * constructor for your camera
@@ -69,8 +74,6 @@ public class EasyCam extends Camera {
         IsAprilTagTrue = isAprilTagTrue;
         IsTensorFlowTrue = isTensorFlowTrue;
     }
-
-
 
     /**
      * конструктор для вашей камеры
@@ -132,6 +135,129 @@ public class EasyCam extends Camera {
      * старт вашей камеры
      */
     public void startEasyCam(){
-
+        if (IsOpenCvTrue) {
+            if (UsingCamera) {
+                camera.openCameraDeviceAsync(external);
+                valGetter.start();
+            } else if (!UsingCamera) {
+                phonecam.openCameraDeviceAsync(internal);
+                valGetter.start();
+            }
+        }
+        if (IsAprilTagTrue){
+            if (UsingCamera){
+                if (IsOpenCvTrue){
+                   if(secondWebcamName != null){
+                       visionPortal = new VisionPortal.Builder()
+                               .addProcessor(aprilTagProcessor)
+                               .setCamera(secondWebcamName)
+                               .setLiveViewContainerId(viewPort[0])
+                               .build();
+                   } else {
+                       visionPortal = new VisionPortal.Builder()
+                               .addProcessor(aprilTagProcessor)
+                               .setCamera(firstWebcamName)
+                               .setLiveViewContainerId(viewPort[0])
+                               .build();
+                   }
+                }  else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(aprilTagProcessor)
+                            .setCamera(secondWebcamName)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            } else if (!UsingCamera) {
+                if (IsOpenCvTrue) {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(aprilTagProcessor)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[0])
+                            .build();
+                } else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(aprilTagProcessor)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            }
+        } else if (IsTensorFlowTrue) {
+            if (UsingCamera){
+                if (IsOpenCvTrue){
+                    if(secondWebcamName != null){
+                        visionPortal = new VisionPortal.Builder()
+                                .addProcessor(tfod)
+                                .setCamera(secondWebcamName)
+                                .setLiveViewContainerId(viewPort[0])
+                                .build();
+                    } else {
+                        visionPortal = new VisionPortal.Builder()
+                                .addProcessor(tfod)
+                                .setCamera(firstWebcamName)
+                                .setLiveViewContainerId(viewPort[0])
+                                .build();
+                    }
+                }  else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(tfod)
+                            .setCamera(secondWebcamName)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            } else if (!UsingCamera) {
+                if (IsOpenCvTrue) {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(tfod)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[0])
+                            .build();
+                } else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessor(tfod)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            }
+        } else if (IsAprilTagTrue && IsTensorFlowTrue) {
+            if (UsingCamera){
+                if (IsOpenCvTrue){
+                    if(secondWebcamName != null){
+                        visionPortal = new VisionPortal.Builder()
+                                .addProcessors(aprilTagProcessor, tfod)
+                                .setCamera(secondWebcamName)
+                                .setLiveViewContainerId(viewPort[0])
+                                .build();
+                    } else {
+                        visionPortal = new VisionPortal.Builder()
+                                .addProcessors(aprilTagProcessor, tfod)
+                                .setCamera(firstWebcamName)
+                                .setLiveViewContainerId(viewPort[0])
+                                .build();
+                    }
+                }  else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessors(aprilTagProcessor, tfod)
+                            .setCamera(secondWebcamName)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            } else if (!UsingCamera) {
+                if (IsOpenCvTrue) {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessors(aprilTagProcessor, tfod)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[0])
+                            .build();
+                } else {
+                    visionPortal = new VisionPortal.Builder()
+                            .addProcessors(aprilTagProcessor, tfod)
+                            .setCamera(BuiltinCameraDirection.BACK)
+                            .setLiveViewContainerId(viewPort[1])
+                            .build();
+                }
+            }
+        }
     }
 }
