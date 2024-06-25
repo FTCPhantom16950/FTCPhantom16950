@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils;
-
-import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
+package org.firstinspires.ftc.teamcode.eocvsim;
 
 public class PhantomMath {
     public boolean leftPose, rightPose;

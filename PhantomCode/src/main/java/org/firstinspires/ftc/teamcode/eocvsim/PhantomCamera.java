@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.Camera;
+package org.firstinspires.ftc.teamcode.eocvsim;
 
 import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
-import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -27,10 +25,13 @@ public class PhantomCamera {
     int[] viewPort = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
 
     private VisionPortal visionPortal;
-    private AprilTagProcessor aprilTagProcessor;
-    private TfodProcessor tfod;
+    private AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
+            .setDrawAxes(true)
+            .setDrawTagID(true)
+            .setDrawCubeProjection(true)
+            .build();
     public PhantomProcessor phantomProcessor;
-
+    TfodProcessor tfod = new TfodProcessor.Builder().build();
     public boolean lp, rp;
 
     /**
@@ -68,11 +69,8 @@ public class PhantomCamera {
     }
 
     public void startCameraEasy(int height, int width){
-        aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setDrawAxes(true)
-                .setDrawTagID(true)
-                .setDrawCubeProjection(true)
-                .build();
+
+
         cameraHeight = height;
         cameraWidth = width;
         if (IsOpenCvTrue && IsAprilTagTrue && IsTensorFlowTrue){
