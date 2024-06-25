@@ -1,8 +1,10 @@
-package org.firstinspires.ftc.teamcode.eocvsim;
+package org.firstinspires.ftc.teamcode.Utils;
+
+import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
 
 public class PhantomMath {
     public boolean leftPose, rightPose;
-    public void pipeLine(CameraReworked cameraReworked){
+    public void pipeLine(PhantomProcessor cameraReworked){
         int valLeft = cameraReworked.valLeft;
         int valRight = cameraReworked.valRight;
         if (valLeft >= 122){

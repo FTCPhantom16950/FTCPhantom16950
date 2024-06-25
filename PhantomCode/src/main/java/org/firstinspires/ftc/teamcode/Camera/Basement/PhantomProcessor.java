@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.eocvsim;
+package org.firstinspires.ftc.teamcode.Camera.Basement;
 
 
 import android.graphics.Canvas;
@@ -13,7 +13,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class CameraReworked implements VisionProcessor{
+public class PhantomProcessor implements VisionProcessor{
     public int valLeft, valRight;
     public Rect leftRect = new Rect(30 , 40, 20,10 );
     public Rect rightRect = new Rect(300, 300, 20, 10);
@@ -56,8 +56,8 @@ public class CameraReworked implements VisionProcessor{
             Imgproc.cvtColor(yellowResult, yellowResultRGB, Imgproc.COLOR_HSV2RGB);
 
             Imgproc.cvtColor(yellowResultRGB, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
-            Imgproc.threshold(yCbCrChan2Mat, input, 120, 255, Imgproc.THRESH_BINARY_INV);
-            Imgproc.cvtColor(input, input, Imgproc.COLOR_GRAY2RGB);
+            Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 120, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
 
 
             valLeft = getAverageValue(input, leftRect);

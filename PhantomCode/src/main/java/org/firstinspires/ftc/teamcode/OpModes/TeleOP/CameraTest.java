@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode.eocvsim;
+package org.firstinspires.ftc.teamcode.OpModes.TeleOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
+import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -13,7 +15,7 @@ public class CameraTest extends OpMode {
     PhantomMath math = new PhantomMath();
     VisionPortal visionPortal;
     AprilTagProcessor aprilTagProcessor;
-    CameraReworked cameraReworked = new CameraReworked();
+    PhantomProcessor cameraReworked = new PhantomProcessor();
     @Override
     public void init() {
         aprilTagProcessor = new AprilTagProcessor.Builder().build();
@@ -43,7 +45,7 @@ public class CameraTest extends OpMode {
 
     @Override
     public void start() {
-
+        visionPortal.stopStreaming();
     }
 
     @Override
