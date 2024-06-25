@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.eocvsim;
 
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,20 +9,16 @@ import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibra
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CameraReworked implements VisionProcessor{
     public int valLeft, valRight;
-    Mat frame;
-
     public Rect leftRect = new Rect(30 , 40, 20,10 );
     public Rect rightRect = new Rect(300, 300, 20, 10);
+    Selcted selcted = Selcted.None;
+    Mat hsv = new Mat();
     Mat hsvImage = new Mat();
     Mat yCbCrChan2Mat = new Mat();
     Mat thresholdMat = new Mat();
@@ -31,32 +28,22 @@ public class CameraReworked implements VisionProcessor{
     Mat blueMask = new Mat();
     Mat yellowResultRGB = new Mat();
     Mat yellowResult = new Mat();
-
-    // Создание маски для желтого цвета
-    Mat yellowMask = new Mat();
-
-    // Определение диапазона красного цвета в HSV
     Scalar lowerRed = new Scalar(0,20,20);
     Scalar upperRed = new Scalar(160,255,255);
-
+    Mat submat = new Mat();
     // Определение диапазона синего цвета в HSV
-    Scalar lowerBlue = new Scalar(160, 40, 40);
-    Scalar upperBlue = new Scalar(255, 255, 255);
-
-    List<MatOfPoint> contoursList = new ArrayList<>();
+    public Scalar lowerBlue = new Scalar(160, 40, 40);
+    public Scalar upperBlue = new Scalar(255, 255, 255);
+    Mat yellowMask = new Mat();
 
         @Override
         public void init(int width, int height, CameraCalibration calibration) {
         }
 
-        @Override
-        public Mat processFrame(Mat input, long captureTimeNanos) {
-            frame = input;
-            contoursList.clear();
-            /*
-             * This pipeline finds the contours of yellow blobs such as the Gold Mineral
-             * from the Rover Ruckus game.
-             */
+
+
+    @Override
+        public Object processFrame(Mat input, long captureTimeNanos) {
             Imgproc.cvtColor(input, rgbImage, Imgproc.COLOR_BGR2RGB);
             // Преобразование RGB в HSV
             Imgproc.cvtColor(rgbImage, hsvImage, Imgproc.COLOR_RGB2HSV);
@@ -67,29 +54,29 @@ public class CameraReworked implements VisionProcessor{
             Core.add(hsvImage, new Scalar(60, 100, 100), rgbImage, redMask);
             Core.bitwise_and(rgbImage, rgbImage, yellowResult, yellowMask);
             Imgproc.cvtColor(yellowResult, yellowResultRGB, Imgproc.COLOR_HSV2RGB);
-            //color diff cb.
-            //lower cb = more blue = skystone = white
-            //higher cb = less blue = oyellow stne = grey
-            Imgproc.cvtColor(yellowResultRGB, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
-            Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
-            //b&w
-            Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 120, 255, Imgproc.THRESH_BINARY_INV);
-            //outline/contour
-            Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-            yCbCrChan2Mat.copyTo(all);//copies mat object
-            // Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
-            //get values from frame
-            double[] pixLeft = thresholdMat.get((int) (input.rows() * leftPos[1]), (int) (input.cols() * leftPos[0]));//gets value at circle
-            valLeft = (int) pixLeft[0];
 
-            double[] pixRight = thresholdMat.get((int) (input.rows() * rightPos[1]), (int) (input.cols() * rightPos[0]));//gets value at circle
-            valRight = (int) pixRight[0];
+            Imgproc.cvtColor(yellowResultRGB, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
+            Imgproc.threshold(yCbCrChan2Mat, input, 120, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.cvtColor(input, input, Imgproc.COLOR_GRAY2RGB);
 
-            //create three points
 
-            return thresholdMat;
+            valLeft = getAverageValue(input, leftRect);
+            valRight = getAverageValue(input, rightRect);
 
+            if (valRight > valLeft){
+                return selcted = Selcted.Right;
+            } else if (valLeft > valRight){
+                return selcted = Selcted.Left;
+            } else {
+                return selcted = Selcted.None;
+            }
         }
+        protected int getAverageValue(Mat input, Rect rect){
+            submat = input.submat(rect);
+            Scalar color = Core.mean(submat);
+            return (int) Math.round(color.val[2]);
+        }
+
         private android.graphics.Rect makeRectangle(Rect rect, float scaleBmpPXToCanvasPX) {
             int left = Math.round(rect.x * scaleBmpPXToCanvasPX);
             int top = Math.round(rect.y * scaleBmpPXToCanvasPX);
@@ -104,8 +91,36 @@ public class CameraReworked implements VisionProcessor{
             rectPaint.setStyle(Paint.Style.STROKE);
             rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
 
-            canvas.drawRect(makeRectangle(leftRect,scaleBmpPxToCanvasPx), rectPaint);
-            canvas.drawRect(makeRectangle(rightRect, scaleBmpPxToCanvasPx), rectPaint);
+            Paint nobselectedpaint = new Paint();
+            nobselectedpaint.setColor(Color.GRAY);
+            nobselectedpaint.setStyle(Paint.Style.STROKE);
+            nobselectedpaint.setStrokeWidth(scaleCanvasDensity * 4);
+
+            android.graphics.Rect drawRectRight = makeRectangle(rightRect, scaleBmpPxToCanvasPx);
+            android.graphics.Rect drawRectLeft = makeRectangle(leftRect, scaleBmpPxToCanvasPx);
+
+            switch (selcted){
+                case None:
+                    canvas.drawRect(drawRectLeft, nobselectedpaint);
+                    canvas.drawRect(drawRectRight, nobselectedpaint);
+                    break;
+                case Left:
+                    canvas.drawRect(drawRectLeft, rectPaint);
+                    canvas.drawRect(drawRectRight,nobselectedpaint);
+                    break;
+                case Right:
+                    canvas.drawRect(drawRectLeft, nobselectedpaint);
+                    canvas.drawRect(drawRectRight, rectPaint);
+                    break;
+            }
+
         }
+
+        public enum Selcted{
+            None,
+            Left,
+            Right
+        }
+
     }
 
