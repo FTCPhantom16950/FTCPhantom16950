@@ -8,65 +8,62 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class PhantomIMU {
+    // Создаем перемнные для использования акселерометра и гироскопа
     private IMU imu;
+    AccelerationSensor accelerationSensor;
+    // создаем переменные для связи между классами и хранения данных
     public double x,y,z,heading;
-    public double aclhead, aclX, aclY;
+    public double veloHead, aclX, aclY;
+    // создаем переменные для внутренних классов данных, получаемых от иму
     private YawPitchRollAngles rotation;
     private AngularVelocity rotateSpeed;
-    AccelerationSensor accelerationSensor;
     Acceleration acceleration;
+
+    /**
+     *  инициализация гироскопа и акселерометра
+     * @param hwmap HardwareMap
+     */
     public void initIMU(HardwareMap hwmap){
+        //привязываем акслерометр и гироскоп к конфигу
         accelerationSensor = hwmap.get(AccelerationSensor.class, "imu");
         imu = hwmap.get(IMU.class, "imu");
+        // создаем настройки ориентации гироскопа для робота
         RevHubOrientationOnRobot hubOrientationOnRobot =
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
                         RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD);
+        // инициализируем гироскоп с параметрами установленными выше
         imu.initialize(new IMU.Parameters(hubOrientationOnRobot));
     }
 
-    public void headingGetter(HardwareMap hw){
+    /**
+     * получаем значения с акселерометра и гироскопа
+     * @param hw HardwareMap
+     */
+    public void valueGetter(HardwareMap hw){
         initIMU(hw);
         Thread imuT = new Thread(() -> {
             while (true){
+                // получаем ускорение по осям x и y
                 acceleration = accelerationSensor.getAcceleration();
                 aclX = acceleration.xAccel;
                 aclY = acceleration.yAccel;
+                // получаем скорость вращения
                 rotation = imu.getRobotYawPitchRollAngles();
                 rotateSpeed = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+                // получаем текущий поворот робота
                 heading = rotation.getYaw(AngleUnit.DEGREES);
-                aclhead = rotateSpeed.yRotationRate;
+                // получаем ускорение поворота
+                veloHead = rotateSpeed.yRotationRate;
             }
         });
         imuT.start();
-
     }
+    // сбрасываем угол поврота робота
     public void resetHeading(){
         imu.resetYaw();
     }
-    // getters and setters for x y z and heading
-    public double getX() {
-        return x;
-    }
-    public void setX(double x) {
-        this.x = x;
-    }
-    public double getY() {
-        return y;
-    }
-    public void setY(double y) {
-        this.y = y;
-    }
-    public double getZ() {
-        return z;
-    }
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-
 }
