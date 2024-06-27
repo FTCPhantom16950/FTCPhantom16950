@@ -9,12 +9,22 @@ import org.firstinspires.ftc.teamcode.Camera.PhantomCamera;
 @Disabled
 public class Telemetry extends OpMode {
     boolean lp, rp;
+    PhantomMath phantomMath = new PhantomMath();
     PhantomIMU pmImu = new PhantomIMU();
-    double x, y, z, heading;
+    double x, y, heading, velocityX, velocityY;
     public void tIMU(HardwareMap hw){
         pmImu.headingGetter(hw);
+        phantomMath.getCoordinatesByAccel(hw);
+        x = phantomMath.x;
+        y = phantomMath.y;
+        velocityX = phantomMath.vCurrentX;
+        velocityY = phantomMath.vCurrentY;
         heading = pmImu.heading;
         Thread IMUT = new Thread(() ->{
+            telemetry.addData("Current x:", x);
+            telemetry.addData("Current y:", y);
+            telemetry.addData("Current Velocity X:", velocityX);
+            telemetry.addData("Current Velocity Y:", velocityY);
             telemetry.addData("Heading ", heading);
             telemetry.update();
         });
@@ -32,6 +42,7 @@ public class Telemetry extends OpMode {
         });
         telemetryCamera.start();
     }
+
 
 
     @Override

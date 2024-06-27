@@ -4,16 +4,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
+import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
 
 import java.util.concurrent.TimeUnit;
 
 public class PhantomMath {
-    public double x,y;
+    public double x,y, vCurrentX, vCurrentY;
     PhantomIMU phantomIMU = new PhantomIMU();
+    WheelBase wheelBase = new WheelBase();
+
     public boolean leftPose, rightPose;
-    private double v0X,v0Y, vCurrentX, vCurrentY, time;
+    private double v0X,v0Y, time;
     private double accelX, accelY;
+
     private ElapsedTime timer = new ElapsedTime();
+
+    private double countOffOdo, countOfsOdo, countOFtOdo;
+
+    public double resultForFOdo, resultForSOdo, resultForTOdo;
+
     public void pipeLine(PhantomProcessor cameraReworked){
         int valLeft = cameraReworked.valLeft;
         int valRight = cameraReworked.valRight;
@@ -51,5 +60,17 @@ public class PhantomMath {
             }
         });
         coordinateMath.start();
+    }
+    public void OdoToDegrees(HardwareMap hw){
+        double headVelo;
+        phantomIMU.headingGetter(hw);
+        wheelBase.OdoCounter(hw);
+        countOFtOdo = wheelBase.countTOdo;
+        countOfsOdo = wheelBase.countSOdo;
+        countOffOdo = wheelBase.countFOdo;
+        headVelo = phantomIMU.aclhead;
+        resultForFOdo = headVelo / countOffOdo;
+        resultForSOdo = headVelo / countOfsOdo;
+        resultForTOdo = headVelo / countOFtOdo;
     }
 }
