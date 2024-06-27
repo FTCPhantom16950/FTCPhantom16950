@@ -1,8 +1,10 @@
-package org.firstinspires.ftc.teamcode.eocvsim;
+package org.firstinspires.ftc.teamcode.OpModes.TeleOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Camera.PhantomCamera;
+import org.firstinspires.ftc.teamcode.Utils.Telemetry;
 
 public class TeleOpTest  extends OpMode {
     Telemetry telemetryRobot = new Telemetry();

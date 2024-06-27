@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
-import org.firstinspires.ftc.teamcode.eocvsim.PhantomProcessor;
-import org.firstinspires.ftc.teamcode.eocvsim.PhantomMath;
+import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
+import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 

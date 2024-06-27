@@ -1,13 +1,24 @@
-package org.firstinspires.ftc.teamcode.eocvsim;
+package org.firstinspires.ftc.teamcode.Utils;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Camera.PhantomCamera;
 
 @Disabled
 public class Telemetry extends OpMode {
     boolean lp, rp;
-    public void tIMU(){
-
+    PhantomIMU pmImu = new PhantomIMU();
+    double x, y, z, heading;
+    public void tIMU(HardwareMap hw){
+        pmImu.headingGetter(hw);
+        heading = pmImu.heading;
+        Thread IMUT = new Thread(() ->{
+            telemetry.addData("Heading ", heading);
+            telemetry.update();
+        });
+        IMUT.start();
     }
     public void tCamera(PhantomCamera pc){
         lp = pc.lp;
@@ -19,6 +30,7 @@ public class Telemetry extends OpMode {
                 telemetry.update();
             }
         });
+        telemetryCamera.start();
     }
 
 
