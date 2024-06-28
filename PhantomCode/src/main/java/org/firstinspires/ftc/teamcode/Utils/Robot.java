@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
 
 public class Robot {
+
     double lTrigger;
     double rTrigger;
     WheelBase wheelBase = new WheelBase();

@@ -18,6 +18,7 @@ public class CameraTest extends OpMode {
     PhantomProcessor cameraReworked = new PhantomProcessor();
     @Override
     public void init() {
+
         aprilTagProcessor = new AprilTagProcessor.Builder().build();
         visionPortal = new VisionPortal.Builder()
                 .addProcessors(aprilTagProcessor, cameraReworked)

@@ -4,7 +4,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
+
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
+import org.firstinspires.ftc.teamcode.Utils.PhantomIMU;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,11 +15,11 @@ public class PhantomMath {
     PhantomIMU phantomIMU = new PhantomIMU();
     WheelBase wheelBase = new WheelBase();
     // создаём пременные для работы с другими классами
-    public double x,y, vCurrentX, vCurrentY;
+    public double x, y, vCurrentX, vCurrentY;
     public boolean leftPose, rightPose;
     public double resultForFOdo, resultForSOdo, resultForTOdo;
     // создаём внутренние перменные
-    private double v0X,v0Y, time;
+    private double v0X, v0Y, time;
     private double accelX, accelY;
     private double countOffOdo, countOfsOdo, countOFtOdo;
     double headVelo;
@@ -26,30 +28,32 @@ public class PhantomMath {
 
     /**
      * Перевод данных из цветовых значений в boolean
+     *
      * @param cameraReworked используемый у вас в автономе процессор
      */
-    public void pipeLine(PhantomProcessor cameraReworked){
+    public void pipeLine(PhantomProcessor cameraReworked) {
         // получаем данные из процессора
         int valLeft = cameraReworked.valLeft;
         int valRight = cameraReworked.valRight;
         // проверяем значения цвета, если больше половины то получаем true, если меньше то false
-        if (valLeft >= 122){
+        if (valLeft >= 122) {
             leftPose = true;
         } else {
             leftPose = false;
         }
-        if (valRight >= 122){
+        if (valRight >= 122) {
             rightPose = true;
         } else {
             rightPose = false;
         }
     }
 
+
     /**
      * получаем расстояние, пройденное роботом и его скорость при помощи акселерометра
      * @param hw HardwareMap
      */
-    public void getCoordinatesByAccel(HardwareMap hw){
+  public void getCoordinatesByAccel(HardwareMap hw){
         // получаем значения от акселерометра
         phantomIMU.valueGetter(hw);
         Thread coordinateMath = new Thread(() -> {
@@ -81,7 +85,7 @@ public class PhantomMath {
         coordinateMath.start();
     }
 
-    /**
+/**
      * перевод из оборотов одометра в градусы, получаем на выходе отношение: градус / оборот
      * @param hw HardwareMap
      */
@@ -102,3 +106,4 @@ public class PhantomMath {
         resultForTOdo = headVelo / countOFtOdo;
     }
 }
+
