@@ -12,6 +12,7 @@ public class Telemetry extends OpMode {
     PhantomMath phantomMath = new PhantomMath();
     PhantomIMU pmImu = new PhantomIMU();
     double x, y, heading, velocityX, velocityY;
+
     public void tIMU(HardwareMap hw){
         pmImu.valueGetter(hw);
         phantomMath.getCoordinatesByAccel(hw);

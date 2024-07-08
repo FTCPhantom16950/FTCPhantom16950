@@ -64,11 +64,9 @@ public class PhantomProcessor implements VisionProcessor {
     @Override
         public Object processFrame(Mat input, long captureTimeNanos) {
 
-
             Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
             Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 120, 255, Imgproc.THRESH_BINARY_INV);
             Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
-
 
             valLeft = getAverageValue(input, leftRect);
             valRight = getAverageValue(input, rightRect);

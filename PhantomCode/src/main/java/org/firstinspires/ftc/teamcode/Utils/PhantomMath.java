@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -84,26 +85,8 @@ public class PhantomMath {
         });
         coordinateMath.start();
     }
+    public class MetersToRotations{
 
-/**
-     * перевод из оборотов одометра в градусы, получаем на выходе отношение: градус / оборот
-     * @param hw HardwareMap
-     */
-    public void OdoToDegrees(HardwareMap hw){
-        // получаем значения от
-        phantomIMU.valueGetter(hw);
-        // получаем число оборотов мертвых колес
-        wheelBase.OdoCounter();
-        // считываем значения для каждого мертвого колеса
-        countOFtOdo = wheelBase.countTOdo;
-        countOfsOdo = wheelBase.countSOdo;
-        countOffOdo = wheelBase.countFOdo;
-        // считываем значения скорости поворота в градусах
-        headVelo = phantomIMU.veloHead;
-        // расчитываем отношения градусов к оборотам мертвых колес
-        resultForFOdo = headVelo / countOffOdo;
-        resultForSOdo = headVelo / countOfsOdo;
-        resultForTOdo = headVelo / countOFtOdo;
     }
 }
 

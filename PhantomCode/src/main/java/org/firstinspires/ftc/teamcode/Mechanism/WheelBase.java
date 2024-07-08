@@ -6,54 +6,85 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Utils.Config;
+import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 
 public class WheelBase {
-    // создаем моторы
-    MotorEx rightFront, rightBack, leftFront, leftBack;
-    // Переменные для числа оборотов каждого мертвого колеса
-    public double countFOdo, countSOdo, countTOdo;
-    // Коэфициент ПИДФ регулятора
-    public PIDFController pidfController = new PIDFController(0,0,0,0);
-    // группа моторов, 1 - ведущий мотор
-    MotorGroup wheels = new MotorGroup(leftFront, rightFront, leftBack, rightBack);
-    // класс колесной базы для телеопа
-    public MecanumDrive wheelbase = new MecanumDrive(leftFront,rightFront,leftBack,rightBack);
+    DcMotorEx rightFront, leftFront, rightBack, leftBack;
+    Config config;
+    double pos1, pos2, pos3;
+    double rev1, rev2, rev3;
+    double distance1, distance2, distance3;
+    final double odoLength = 48 * Math.PI;
+    final int odoCRP = 2000;
+
+    /*
+            |               |
+            |pos2       pos1|
+            |               |
+            |               |
+            |     pos3      |
+    pos1, pos2 - энкодеры стоящие для прямого движения, параллельны обычным колесам
+    pos3 - энкодер, перпендикулярный обычным колесам, движение вбок
+     */
 
     /**
      * инициализация всех моторов колесной базы
      * @param hw HardwareMap
      */
     public void initWheelBase(HardwareMap hw){
-        // привязка всех моторов к конфигу робота
-        rightBack = new MotorEx(hw, "rb", Motor.GoBILDA.RPM_312);
-        rightFront = new MotorEx(hw, "rf", Motor.GoBILDA.RPM_312);
-        leftBack = new MotorEx(hw,"lb", Motor.GoBILDA.RPM_312);
-        leftFront = new MotorEx(hw, "lf", Motor.GoBILDA.RPM_312);
-        // привязываем энкодер левого переднего мотора к правому для связи с мертвыми колесами
-        leftFront.encoder = rightFront.encoder;
-        /*
-        Устанавливаем режим для движения моторов
-        RawSpeed - движение мотора просто по заднанной ему скорости
-        PositionControl - движение при помощи П коэффинциента пид регулятора, более точное чем RawSpeed, но менее чем VelocityCOntrol
-        VelocityControl - движение по ПИДФ и ФидФорвард контроллеров, наиболее точное, сложное в настройке
-         */
-        wheels.setRunMode(Motor.RunMode.VelocityControl);
-        // устанавливаем поведение моторов при 0 подаче энергии
-        wheels.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        // сбрасываем значения энкодеров
-        wheels.stopAndResetEncoder();
+        rightFront = hw.get(DcMotorEx.class, "rf");
+        leftFront = hw.get(DcMotorEx.class, "lf");
+        rightBack = hw.get(DcMotorEx.class, "rb");
+        leftBack = hw.get(DcMotorEx.class, "lb");
 
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+    Thread getPos = new Thread(() -> {
+        while (true){
+            pos1 = rightFront.getCurrentPosition();
+            pos2 = leftBack.getCurrentPosition();
+            pos3 = rightBack.getCurrentPosition();
+            rev1 = pos1 / odoCRP;
+            rev2 = pos2 / odoCRP;
+            rev3 = pos3 / odoCRP;
+            distance1 =  rev1 * odoLength;
+            distance2 = rev2 * odoLength;
+            distance3 = rev3 * odoLength;
+        }
+    });
+    public void PIDFtester(double power, double distance){
+        getPos.start();
     }
 
     /**
      * счетчик оборотов мертвых колес
      */
     public void OdoCounter(){
-        countFOdo = leftFront.encoder.getRevolutions();
-        countSOdo = rightBack.encoder.getRevolutions();
-        countTOdo = leftBack.encoder.getRevolutions();
     }
 
     /**
@@ -62,7 +93,6 @@ public class WheelBase {
      * @param power скорость с которой будет двигаться робот
      */
     public void turn(double degrees, double power){
-
     }
 
     /**
@@ -71,7 +101,6 @@ public class WheelBase {
      * @param power скорость с которой будет двигаться робот
      */
     public void vpered(double millimetre, double power){
-
     }
 
     /**
@@ -80,7 +109,6 @@ public class WheelBase {
      * @param power скорость с которой будет двигаться робот
      */
     public void vlevo(double millimetre, double power){
-
     }
 
 }

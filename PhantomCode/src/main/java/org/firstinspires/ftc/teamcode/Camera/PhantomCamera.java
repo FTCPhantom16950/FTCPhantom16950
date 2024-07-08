@@ -71,8 +71,6 @@ public class PhantomCamera {
     }
 
     public void startCameraEasy(int height, int width){
-
-
         cameraHeight = height;
         cameraWidth = width;
         if (IsOpenCvTrue && IsAprilTagTrue && IsTensorFlowTrue){
