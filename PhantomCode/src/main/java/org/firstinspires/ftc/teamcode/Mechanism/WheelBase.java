@@ -20,12 +20,6 @@ import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 public class WheelBase {
     DcMotorEx rightFront, leftFront, rightBack, leftBack;
     Config config;
-    double pos1, pos2, pos3;
-    double rev1, rev2, rev3;
-    double distance1, distance2, distance3;
-    final double odoLength = 48 * Math.PI;
-    final int odoCRP = 2000;
-
     /*
             |               |
             |pos2       pos1|
@@ -35,7 +29,19 @@ public class WheelBase {
     pos1, pos2 - энкодеры стоящие для прямого движения, параллельны обычным колесам
     pos3 - энкодер, перпендикулярный обычным колесам, движение вбок
      */
+    double pos1, pos2, pos3;
 
+    double rev1, rev2, rev3;
+
+    public double distance1, distance2, distance3;
+
+    final double odoLength = 48 * Math.PI;
+
+    final int odoCRP = 2000;
+
+    MotorEx rf, lf, rr, lr;
+
+    public MecanumDrive mecanumDrive = new MecanumDrive(lf,rf,lr,rr);
     /**
      * инициализация всех моторов колесной базы
      * @param hw HardwareMap
@@ -63,6 +69,11 @@ public class WheelBase {
 
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        rf = new MotorEx(hw, "rf", Motor.GoBILDA.RPM_312);
+        lf = new MotorEx(hw, "lf", Motor.GoBILDA.RPM_312);
+        rr = new MotorEx(hw, "rr", Motor.GoBILDA.RPM_312);
+        lr = new MotorEx(hw, "lr", Motor.GoBILDA.RPM_312);
     }
     Thread getPos = new Thread(() -> {
         while (true){

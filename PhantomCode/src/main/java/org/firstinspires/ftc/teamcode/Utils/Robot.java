@@ -16,4 +16,17 @@ public class Robot {
         wheelBase.initWheelBase(hardwareMap);
         phantomIMU.initIMU(hardwareMap);
     }
+
+    public void teleopMovement(Gamepad gamepad1, Gamepad gamepad2){
+        Thread math = new Thread(() -> {
+
+        });
+        Thread teleopMovement = new Thread(() -> {
+           wheelBase.mecanumDrive.driveRobotCentric(
+                1,
+                   1,
+                   1
+           );
+        });
+    }
 }

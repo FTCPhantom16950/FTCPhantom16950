@@ -85,8 +85,6 @@ public class PhantomMath {
         });
         coordinateMath.start();
     }
-    public class MetersToRotations{
 
-    }
 }
 
