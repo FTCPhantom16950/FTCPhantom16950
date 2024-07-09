@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Mechanism;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -10,16 +13,23 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.Config;
 import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 
+import javax.annotation.Nullable;
+
 public class WheelBase {
     DcMotorEx rightFront, leftFront, rightBack, leftBack;
     Config config;
+    Context context = new FtcRobotControllerActivity();
     /*
             |               |
             |pos2       pos1|
@@ -29,19 +39,11 @@ public class WheelBase {
     pos1, pos2 - энкодеры стоящие для прямого движения, параллельны обычным колесам
     pos3 - энкодер, перпендикулярный обычным колесам, движение вбок
      */
-    double pos1, pos2, pos3;
 
-    double rev1, rev2, rev3;
-
-    public double distance1, distance2, distance3;
-
-    final double odoLength = 48 * Math.PI;
-
-    final int odoCRP = 2000;
 
     MotorEx rf, lf, rr, lr;
 
-    public MecanumDrive mecanumDrive = new MecanumDrive(lf,rf,lr,rr);
+
     /**
      * инициализация всех моторов колесной базы
      * @param hw HardwareMap
@@ -75,51 +77,36 @@ public class WheelBase {
         rr = new MotorEx(hw, "rr", Motor.GoBILDA.RPM_312);
         lr = new MotorEx(hw, "lr", Motor.GoBILDA.RPM_312);
     }
-    Thread getPos = new Thread(() -> {
-        while (true){
-            pos1 = rightFront.getCurrentPosition();
-            pos2 = leftBack.getCurrentPosition();
-            pos3 = rightBack.getCurrentPosition();
-            rev1 = pos1 / odoCRP;
-            rev2 = pos2 / odoCRP;
-            rev3 = pos3 / odoCRP;
-            distance1 =  rev1 * odoLength;
-            distance2 = rev2 * odoLength;
-            distance3 = rev3 * odoLength;
+
+    public class MecanumDrive{
+        Telemetry telemetry;
+        double forward;
+        double spin;
+        double side;
+        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+        public MecanumDrive(double forward, double side, double spin) {
+            this.forward = forward;
+            this.side = side;
+            this.spin = spin;
         }
-    });
-    public void PIDFtester(double power, double distance){
-        getPos.start();
+        Thread update = new Thread(() -> {
+            while (true){
+                 rfSpeed = Range.clip(forward - spin - side, -1, 1);
+                 rbSpeed = Range.clip(forward - spin + side, -1,1);
+                 lfSpeed = Range.clip(forward + spin + side, -1, 1);
+                 lbSpeed = Range.clip(forward + spin - side, -1,1);
+            }
+        });
+        public void driveEasy() {
+            update.start();
+            rightFront.setPower(rfSpeed);
+            rightBack.setPower(rbSpeed);
+            leftFront.setPower(lfSpeed);
+            leftBack.setPower(lbSpeed);
+        }
+
+        }
     }
 
-    /**
-     * счетчик оборотов мертвых колес
-     */
-    public void OdoCounter(){
-    }
 
-    /**
-     * метод для поворота
-     * @param degrees градусы задаваеммые для поворота
-     * @param power скорость с которой будет двигаться робот
-     */
-    public void turn(double degrees, double power){
-    }
 
-    /**
-     * движение вперед
-     * @param millimetre дистанция на которую проедет робот
-     * @param power скорость с которой будет двигаться робот
-     */
-    public void vpered(double millimetre, double power){
-    }
-
-    /**
-     * движение влево
-     * @param millimetre дистанция на которую проедет робот
-     * @param power скорость с которой будет двигаться робот
-     */
-    public void vlevo(double millimetre, double power){
-    }
-
-}
