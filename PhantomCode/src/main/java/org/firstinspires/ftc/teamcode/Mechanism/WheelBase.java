@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 import javax.annotation.Nullable;
 
 public class WheelBase {
-    DcMotorEx rightFront, leftFront, rightBack, leftBack;
+    public DcMotorEx rightFront, leftFront, rightBack, leftBack;
     Config config;
     Context context = new FtcRobotControllerActivity();
     /*
