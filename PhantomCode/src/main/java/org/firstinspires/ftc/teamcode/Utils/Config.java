@@ -4,7 +4,9 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @com.acmerobotics.dashboard.config.Config
 public class Config {
-    public PIDFCoefficients pidfCoefficients = new PIDFCoefficients(0,0,0,0);
+    public double k_p = 0;
+    public double k_i = 0;
+    public double k_d = 0;
     public double power = 0;
     public double distance = 0;
 }
