@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Utils.Config;
 import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 
 public class WheelBase {
-    DcMotorEx rightFront, leftFront, rightBack, leftBack;
+    public DcMotorEx rightFront, leftFront, rightBack, leftBack;
     Config config;
     /*
             |               |
