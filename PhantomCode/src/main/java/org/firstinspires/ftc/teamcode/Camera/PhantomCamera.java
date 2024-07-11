@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Camera;
 
 import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
@@ -13,7 +15,13 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class PhantomCamera {
-    PhantomMath math = new PhantomMath();
+    LinearOpMode opMode;
+
+    public PhantomCamera(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
+    PhantomMath math = new PhantomMath(opMode);
     WebcamName firstWebcamName;
     BuiltinCameraDirection rotation;
     boolean UsingCamera;

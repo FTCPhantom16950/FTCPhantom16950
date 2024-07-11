@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -12,10 +14,19 @@ import java.util.List;
 
 @Disabled
 public class Telemetry {
-    org.firstinspires.ftc.robotcore.external.Telemetry telemetry;
+    LinearOpMode opMode;
+
+    public Telemetry(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+    double error, position, target;
+
+    FTCcontroolers ftCcontroolers = new FTCcontroolers(opMode);
+    PIDFController pidf = ftCcontroolers.pidf;
+    org.firstinspires.ftc.robotcore.external.Telemetry telemetry = opMode.telemetry;
     boolean lp, rp;
-    Robot robot = new Robot();
-    PhantomMath phantomMath = new PhantomMath();
+    Robot robot = new Robot(opMode);
+    PhantomMath phantomMath = new PhantomMath(opMode);
     PhantomIMU pmImu = new PhantomIMU();
     double x, y, heading, velocityX, velocityY;
     List<LynxModule> allhubs;
@@ -70,6 +81,19 @@ public class Telemetry {
             }
         });
         telemetryCamera.start();
+    }
+
+    public void pidfTelemetry(){
+        Thread tPIDF = new Thread(() -> {
+            while(opMode.opModeIsActive()){
+                error = pidf.getPositionError();
+                position = ftCcontroolers.target - error;
+                telemetry.addData("Error", error);
+                telemetry.addData("Position", position);
+                telemetry.addData("targert", pidf.getSetPoint());
+            }
+        }, "fun");
+        tPIDF.start();
     }
 
 }

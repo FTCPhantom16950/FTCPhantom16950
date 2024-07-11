@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,6 +23,7 @@ import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.Config;
+import org.firstinspires.ftc.teamcode.Utils.FTCcontroolers;
 import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
 
 import javax.annotation.Nullable;
@@ -29,7 +31,12 @@ import javax.annotation.Nullable;
 public class WheelBase {
     public DcMotorEx rightFront, leftFront, rightBack, leftBack;
     Config config;
-    Context context = new FtcRobotControllerActivity();
+    LinearOpMode opMode;
+    public WheelBase(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
+    FTCcontroolers ftcControolers = new FTCcontroolers(opMode);
     /*
             |               |
             |pos2       pos1|
@@ -77,9 +84,23 @@ public class WheelBase {
         rr = new MotorEx(hw, "rr", Motor.GoBILDA.RPM_312);
         lr = new MotorEx(hw, "lr", Motor.GoBILDA.RPM_312);
     }
+    public void moveForward(double pos){
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ftcControolers.PIDFstarter(pos, rightBack);
+        ftcControolers.PIDFstarter(pos, rightFront);
+        ftcControolers.PIDFstarter(pos, leftBack);
+        ftcControolers.PIDFstarter(pos, leftFront);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+        rightFront.setPower(0);
+    }
 
     public class MecanumDrive{
-        Telemetry telemetry;
+
         double forward;
         double spin;
         double side;

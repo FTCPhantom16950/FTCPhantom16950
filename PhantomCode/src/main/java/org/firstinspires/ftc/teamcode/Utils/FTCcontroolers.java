@@ -1,42 +1,36 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class FTCcontroolers {
-    double K_P, K_I, K_D;
-    Config config = new Config();
-    public class PIDFcontroller{
-        double currentError, errorPerTime, cInput, previousError;
-        DcMotorEx encoder;
-        ElapsedTime timer = new ElapsedTime();
-        double currentTime, previousTime;
+    LinearOpMode opMode;
+    public double target;
 
-        public PIDFcontroller(DcMotorEx encoder) {
-            this.encoder = encoder;
-        }
-        Thread Tcurrent = new Thread(() -> {
-            currentTime = timer.startTime();
-            while (true){
-                currentTime = timer.time();
-            }
-        });
-
-        public void calc_PD(double current, double target){
-            K_P = config.k_p;
-            K_D = config.k_d;
-            Tcurrent.start();
-            timer.reset();
-            while(Tcurrent.isAlive()){
-                currentError = target - current;
-                errorPerTime = (currentError - previousError) / (currentTime - previousTime);
-
-                cInput = K_P * currentError + K_D * (-currentError) + K_I * currentError * currentTime;
-
-                previousError = currentError;
-                currentTime = previousTime;
-            }
-        }
+    public FTCcontroolers(LinearOpMode opMode) {
+        this.opMode = opMode;
     }
 
+    Config config = new Config();
+    public PIDFController pidf = new PIDFController(config.k_p, config.k_i, config.k_d, config.k_f);
+    double output = 0;
+    Thread pidfTester = new Thread(() -> {
+        while (opMode.opModeIsActive()){
+            pidf.setPIDF(config.k_p, config.k_i, config.k_d, config.k_f);
+        }
+    });
+    public void PIDFstarter(double target, DcMotorEx motor){
+        this.target = target;
+        pidf.setTolerance(25);
+        pidf.setSetPoint(target);
+        pidf.calculate(motor.getCurrentPosition());
+        while(!pidf.atSetPoint()){
+            output = pidf.calculate(motor.getCurrentPosition());
+            motor.setVelocity(output);
+        }
+        motor.setPower(0);
+    }
 }

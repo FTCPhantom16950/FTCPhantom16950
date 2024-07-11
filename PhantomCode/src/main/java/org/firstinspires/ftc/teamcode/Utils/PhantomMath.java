@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,9 +13,15 @@ import org.firstinspires.ftc.teamcode.Utils.PhantomIMU;
 import java.util.concurrent.TimeUnit;
 
 public class PhantomMath {
+    LinearOpMode opMode;
+
+    public PhantomMath(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
     // создаем внутрении классы других механизмов
     PhantomIMU phantomIMU = new PhantomIMU();
-    WheelBase wheelBase = new WheelBase();
+    WheelBase wheelBase = new WheelBase(opMode);
     // создаём пременные для работы с другими классами
     public double x, y, vCurrentX, vCurrentY;
     public boolean leftPose, rightPose;
@@ -85,6 +92,7 @@ public class PhantomMath {
         });
         coordinateMath.start();
     }
+
 
 }
 

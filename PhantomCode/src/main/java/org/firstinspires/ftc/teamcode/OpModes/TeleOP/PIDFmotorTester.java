@@ -1,20 +1,25 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOP;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.Utils.Config;
+import org.firstinspires.ftc.teamcode.Utils.Robot;
 
-public class PIDFmotorTester extends OpMode {
-    WheelBase wheelBase = new WheelBase();
+public class PIDFmotorTester extends LinearOpMode {
+    WheelBase wheelBase = new WheelBase(new PIDFmotorTester());
     Config config = new Config();
+    Robot.Position position = new Robot.Position(0, 0,0);
+    ElapsedTime time = new ElapsedTime();
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
-    }
-
-    @Override
-    public void loop() {
-        wheelBase.PIDFtester(config.power, config.distance);
+        waitForStart();
+        time.reset();
+        while (opModeIsActive()){
+            wheelBase.moveForward(position.metersToRotations()[0]);
+        }
     }
 }

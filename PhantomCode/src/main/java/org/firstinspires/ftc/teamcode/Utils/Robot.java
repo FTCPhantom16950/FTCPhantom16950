@@ -5,21 +5,27 @@ import android.widget.Toast;
 
 
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
+import org.firstinspires.ftc.teamcode.OpModes.TeleOP.PIDFmotorTester;
 
 import java.util.List;
 
 public class Robot {
-    WheelBase wheelBase = new WheelBase();
+    public Robot(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
+    LinearOpMode opMode;
+    private final double RPC = 2000;
+    private final double diameter = 48;
+    WheelBase wheelBase = new WheelBase(opMode);
     PhantomIMU phantomIMU = new PhantomIMU();
-    Telemetry telemetry;
-    Context context = new FtcRobotControllerActivity();
-    double strafeSpeed, forwardSpeed, turnSpeed;
     public List<LynxModule> allhubs;
 
     public void initLynx(HardwareMap hardwareMap){
@@ -34,13 +40,17 @@ public class Robot {
     }
 
 
-    public class Position{
-        public double x, y, heading;
+    public static class Position{
+        public double[] coordinates = new double[]{0,0,0};
         public Position(double x, double y, double heading) {
-            this.x = x;
-            this.y = y;
-            this.heading = heading;
+            this.coordinates[0] = x;
+            this.coordinates[1] = y;
+            this.coordinates[2] = heading;
         }
-
+        public double[] metersToRotations(){
+            coordinates[1] = coordinates[1] * RPC / diameter;
+            coordinates[2] = coordinates[2] * RPC / diameter;
+            return coordinates;
+        }
     }
 }
