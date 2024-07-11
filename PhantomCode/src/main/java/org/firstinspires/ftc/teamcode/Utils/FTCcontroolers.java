@@ -23,6 +23,7 @@ public class FTCcontroolers {
         }
     });
     public void PIDFstarter(double target, DcMotorEx motor){
+        pidfTester.start();
         this.target = target;
         pidf.setTolerance(25);
         pidf.setSetPoint(target);
@@ -33,4 +34,5 @@ public class FTCcontroolers {
         }
         motor.setPower(0);
     }
+
 }

@@ -86,17 +86,18 @@ public class WheelBase {
     }
     public void moveForward(double pos){
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ftcControolers.PIDFstarter(pos, rightBack);
+
         ftcControolers.PIDFstarter(pos, rightFront);
-        ftcControolers.PIDFstarter(pos, leftBack);
+        ftcControolers.PIDFstarter(pos, rightBack);
         ftcControolers.PIDFstarter(pos, leftFront);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightBack.setPower(0);
-        rightFront.setPower(0);
+        ftcControolers.PIDFstarter(pos, leftBack);
+    }
+
+    public void moveBack(double pos){
+        moveForward(-pos);
     }
 
     public class MecanumDrive{

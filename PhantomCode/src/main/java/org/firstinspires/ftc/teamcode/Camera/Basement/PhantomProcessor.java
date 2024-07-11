@@ -19,24 +19,14 @@ public class PhantomProcessor implements VisionProcessor {
     // размеры и координаты прямоугольников на экране
     public Rect leftRect = new Rect(30 , 40, 20,10 );
     public Rect rightRect = new Rect(300, 300, 20, 10);
-    // значения выбранного квардрата
+    // значения выбранного прямоугольника
     Selcted selcted = Selcted.None;
     /*
     создаём матрицы для будущего использования
     если создавать матрицы внутри processFrame, будет утечка памяти
      */
-    Mat hsv = new Mat();
-    Mat hsvImage = new Mat();
     Mat yCbCrChan2Mat = new Mat();
-    Mat thresholdMat = new Mat();
-    Mat rgbImage = new Mat();
-    Mat all = new Mat();
-    Mat redMask = new Mat();
-    Mat blueMask = new Mat();
-    Mat yellowResultRGB = new Mat();
-    Mat yellowResult = new Mat();
     Mat submat = new Mat();
-    Mat yellowMask = new Mat();
     // Определение диапазона синего цвета в HSV
     public Scalar lowerBlue = new Scalar(160, 40, 40);
     public Scalar upperBlue = new Scalar(255, 255, 255);

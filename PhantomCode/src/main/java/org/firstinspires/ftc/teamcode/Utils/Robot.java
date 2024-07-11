@@ -1,18 +1,11 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
-import android.content.Context;
-import android.widget.Toast;
-
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.OpModes.TeleOP.PIDFmotorTester;
 
 import java.util.List;
 
@@ -22,21 +15,24 @@ public class Robot {
     }
 
     LinearOpMode opMode;
-    private final double RPC = 2000;
-    private final double diameter = 48;
+
     WheelBase wheelBase = new WheelBase(opMode);
     PhantomIMU phantomIMU = new PhantomIMU();
-    public List<LynxModule> allhubs;
+    public List<LynxModule> allHubs;
 
     public void initLynx(HardwareMap hardwareMap){
-        allhubs = hardwareMap.getAll(LynxModule.class);
-        for (LynxModule hub : allhubs){
+        allHubs = hardwareMap.getAll(LynxModule.class);
+        for (LynxModule hub : allHubs){
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
     }
     public void initAll(HardwareMap hardwareMap){
         wheelBase.initWheelBase(hardwareMap);
         phantomIMU.initIMU(hardwareMap);
+        initLynx(hardwareMap);
+    }
+    public void gamepadTeleOPMovement(){
+
     }
 
 
@@ -47,9 +43,11 @@ public class Robot {
             this.coordinates[1] = y;
             this.coordinates[2] = heading;
         }
-        public double[] metersToRotations(){
-            coordinates[1] = coordinates[1] * RPC / diameter;
-            coordinates[2] = coordinates[2] * RPC / diameter;
+        public double[] metersToRotations(double MMx, double MMy){
+            double diameter = 48;
+            double RPC = 2000;
+            coordinates[0] = MMx * RPC / diameter;
+            coordinates[1] = MMy * RPC / diameter;
             return coordinates;
         }
     }

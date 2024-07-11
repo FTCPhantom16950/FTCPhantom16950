@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
@@ -15,7 +14,7 @@ import java.util.List;
 @Disabled
 public class Telemetry {
     LinearOpMode opMode;
-
+    Config config = new Config();
     public Telemetry(LinearOpMode opMode) {
         this.opMode = opMode;
     }
@@ -35,7 +34,7 @@ public class Telemetry {
         Thread temperature = new Thread(() -> {
             robot.initLynx(hw);
             while (true){
-                allhubs = robot.allhubs;
+                allhubs = robot.allHubs;
                 for (LynxModule hub : allhubs){
                     String device = hub.getDeviceName();
                     double temp = hub.getTemperature(TempUnit.CELSIUS);

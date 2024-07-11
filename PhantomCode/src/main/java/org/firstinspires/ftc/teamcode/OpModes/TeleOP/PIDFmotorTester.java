@@ -10,16 +10,19 @@ import org.firstinspires.ftc.teamcode.Utils.Robot;
 
 public class PIDFmotorTester extends LinearOpMode {
     WheelBase wheelBase = new WheelBase(new PIDFmotorTester());
+
     Config config = new Config();
     Robot.Position position = new Robot.Position(0, 0,0);
+    Robot robot = new Robot(new PIDFmotorTester());
     ElapsedTime time = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
+        robot.initAll(hardwareMap);
         waitForStart();
         time.reset();
         while (opModeIsActive()){
-            wheelBase.moveForward(position.metersToRotations()[0]);
+
         }
     }
 }
