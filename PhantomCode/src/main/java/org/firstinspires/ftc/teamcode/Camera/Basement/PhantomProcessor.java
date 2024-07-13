@@ -85,12 +85,6 @@ public class PhantomProcessor implements VisionProcessor {
 
     /**
      * отрисовщик объектов на экране
-     * @param canvas
-     * @param onscreenWidth
-     * @param onscreenHeight
-     * @param scaleBmpPxToCanvasPx
-     * @param scaleCanvasDensity
-     * @param userContext
      */
         @Override
         public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {

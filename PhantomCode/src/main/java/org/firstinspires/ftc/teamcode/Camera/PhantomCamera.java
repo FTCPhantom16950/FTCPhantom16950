@@ -35,7 +35,7 @@ public class PhantomCamera {
     int[] viewPort = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
 
     private VisionPortal visionPortal;
-    private AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
+    private final AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
             .setDrawAxes(true)
             .setDrawTagID(true)
             .setDrawCubeProjection(true)

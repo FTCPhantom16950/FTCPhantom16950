@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-
 @com.acmerobotics.dashboard.config.Config
 public class Config {
     public double k_p = 0;

@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Odometry {
     LinearOpMode opMode;
-    private double[] coordinates = new double[2];
-    public double[] MMcoordinates = new double[2];
+    public double[] coordinates = new double[1];
+    public double[] MMcoordinates = new double[1];
     double diameter = 48;
     double length = diameter * Math.PI;
     double RPC = 2000;
