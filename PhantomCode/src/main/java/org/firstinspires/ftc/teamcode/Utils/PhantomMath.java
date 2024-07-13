@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Camera.Basement.PhantomProcessor;
-
-import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.Utils.PhantomIMU;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +18,7 @@ public class PhantomMath {
 
     // создаем внутрении классы других механизмов
     PhantomIMU phantomIMU = new PhantomIMU();
-    WheelBase wheelBase = new WheelBase(opMode);
+
     // создаём пременные для работы с другими классами
     public double x, y, vCurrentX, vCurrentY;
     public boolean leftPose, rightPose;
@@ -32,7 +29,7 @@ public class PhantomMath {
     private double countOffOdo, countOfsOdo, countOFtOdo;
     double headVelo;
     // создаём таймер
-    private ElapsedTime timer = new ElapsedTime();
+    private final ElapsedTime timer = new ElapsedTime();
 
     /**
      * Перевод данных из цветовых значений в boolean
@@ -44,16 +41,8 @@ public class PhantomMath {
         int valLeft = cameraReworked.valLeft;
         int valRight = cameraReworked.valRight;
         // проверяем значения цвета, если больше половины то получаем true, если меньше то false
-        if (valLeft >= 122) {
-            leftPose = true;
-        } else {
-            leftPose = false;
-        }
-        if (valRight >= 122) {
-            rightPose = true;
-        } else {
-            rightPose = false;
-        }
+        leftPose = valLeft >= 122;
+        rightPose = valRight >= 122;
     }
 
 
@@ -93,6 +82,13 @@ public class PhantomMath {
         coordinateMath.start();
     }
 
+    public double normalizeAngles(double degrees){
+      double finalAngel = AngleUnit.normalizeDegrees(degrees);
+      if (finalAngel > 180){
+          finalAngel -= 360;
+      }
+      return finalAngel;
+    }
 
 }
 

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Camera.PhantomCamera;
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.Utils.PhantomIMU;
 import org.firstinspires.ftc.teamcode.Utils.Robot;
 
 public class AutonomTester extends LinearOpMode {
@@ -22,8 +21,7 @@ public class AutonomTester extends LinearOpMode {
         timer.reset();
         waitForStart();
         while (opModeIsActive()){
-            wheelBase.moveForward(position.metersToRotations(100, 0)[0]);
-
+            wheelBase.moveForward(100);
         }
     }
 }

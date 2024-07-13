@@ -5,6 +5,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Mechanism.Odometry;
 import org.firstinspires.ftc.teamcode.Mechanism.WheelBase;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class Robot {
     }
 
     LinearOpMode opMode;
-
+    Odometry odometry = new Odometry(opMode);
     WheelBase wheelBase = new WheelBase(opMode);
     PhantomIMU phantomIMU = new PhantomIMU();
     public List<LynxModule> allHubs;
@@ -30,6 +31,8 @@ public class Robot {
         wheelBase.initWheelBase(hardwareMap);
         phantomIMU.initIMU(hardwareMap);
         initLynx(hardwareMap);
+        odometry.initODO();
+
     }
     public void gamepadTeleOPMovement(){
 
@@ -43,12 +46,6 @@ public class Robot {
             this.coordinates[1] = y;
             this.coordinates[2] = heading;
         }
-        public double[] metersToRotations(double MMx, double MMy){
-            double diameter = 48;
-            double RPC = 2000;
-            coordinates[0] = MMx * RPC / diameter;
-            coordinates[1] = MMy * RPC / diameter;
-            return coordinates;
-        }
+
     }
 }

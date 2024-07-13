@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class PhantomIMU {
     // Создаем перемнные для использования акселерометра и гироскопа
-    private IMU imu;
+    public IMU imu;
     AccelerationSensor accelerationSensor;
     // создаем переменные для связи между классами и хранения данных
     public double x,y,z,heading;
@@ -44,7 +44,6 @@ public class PhantomIMU {
      * @param hw HardwareMap
      */
     public void valueGetter(HardwareMap hw){
-        initIMU(hw);
         Thread imuT = new Thread(() -> {
             while (true){
                 // получаем ускорение по осям x и y
@@ -58,6 +57,7 @@ public class PhantomIMU {
                 heading = rotation.getYaw(AngleUnit.DEGREES);
                 // получаем ускорение поворота
                 veloHead = rotateSpeed.yRotationRate;
+
             }
         });
         imuT.start();

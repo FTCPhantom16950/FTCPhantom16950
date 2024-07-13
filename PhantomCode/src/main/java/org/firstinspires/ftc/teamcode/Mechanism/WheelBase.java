@@ -1,32 +1,21 @@
 package org.firstinspires.ftc.teamcode.Mechanism;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.Config;
 import org.firstinspires.ftc.teamcode.Utils.FTCcontroolers;
+import org.firstinspires.ftc.teamcode.Utils.PhantomIMU;
 import org.firstinspires.ftc.teamcode.Utils.PhantomMath;
-
-import javax.annotation.Nullable;
 
 public class WheelBase {
     public DcMotorEx rightFront, leftFront, rightBack, leftBack;
@@ -35,8 +24,10 @@ public class WheelBase {
     public WheelBase(LinearOpMode opMode) {
         this.opMode = opMode;
     }
-
+    PhantomIMU phantomIMU = new PhantomIMU();
+    PhantomMath math = new PhantomMath(opMode);
     FTCcontroolers ftcControolers = new FTCcontroolers(opMode);
+
     /*
             |               |
             |pos2       pos1|
@@ -49,6 +40,9 @@ public class WheelBase {
 
 
     MotorEx rf, lf, rr, lr;
+    double forward;
+    double spin;
+    double side;
 
 
     /**
@@ -99,18 +93,63 @@ public class WheelBase {
     public void moveBack(double pos){
         moveForward(-pos);
     }
-
-    public class MecanumDrive{
-
-        double forward;
-        double spin;
-        double side;
-        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
-        public MecanumDrive(double forward, double side, double spin) {
-            this.forward = forward;
-            this.side = side;
-            this.spin = spin;
+    public void stopAll(){
+        leftBack.setPower(0);
+        leftFront.setPower(0);
+        rightBack.setPower(0);
+        rightFront.setPower(0);
+    }
+    Thread gamepads = new Thread(() -> {
+        Gamepad gamepad1 = opMode.gamepad1;
+        double rbump = 0;
+        double lbump = 0;
+        while (opMode.opModeIsActive()){
+            if (gamepad1.left_bumper){
+                lbump = 0.4;
+            }
+            if (gamepad1.right_bumper){
+                rbump = 0.4;
+            }
+            forward = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
+            side = Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
+            spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
         }
+    });
+    public void driveFieldCentic(){
+        gamepads.start();
+        double rot = spin;
+        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+        IMU imu = phantomIMU.imu;
+
+        double rotationX, rotationY, heading;
+        heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double angleDifference = math.normalizeAngles(currentAngel - rot);
+        double rotaton = Range.clip(angleDifference, -1,1);
+
+        rotationX = forward * Math.cos(heading) - side * Math.sin(heading);
+        rotationY = forward * Math.sin(heading) + side * Math.cos(heading);
+
+        double denominator = Math.max(Math.abs(side) + Math.abs(forward) + Math.abs(rot), 1);
+        rfSpeed = (rotationY - rotationX - rotaton) / denominator;
+        rbSpeed = (rotationY + rotationX - rotaton) / denominator;
+        lfSpeed = (rotationY + rotationX + rotaton) / denominator;
+        lbSpeed = (rotationY- rotationX + rotaton) / denominator;
+
+        rightFront.setPower(rfSpeed);
+        rightBack.setPower(rbSpeed);
+        leftFront.setPower(lfSpeed);
+        leftBack.setPower(lbSpeed);
+        stopAll();
+    }
+
+
+    public  class MecanumDrive{
+
+
+        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+
         Thread update = new Thread(() -> {
             while (true){
                  rfSpeed = Range.clip(forward - spin - side, -1, 1);
@@ -126,6 +165,7 @@ public class WheelBase {
             leftFront.setPower(lfSpeed);
             leftBack.setPower(lbSpeed);
         }
+
 
         }
     }
