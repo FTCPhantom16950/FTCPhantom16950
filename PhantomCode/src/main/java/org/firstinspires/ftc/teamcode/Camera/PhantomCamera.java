@@ -78,6 +78,11 @@ public class PhantomCamera {
         IsTensorFlowTrue = isTensorFlowTrue;
     }
 
+    /**
+     * запуск камеры 
+     * @param height высота камеры
+     * @param width ширина камеры
+     */
     public void startCameraEasy(int height, int width){
         cameraHeight = height;
         cameraWidth = width;
@@ -186,8 +191,6 @@ public class PhantomCamera {
                 rp = math.rightPose;
             }
         }
-
-
     }
     public void stopCameraEasy(){
         visionPortal.stopStreaming();
