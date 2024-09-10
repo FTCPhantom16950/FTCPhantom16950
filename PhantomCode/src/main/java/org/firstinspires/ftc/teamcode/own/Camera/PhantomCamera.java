@@ -1,0 +1,141 @@
+package org.firstinspires.ftc.teamcode.own.Camera;
+
+import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.openftc.easyopencv.OpenCvInternalCamera;
+import org.openftc.easyopencv.OpenCvWebcam;
+
+public class PhantomCamera {
+    LinearOpMode opMode;
+
+    public PhantomCamera(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
+    PhantomMath math = new PhantomMath(opMode);
+    WebcamName firstWebcamName;
+    BuiltinCameraDirection rotation;
+    boolean UsingCamera;
+    boolean IsOpenCvTrue;
+    boolean IsAprilTagTrue;
+    public OpenCvWebcam camera;
+    int cameraHeight = 640;
+    int cameraWidth = 480;
+    public OpenCvInternalCamera phonecam;
+    int[] viewPort = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+
+    private VisionPortal visionPortal;
+    private final AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
+            .setDrawAxes(true)
+            .setDrawTagID(true)
+            .setDrawCubeProjection(true)
+            .build();
+    public PhantomProcessor phantomProcessor;
+    public boolean lp, rp;
+
+    /**
+     * конструктор для вашей камеры
+     * constructor for your camera
+     * @param firstWebcamName название ващей первой камеры; name of your first camera
+     * @param usingCamera используете ли вы внешнюю камеру; Do you use external webcam
+     * @param isOpenCvTrue используете ли вы опенсв; Do you use OpenCV pipelines
+     * @param isAprilTagTrue используете ли вы април тэги; Do you use AprilTag
+
+     */
+    public PhantomCamera(WebcamName firstWebcamName, boolean usingCamera, boolean isOpenCvTrue, boolean isAprilTagTrue) {
+        this.firstWebcamName = firstWebcamName;
+        UsingCamera = usingCamera;
+        IsOpenCvTrue = isOpenCvTrue;
+        IsAprilTagTrue = isAprilTagTrue;
+
+    }
+
+    /**
+     * конструктор для вашей камеры
+     * constructor for your camera
+     * @param rotation какую из встроенных камер вы используете; which of internal camera do you use
+     * @param usingCamera используете ли вы внешнюю камеру; Do you use external webcam
+     * @param isOpenCvTrue используете ли вы опенсв; Do you use OpenCV pipelines
+     * @param isAprilTagTrue используете ли вы април тэги; Do you use AprilTag
+
+     */
+    public PhantomCamera(BuiltinCameraDirection rotation, boolean usingCamera, boolean isOpenCvTrue, boolean isAprilTagTrue) {
+        this.rotation = rotation;
+        UsingCamera = usingCamera;
+        IsOpenCvTrue = isOpenCvTrue;
+        IsAprilTagTrue = isAprilTagTrue;
+
+    }
+
+    /**
+     * запуск камеры 
+     * @param height высота камеры
+     * @param width ширина камеры
+     */
+    public void startCameraEasy(int height, int width){
+        cameraHeight = height;
+        cameraWidth = width;
+        if (IsOpenCvTrue && IsAprilTagTrue){
+            if (UsingCamera){
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(aprilTagProcessor, phantomProcessor)
+                        .setCamera(firstWebcamName)
+                        .enableLiveView(true)
+                        .build();
+            } else {
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(aprilTagProcessor, phantomProcessor)
+                        .setCamera(rotation)
+                        .enableLiveView(true)
+                        .build();
+            }
+
+        } else if (IsOpenCvTrue) {
+            if (UsingCamera){
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(phantomProcessor)
+                        .setCamera(firstWebcamName)
+                        .enableLiveView(true)
+                        .build();
+            } else {
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(phantomProcessor)
+                        .setCamera(rotation)
+                        .enableLiveView(true)
+                        .build();
+            }
+        } else if (IsAprilTagTrue) {
+            if (UsingCamera){
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(aprilTagProcessor)
+                        .setCamera(firstWebcamName)
+                        .enableLiveView(true)
+                        .build();
+            } else {
+                visionPortal = new VisionPortal.Builder()
+                        .addProcessors(aprilTagProcessor)
+                        .setCamera(rotation)
+                        .enableLiveView(true)
+                        .build();
+            }
+            if(IsOpenCvTrue){
+                math.pipeLine(phantomProcessor);
+                lp = math.leftPose;
+                rp = math.rightPose;
+            }
+        }
+    }
+    public void stopCameraEasy(){
+        visionPortal.stopStreaming();
+
+    }
+
+}
