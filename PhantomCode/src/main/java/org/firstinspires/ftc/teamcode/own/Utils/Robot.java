@@ -34,9 +34,7 @@ public class Robot {
         odometry.initODO();
 
     }
-    public void gamepadTeleOPMovement(){
 
-    }
 
 
     public static class Position{

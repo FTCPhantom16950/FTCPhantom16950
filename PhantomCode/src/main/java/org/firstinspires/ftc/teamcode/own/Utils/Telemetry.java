@@ -21,7 +21,7 @@ public class Telemetry {
     double error, position, target;
 
     FTCcontroolers ftCcontroolers = new FTCcontroolers(opMode);
-    PIDFController pidf = ftCcontroolers.pidf;
+
     org.firstinspires.ftc.robotcore.external.Telemetry telemetry = opMode.telemetry;
     boolean lp, rp;
     Robot robot = new Robot(opMode);
@@ -82,17 +82,17 @@ public class Telemetry {
         telemetryCamera.start();
     }
 
-    public void pidfTelemetry(){
-        Thread tPIDF = new Thread(() -> {
-            while(opMode.opModeIsActive()){
-                error = pidf.getPositionError();
-                position = ftCcontroolers.target - error;
-                telemetry.addData("Error", error);
-                telemetry.addData("Position", position);
-                telemetry.addData("targert", pidf.getSetPoint());
-            }
-        }, "fun");
-        tPIDF.start();
-    }
+//    public void pidfTelemetry(){
+//        Thread tPIDF = new Thread(() -> {
+//            while(opMode.opModeIsActive()){
+//                error = pidf.getPositionError();
+//                position = ftCcontroolers.target - error;
+//                telemetry.addData("Error", error);
+//                telemetry.addData("Position", position);
+//                telemetry.addData("targert", pidf.getSetPoint());
+//            }
+//        }, "fun");
+//        tPIDF.start();
+//    }
 
 }

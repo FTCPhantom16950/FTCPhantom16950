@@ -82,13 +82,6 @@ public class PhantomMath {
         coordinateMath.start();
     }
 
-    public double normalizeAngles(double degrees){
-      double finalAngel = AngleUnit.normalizeDegrees(degrees);
-      if (finalAngel > 180){
-          finalAngel -= 360;
-      }
-      return finalAngel;
-    }
 
 }
 

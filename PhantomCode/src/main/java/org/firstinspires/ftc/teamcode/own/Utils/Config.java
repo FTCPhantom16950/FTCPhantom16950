@@ -8,4 +8,8 @@ public class Config {
     public double k_f = 0;
     public double power = 0;
     public double distance = 0;
+    public String right_front = "rf";
+    public String left_front = "lf";
+    public String right_back = "rb";
+    public String left_back = "lb";
 }

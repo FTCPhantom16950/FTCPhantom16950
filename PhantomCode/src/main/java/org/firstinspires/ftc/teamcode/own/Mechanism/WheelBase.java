@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 
 public class WheelBase {
+    // объявляем конфиг
+    Config config = new Config();
     // объявляем моторы через DcMotorEx
     public DcMotorEx rightFront, leftFront, rightBack, leftBack;
-    // объявляем конфиг
-    Config config;
     // объявляем опмод для считывания данных
     LinearOpMode opMode;
     // конструктор для получения режима
@@ -59,10 +59,10 @@ public class WheelBase {
      */
     public void initWheelBase(HardwareMap hw){
         // инициализируем моторы
-        rightFront = hw.get(DcMotorEx.class, "rf");
-        leftFront = hw.get(DcMotorEx.class, "lf");
-        rightBack = hw.get(DcMotorEx.class, "rb");
-        leftBack = hw.get(DcMotorEx.class, "lb");
+        rightFront = hw.get(DcMotorEx.class, config.right_front);
+        leftFront = hw.get(DcMotorEx.class, config.left_front);
+        rightBack = hw.get(DcMotorEx.class, config.right_back);
+        leftBack = hw.get(DcMotorEx.class, config.left_back);
 
         // сбрасываем энкодеры
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -87,10 +87,10 @@ public class WheelBase {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // 
-        rf = new MotorEx(hw, "rf", Motor.GoBILDA.RPM_312);
-        lf = new MotorEx(hw, "lf", Motor.GoBILDA.RPM_312);
-        rr = new MotorEx(hw, "rr", Motor.GoBILDA.RPM_312);
-        lr = new MotorEx(hw, "lr", Motor.GoBILDA.RPM_312);
+        rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
+        lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
+        rr = new MotorEx(hw, config.right_back, Motor.GoBILDA.RPM_312);
+        lr = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
     }
     public void moveForward(double pos){
         //
@@ -149,7 +149,7 @@ public class WheelBase {
         heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         //
         double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        double angleDifference = math.normalizeAngles(currentAngel - rot);
+        double angleDifference = AngleUnit.normalizeDegrees(currentAngel - rot);
         double rotaton = Range.clip(angleDifference, -1,1);
         //
         rotationX = forward * Math.cos(heading) - side * Math.sin(heading);
