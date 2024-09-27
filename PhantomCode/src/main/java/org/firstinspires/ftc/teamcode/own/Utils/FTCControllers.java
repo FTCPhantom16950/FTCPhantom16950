@@ -16,6 +16,9 @@ public class FTCControllers {
     double der = 0;
     double lastError = 0;
     public double error;
+    double filter = 0;
+    double prevFilter = 0;
+    double lastRef = 0;
     public FTCControllers(LinearOpMode OPMode) {
         this.OPMode = OPMode;
     }
@@ -41,7 +44,9 @@ public class FTCControllers {
         double a = 0.8;
         ElapsedTime timer = new ElapsedTime();
         error = reference - motor.getCurrentPosition();
-        der = (error - lastError) / timer.milliseconds();
+        filter = (a * prevFilter) + (1-a) + (error- lastError);
+        prevFilter = filter;
+        der = filter / timer.milliseconds();
         integrative = integrative + (error * timer.milliseconds());
         if (integrative >= limInteger){
             integrative = limInteger;
@@ -51,6 +56,7 @@ public class FTCControllers {
         output = p * error + integrative * i + der * d;
         timer.reset();
         lastError = error;
+        lastRef = reference;
         return output;
     }
     public void fullControl(@NotNull DcMotorEx motor, double p, double i, double d, double a, double v, double g, double cos, double reference) {
