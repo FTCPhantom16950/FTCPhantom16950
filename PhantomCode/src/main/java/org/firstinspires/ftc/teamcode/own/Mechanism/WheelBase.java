@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
-import org.firstinspires.ftc.teamcode.own.Utils.FTCcontroolers;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 
@@ -32,8 +31,6 @@ public class WheelBase {
     PhantomIMU phantomIMU = new PhantomIMU();
     // создаем класс расчетов
     PhantomMath math = new PhantomMath(opMode);
-    // создаем класс контроллеров
-    FTCcontroolers ftcControolers = new FTCcontroolers(opMode);
 
     /*
             |               |
@@ -137,7 +134,7 @@ public class WheelBase {
     });
 
     //
-    public void driveFieldCentic(){
+    public void driveFieldCentric(){
         //
         gamepads.start();
         //
@@ -150,17 +147,17 @@ public class WheelBase {
         //
         double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double angleDifference = AngleUnit.normalizeDegrees(currentAngel - rot);
-        double rotaton = Range.clip(angleDifference, -1,1);
+        double rotation = Range.clip(angleDifference, -1,1);
         //
         rotationX = forward * Math.cos(heading) - side * Math.sin(heading);
         rotationY = forward * Math.sin(heading) + side * Math.cos(heading);
         //
         double denominator = Math.max(Math.abs(side) + Math.abs(forward) + Math.abs(rot), 1);
         //
-        rfSpeed = (rotationY - rotationX - rotaton) / denominator;
-        rbSpeed = (rotationY + rotationX - rotaton) / denominator;
-        lfSpeed = (rotationY + rotationX + rotaton) / denominator;
-        lbSpeed = (rotationY- rotationX + rotaton) / denominator;
+        rfSpeed = (rotationY - rotationX - rotation) / denominator;
+        rbSpeed = (rotationY + rotationX - rotation) / denominator;
+        lfSpeed = (rotationY + rotationX + rotation) / denominator;
+        lbSpeed = (rotationY- rotationX + rotation) / denominator;
         //
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);

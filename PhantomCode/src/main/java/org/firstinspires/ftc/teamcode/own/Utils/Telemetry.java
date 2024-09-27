@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,13 +13,13 @@ import java.util.List;
 @Disabled
 public class Telemetry {
     LinearOpMode opMode;
-    Config config = new Config();
+
     public Telemetry(LinearOpMode opMode) {
         this.opMode = opMode;
     }
-    double error, position, target;
 
-    FTCcontroolers ftCcontroolers = new FTCcontroolers(opMode);
+
+
 
     org.firstinspires.ftc.robotcore.external.Telemetry telemetry = opMode.telemetry;
     boolean lp, rp;

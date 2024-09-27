@@ -27,12 +27,7 @@ public class PhantomProcessor implements VisionProcessor {
      */
     Mat yCbCrChan2Mat = new Mat();
     Mat submat = new Mat();
-    // Определение диапазона синего цвета в HSV
-    public Scalar lowerBlue = new Scalar(160, 40, 40);
-    public Scalar upperBlue = new Scalar(255, 255, 255);
-    // Определение диапазона красного цвета
-    Scalar lowerRed = new Scalar(0,20,20);
-    Scalar upperRed = new Scalar(160,255,255);
+
 
     /**
      * метод инициализации, значения устанавливаются при запуске visionportal
