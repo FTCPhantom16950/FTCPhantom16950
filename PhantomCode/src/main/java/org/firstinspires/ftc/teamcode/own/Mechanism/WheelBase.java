@@ -80,10 +80,10 @@ public class WheelBase {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // устанавливаем направление моторов
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // 
+        // создаем моторы из библиотеки FTCLib
         rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
         lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
         rr = new MotorEx(hw, config.right_back, Motor.GoBILDA.RPM_312);
@@ -135,46 +135,45 @@ public class WheelBase {
 
     //
     public void driveFieldCentric(){
-        //
+        //  считываем данные с геймпадов
         gamepads.start();
-        //
+        // Объявляем переменные и гироскоп
         double rot = spin;
         double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
         IMU imu = phantomIMU.imu;
-        double rotationX, rotationY, heading;
-        //
+        double sideSp, forwardSp, heading;
+        // считываем значение изначального направления
         heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-        //
+        // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
         double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double angleDifference = AngleUnit.normalizeDegrees(currentAngel - rot);
-        double rotation = Range.clip(angleDifference, -1,1);
-        //
-        rotationX = forward * Math.cos(heading) - side * Math.sin(heading);
-        rotationY = forward * Math.sin(heading) + side * Math.cos(heading);
-        //
+        double rotation = Range.clip(angleDifference * 0.01, -1,1);
+        // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
+        sideSp = forward * Math.cos(heading) - side * Math.sin(heading);
+        forwardSp = forward * Math.sin(heading) + side * Math.cos(heading);
+        // максимальное значение скорости моторов
         double denominator = Math.max(Math.abs(side) + Math.abs(forward) + Math.abs(rot), 1);
-        //
-        rfSpeed = (rotationY - rotationX - rotation) / denominator;
-        rbSpeed = (rotationY + rotationX - rotation) / denominator;
-        lfSpeed = (rotationY + rotationX + rotation) / denominator;
-        lbSpeed = (rotationY- rotationX + rotation) / denominator;
-        //
+        //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
+        //TODO: нужно поиграться с вектором rotation
+        rfSpeed = (forwardSp - sideSp - rotation) / denominator;
+        rbSpeed = (forwardSp + sideSp - rotation) / denominator;
+        lfSpeed = (forwardSp + sideSp + rotation) / denominator;
+        lbSpeed = (forwardSp- sideSp + rotation) / denominator;
+        // Устанавливаем скорость моторам
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
-        //
-        stopAll();
     }
 
 
     public  class MecanumDrive{
-        //
+        // объявляем переменные скоростей
         double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
-        //
+        // поток расчета
         Thread update = new Thread(() -> {
             while (true){
-                //
+                ///https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
                  rfSpeed = Range.clip(forward - spin - side, -1, 1);
                  rbSpeed = Range.clip(forward - spin + side, -1,1);
                  lfSpeed = Range.clip(forward + spin + side, -1, 1);
@@ -183,9 +182,9 @@ public class WheelBase {
         });
         //
         public void driveEasy() {
-            //
+            // запуск потока расчета
             update.start();
-            //
+            // подстановка в моторы
             rightFront.setPower(rfSpeed);
             rightBack.setPower(rbSpeed);
             leftFront.setPower(lfSpeed);
