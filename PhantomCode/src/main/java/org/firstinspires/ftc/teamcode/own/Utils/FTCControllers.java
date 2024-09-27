@@ -63,6 +63,12 @@ public class FTCControllers {
         double output = PIDController(motor, p, i, d, reference) + feedForward(motor, a, v, g, cos, reference);
         motor.setPower(output);
     }
+    public double stateControl(@NotNull DcMotorEx motor, double reference, double refVelocity, double k1, double k2){
+        double errorPos = reference - motor.getCurrentPosition();
+        double errorVelocity = refVelocity - motor.getVelocity();
+        double u = errorPos * k1 + errorVelocity * k2;
+        return u;
+    }
 
 
 
