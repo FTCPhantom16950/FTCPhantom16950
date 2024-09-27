@@ -154,7 +154,7 @@ public class WheelBase {
         // максимальное значение скорости моторов
         double denominator = Math.max(Math.abs(side) + Math.abs(forward) + Math.abs(rot), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        //TODO: нужно поиграться с вектором rotation
+        //TODO: поиграться с вектором rotation
         rfSpeed = (forwardSp - sideSp - rotation) / denominator;
         rbSpeed = (forwardSp + sideSp - rotation) / denominator;
         lfSpeed = (forwardSp + sideSp + rotation) / denominator;
