@@ -109,8 +109,22 @@ public class FTCControllers {
      * @param degrees значение угла на котором нужно держать мотор
      */
     public void fullControl(@NotNull DcMotorEx motor, double p, double i, double d, double a, double v, double g, double cos, double reference, double degrees) {
-        double output = PIDController(motor, p, i, d, reference) + feedForward(motor, a, v, g, cos, degrees);
-        motor.setPower(output);
+        boolean pointReached = false;
+        double tolerance = 100;
+        double output = 0;
+        if (motor.getCurrentPosition() >= (motor.getTargetPosition() - tolerance) && (motor.getCurrentPosition() <= (motor.getTargetPosition() + tolerance))){
+            pointReached = true;
+        }
+        while (!pointReached) {
+            output = PIDController(motor, p, i, d, reference) + feedForward(motor, a, v, g, cos, degrees);
+            motor.setPower(output);
+        }
+        if (output >= 0){
+            motor.setPower(-0.1);
+        } else if (output < 0) {
+            motor.setPower(0.1);
+        }
+        motor.setPower(0);
     }
 
     /**

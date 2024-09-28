@@ -31,7 +31,7 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation 'com.google.ar:core:1.41.0'
+    implementation 'com.google.ar:core:1.45.0'
     implementation fileTree(dir: 'C:\\Users\\glevse\\Desktop\\RobotCore-9.0.1-javadoc.jar\nC:\\Users\\glevse\\Desktop\\', include: ['*.aar', '*.jar'], exclude: [])
     implementation 'org.openftc:easyopencv:1.7.3'
     implementation project(':FtcRobotController')

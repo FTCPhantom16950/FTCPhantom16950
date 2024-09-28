@@ -2,21 +2,33 @@ package org.firstinspires.ftc.teamcode.own.OpModes.TeleOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.own.Utils.FTCControllers;
+
 @TeleOp
 public class PIDFmotorTester extends LinearOpMode {
-    WheelBase wheelBase = new WheelBase(new PIDFmotorTester());
-    Robot robot = new Robot(new PIDFmotorTester());
-    ElapsedTime time = new ElapsedTime();
+    OPMode opMode = new OPMode();
+    FTCControllers controllers = new FTCControllers(opMode);
+    DcMotorEx motor;
+    ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
-        wheelBase.initWheelBase(hardwareMap);
-        robot.initAll(hardwareMap);
         waitForStart();
-        time.reset();
-        while (opModeIsActive()){
+        timer.reset();
+        while (opMode.opModeIsActive()) {
+            opMode.runOpMode();
+        }
+    }
+    class OPMode extends LinearOpMode {
+        @Override
+        public void runOpMode() throws InterruptedException {
+            motor = hardwareMap.get(DcMotorEx.class, "motor");
+            waitForStart();
+            timer.reset();
+            while (opModeIsActive()) {
+
+            }
         }
     }
 }
