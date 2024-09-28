@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.own.OpModes.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Camera.PhantomCamera;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
-
+@Autonomous
 public class AutonomTester extends LinearOpMode {
     LinearOpMode opMode = new AutonomTester();
     ElapsedTime timer = new ElapsedTime();
