@@ -5,26 +5,35 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.own.Utils.FTCControllers;
+import org.firstinspires.ftc.teamcode.own.Utils.FtcControllers;
+import org.firstinspires.ftc.teamcode.own.Utils.FullControl;
+import org.firstinspires.ftc.teamcode.own.Utils.FullStateControl;
+
 
 @TeleOp
 public class PIDFmotorTester2 extends LinearOpMode {
+    FtcControllers controllers = new FtcControllers(this);
+    FullControl fullControl;
+    FullStateControl fullStateControl;
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx motor;
     @Override
     public void runOpMode() throws InterruptedException {
-        FTCControllers controllers = new FTCControllers(new PIDFmotorTester2());
         motor = hardwareMap.get(DcMotorEx.class, "motor");
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setDirection(DcMotor.Direction.REVERSE);
+        fullStateControl = new FullStateControl(0, 0, 0, 0, motor);
+        fullControl = new FullControl(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, motor, runtime.nanoseconds(), this);
         waitForStart();
         runtime.reset();
         while (opModeIsActive()) {
             if (gamepad1.a) {
                 motor.setPower(0.1);
+                sleep(1000);
+                motor.setPower(0);
             } else if (gamepad1.b) {
-                controllers.originalPIDF(motor, 0,0,0,0);
+                controllers.originalPidf(motor, 0,0,0,0);
                 motor.setTargetPosition(200);
                 motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor.setPower(0.3);
@@ -40,9 +49,11 @@ public class PIDFmotorTester2 extends LinearOpMode {
                 }
                 motor.setPower(0);
             } else if (gamepad1.x) {
-                controllers.fullControl(motor, 0,0,0,0,0,0,0,0,0);
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor.setPower(fullControl.calculate());// full control
             } else if (gamepad1.y) {
-                motor.setPower(controllers.stateControl(motor, 0,0,0,0));
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor.setPower(fullStateControl.stateControl());//fullstate
             }
         }
     }
