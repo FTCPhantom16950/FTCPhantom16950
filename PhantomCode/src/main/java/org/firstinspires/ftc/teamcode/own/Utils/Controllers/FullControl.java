@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils.Controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -26,10 +26,10 @@ public class FullControl{
      * @param reference число необходимых оборотов моторов
      * @param degrees значение угла на котором нужно держать мотор
      */
-    public FullControl(double referencePosition, double referenceVelocity, double referenceAcceleration, double k1, double k2, double p, double i, double d, double reference, double a, double v, double g, double cos, double degrees, DcMotorEx motorEx, double time, LinearOpMode opMode) {
+    public FullControl(double referencePosition, double referenceVelocity, double referenceAcceleration, double k1, double k2, double p, double i, double d, double reference, double a, double v, double g, double cos, double degrees, DcMotorEx motorEx, LinearOpMode opMode) {
         this.OPMode = opMode;
         stateControl = new FullStateControl(referencePosition, referenceVelocity, k1, k2, motorEx);
-        pidController = new PidControl(p, i, d, reference, motorEx, time, OPMode);
+        pidController = new PidControl(p, i, d, reference, motorEx);
         feedForwardControl = new FeedForwardControl(a, v, g, cos, degrees, motorEx);
         this.motorEx = motorEx;
         this.referenceAcceleration = referenceAcceleration;

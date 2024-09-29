@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils.Controllers;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -7,6 +7,8 @@ public class FullStateControl{
     private double k1, k2;
     private DcMotorEx motor;
     private double maxPower = 1;
+    KalmanFilter kalmanFilter1 = new KalmanFilter(0,0,motor.getCurrentPosition(),referencePosition);
+    KalmanFilter kalmanFilter2 = new KalmanFilter(0,0,motor.getVelocity(),referenceVelocity);
     /**
      * full state feedback контроллер
      * @param motor DcMotorEx мотор в для которого будет настроен регулятор
@@ -23,8 +25,8 @@ public class FullStateControl{
         this.motor = motor;
     }
     public double stateControl(){
-        double errorPos = referencePosition - motor.getCurrentPosition();
-        double errorVelocity = referenceVelocity - motor.getVelocity();
+        double errorPos = kalmanFilter1.calculate();
+        double errorVelocity = kalmanFilter2.calculate();
         double output = k1 * errorPos + k2 * errorVelocity;
         output = Math.max(Math.min(output, maxPower), -maxPower);
         return output;

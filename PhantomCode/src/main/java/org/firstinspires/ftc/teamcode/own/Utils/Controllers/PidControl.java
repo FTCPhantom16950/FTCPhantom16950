@@ -1,19 +1,20 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils.Controllers;
 
-import com.acmerobotics.roadrunner.Line;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PidControl{
     private double p, i,d,reference;
+    double lastTime = 0;
     private DcMotorEx motor;
-    private double proportional, integral, derivative, filter, prevFilter, output;
+    private double proportional, integral, derivative, output;
     double error, lastError;
-    double lastRef = 0;
+
     double integerLimit = 30;
     double time = 0;
-    LinearOpMode OPMode;
+
+    KalmanFilter filter = new KalmanFilter(1, 1, motor.getCurrentPosition(), reference);
 
     /**
      * Конструктор для PIDF регулятора
@@ -23,31 +24,24 @@ public class PidControl{
      * @param d d коэффициент
      * @param reference число необходимых оборотов моторов
      */
-    public PidControl(double p, double i, double d, double reference, DcMotorEx motor, double time, LinearOpMode OPMode) {
+    public PidControl(double p, double i, double d, double reference, DcMotorEx motor) {
         this.p = p;
         this.i = i;
         this.d = d;
         this.reference = reference;
         this.motor = motor;
-        this.time = time;
-        this.OPMode = OPMode;
     }
-    public void calculateError(){
-        while (OPMode.opModeIsActive()){
-            error = reference - motor.getCurrentPosition();
-            lastError = error;
-            lastRef = reference;
-        }
-    }
+
+
     public double calculate(){
-        Thread errorThread = new Thread(this::calculateError);
-        errorThread.start();
-        double a = 0.8;
         ElapsedTime timer = new ElapsedTime();
-        filter = (a * prevFilter) + (1-a) * (error- lastError);
-        prevFilter = filter;
-        derivative = filter / time;
-        integral += error * time;
+        double filteredPos = filter.calculate();
+        error = reference - filteredPos;
+        time = timer.milliseconds();
+        lastTime = time;
+        double dt = time - lastTime;
+        derivative = (error - lastError)/ dt;
+        integral += error * dt;
         integral = Math.max(Math.min(integral, integerLimit), -integerLimit);
         proportional = p * error;
         double integration = i * integral;
@@ -55,5 +49,6 @@ public class PidControl{
         output = proportional + integration + derv;
         output = Math.max(Math.min(output, 1), -1);
         timer.reset();
+        lastError = error;
         return output;
     }}

@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.own.Utils.FtcControllers;
-import org.firstinspires.ftc.teamcode.own.Utils.FullControl;
-import org.firstinspires.ftc.teamcode.own.Utils.FullStateControl;
+import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FtcControllers;
+import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FullControl;
+import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FullStateControl;
 
 
 @TeleOp
@@ -24,7 +24,7 @@ public class PIDFmotorTester2 extends LinearOpMode {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setDirection(DcMotor.Direction.REVERSE);
         fullStateControl = new FullStateControl(0, 0, 0, 0, motor);
-        fullControl = new FullControl(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, motor, runtime.nanoseconds(), this);
+        fullControl = new FullControl(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, motor, this);
         waitForStart();
         runtime.reset();
         while (opModeIsActive()) {
