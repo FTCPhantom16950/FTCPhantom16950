@@ -7,8 +7,8 @@ public class FullStateControl{
     private double k1, k2;
     private DcMotorEx motor;
     private double maxPower = 1;
-    KalmanFilter kalmanFilter1 = new KalmanFilter(0,0,motor.getCurrentPosition(),referencePosition);
-    KalmanFilter kalmanFilter2 = new KalmanFilter(0,0,motor.getVelocity(),referenceVelocity);
+    KalmanFilter kalmanFilter1 = new KalmanFilter(0,0,motor.getCurrentPosition(),referencePosition,1);
+    KalmanFilter kalmanFilter2 = new KalmanFilter(0,0,motor.getVelocity(),referenceVelocity,1);
     /**
      * full state feedback контроллер
      * @param motor DcMotorEx мотор в для которого будет настроен регулятор

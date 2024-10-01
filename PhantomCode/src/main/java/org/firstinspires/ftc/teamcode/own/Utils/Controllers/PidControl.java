@@ -14,7 +14,7 @@ public class PidControl{
     double integerLimit = 30;
     double time = 0;
 
-    KalmanFilter filter = new KalmanFilter(1, 1, motor.getCurrentPosition(), reference);
+    KalmanFilter filter = new KalmanFilter(1, 1, motor.getCurrentPosition(), reference, 1);
 
     /**
      * Конструктор для PIDF регулятора

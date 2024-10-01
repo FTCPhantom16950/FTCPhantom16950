@@ -15,4 +15,7 @@ public class Config {
     public String left_front = "lf";
     public String right_back = "rb";
     public String left_back = "lb";
+    public double gainK = 1;
+    public double measurementNoiseVariance = 1;
+    public double processNoiseVariance = 1;
 }
