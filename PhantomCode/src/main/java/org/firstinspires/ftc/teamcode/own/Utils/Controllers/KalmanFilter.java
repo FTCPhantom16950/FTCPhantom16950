@@ -10,13 +10,21 @@ public class KalmanFilter {
     private double reference;
     private double previousEstimatedPosition, previousEstimationCovariance;
 
+    public double getInput() {
+        return input;
+    }
+
+    public void setInput(double input) {
+        this.input = input;
+    }
+
     public KalmanFilter(double processNoiseVariance, double measurementNoiseVariance, double input, double reference, double gainK) {
         this.processNoiseVariance = processNoiseVariance;
         this.measurementNoiseVariance = measurementNoiseVariance;
         this.input = input;
         this.reference = reference;
         state = 0;
-        estimateCovariance = 1;
+        estimateCovariance = 0;
         this.gainK = gainK;
         previousEstimatedPosition = state;
         previousEstimationCovariance = estimateCovariance;
