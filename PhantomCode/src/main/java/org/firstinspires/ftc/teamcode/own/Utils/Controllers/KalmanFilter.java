@@ -1,9 +1,18 @@
 package org.firstinspires.ftc.teamcode.own.Utils.Controllers;
 
 public class KalmanFilter {
-    private double state;
-    private final double processNoiseVariance;
-    private final double measurementNoiseVariance;
+    public double state;
+    private double processNoiseVariance;
+
+    public void setMeasurementNoiseVariance(double measurementNoiseVariance) {
+        this.measurementNoiseVariance = measurementNoiseVariance;
+    }
+
+    public void setProcessNoiseVariance(double processNoiseVariance) {
+        this.processNoiseVariance = processNoiseVariance;
+    }
+
+    private double measurementNoiseVariance;
     private double estimateCovariance;
     private double gainK;
     private double input;

@@ -25,8 +25,10 @@ public class FullStateControl{
         this.motor = motor;
     }
     public double stateControl(){
-        double errorPos = kalmanFilter1.calculate();
-        double errorVelocity = kalmanFilter2.calculate();
+        //  kalmanFilter1.calculate();
+        // kalmanFilter2.calculate();
+        double errorPos = referencePosition - motor.getCurrentPosition();
+        double errorVelocity = referenceVelocity - motor.getVelocity();
         double output = k1 * errorPos + k2 * errorVelocity;
         output = Math.max(Math.min(output, maxPower), -maxPower);
         return output;
