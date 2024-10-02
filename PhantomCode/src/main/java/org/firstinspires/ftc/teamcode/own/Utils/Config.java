@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.own.Utils;
  * конфиг для дэшборда
  */
 public class Config {
-    public static double k_p = 1;
+    public static double k_p = 0;
     public static double k_i = 1;
     public static double k_d = 1;
     public double k_f = 0;

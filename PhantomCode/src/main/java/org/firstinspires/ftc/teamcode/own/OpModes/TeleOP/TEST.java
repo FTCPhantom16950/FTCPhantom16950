@@ -29,7 +29,8 @@ public class TEST extends LinearOpMode {
         Telemetry dsTelemetry = dashboard.getTelemetry();
        servo = hardwareMap.get(CRServo.class, "test1");
         DcMotorEx motor = hardwareMap.get(DcMotorEx.class, "test");
-        filter = new KalmanFilter(Config.processNoiseVariance, Config.measurementNoiseVariance, motor.getCurrentPosition(), motor.getTargetPosition(), 0);
+//        filter = new KalmanFilter(Config.processNoiseVariance, Config.measurementNoiseVariance, motor.getCurrentPosition(), motor.getTargetPosition(), 0);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pidControl = new PidControl(0,0,0, motor.getTargetPosition(), motor);
         Thread thread = new Thread(() -> {
@@ -38,7 +39,7 @@ public class TEST extends LinearOpMode {
                 pidControl.setP(Config.k_p);
                 pidControl.setD(Config.k_d);
                 pidControl.setI(Config.k_i);
-                    dsTelemetry.addData("error", motor.getTargetPosition() - motor.getCurrentPosition());
+                dsTelemetry.addData("error", motor.getTargetPosition() - motor.getCurrentPosition());
                 dsTelemetry.update();
                 telemetry.addData("output", output);
                 telemetry.addData("error", motor.getTargetPosition() - motor.getCurrentPosition());
@@ -81,16 +82,17 @@ public class TEST extends LinearOpMode {
             motor.setTargetPosition(2000);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
           //  filter.predict();
-           motor.setPower(output);
+           motor.setPower(pidControl.calculate());
            while (motor.isBusy()){
 
            }
           motor.setPower(0);
             sleep(2000);
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            sleep(1000);
             motor.setTargetPosition(-2000);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-           motor.setPower(output);
+           motor.setPower(pidControl.calculate());
            //filter.predict();
             while (motor.isBusy()){
 //                dsTelemetry.addData("filteredPos", filteredPos);

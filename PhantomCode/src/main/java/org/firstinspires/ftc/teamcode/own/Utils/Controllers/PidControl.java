@@ -89,7 +89,7 @@ public class PidControl{
             double integration = i * integral;
             double derv = d * derivative;
             output = proportional + integration + derv;
-            output = Math.max(Math.min(output, 0.9), -0.9);
+            output = Math.max(Math.min(output, 1), -1);
             lastError = error;
             lastTime = time;
             return output;
