@@ -48,33 +48,45 @@ public class PhantomProcessor implements VisionProcessor {
      */
     @Override
         public Object processFrame(Mat input, long captureTimeNanos) {
-
+            // конвертируем матрицы из одного формата в дргой
             Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
             Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 120, 255, Imgproc.THRESH_BINARY_INV);
             Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
-
+            // считываем значения в квадратах
             valLeft = getAverageValue(input, leftRect);
             valRight = getAverageValue(input, rightRect);
-
+            // проверяем значения hue
+            // если значение в правом квадрате 122, то выбираем правый
             if (valRight >= 122){
                 return selcted = Selcted.Right;
+            // если значение в левои квадрате 122, то выбираем левый
             } else if (valLeft >= 122){
                 return selcted = Selcted.Left;
+            // в любом другом случае не выбираем ни один
             } else {
                 return selcted = Selcted.None;
             }
         }
+        //Метод для считывания цвета внутри прямоугольника
         protected int getAverageValue(Mat input, Rect rect){
+            // присваеваем матрице значения цвета из нашего прямоугольника
             submat = input.submat(rect);
+            //считываем средние значения цвета в hsv, для этого создаем список цвета
             Scalar color = Core.mean(submat);
+            //возвращаем значения Value из списка и преобразуем в int
             return (int) Math.round(color.val[2]);
         }
-
+        //метод для преобразования объекта прямоугольника из формта OpenCV в формат Android
         private android.graphics.Rect makeRectangle(Rect rect, float scaleBmpPXToCanvasPX) {
+        // переносим координаты левой стороны из системы OpenCV в систему Android(экрана)
             int left = Math.round(rect.x * scaleBmpPXToCanvasPX);
+            // переносим координаты верхней стороны из системы OpenCV в систему Android(экрана)
             int top = Math.round(rect.y * scaleBmpPXToCanvasPX);
+            // переносим координаты правой стороны из системы OpenCV в систему Android(экрана)
             int right = left + Math.round(rect.width * scaleBmpPXToCanvasPX);
+            // переносим координаты нижней стороны из системы OpenCV в систему Android(экрана)
             int bottom = top + Math.round(rect.width* scaleBmpPXToCanvasPX);
+            // возвращаем объект прямоугольника, готового для отображения на экране
             return new android.graphics.Rect(left,top,right,bottom);
         }
 
@@ -83,21 +95,26 @@ public class PhantomProcessor implements VisionProcessor {
      */
         @Override
         public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+            //создаем обЪект стиля квалратов
             Paint rectPaint = new Paint();
+            // указываем цвет
             rectPaint.setColor(Color.YELLOW);
+            // указываем заполненность
             rectPaint.setStyle(Paint.Style.STROKE);
+            // указываем ширину стенок
             rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
 
             Paint nobselectedpaint = new Paint();
             nobselectedpaint.setColor(Color.GRAY);
             nobselectedpaint.setStyle(Paint.Style.STROKE);
             nobselectedpaint.setStrokeWidth(scaleCanvasDensity * 4);
-
+            // создаем прямоугольник
             android.graphics.Rect drawRectRight = makeRectangle(rightRect, scaleBmpPxToCanvasPx);
             android.graphics.Rect drawRectLeft = makeRectangle(leftRect, scaleBmpPxToCanvasPx);
-
+            // проверяем выбор наших прямоугольников
             switch (selcted){
                 case None:
+                    // отрисовываем прямоугольники
                     canvas.drawRect(drawRectLeft, nobselectedpaint);
                     canvas.drawRect(drawRectRight, nobselectedpaint);
                     break;
@@ -112,7 +129,7 @@ public class PhantomProcessor implements VisionProcessor {
             }
 
         }
-
+        //список для выбора квадратов
         public enum Selcted{
             None,
             Left,
