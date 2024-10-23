@@ -113,14 +113,14 @@ public class WheelBase {
         rightFront.setPower(0);
     }
     //
-    Thread gamepads = new Thread(() -> {
+    public Thread gamepads = new Thread(() -> {
         //
         Gamepad gamepad1 = opMode.gamepad1;
         //
         double rbump = 0;
         double lbump = 0;
         //
-        while (opMode.opModeIsActive()){
+        while (true){
             if (gamepad1.left_bumper){
                 lbump = 0.4;
             }
