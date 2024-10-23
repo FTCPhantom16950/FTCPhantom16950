@@ -28,7 +28,7 @@ public class PhantomIMU {
      */
     public void initIMU(HardwareMap hwmap){
         //привязываем акслерометр и гироскоп к конфигу
-        accelerationSensor = hwmap.get(AccelerationSensor.class, "imu");
+   //     accelerationSensor = (AccelerationSensor) hwmap.get(IMU.class, "imu");
         imu = hwmap.get(IMU.class, "imu");
         // создаем настройки ориентации гироскопа для робота
         RevHubOrientationOnRobot hubOrientationOnRobot =
@@ -37,6 +37,7 @@ public class PhantomIMU {
                         RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD);
         // инициализируем гироскоп с параметрами установленными выше
         imu.initialize(new IMU.Parameters(hubOrientationOnRobot));
+
     }
 
     /**
@@ -47,7 +48,7 @@ public class PhantomIMU {
         Thread imuT = new Thread(() -> {
             while (true){
                 // получаем ускорение по осям x и y
-                acceleration = accelerationSensor.getAcceleration();
+  //              acceleration = accelerationSensor.getAcceleration();
                 aclX = acceleration.xAccel;
                 aclY = acceleration.yAccel;
                 // получаем скорость вращения

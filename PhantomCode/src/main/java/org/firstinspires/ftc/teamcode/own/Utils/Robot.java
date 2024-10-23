@@ -31,7 +31,7 @@ public class Robot {
         wheelBase.initWheelBase(hardwareMap);
         phantomIMU.initIMU(hardwareMap);
         initLynx(hardwareMap);
-        odometry.initODO();
+
 
     }
 

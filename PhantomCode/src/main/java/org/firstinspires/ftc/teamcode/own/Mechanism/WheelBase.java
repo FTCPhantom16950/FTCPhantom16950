@@ -56,10 +56,10 @@ public class WheelBase {
      */
     public void initWheelBase(HardwareMap hw){
         // инициализируем моторы
-        rightFront = hw.get(DcMotorEx.class, config.right_front);
-        leftFront = hw.get(DcMotorEx.class, config.left_front);
-        rightBack = hw.get(DcMotorEx.class, config.right_back);
-        leftBack = hw.get(DcMotorEx.class, config.left_back);
+        rightFront = hw.get(DcMotorEx.class, "rf");
+        leftFront = hw.get(DcMotorEx.class, "rb");
+        rightBack = hw.get(DcMotorEx.class, "lf");
+        leftBack = hw.get(DcMotorEx.class, "lb");
 
         // сбрасываем энкодеры
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -82,12 +82,13 @@ public class WheelBase {
         // устанавливаем направление моторов
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        gamepads.start();
 
-        // создаем моторы из библиотеки FTCLib
-        rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
-        lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
-        rr = new MotorEx(hw, config.right_back, Motor.GoBILDA.RPM_312);
-        lr = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
+//        // создаем моторы из библиотеки FTCLib
+//        rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
+//        lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
+//        rr = new MotorEx(hw, config.right_back, Motor.GoBILDA.RPM_312);
+//        lr = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
     }
     public void moveForward(double pos){
         //
@@ -135,6 +136,7 @@ public class WheelBase {
 
     //
     public void driveFieldCentric(){
+        phantomIMU.initIMU(opMode.hardwareMap);
         //  считываем данные с геймпадов
         gamepads.start();
         // Объявляем переменные и гироскоп
@@ -143,7 +145,7 @@ public class WheelBase {
         IMU imu = phantomIMU.imu;
         double sideSp, forwardSp, heading;
         // считываем значение изначального направления
-        heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        heading = -phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
         double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double angleDifference = AngleUnit.normalizeDegrees(currentAngel - rot);
@@ -165,34 +167,31 @@ public class WheelBase {
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
     }
-
-
-    public  class MecanumDrive{
-        // объявляем переменные скоростей
-        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
-        // поток расчета
-        Thread update = new Thread(() -> {
-            while (true){
-                ///https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-                 rfSpeed = Range.clip(forward - spin - side, -1, 1);
-                 rbSpeed = Range.clip(forward - spin + side, -1,1);
-                 lfSpeed = Range.clip(forward + spin + side, -1, 1);
-                 lbSpeed = Range.clip(forward + spin - side, -1,1);
-            }
-        });
-        //
-        public void driveEasy() {
-            // запуск потока расчета
-            update.start();
-            // подстановка в моторы
-            rightFront.setPower(rfSpeed);
-            rightBack.setPower(rbSpeed);
-            leftFront.setPower(lfSpeed);
-            leftBack.setPower(lbSpeed);
+    // объявляем переменные скоростей
+    double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+    // поток расчета
+    Thread update = new Thread(() -> {
+        while (opMode.opModeIsActive()){
+            ///https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
+            rfSpeed = Range.clip(forward - spin - side, -1, 1);
+            rbSpeed = Range.clip(forward - spin + side, -1,1);
+            lfSpeed = Range.clip(forward + spin + side, -1, 1);
+            lbSpeed = Range.clip(forward + spin - side, -1,1);
         }
+    });
+    //
+    public void driveEasy() {
+
+        // запуск потока расчета
+        update.start();
+        // подстановка в моторы
+        rightFront.setPower(rfSpeed);
+        rightBack.setPower(rbSpeed);
+        leftFront.setPower(lfSpeed);
+        leftBack.setPower(lbSpeed);
+    }
 
 
-        }
     }
 
 
