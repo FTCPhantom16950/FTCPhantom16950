@@ -11,5 +11,6 @@ public class LynxModule {
         for (com.qualcomm.hardware.lynx.LynxModule hub : allHubs){
             hub.setBulkCachingMode(com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.AUTO);
         }
+
     }
 }

@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Camera;
 
-import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -12,11 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
-
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.List;
 
@@ -34,11 +28,11 @@ public class PhantomCamera {
     boolean UsingCamera;
     boolean IsOpenCvTrue;
     boolean IsAprilTagTrue;
-    public OpenCvWebcam camera;
+
     int cameraHeight = 640;
     int cameraWidth = 480;
-    public OpenCvInternalCamera phonecam;
-    int[] viewPort = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+
+
 
     private VisionPortal visionPortal;
     public final AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
@@ -50,7 +44,7 @@ public class PhantomCamera {
     public PhantomProcessor phantomProcessor;
     public boolean lp, rp;
     List<AprilTagDetection> detections;
-    int id;
+
 
     /**
      * конструктор для вашей камеры
@@ -162,17 +156,8 @@ public class PhantomCamera {
     }
     public void stopCameraEasy(){
         visionPortal.stopStreaming();
-
     }
 
-    public void aprilTagDet(){
-        Thread detect = new Thread(() -> {
 
-            for (AprilTagDetection detection : detections){
-
-            }
-        });
-        detect.start();
-    }
 
 }

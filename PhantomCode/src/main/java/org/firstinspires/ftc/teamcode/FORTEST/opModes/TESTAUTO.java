@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.own.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 @Autonomous(name = "1")
-public class TEST extends LinearOpMode {
+public class TESTAUTO extends LinearOpMode {
     DcMotorEx motor1,motor2,motor3,motor4;
     @Override
     public void runOpMode() throws InterruptedException {

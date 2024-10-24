@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.own.OpModes.TeleOP;
+package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FtcControllers;
-import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FullControl;
-import org.firstinspires.ftc.teamcode.own.Utils.Controllers.FullStateControl;
+import org.firstinspires.ftc.teamcode.FORTEST.Controllers.FtcControllers;
+import org.firstinspires.ftc.teamcode.FORTEST.Controllers.FullControl;
+import org.firstinspires.ftc.teamcode.FORTEST.Controllers.FullStateControl;
 
 
 @TeleOp

@@ -88,7 +88,10 @@ public class WheelBase {
         // устанавливаем направление моторов
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         phantomIMU.initIMU(opMode.hardwareMap);
+        phantomIMU.valueGetter();
+        phantomIMU.resetHeading();
     }
     public void moveForward(double pos){
         //
@@ -144,6 +147,7 @@ public class WheelBase {
 
     //
     public void driveFieldCentric(Gamepad gamepad){
+
         //  считываем данные с геймпадов
         gamepads(gamepad);
         // Объявляем переменные и гироскоп

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.OpModes.Autonomous;
+package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
