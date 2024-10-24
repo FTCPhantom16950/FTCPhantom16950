@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
+
 //TODO: одометры стоящие параллельно вставлять в 1 и 3 слоты моторов
 /**
  * класс для одометрии
  */
 public class Odometry {
-    Config config = new Config();
     // опмод для считывания данных
     LinearOpMode opMode;
     // коодинаты в милиметрах и оборотах моторов
@@ -34,9 +33,9 @@ public class Odometry {
      * инициализация одометров
      */
     public void initODO(){
-        odoLeft = opMode.hardwareMap.get(DcMotorEx.class, config.left_back);
-        odoRight = opMode.hardwareMap.get(DcMotorEx.class, config.right_front);
-        odoCenter = opMode.hardwareMap.get(DcMotorEx.class, config.right_back);
+        odoLeft = opMode.hardwareMap.get(DcMotorEx.class, "lb");
+        odoRight = opMode.hardwareMap.get(DcMotorEx.class, "rf");
+        odoCenter = opMode.hardwareMap.get(DcMotorEx.class, "rb");
     }
 
     /**

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import androidx.lifecycle.GenericLifecycleObserver;
-
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,13 +11,9 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 
 public class WheelBase {
-    // объявляем конфиг
-    Config config = new Config();
     // объявляем моторы через DcMotorEx
     public DcMotorEx rightFront, leftFront, rightBack, leftBack;
     // объявляем опмод для считывания данных
@@ -29,7 +23,6 @@ public class WheelBase {
     public WheelBase(LinearOpMode opMode) {
         this.opMode = opMode;
     }
-    double rot;
     double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
     double resultX, resultY, heading;
     double rotation;
@@ -96,11 +89,6 @@ public class WheelBase {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         phantomIMU.initIMU(opMode.hardwareMap);
-//        // создаем моторы из библиотеки FTCLib
-//        rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
-//        lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
-//        rr = new MotorEx(hw, config.right_back, Motor.GoBILDA.RPM_312);
-//        lr = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
     }
     public void moveForward(double pos){
         //
