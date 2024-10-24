@@ -31,16 +31,4 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation 'com.google.ar:core:1.41.0'
-    implementation fileTree(dir: 'C:\\Users\\glevse\\Desktop\\RobotCore-9.0.1-javadoc.jar\nC:\\Users\\glevse\\Desktop\\', include: ['*.aar', '*.jar'], exclude: [])
-    implementation 'org.openftc:easyopencv:1.7.3'
-    implementation project(':FtcRobotController')
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
-    implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation "com.acmerobotics.roadrunner:ftc:0.1.14"
-    implementation "com.acmerobotics.roadrunner:core:1.0.0"
-    implementation "com.acmerobotics.roadrunner:actions:1.0.0"
-    implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
-}
+    }

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -44,7 +44,7 @@ public class WheelBase {
      */
 
     // объявляем моторы через MotorEx
-    MotorEx rf, lf, rr, lr;
+
     // значения скоростей
     double y;
     double spin;
