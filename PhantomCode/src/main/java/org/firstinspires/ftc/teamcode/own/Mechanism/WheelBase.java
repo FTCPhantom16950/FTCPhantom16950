@@ -37,8 +37,8 @@ public class WheelBase {
     // создаем иму
     PhantomIMU phantomIMU = new PhantomIMU();
     // создаем класс расчетов
-    PhantomMath math = new PhantomMath(opMode);
-    Gamepad gamepad1, gamepad2;
+
+
 
     /*
             |               |
