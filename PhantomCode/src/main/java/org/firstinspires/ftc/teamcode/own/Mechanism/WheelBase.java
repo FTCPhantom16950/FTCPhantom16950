@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.arcrobotics.ftclib.hardware.motors.Motor;
+import androidx.lifecycle.GenericLifecycleObserver;
+
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,13 +25,20 @@ public class WheelBase {
     // объявляем опмод для считывания данных
     LinearOpMode opMode;
     // конструктор для получения режима
+
     public WheelBase(LinearOpMode opMode) {
         this.opMode = opMode;
     }
+    double rot;
+    double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+    double resultX, resultY, heading;
+    double rotation;
+
     // создаем иму
     PhantomIMU phantomIMU = new PhantomIMU();
     // создаем класс расчетов
     PhantomMath math = new PhantomMath(opMode);
+    Gamepad gamepad1, gamepad2;
 
     /*
             |               |
@@ -45,9 +53,14 @@ public class WheelBase {
     // объявляем моторы через MotorEx
     MotorEx rf, lf, rr, lr;
     // значения скоростей
-    double forward;
+    double y;
     double spin;
-    double side;
+    double x;
+    double denominator;
+    double currentAngel;
+    double angleDifference;
+    double rbump = 0;
+    double lbump = 0;
 
 
     /**
@@ -82,8 +95,7 @@ public class WheelBase {
         // устанавливаем направление моторов
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        gamepads.start();
-
+        phantomIMU.initIMU(opMode.hardwareMap);
 //        // создаем моторы из библиотеки FTCLib
 //        rf = new MotorEx(hw, config.right_front, Motor.GoBILDA.RPM_312);
 //        lf = new MotorEx(hw, config.left_front, Motor.GoBILDA.RPM_312);
@@ -112,55 +124,75 @@ public class WheelBase {
         rightBack.setPower(0);
         rightFront.setPower(0);
     }
-    //
-    public Thread gamepads = new Thread(() -> {
-        //
-        Gamepad gamepad1 = opMode.gamepad1;
-        //
-        double rbump = 0;
-        double lbump = 0;
-        //
-        while (true){
-            if (gamepad1.left_bumper){
-                lbump = 0.4;
-            }
-            if (gamepad1.right_bumper){
-                rbump = 0.4;
-            }
-            //
-            forward = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
-            side = Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
-            spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
-        }
-    });
 
     //
-    public void driveFieldCentric(){
-        phantomIMU.initIMU(opMode.hardwareMap);
+    public void gamepads(Gamepad gamepad1){
+        //
+        if (gamepad1.left_bumper){
+            lbump = 0.4;
+        } else{
+            lbump = 0;
+        }
+        if (gamepad1.right_bumper){
+            rbump = 0.4;
+        }
+        else{
+            rbump = 0;
+        }
+            //
+        y = -Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
+        x = Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
+        spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
+        if (x <= 0.1 && x >= -0.1){
+            x = 0;
+        }
+        if (y <= 0.1 && y >= -0.1){
+            y = 0;
+        }
+        if (spin <= 0.1 && spin >= -0.1){
+            spin = 0;
+        }
+    }
+
+    //
+    public void driveFieldCentric(Gamepad gamepad){
         //  считываем данные с геймпадов
-        gamepads.start();
+        gamepads(gamepad);
         // Объявляем переменные и гироскоп
-        double rot = spin;
-        double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
         IMU imu = phantomIMU.imu;
-        double sideSp, forwardSp, heading;
         // считываем значение изначального направления
         heading = -phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
-        double currentAngel = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        double angleDifference = AngleUnit.normalizeDegrees(currentAngel - rot);
-        double rotation = Range.clip(angleDifference * 0.01, -1,1);
+        currentAngel = (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) * 0.01);
+        angleDifference = AngleUnit.normalizeDegrees(currentAngel - spin);
+        rotation = Range.clip(angleDifference * 0.5, -1,1);
+        if (rotation <= 0.01 && rotation >= -0.01){
+            rotation = 0;
+        }
         // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
-        sideSp = forward * Math.cos(heading) - side * Math.sin(heading);
-        forwardSp = forward * Math.sin(heading) + side * Math.cos(heading);
+        resultX = x * Math.cos(heading) - y * Math.sin(heading);
+        resultY = x * Math.sin(heading) + y * Math.cos(heading);
         // максимальное значение скорости моторов
-        double denominator = Math.max(Math.abs(side) + Math.abs(forward) + Math.abs(rot), 1);
+        denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
         //TODO: поиграться с вектором rotation
-        rfSpeed = (forwardSp - sideSp - rotation) / denominator;
-        rbSpeed = (forwardSp + sideSp - rotation) / denominator;
-        lfSpeed = (forwardSp + sideSp + rotation) / denominator;
-        lbSpeed = (forwardSp- sideSp + rotation) / denominator;
+        rfSpeed = (resultY - resultX - rotation) / denominator;
+        rbSpeed = (resultY + resultX - rotation) / denominator;
+        lfSpeed = (resultY + resultX + rotation) / denominator;
+        lbSpeed = (resultY - resultX + rotation) / denominator;
+        opMode.telemetry.addData("rbspeed", rbSpeed);
+        opMode.telemetry.addData("rfspeed", rfSpeed);
+        opMode.telemetry.addData("lbspeed", lbSpeed);
+        opMode.telemetry.addData("lfspeed", lfSpeed);
+        opMode.telemetry.addData("denominator", denominator);
+        opMode.telemetry.addData("resultY", resultY);
+        opMode.telemetry.addData("resultX", resultX);
+        opMode.telemetry.addData("rotation", rotation);
+        opMode.telemetry.addData("heading", currentAngel);
+        opMode.telemetry.addData("spin", spin);
+        opMode.telemetry.addData("curr angle", currentAngel);
+        opMode.telemetry.addData("differebce", angleDifference);
+        opMode.telemetry.update();
         // Устанавливаем скорость моторам
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);
@@ -168,28 +200,28 @@ public class WheelBase {
         leftBack.setPower(lbSpeed);
     }
     // объявляем переменные скоростей
-    double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
-    // поток расчета
-    Thread update = new Thread(() -> {
-        while (opMode.opModeIsActive()){
-            ///https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-            rfSpeed = Range.clip(forward - spin - side, -1, 1);
-            rbSpeed = Range.clip(forward - spin + side, -1,1);
-            lfSpeed = Range.clip(forward + spin + side, -1, 1);
-            lbSpeed = Range.clip(forward + spin - side, -1,1);
-        }
-    });
-    //
-    public void driveEasy() {
 
-        // запуск потока расчета
-        update.start();
+
+    public void driveEasy(Gamepad gamepad) {
+
+        gamepads(gamepad);
+        rfSpeed = Range.clip(y - spin - x, -1, 1);
+        rbSpeed = Range.clip(y - spin + x, -1,1);
+        lfSpeed = Range.clip(y + spin + x, -1, 1);
+        lbSpeed = Range.clip(y + spin - x, -1,1);
+        opMode.telemetry.addData("rbspeed", rbSpeed);
+        opMode.telemetry.addData("rfspeed", rfSpeed);
+        opMode.telemetry.addData("lbspeed", lbSpeed);
+        opMode.telemetry.addData("lfspeed", lfSpeed);
+        opMode.telemetry.update();
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
+        stopAll();
     }
+
 
 
     }

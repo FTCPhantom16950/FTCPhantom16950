@@ -27,12 +27,11 @@ public class TEST extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.initLynx(hardwareMap);
-        phantomIMU.initIMU(hardwareMap);
         wheelBase.initWheelBase(hardwareMap);
         waitForStart();
         time.reset();
         while(opModeIsActive()){
-            wheelBase.driveFieldCentric();
+            wheelBase.driveFieldCentric(gamepad1);
         }
     }
 }

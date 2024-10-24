@@ -17,7 +17,7 @@ public class Robot {
 
     LinearOpMode opMode;
     Odometry odometry = new Odometry(opMode);
-    WheelBase wheelBase = new WheelBase(opMode);
+   // WheelBase wheelBase = new WheelBase(opMode.gamepad1,opMode.gamepad2, opMode);
     PhantomIMU phantomIMU = new PhantomIMU();
     public List<LynxModule> allHubs;
 
@@ -28,7 +28,7 @@ public class Robot {
         }
     }
     public void initAll(HardwareMap hardwareMap){
-        wheelBase.initWheelBase(hardwareMap);
+        //wheelBase.initWheelBase(hardwareMap);
         phantomIMU.initIMU(hardwareMap);
         initLynx(hardwareMap);
 

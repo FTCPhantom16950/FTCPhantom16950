@@ -34,7 +34,7 @@ public class PhantomIMU {
         RevHubOrientationOnRobot hubOrientationOnRobot =
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD);
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
         // инициализируем гироскоп с параметрами установленными выше
         imu.initialize(new IMU.Parameters(hubOrientationOnRobot));
 

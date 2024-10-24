@@ -18,12 +18,12 @@ public class TEST1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.initLynx(hardwareMap);
         wheelBase.initWheelBase(hardwareMap);
-        wheelBase.gamepads.start();
+        //wheelBase.gamepads.start();
         waitForStart();
         time.reset();
         while(opModeIsActive()){
-            wheelBase.driveEasy();
+            wheelBase.driveEasy(gamepad1);
         }
-        wheelBase.gamepads.stop();
+
     }
 }
