@@ -12,10 +12,9 @@ public class AutonomTester extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     WheelBase wheelBase = new WheelBase(this);
 
-    PhantomCamera camera = new PhantomCamera(opMode);
+
     @Override
     public void runOpMode() throws InterruptedException {
-        camera.startCameraEasy(640, 480);
         timer.reset();
         waitForStart();
         while (opModeIsActive()){

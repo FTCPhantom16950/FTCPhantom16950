@@ -131,8 +131,8 @@ public class WheelBase {
             rbump = 0;
         }
             //
-        y = -Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
-        x = Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
+        y = -Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
+        x = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
         spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
         if (x <= 0.1 && x >= -0.1){
             x = 0;
@@ -211,7 +211,6 @@ public class WheelBase {
         rightBack.setPower(rbSpeed);
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
-        stopAll();
     }
 
 
