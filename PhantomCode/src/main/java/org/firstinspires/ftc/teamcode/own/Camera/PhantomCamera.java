@@ -17,12 +17,8 @@ import java.util.List;
 
 public class PhantomCamera {
     LinearOpMode opMode;
+    PhantomMath math = new PhantomMath();
 
-    public PhantomCamera(LinearOpMode opMode) {
-        this.opMode = opMode;
-    }
-
-    PhantomMath math = new PhantomMath(opMode);
     WebcamName firstWebcamName;
     BuiltinCameraDirection rotation;
     boolean UsingCamera;

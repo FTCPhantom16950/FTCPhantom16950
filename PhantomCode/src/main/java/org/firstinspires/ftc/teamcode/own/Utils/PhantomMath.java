@@ -5,11 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
 
 public class PhantomMath {
-    LinearOpMode opMode;
-
-    public PhantomMath(LinearOpMode opMode) {
-        this.opMode = opMode;
-    }
     // создаём пременные для работы с другими классами
     public double x, y;
     public boolean leftPose, rightPose;
