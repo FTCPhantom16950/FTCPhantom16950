@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,18 +15,23 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
 public class WheelBase {
+    /*
+    ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
+     */
     // объявляем моторы через DcMotorEx
     public DcMotorEx rightFront, leftFront, rightBack, leftBack;
     // объявляем опмод для считывания данных
     LinearOpMode opMode;
-    // конструктор для получения режима
 
+    // конструктор для получения режима
     public WheelBase(LinearOpMode opMode) {
         this.opMode = opMode;
     }
+    //скорости для моторов
     double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+    //проекция результируещего вектора на оси и его поворот
     double resultX, resultY, heading;
-    double rotation;
+
 
     // создаем иму
     PhantomIMU phantomIMU = new PhantomIMU();
@@ -44,13 +51,13 @@ public class WheelBase {
 
     // объявляем моторы через MotorEx
 
-    // значения скоростей
+    // значения скоростей с геймпадов
     double y;
     double spin;
     double x;
+    // число уменьшающее значение всех скоростей в рамки от 1 до -1
     double denominator;
-    double currentAngel;
-    double angleDifference;
+    //значения правого и левого бампера
     double rbump = 0;
     double lbump = 0;
 
@@ -73,10 +80,10 @@ public class WheelBase {
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //        устанавливаем режим моторов
-//        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // устанавливаем установки при подачи 0 питания
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -92,21 +99,15 @@ public class WheelBase {
         phantomIMU.valueGetter();
         phantomIMU.resetHeading();
     }
+    //TODO: сделать двжение вперед без роадраннера
     public void moveForward(double pos){
-        //
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //
 
     }
-    //
+    //TODO: сделать двжение назад без роадраннера
     public void moveBack(double pos){
         moveForward(-pos);
     }
-    //
+    // остановка всех моторов
     public void stopAll(){
         //
         leftBack.setPower(0);
@@ -115,8 +116,8 @@ public class WheelBase {
         rightFront.setPower(0);
     }
 
-    //
-    public void gamepads(Gamepad gamepad1){
+    // считываем значения с геймпадов
+    public void gamepads(@NonNull Gamepad gamepad1){
         //
         if (gamepad1.left_bumper){
             lbump = 0.4;
@@ -144,7 +145,7 @@ public class WheelBase {
         }
     }
 
-    //
+    // движение относительно центра аоля
     public void driveFieldCentric(Gamepad gamepad){
         //  считываем данные с геймпадов
         gamepads(gamepad);
@@ -168,6 +169,7 @@ public class WheelBase {
         rbSpeed = (resultY + resultX - spin) / denominator;
         lfSpeed = (resultY + resultX + spin) / denominator;
         lbSpeed = (resultY - resultX + spin) / denominator;
+        // выводим всю возможную телеметрию
         opMode.telemetry.addData("rbspeed", rbSpeed);
         opMode.telemetry.addData("rfspeed", rfSpeed);
         opMode.telemetry.addData("lbspeed", lbSpeed);
@@ -175,41 +177,26 @@ public class WheelBase {
         opMode.telemetry.addData("denominator", denominator);
         opMode.telemetry.addData("resultY", resultY);
         opMode.telemetry.addData("resultX", resultX);
-        opMode.telemetry.addData("rotation", rotation);
-        opMode.telemetry.addData("heading", currentAngel);
         opMode.telemetry.addData("spin", spin);
-        opMode.telemetry.addData("curr angle", currentAngel);
-        opMode.telemetry.addData("differebce", angleDifference);
         opMode.telemetry.update();
         // Устанавливаем скорость моторам
-        if (rfSpeed > 1 && rfSpeed < -1){
-            rfSpeed = 0;
-        }
-        if (lfSpeed > 1 && lfSpeed < -1){
-            lfSpeed = 0;
-        }
-        if (rbSpeed > 1 && rbSpeed < -1){
-            rbSpeed = 0;
-        }
-        if (lbSpeed > 1 && lbSpeed < -1){
-            lbSpeed = 0;
-        }
-        rightFront.setPower(rfSpeed);
-        rightBack.setPower(rbSpeed);
+        rightFront.setPower(Range.clip(rfSpeed, -1, 1));
+        rightBack.setPower(Range.clip(rbSpeed, -1,1));
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
 
     }
-    // объявляем переменные скоростей
 
 
-    public void driveEasy(Gamepad gamepad) {
-
+    public void driveEasy(Gamepad gamepad)  {
+        //активируем геймпады
         gamepads(gamepad);
+        //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
         rfSpeed = Range.clip(y - spin - x, -1, 1);
         rbSpeed = Range.clip(y - spin + x, -1,1);
         lfSpeed = Range.clip(y + spin + x, -1, 1);
         lbSpeed = Range.clip(y + spin - x, -1,1);
+        // выводим всю возможную телеметрию
         opMode.telemetry.addData("rbspeed", rbSpeed);
         opMode.telemetry.addData("rfspeed", rfSpeed);
         opMode.telemetry.addData("lbspeed", lbSpeed);
@@ -226,9 +213,7 @@ public class WheelBase {
         leftBack.setPower(lbSpeed);
     }
 
-
-
-    }
+}
 
 
 

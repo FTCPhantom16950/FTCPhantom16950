@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.own.Exception.VisionPortalNullException;
 import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -81,7 +82,7 @@ public class PhantomCamera {
      * @param height высота камеры
      * @param width ширина камеры
      */
-    public void startCameraEasy(int height, int width){
+    public void startCameraEasy(int height, int width) throws Exception {
         cameraHeight = height;
         cameraWidth = width;
         if (IsOpenCvTrue && IsAprilTagTrue){
@@ -141,6 +142,10 @@ public class PhantomCamera {
                         .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
+                if (visionPortal == null){
+                    Exception VisionPortalNullException = new VisionPortalNullException();
+                    throw VisionPortalNullException;
+                }
             }
             if(IsOpenCvTrue){
                 math.pipeLine(phantomProcessor);

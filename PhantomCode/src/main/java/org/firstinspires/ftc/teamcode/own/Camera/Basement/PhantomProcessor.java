@@ -20,7 +20,7 @@ public class PhantomProcessor implements VisionProcessor {
     public Rect leftRect = new Rect(30 , 40, 20,10 );
     public Rect rightRect = new Rect(300, 300, 20, 10);
     // значения выбранного прямоугольника
-    Selcted selcted = Selcted.None;
+    Selected selcted = Selected.None;
     /*
     создаём матрицы для будущего использования
     если создавать матрицы внутри processFrame, будет утечка памяти
@@ -58,13 +58,13 @@ public class PhantomProcessor implements VisionProcessor {
             // проверяем значения hue
             // если значение в правом квадрате 122, то выбираем правый
             if (valRight >= 122){
-                return selcted = Selcted.Right;
+                return selcted = Selected.Right;
             // если значение в левои квадрате 122, то выбираем левый
             } else if (valLeft >= 122){
-                return selcted = Selcted.Left;
+                return selcted = Selected.Left;
             // в любом другом случае не выбираем ни один
             } else {
-                return selcted = Selcted.None;
+                return selcted = Selected.None;
             }
         }
         //Метод для считывания цвета внутри прямоугольника
@@ -130,11 +130,7 @@ public class PhantomProcessor implements VisionProcessor {
 
         }
         //список для выбора квадратов
-        public enum Selcted{
-            None,
-            Left,
-            Right
-        }
+
 
     }
 
