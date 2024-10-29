@@ -4,12 +4,16 @@ import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
+
 public final class Drawing {
+    PhantomMath math = new PhantomMath();
+
     private Drawing() {}
 
 
     public static void drawRobot(Canvas c, Pose2d t) {
-        final double ROBOT_RADIUS = 9;
+        final double ROBOT_RADIUS = (double) 370 / 10 / 2.54;
 
         c.setStrokeWidth(1);
         c.strokeCircle(t.position.x, t.position.y, ROBOT_RADIUS);
