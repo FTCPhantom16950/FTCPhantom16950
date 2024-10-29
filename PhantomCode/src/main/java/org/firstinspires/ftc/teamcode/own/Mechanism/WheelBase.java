@@ -147,31 +147,28 @@ public class WheelBase {
 
     //
     public void driveFieldCentric(Gamepad gamepad){
-
         //  считываем данные с геймпадов
         gamepads(gamepad);
-        // Объявляем переменные и гироскоп
-        IMU imu = phantomIMU.imu;
+        if (gamepad.right_stick_button){phantomIMU.imu.resetYaw();}
         // считываем значение изначального направления
-        heading = -phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        heading = phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
-        currentAngel = (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) * 0.01);
-        angleDifference = AngleUnit.normalizeDegrees(currentAngel - spin);
-        rotation = Range.clip(angleDifference * 0.5, -1,1);
-        if (rotation <= 0.01 && rotation >= -0.01){
-            rotation = 0;
-        }
+//        currentAngel = (phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+//        angleDifference = AngleUnit.normalizeDegrees(currentAngel - spin);
+//        rotation = Range.clip(angleDifference * 0.01, -1,1);
+//        if (rotation <= 0.01 && rotation >= -0.01){rotation = 0;}
         // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
-        resultX = x * Math.cos(heading) - y * Math.sin(heading);
-        resultY = x * Math.sin(heading) + y * Math.cos(heading);
+        resultX = x * Math.cos(-heading) - y * Math.sin(-heading);
+        resultY = x * Math.sin(-heading) + y * Math.cos(-heading);
+        resultX = resultX * 1.1;
         // максимальное значение скорости моторов
         denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
         //TODO: поиграться с вектором rotation
-        rfSpeed = (resultY - resultX - rotation) / denominator;
-        rbSpeed = (resultY + resultX - rotation) / denominator;
-        lfSpeed = (resultY + resultX + rotation) / denominator;
-        lbSpeed = (resultY - resultX + rotation) / denominator;
+        rfSpeed = (resultY - resultX - spin) / denominator;
+        rbSpeed = (resultY + resultX - spin) / denominator;
+        lfSpeed = (resultY + resultX + spin) / denominator;
+        lbSpeed = (resultY - resultX + spin) / denominator;
         opMode.telemetry.addData("rbspeed", rbSpeed);
         opMode.telemetry.addData("rfspeed", rfSpeed);
         opMode.telemetry.addData("lbspeed", lbSpeed);
@@ -186,10 +183,23 @@ public class WheelBase {
         opMode.telemetry.addData("differebce", angleDifference);
         opMode.telemetry.update();
         // Устанавливаем скорость моторам
+        if (rfSpeed > 1 && rfSpeed < -1){
+            rfSpeed = 0;
+        }
+        if (lfSpeed > 1 && lfSpeed < -1){
+            lfSpeed = 0;
+        }
+        if (rbSpeed > 1 && rbSpeed < -1){
+            rbSpeed = 0;
+        }
+        if (lbSpeed > 1 && lbSpeed < -1){
+            lbSpeed = 0;
+        }
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
+
     }
     // объявляем переменные скоростей
 
@@ -205,6 +215,10 @@ public class WheelBase {
         opMode.telemetry.addData("rfspeed", rfSpeed);
         opMode.telemetry.addData("lbspeed", lbSpeed);
         opMode.telemetry.addData("lfspeed", lfSpeed);
+        opMode.telemetry.addData("rbtick", rightBack.getCurrentPosition());
+        opMode.telemetry.addData("rftick", rightFront.getCurrentPosition());
+        opMode.telemetry.addData("lbtick", leftBack.getCurrentPosition());
+        opMode.telemetry.addData("lftick", leftFront.getCurrentPosition());
         opMode.telemetry.update();
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
