@@ -131,8 +131,8 @@ public class WheelBase {
             rbump = 0;
         }
             //
-        y = -Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
-        x = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
+        y = -Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x, -1, 1);
+        x = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y, -1, 1);
         spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
         if (x <= 0.1 && x >= -0.1){
             x = 0;
@@ -207,10 +207,10 @@ public class WheelBase {
     public void driveEasy(Gamepad gamepad) {
 
         gamepads(gamepad);
-        rfSpeed = Range.clip(y - spin - x, -1, 1);
-        rbSpeed = Range.clip(y - spin + x, -1,1);
-        lfSpeed = Range.clip(y + spin + x, -1, 1);
-        lbSpeed = Range.clip(y + spin - x, -1,1);
+        rfSpeed = Range.clip(y - spin - x, -1, 1) * 0.2;
+        rbSpeed = Range.clip(y - spin + x, -1,1) * 0.2;
+        lfSpeed = Range.clip(y + spin + x, -1, 1) * 0.2;
+        lbSpeed = Range.clip(y + spin - x, -1,1) * 0.2;
         opMode.telemetry.addData("rbspeed", rbSpeed);
         opMode.telemetry.addData("rfspeed", rfSpeed);
         opMode.telemetry.addData("lbspeed", lbSpeed);
