@@ -30,8 +30,8 @@ public class WheelBase {
     }
     //скорости для моторов
     double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
-    //проекция результируещего вектора на оси и его поворот
-    double resultX, resultY, heading;
+    //проекция результируещего вектора на оси
+    double resultX, resultY;
 
 
     // создаем иму
@@ -100,22 +100,21 @@ public class WheelBase {
         phantomIMU.valueGetter();
         phantomIMU.resetHeading();
     }
-    //TODO: сделать двжение вперед без роадраннера
-    public void moveForward(double pos){
-
-    }
-    //TODO: сделать двжение назад без роадраннера
-    public void moveBack(double pos){
-        moveForward(-pos);
-    }
+//    //TODO: сделать двжение вперед без роадраннера
+//    public void moveForward(double pos){
+//
+//    }
+//    //TODO: сделать двжение назад без роадраннера
+//    public void moveBack(double pos){
+//        moveForward(-pos);
+//    }
     // остановка всех моторов
-    public void stopAll(){
-        //
-        leftBack.setPower(0);
-        leftFront.setPower(0);
-        rightBack.setPower(0);
-        rightFront.setPower(0);
-    }
+/*   public void stopAll(){
+       leftBack.setPower(0);
+       leftFront.setPower(0);
+       rightBack.setPower(0);
+       rightFront.setPower(0);
+    }*/
 
     // считываем значения с геймпадов
     public void gamepads(@NonNull Gamepad gamepad1){
