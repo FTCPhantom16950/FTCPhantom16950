@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
 public class WheelBase {
@@ -149,18 +150,15 @@ public class WheelBase {
     public void driveFieldCentric(Gamepad gamepad){
         //  считываем данные с геймпадов
         gamepads(gamepad);
-        if (gamepad.right_stick_button){phantomIMU.imu.resetYaw();}
         // считываем значение изначального направления
-        heading = phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
 //        currentAngel = (phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 //        angleDifference = AngleUnit.normalizeDegrees(currentAngel - spin);
 //        rotation = Range.clip(angleDifference * 0.01, -1,1);
 //        if (rotation <= 0.01 && rotation >= -0.01){rotation = 0;}
         // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
-        resultX = x * Math.cos(-heading) - y * Math.sin(-heading);
-        resultY = x * Math.sin(-heading) + y * Math.cos(-heading);
-        resultX = resultX * 1.1;
+        resultX = x * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) - y * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        resultY = x * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + y * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
         // максимальное значение скорости моторов
         denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
@@ -178,10 +176,18 @@ public class WheelBase {
         opMode.telemetry.addData("resultY", resultY);
         opMode.telemetry.addData("resultX", resultX);
         opMode.telemetry.addData("spin", spin);
+        opMode.telemetry.addData("rightBack", rightBack.getPower());
+        opMode.telemetry.addData("leftBack", leftBack.getPower());
+        opMode.telemetry.addData("rightFront", rightFront.getPower());
+        opMode.telemetry.addData("leftFront", leftFront.getPower());
+        opMode.telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.update();
         // Устанавливаем скорость моторам
-        rightFront.setPower(Range.clip(rfSpeed, -1, 1));
-        rightBack.setPower(Range.clip(rbSpeed, -1,1));
+        rightFront.setPower(rfSpeed);
+        rightBack.setPower(rbSpeed);
         leftFront.setPower(lfSpeed);
         leftBack.setPower(lbSpeed);
 
@@ -205,6 +211,14 @@ public class WheelBase {
         opMode.telemetry.addData("rftick", rightFront.getCurrentPosition());
         opMode.telemetry.addData("lbtick", leftBack.getCurrentPosition());
         opMode.telemetry.addData("lftick", leftFront.getCurrentPosition());
+        opMode.telemetry.addData("rightBack", rightBack.getPower());
+        opMode.telemetry.addData("leftBack", leftBack.getPower());
+        opMode.telemetry.addData("rightFront", rightFront.getPower());
+        opMode.telemetry.addData("leftFront", leftFront.getPower());
+        opMode.telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.update();
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
