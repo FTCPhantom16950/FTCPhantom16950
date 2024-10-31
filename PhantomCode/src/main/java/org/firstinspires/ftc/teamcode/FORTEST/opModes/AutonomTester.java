@@ -18,7 +18,6 @@ public class AutonomTester extends LinearOpMode {
         timer.reset();
         waitForStart();
         while (opModeIsActive()){
-            wheelBase.moveForward(100);
         }
     }
 }

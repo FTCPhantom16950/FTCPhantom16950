@@ -15,7 +15,6 @@ public class TEST extends LinearOpMode {
     WheelBase wheelBase = new WheelBase(this);
     @Override
     public void runOpMode() throws InterruptedException {
-        imu.initIMU(hardwareMap);
         wheelBase.initWheelBase(hardwareMap);
         waitForStart();
         time.reset();
