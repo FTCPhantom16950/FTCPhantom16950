@@ -82,8 +82,8 @@ public class WheelBase {
 
 //        устанавливаем режим моторов
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // устанавливаем установки при подачи 0 питания
@@ -93,12 +93,11 @@ public class WheelBase {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // устанавливаем направление моторов
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         phantomIMU.initIMU(opMode.hardwareMap);
         phantomIMU.valueGetter();
-        phantomIMU.resetHeading();
     }
 //    //TODO: сделать двжение вперед без роадраннера
 //    public void moveForward(double pos){
@@ -183,6 +182,7 @@ public class WheelBase {
         opMode.telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("CurrAngle", phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         opMode.telemetry.update();
         // Устанавливаем скорость моторам
         rightFront.setPower(rfSpeed);
