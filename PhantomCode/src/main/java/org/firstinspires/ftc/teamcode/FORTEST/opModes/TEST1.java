@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 
-@TeleOp
+@TeleOp(name = "A_TELEOP_BASED")
 public class TEST1 extends LinearOpMode {
     ElapsedTime time = new ElapsedTime();
     LynxModule lynxModule = new LynxModule();
