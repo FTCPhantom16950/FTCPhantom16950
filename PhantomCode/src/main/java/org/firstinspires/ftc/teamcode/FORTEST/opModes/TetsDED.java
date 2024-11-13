@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class TetsDED extends LinearOpMode {
     DcMotor leftF, leftB,rightB,rightF;
     public void  drive_tp(){
-        Thread tmovement = new Thread(() -> {
             float StickX = (gamepad1.right_stick_x);
             float StickY = (gamepad1.right_stick_y);
             float pwrTrigger = (gamepad1.left_trigger);
@@ -58,8 +57,7 @@ public class TetsDED extends LinearOpMode {
                 leftB.setPower(0);
             }
 
-        });
-        tmovement.start();
+
     }
     @Override
     public void runOpMode() throws InterruptedException {

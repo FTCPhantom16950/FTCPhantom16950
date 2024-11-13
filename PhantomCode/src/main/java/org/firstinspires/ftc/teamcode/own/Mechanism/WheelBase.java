@@ -4,9 +4,12 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
@@ -61,8 +64,7 @@ public class WheelBase {
     //значения правого и левого бампера
     double rbump = 0;
     double lbump = 0;
-
-
+    
     /**
      * инициализация всех моторов колесной базы
      * @param hw HardwareMap
@@ -119,12 +121,12 @@ public class WheelBase {
     public void gamepads(@NonNull Gamepad gamepad1){
         //
         if (gamepad1.left_bumper){
-            lbump = 0.4;
+            lbump = 0.3;
         } else{
             lbump = 0;
         }
         if (gamepad1.right_bumper){
-            rbump = 0.4;
+            rbump = 0.3;
         }
         else{
             rbump = 0;
@@ -132,7 +134,7 @@ public class WheelBase {
             //
         y = -Range.clip(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4, -1, 1);
         x = Range.clip(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.4, -1, 1);
-        spin = Range.clip(gamepad1.right_trigger - gamepad1.left_trigger + rbump - lbump, -1, 1);
+        spin = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger - rbump + lbump, -1, 1);
         if (x <= 0.1 && x >= -0.1){
             x = 0;
         }
@@ -197,10 +199,10 @@ public class WheelBase {
         //активируем геймпады
         gamepads(gamepad);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        rfSpeed = Range.clip(y - spin - x, -1, 1);
-        rbSpeed = Range.clip(y - spin + x, -1,1);
-        lfSpeed = Range.clip(y + spin + x, -1, 1);
-        lbSpeed = Range.clip(y + spin - x, -1,1);
+        rfSpeed = (y - spin - x);
+        rbSpeed = (y - spin + x);
+        lfSpeed = (y + spin + x);
+        lbSpeed = (y + spin - x);
         // выводим всю возможную телеметрию
         opMode.telemetry.addData("rbspeed", rbSpeed);
         opMode.telemetry.addData("rfspeed", rfSpeed);
