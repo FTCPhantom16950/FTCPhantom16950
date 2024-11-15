@@ -4,12 +4,9 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
@@ -162,7 +159,6 @@ public class WheelBase {
         // максимальное значение скорости моторов
         denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        //TODO: поиграться с вектором rotation
         rfSpeed = (resultY - resultX - spin) / denominator;
         rbSpeed = (resultY + resultX - spin) / denominator;
         lfSpeed = (resultY + resultX + spin) / denominator;

@@ -51,7 +51,7 @@ combined vectors' magnitude is equal to 1. If all vectors are able to be applied
 the power limit, then all the vectors can just be applied without issue.
 
 ### Centripetal Force Correction
-Have you ever noticed that your robot seems to want to swing outwards when taking corners? This is
+Have you ever noticeod that your robot seems to want t swing outwards when taking corners? This is
 due to a lack of centripetal force correction. In order to take curves effectively, your robot must
 accelerate towards the inside of the curve. If we can approximate the region of the path the robot
 is at with a circle, then we can use the formula for centripetal force to calculate how much power
