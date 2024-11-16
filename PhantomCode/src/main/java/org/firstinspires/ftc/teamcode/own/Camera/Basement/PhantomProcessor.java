@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -14,20 +15,40 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class PhantomProcessor implements VisionProcessor {
+    Telemetry telemetry;
+
+    public PhantomProcessor(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
+
+    // объявляем константы для левого прямоугольника
+    private static final int LEFT_RECT_X = 30;
+    private static final int LEFT_RECT_Y = 40;
+    private static final int LEFT_RECT_WIDTH = 20;
+    private static final int LEFT_RECT_HEIGHT = 10;
+    // объявляем константы для правого прямоугольника
+    private static final int RIGHT_RECT_X = 300;
+    private static final int RIGHT_RECT_Y = 300;
+    private static final int RIGHT_RECT_WIDTH = 20;
+    private static final int RIGHT_RECT_HEIGHT = 10;
+    public int blockSize = 777;
+    public double C = 25;
+    public double max_value = 255;
+
     // значения правого и левого прямоугольника
-    public int valLeft, valRight;
-    // размеры и координаты прямоугольников на экране
-    public Rect leftRect = new Rect(30 , 40, 20,10 );
-    public Rect rightRect = new Rect(300, 300, 20, 10);
+    private int valLeft, valRight;
+    private Rect leftRect;
+    private Rect rightRect;
     // значения выбранного прямоугольника
-    Selected selcted = Selected.None;
+    private Selected selcted = Selected.None;
     /*
     создаём матрицы для будущего использования
     если создавать матрицы внутри processFrame, будет утечка памяти
      */
-    Mat yCbCrChan2Mat = new Mat();
-    Mat submat = new Mat();
-
+    // создаем матрицу для черно-белого изображения
+    private Mat yCbCrChan2Mat;
+    // создаем дополнительую матрицу для обработки
+    private Mat submat ;
 
     /**
      * метод инициализации, значения устанавливаются при запуске visionportal
@@ -37,8 +58,13 @@ public class PhantomProcessor implements VisionProcessor {
      */
         @Override
         public void init(int width, int height, CameraCalibration calibration) {
+            // создаем объект левого прямоугольника
+            leftRect = new Rect(LEFT_RECT_X , LEFT_RECT_Y, LEFT_RECT_WIDTH,LEFT_RECT_HEIGHT);
+            // создаем объект правого прямоугольника
+            rightRect = new Rect(RIGHT_RECT_X, RIGHT_RECT_Y, RIGHT_RECT_WIDTH, RIGHT_RECT_HEIGHT);
+            submat = new Mat();
+            yCbCrChan2Mat = new Mat();
         }
-
 
     /**
      * обработчик кадров
@@ -47,25 +73,32 @@ public class PhantomProcessor implements VisionProcessor {
      * @return возвращает выбор одного из двух прямоугольников, у которого больше значение value
      */
     @Override
-        public Object processFrame(Mat input, long captureTimeNanos) {
-            // конвертируем матрицы из одного формата в дргой
-            Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
-            Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 120, 255, Imgproc.THRESH_BINARY_INV);
-            Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
-            // считываем значения в квадратах
-            valLeft = getAverageValue(input, leftRect);
-            valRight = getAverageValue(input, rightRect);
-            // проверяем значения hue
-            // если значение в правом квадрате 122, то выбираем правый
-            if (valRight >= 122){
-                return selcted = Selected.Right;
+    public Object processFrame(Mat input, long captureTimeNanos) {
+        // конвертируем матрицы из одного формата в дргой
+        Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
+        // преобразуем из серого в ч/б формат
+        Imgproc.adaptiveThreshold(yCbCrChan2Mat, yCbCrChan2Mat, max_value, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, blockSize,C);
+        // преобразуем картинку назад в RGB
+        Imgproc.cvtColor(yCbCrChan2Mat, yCbCrChan2Mat, Imgproc.COLOR_GRAY2RGB);
+        // считываем значения в квадратах
+        valLeft = getAverageValue(yCbCrChan2Mat, leftRect);
+        valRight = getAverageValue(yCbCrChan2Mat, rightRect);
+        telemetry.addData("left", valLeft);
+        telemetry.addData("right", valRight);
+        telemetry.update();
+
+        // проверяем значения hue
+        // если значение в правом квадрате 122, то выбираем правый
+        if (valRight >= 122){
+            return selcted = Selected.Right;
             // если значение в левои квадрате 122, то выбираем левый
-            } else if (valLeft >= 122){
-                return selcted = Selected.Left;
+        } else if (valLeft >= 122){
+            return selcted = Selected.Left;
             // в любом другом случае не выбираем ни один
-            } else {
+        } else {
                 return selcted = Selected.None;
             }
+
         }
         //Метод для считывания цвета внутри прямоугольника
         protected int getAverageValue(Mat input, Rect rect){
@@ -98,16 +131,15 @@ public class PhantomProcessor implements VisionProcessor {
             //создаем обЪект стиля квалратов
             Paint rectPaint = new Paint();
             // указываем цвет
-            rectPaint.setColor(Color.YELLOW);
+            rectPaint.setColor(Color.BLUE);
             // указываем заполненность
             rectPaint.setStyle(Paint.Style.STROKE);
             // указываем ширину стенок
             rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
-
-            Paint nobselectedpaint = new Paint();
-            nobselectedpaint.setColor(Color.GRAY);
-            nobselectedpaint.setStyle(Paint.Style.STROKE);
-            nobselectedpaint.setStrokeWidth(scaleCanvasDensity * 4);
+            Paint unselectedPaint = new Paint();
+            unselectedPaint.setColor(Color.GRAY);
+            unselectedPaint.setStyle(Paint.Style.STROKE);
+            unselectedPaint.setStrokeWidth(scaleCanvasDensity * 4);
             // создаем прямоугольник
             android.graphics.Rect drawRectRight = makeRectangle(rightRect, scaleBmpPxToCanvasPx);
             android.graphics.Rect drawRectLeft = makeRectangle(leftRect, scaleBmpPxToCanvasPx);
@@ -115,22 +147,27 @@ public class PhantomProcessor implements VisionProcessor {
             switch (selcted){
                 case None:
                     // отрисовываем прямоугольники
-                    canvas.drawRect(drawRectLeft, nobselectedpaint);
-                    canvas.drawRect(drawRectRight, nobselectedpaint);
+                    canvas.drawRect(drawRectLeft, unselectedPaint);
+                    canvas.drawRect(drawRectRight, unselectedPaint);
                     break;
                 case Left:
                     canvas.drawRect(drawRectLeft, rectPaint);
-                    canvas.drawRect(drawRectRight,nobselectedpaint);
+                    canvas.drawRect(drawRectRight,unselectedPaint);
                     break;
                 case Right:
-                    canvas.drawRect(drawRectLeft, nobselectedpaint);
+                    canvas.drawRect(drawRectLeft, unselectedPaint);
                     canvas.drawRect(drawRectRight, rectPaint);
                     break;
             }
-
         }
-        //список для выбора квадратов
+        // геттеры для получения значений цвета
+        public int getValLeft() {
+            return valLeft;
+        }
 
+        public int getValRight() {
+            return valRight;
+        }
 
     }
 

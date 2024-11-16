@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.FORTEST;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.I2cDevice;
 
 
 //TODO: одометры стоящие параллельно вставлять в 1 и 3 слоты моторов

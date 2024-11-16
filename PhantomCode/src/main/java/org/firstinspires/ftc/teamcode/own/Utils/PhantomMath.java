@@ -14,8 +14,8 @@ public class PhantomMath {
      */
     public void pipeLine(PhantomProcessor cameraReworked) {
         // получаем данные из процессора
-        int valLeft = cameraReworked.valLeft;
-        int valRight = cameraReworked.valRight;
+        int valLeft = cameraReworked.getValLeft();
+        int valRight = cameraReworked.getValRight();
         // проверяем значения цвета, если больше половины то получаем true, если меньше то false
         leftPose = valLeft >= 122;
         rightPose = valRight >= 122;

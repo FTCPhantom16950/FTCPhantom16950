@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Camera;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.own.Exception.VisionPortalNullException;
 import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -17,9 +13,6 @@ import java.util.List;
 
 
 public class PhantomCamera {
-    LinearOpMode opMode;
-    PhantomMath math = new PhantomMath();
-
     WebcamName firstWebcamName;
     BuiltinCameraDirection rotation;
     boolean UsingCamera;
@@ -41,6 +34,7 @@ public class PhantomCamera {
     public PhantomProcessor phantomProcessor;
     public boolean lp, rp;
     List<AprilTagDetection> detections;
+    private double left_rect, right_rect;
 
 
     /**
@@ -92,7 +86,6 @@ public class PhantomCamera {
                         .addProcessors(aprilTagProcessor, phantomProcessor)
                         .setCamera(firstWebcamName)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
             } else {
@@ -100,7 +93,6 @@ public class PhantomCamera {
                         .addProcessors(aprilTagProcessor, phantomProcessor)
                         .setCamera(rotation)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
             }
@@ -112,7 +104,6 @@ public class PhantomCamera {
                         .addProcessors(phantomProcessor)
                         .setCamera(firstWebcamName)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
             } else {
@@ -120,7 +111,6 @@ public class PhantomCamera {
                         .addProcessors(phantomProcessor)
                         .setCamera(rotation)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
             }
@@ -131,7 +121,6 @@ public class PhantomCamera {
                         .addProcessors(aprilTagProcessor)
                         .setCamera(firstWebcamName)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
             } else {
@@ -139,18 +128,24 @@ public class PhantomCamera {
                         .addProcessors(aprilTagProcessor)
                         .setCamera(rotation)
                         .enableLiveView(true)
-                        .setAutoStartStreamOnBuild(true)
                         .setAutoStopLiveView(true)
                         .build();
-                if (visionPortal == null){
-                    Exception VisionPortalNullException = new VisionPortalNullException();
-                    throw VisionPortalNullException;
-                }
+
+
             }
             if(IsOpenCvTrue){
-                math.pipeLine(phantomProcessor);
-                lp = math.leftPose;
-                rp = math.rightPose;
+                left_rect = phantomProcessor.getValLeft();
+                right_rect = phantomProcessor.getValRight();
+                if (left_rect >= 122){
+                    lp = true;
+                } else {
+                    lp = false;
+                }
+                if (right_rect >= 122){
+                    rp = true;
+                } else {
+                    rp = false;
+                }
             }
         }
 
