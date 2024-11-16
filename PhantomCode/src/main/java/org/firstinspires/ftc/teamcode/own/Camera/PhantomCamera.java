@@ -18,20 +18,18 @@ public class PhantomCamera {
     boolean UsingCamera;
     boolean IsOpenCvTrue;
     boolean IsAprilTagTrue;
-
-    int cameraHeight = 640;
-    int cameraWidth = 480;
+    double x, y, z, heading;
+    int cameraHeight;
+    int cameraWidth;
 
 
 
     private VisionPortal visionPortal;
     public final AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
-            .setDrawAxes(true)
-            .setDrawTagID(true)
-            .setDrawCubeProjection(true)
             .setOutputUnits(DistanceUnit.MM, AngleUnit.DEGREES)
             .build();
-    public PhantomProcessor phantomProcessor;
+
+    public PhantomProcessor phantomProcessor = new PhantomProcessor();
     public boolean lp, rp;
     List<AprilTagDetection> detections;
     private double left_rect, right_rect;
@@ -76,11 +74,16 @@ public class PhantomCamera {
      * @param height высота камеры
      * @param width ширина камеры
      */
-    public void startCameraEasy(int height, int width) throws Exception {
+    public void startCameraEasy(int height, int width) {
         cameraHeight = height;
         cameraWidth = width;
+        if (IsAprilTagTrue){
+            aprilTagProcessor.setDecimation(2);
+        }
+        if (IsOpenCvTrue){
+            phantomProcessor.init(cameraWidth, cameraHeight, null);
+        }
         if (IsOpenCvTrue && IsAprilTagTrue){
-            detections = aprilTagProcessor.getDetections();
             if (UsingCamera){
                 visionPortal = new VisionPortal.Builder()
                         .addProcessors(aprilTagProcessor, phantomProcessor)
@@ -98,7 +101,7 @@ public class PhantomCamera {
             }
 
         } else if (IsOpenCvTrue) {
-            detections = aprilTagProcessor.getDetections();
+
             if (UsingCamera){
                 visionPortal = new VisionPortal.Builder()
                         .addProcessors(phantomProcessor)
@@ -115,7 +118,7 @@ public class PhantomCamera {
                         .build();
             }
         } else if (IsAprilTagTrue) {
-            detections = aprilTagProcessor.getDetections();
+
             if (UsingCamera){
                 visionPortal = new VisionPortal.Builder()
                         .addProcessors(aprilTagProcessor)
@@ -148,7 +151,17 @@ public class PhantomCamera {
                 }
             }
         }
-
+    }
+    public void aprilTagDetection(){
+        if (IsAprilTagTrue){
+            detections = aprilTagProcessor.getDetections();
+            for (AprilTagDetection detection : detections) {
+                x = detection.ftcPose.x;
+                y = detection.ftcPose.y;
+                z = detection.ftcPose.z;
+                heading = detection.ftcPose.yaw;
+            }
+        }
     }
     public void stopCameraEasy(){
         visionPortal.stopStreaming();

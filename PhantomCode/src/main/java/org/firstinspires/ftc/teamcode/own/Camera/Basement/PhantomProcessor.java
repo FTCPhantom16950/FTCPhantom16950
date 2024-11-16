@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -15,11 +14,11 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class PhantomProcessor implements VisionProcessor {
-    Telemetry telemetry;
-
-    public PhantomProcessor(Telemetry telemetry) {
-        this.telemetry = telemetry;
-    }
+//    Telemetry telemetry;
+//
+//    public PhantomProcessor(Telemetry telemetry) {
+//        this.telemetry = telemetry;
+//    }
 
     // объявляем константы для левого прямоугольника
     private static final int LEFT_RECT_X = 30;
@@ -83,9 +82,9 @@ public class PhantomProcessor implements VisionProcessor {
         // считываем значения в квадратах
         valLeft = getAverageValue(yCbCrChan2Mat, leftRect);
         valRight = getAverageValue(yCbCrChan2Mat, rightRect);
-        telemetry.addData("left", valLeft);
-        telemetry.addData("right", valRight);
-        telemetry.update();
+//        telemetry.addData("left", valLeft);
+//        telemetry.addData("right", valRight);
+//        telemetry.update();
 
         // проверяем значения hue
         // если значение в правом квадрате 122, то выбираем правый
