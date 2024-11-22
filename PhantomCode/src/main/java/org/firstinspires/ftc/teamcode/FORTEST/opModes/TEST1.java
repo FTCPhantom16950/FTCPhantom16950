@@ -9,12 +9,14 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 
+
 @TeleOp(name = "A_TELEOP_BASED")
 public class TEST1 extends LinearOpMode {
     ElapsedTime time = new ElapsedTime();
     LynxModule lynxModule = new LynxModule();
     WheelBase wheelBase = new WheelBase(this);
     HorizontSlider horizontSlider = new HorizontSlider(this);
+
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);

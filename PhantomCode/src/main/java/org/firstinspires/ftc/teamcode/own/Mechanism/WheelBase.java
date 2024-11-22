@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
 public class WheelBase {
+
     /*
     ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
      */
@@ -163,25 +164,7 @@ public class WheelBase {
         rbSpeed = (resultY + resultX - spin) / denominator;
         lfSpeed = (resultY + resultX + spin) / denominator;
         lbSpeed = (resultY - resultX + spin) / denominator;
-        // выводим всю возможную телеметрию
-        opMode.telemetry.addData("rbspeed", rbSpeed);
-        opMode.telemetry.addData("rfspeed", rfSpeed);
-        opMode.telemetry.addData("lbspeed", lbSpeed);
-        opMode.telemetry.addData("lfspeed", lfSpeed);
-        opMode.telemetry.addData("denominator", denominator);
-        opMode.telemetry.addData("resultY", resultY);
-        opMode.telemetry.addData("resultX", resultX);
-        opMode.telemetry.addData("spin", spin);
-        opMode.telemetry.addData("rightBack", rightBack.getPower());
-        opMode.telemetry.addData("leftBack", leftBack.getPower());
-        opMode.telemetry.addData("rightFront", rightFront.getPower());
-        opMode.telemetry.addData("leftFront", leftFront.getPower());
-        opMode.telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("CurrAngle", phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        opMode.telemetry.update();
+
         // Устанавливаем скорость моторам
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);
