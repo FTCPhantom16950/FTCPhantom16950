@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Exception.HubDisconnectionError;
@@ -7,10 +8,16 @@ import org.firstinspires.ftc.teamcode.own.Exception.HubDisconnectionError;
 import java.util.List;
 /// Класс для работы с Lynx модулем, отвечающим за связь между моторами/контроллерами/датчиками и т.п
 public class LynxModule {
-    public void init_Lynx(HardwareMap hardwareMap){
+    LinearOpMode opMode;
+
+    public LynxModule(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
+    public void init_Lynx(){
         try {
             // Создаем список всех механизмов связанных с Lynx модулем
-            List<com.qualcomm.hardware.lynx.LynxModule> allHubs = hardwareMap.getAll(com.qualcomm.hardware.lynx.LynxModule.class);
+            List<com.qualcomm.hardware.lynx.LynxModule> allHubs = opMode.hardwareMap.getAll(com.qualcomm.hardware.lynx.LynxModule.class);
             // Для каждого из них устанавливаем авто режим
             /*
             РЕЖИМЫ:

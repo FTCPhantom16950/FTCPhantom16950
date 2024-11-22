@@ -3,15 +3,14 @@ package org.firstinspires.ftc.teamcode.own.Mechanism
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.CRServo
 
-class Zaxvat(opmode: LinearOpMode) {
-    val zx: CRServo = opmode.hardwareMap.get(CRServo::class.java, "zx")
-    val krut: CRServo = opmode.hardwareMap.get(CRServo::class.java, "krut")
-    val opmode: LinearOpMode = opmode
-    val zx_start_power = 0.0
-    val krut_start_power = 0.0
-    val zx_power = 0.1
-    val krut_skid = -1.0
-    var i = 0
+class Zaxvat(private val opmode: LinearOpMode) {
+    private val zx: CRServo = opmode.hardwareMap.get(CRServo::class.java, "zx")
+    private val krut: CRServo = opmode.hardwareMap.get(CRServo::class.java, "krut")
+    private val zx_start_power = 0.0
+    private val krut_start_power = 0.0
+    private val zx_power = 0.1
+    private  val krut_skid = -1.0
+    private var i = 0
     fun init(){
         zx.power = zx_start_power
         krut.power = krut_start_power

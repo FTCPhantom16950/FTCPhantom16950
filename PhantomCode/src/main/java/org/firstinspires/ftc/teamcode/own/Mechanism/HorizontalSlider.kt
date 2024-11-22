@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.own.Mechanism
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.CRServo
 
-class HorizontalSlider(opMode: LinearOpMode){
-    val opMode = opMode
-    val sL = opMode.hardwareMap.get(CRServo::class.java, "horL")
-    val sR = opMode.hardwareMap.get(CRServo::class.java, "horR")
-    var i = 0.0
-    var sl_power = 0.0
-    var sr_power = 0.0
+class HorizontalSlider(private val opMode: LinearOpMode){
+    private val sL = opMode.hardwareMap.get(CRServo::class.java, "horL")
+    private val sR = opMode.hardwareMap.get(CRServo::class.java, "horR")
+    private var i = 0.0
+    private var sl_power = 0.0
+    private var sr_power = 0.0
 
     fun init(){
         sL.power = sl_power
