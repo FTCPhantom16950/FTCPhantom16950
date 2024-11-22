@@ -18,7 +18,7 @@ class Zaxvat(opmode: LinearOpMode) {
     }
     fun run(){
 
-        if(opmode.gamepad1.x){
+        if(opmode.gamepad2.x){
             i += 1
         }
 
@@ -29,10 +29,10 @@ class Zaxvat(opmode: LinearOpMode) {
             zx.power = zx_power
         }
 
-        if(opmode.gamepad1.dpad_up){
+        if(opmode.gamepad2.dpad_up){
             krut.power = krut_skid
         }
-        else if(opmode.gamepad1.dpad_down){
+        else if(opmode.gamepad2.dpad_down){
             krut.power = krut_start_power
         }
     }
