@@ -4,14 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.CRServo
 
 class Zaxvat(private val opmode: LinearOpMode) {
-    private val zx: CRServo = opmode.hardwareMap.get(CRServo::class.java, "zx")
-    private val krut: CRServo = opmode.hardwareMap.get(CRServo::class.java, "krut")
+    private val zx: CRServo
+    private val krut: CRServo
     private val zx_start_power = 0.0
     private val krut_start_power = 0.0
     private val zx_power = 0.1
     private  val krut_skid = -1.0
     private var i = 0
     fun init(){
+        zx = opmode.hardwareMap.get(CRServo::class.java, "zx")
+        krut = opmode.hardwareMap.get(CRServo::class.java, "krut")
         zx.power = zx_start_power
         krut.power = krut_start_power
     }
