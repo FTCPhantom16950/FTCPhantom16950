@@ -19,7 +19,7 @@ class Zaxvat(private val opmode: LinearOpMode) {
     }
     fun run(){
 
-        if(opmode.gamepad2.left_bumper){
+        if(opmode.gamepad2.b){
             i += 1
         }
 

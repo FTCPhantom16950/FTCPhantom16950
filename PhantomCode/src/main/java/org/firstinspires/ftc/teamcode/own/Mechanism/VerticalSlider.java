@@ -5,11 +5,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 public class VerticalSlider {
     LinearOpMode opMode;
+    boolean AUTOMODE;
     HardwareMap hw;
-    public VerticalSlider(LinearOpMode opMode){
+    public VerticalSlider(LinearOpMode opMode, boolean a){
+        this.AUTOMODE = a;
         this.opMode = opMode;
         hw = opMode.hardwareMap;
     }
@@ -50,5 +53,17 @@ public class VerticalSlider {
         } else {
             RunPowers[0] = 0.01;
         }
+
+        if(opMode.gamepad2.dpad_right){
+            RunPowers[2] = Range.clip(RunPowers[2] + 0.02, -1,1);
+        } else if (opMode.gamepad2.dpad_left) {
+            RunPowers[2] = Range.clip( RunPowers[2] -0.02, -1,1);
+        }
+        if(opMode.gamepad2.left_bumper){
+            RunPowers[1] = Range.clip(RunPowers[1] - 0.02,-1,1);
+        } else if (opMode.gamepad2.right_bumper) {
+            RunPowers[1] = Range.clip(RunPowers[1] + 0.02,-1,1);
+        }
+
     }
 }
