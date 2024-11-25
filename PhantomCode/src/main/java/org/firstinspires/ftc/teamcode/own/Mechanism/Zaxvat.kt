@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.CRServo
 
 class Zaxvat(private val opmode: LinearOpMode) {
-    private val zx: CRServo
-    private val krut: CRServo
+    lateinit var zx: CRServo
+    lateinit var krut: CRServo
     private val zx_start_power = 0.0
     private val krut_start_power = 0.0
     private val zx_power = 0.1
@@ -19,7 +19,7 @@ class Zaxvat(private val opmode: LinearOpMode) {
     }
     fun run(){
 
-        if(opmode.gamepad2.x){
+        if(opmode.gamepad2.left_bumper){
             i += 1
         }
 
