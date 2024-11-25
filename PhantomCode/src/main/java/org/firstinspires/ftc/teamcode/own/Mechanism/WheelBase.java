@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,6 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
 public class WheelBase {
@@ -27,6 +29,7 @@ public class WheelBase {
 
     // конструктор для получения режима
     public WheelBase(LinearOpMode opMode) {
+        this.gamepad1 = opMode.gamepad1;
         this.opMode = opMode;
     }
     //скорости для моторов
@@ -50,6 +53,7 @@ public class WheelBase {
     pos1, pos2 - энкодеры стоящие для прямого движения, параллельны обычным колесам
     pos3 - энкодер, перпендикулярный обычным колесам, движение вбок
      */
+    Config config = new Config();
 
     // объявляем моторы через MotorEx
 
@@ -62,7 +66,7 @@ public class WheelBase {
     //значения правого и левого бампера
     double rbump = 0;
     double lbump = 0;
-    
+    Gamepad gamepad1;
     /**
      * инициализация всех моторов колесной базы
      * @param hw HardwareMap
@@ -116,7 +120,8 @@ public class WheelBase {
     }*/
 
     // считываем значения с геймпадов
-    public void gamepads(@NonNull Gamepad gamepad1){
+    public void gamepads(){
+        gamepad1 = opMode.gamepad1;
         //
         if (gamepad1.left_bumper){
             lbump = 0.3;
@@ -145,9 +150,9 @@ public class WheelBase {
     }
 
     // движение относительно центра аоля
-    public void driveFieldCentric(Gamepad gamepad){
+    public void driveFieldCentric(){
         //  считываем данные с геймпадов
-        gamepads(gamepad);
+        gamepads();
         // считываем значение изначального направления
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
 //        currentAngel = (phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
@@ -244,9 +249,9 @@ public class WheelBase {
     }
 
 
-    public void driveEasy(Gamepad gamepad)  {
+    public void driveEasy()  {
         //активируем геймпады
-        gamepads(gamepad);
+        gamepads();
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
         rfSpeed = (y - spin - x);
         rbSpeed = (y - spin + x);

@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zaxvat
 
-@TeleOp(name = "A_TELEOP_BASED")
-class MAIN_TELEOP: LinearOpMode() {
+@TeleOp
+class MAIN_TELEOP_Kt: LinearOpMode() {
     val bool = true
     val time = ElapsedTime()
     val lynxModule = LynxModule(this)
@@ -21,13 +21,13 @@ class MAIN_TELEOP: LinearOpMode() {
         horizontalSlider.init()
         zaxvat.init()
         waitForStart()
-        time.reset()
+
         while(opModeIsActive()){
             if (bool == true){
-                wheelBase.driveEasy(this.gamepad1)
+                wheelBase.driveEasy()
             }
             else{
-                wheelBase.driveFieldCentric(this.gamepad1)
+                wheelBase.driveFieldCentric()
             }
             zaxvat.run()
             horizontalSlider.run()
