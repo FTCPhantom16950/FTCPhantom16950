@@ -18,7 +18,7 @@ public class TEST extends LinearOpMode {
         waitForStart();
         time.reset();
         while(opModeIsActive()){
-            wheelBase.driveFieldCentric(gamepad1);
+            wheelBase.driveFieldCentric();
         }
     }
 }
