@@ -18,15 +18,16 @@ public class Zx extends Thread {
         this.opMode = opMode;
         hw = opMode.hardwareMap;
     }
-    private double krut_start_power = 0.0, zx_start_power = 0;
-    private double zx_power = 0.1;
-    private  double krut_skid = -1.0;
+    private final double krut_start_power = 0.0;
+    private final double zx_start_power = 0;
+    private final double zx_power = 0.1;
+    private final double krut_skid = -1.0;
     private int i = 0;
 
 
     public void init(){
-        zx = hw.get(CRServo.class, "zx");
-        krut= hw.get(CRServo.class, "krut");
+        zx = opMode.hardwareMap.get(CRServo.class, "zx");
+        krut= opMode.hardwareMap.get(CRServo.class, "krut");
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
     }

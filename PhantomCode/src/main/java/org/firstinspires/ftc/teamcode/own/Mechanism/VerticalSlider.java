@@ -29,9 +29,9 @@ public class VerticalSlider extends Thread{
     double[] RunPowers = StartPowers;
 
     public void init(){
-        pod = hw.get(DcMotorEx.class,"pod");
-        klesh = hw.get(CRServo.class, "klesh");
-        vrash = hw.get(CRServo.class, "vrash");
+        pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
+        klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
+        vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
         pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(StartPowers[0]);

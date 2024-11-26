@@ -14,8 +14,8 @@ public class HorizontSlider extends Thread {
     }
     double startLeftPower = 0, startRightPower = 0, i = 0, sl_power, sr_power;
     public void init() {
-        sL = hw.get(CRServo.class, "horL");
-        sR = hw.get(CRServo.class, "horR");
+        sL = opMode.hardwareMap.get(CRServo.class, "horL");
+        sR = opMode.hardwareMap.get(CRServo.class, "horR");
         sL.setPower(startLeftPower);
         sR.setPower(startRightPower);
     }
