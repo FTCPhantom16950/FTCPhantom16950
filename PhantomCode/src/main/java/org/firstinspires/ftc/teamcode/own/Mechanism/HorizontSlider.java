@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class HorizontSlider {
+public class HorizontSlider extends Thread {
     LinearOpMode opMode;
     CRServo sL, sR;
     HardwareMap hw;
@@ -19,6 +19,7 @@ public class HorizontSlider {
         sL.setPower(startLeftPower);
         sR.setPower(startRightPower);
     }
+    @Override
     public void run(){
         sl_power = i;
         sr_power = -i;

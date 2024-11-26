@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
-public class WheelBase {
+public class WheelBase{
 
     /*
     ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ

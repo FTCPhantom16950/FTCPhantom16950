@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 
-public class VerticalSlider {
+public class VerticalSlider extends Thread{
     Config config = new Config();
     LinearOpMode opMode;
     boolean AUTOMODE;
@@ -39,6 +39,7 @@ public class VerticalSlider {
         vrash.setPower(StartPowers[2]);
     }
 
+    @Override
     public void run(){
         AUTOMODE = config.isAUTOMODE();
         lasti = i;

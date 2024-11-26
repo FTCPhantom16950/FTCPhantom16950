@@ -29,9 +29,9 @@ class Zaxvat(private val opmode: LinearOpMode) {
             zx.power = zx_power
         }
 
-        if (opmode.gamepad2.dpad_up) {
+        if (opmode.gamepad2.y) {
             krut.power = krut_skid
-        } else if (opmode.gamepad2.dpad_down) {
+        } else if (opmode.gamepad2.a) {
             krut.power = krut_start_power
         }
     }

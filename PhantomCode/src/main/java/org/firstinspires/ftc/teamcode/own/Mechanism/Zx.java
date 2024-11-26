@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 
 import java.io.LineNumberReader;
 
-public class Zx {
+public class Zx extends Thread {
     Config config = new Config();
     LinearOpMode opMode;
     CRServo zx, krut;
@@ -30,7 +30,7 @@ public class Zx {
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
     }
-
+    @Override
     public void run(){
         AUTOMODE = config.isAUTOMODE();
 
