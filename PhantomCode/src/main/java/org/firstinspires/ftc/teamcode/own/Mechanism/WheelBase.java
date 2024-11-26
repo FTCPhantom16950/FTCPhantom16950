@@ -122,6 +122,10 @@ public class WheelBase {
     // считываем значения с геймпадов
     public void gamepads(){
         gamepad1 = opMode.gamepad1;
+        if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
+            config.setAUTOMODE(!config.isAUTOMODE());
+
+        }
         //
         if (gamepad1.left_bumper){
             lbump = 0.3;

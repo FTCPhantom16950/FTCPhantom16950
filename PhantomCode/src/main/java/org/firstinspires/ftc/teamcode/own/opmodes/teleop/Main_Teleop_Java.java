@@ -20,8 +20,8 @@ public class Main_Teleop_Java extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     HorizontSlider horizontSlider = new HorizontSlider(this);
     LynxModule lynxModule = new LynxModule(this);
-    VerticalSlider verticalSlider  = new VerticalSlider(this, config.AUTOMODE);
-    Zx zaxvat = new Zx(this, config.AUTOMODE);
+    VerticalSlider verticalSlider  = new VerticalSlider(this);
+    Zx zaxvat = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
     @Override
     public void runOpMode() throws InterruptedException {
