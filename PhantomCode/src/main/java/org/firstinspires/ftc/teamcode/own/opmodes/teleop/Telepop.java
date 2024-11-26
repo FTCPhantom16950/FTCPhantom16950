@@ -18,7 +18,7 @@ public class Telepop extends LinearOpMode {
         servo4.setPower(0);
         waitForStart();
         if (opModeIsActive()){
-
+//
         }
     }
 }
