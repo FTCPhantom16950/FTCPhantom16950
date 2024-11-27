@@ -10,10 +10,11 @@ public class HorizontSlider extends Thread {
     HardwareMap hw;
     public HorizontSlider(LinearOpMode opMode){
         this.opMode = opMode;
-        hw = opMode.hardwareMap;
+
     }
     double startLeftPower = 0, startRightPower = 0, i = 0, sl_power, sr_power;
     public void init() {
+        hw = opMode.hardwareMap;
         sL = opMode.hardwareMap.get(CRServo.class, "horL");
         sR = opMode.hardwareMap.get(CRServo.class, "horR");
         sL.setPower(startLeftPower);
