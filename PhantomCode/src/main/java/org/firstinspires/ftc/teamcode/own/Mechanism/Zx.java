@@ -16,7 +16,7 @@ public class Zx extends Thread {
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
         this.opMode = opMode;
-        hw = opMode.hardwareMap;
+        
     }
     private final double krut_start_power = 0.0;
     private final double zx_start_power = 0;
@@ -26,6 +26,7 @@ public class Zx extends Thread {
 
 
     public void init(){
+hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
         krut= opMode.hardwareMap.get(CRServo.class, "krut");
         zx.setPower(zx_start_power);
