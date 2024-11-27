@@ -65,14 +65,15 @@ public class VerticalSlider extends Thread{
 
         if(opMode.gamepad2.dpad_right && !AUTOMODE){
             RunPowers[2] = Range.clip(RunPowers[2] + 0.02, -1,1);
-        } else if (opMode.gamepad2.dpad_left) {
+        } else if (opMode.gamepad2.dpad_left && !AUTOMODE) {
             RunPowers[2] = Range.clip( RunPowers[2] -0.02, -1,1);
         }
-        if(opMode.gamepad2.left_bumper && !AUTOMODE){
+        // открытие
+        if(opMode.gamepad2.left_bumper && AUTOMODE){
             RunPowers[1] = Range.clip(RunPowers[1] - 0.02,-1,1);
-        } else if (opMode.gamepad2.right_bumper && !AUTOMODE) {
+        } else if (opMode.gamepad2.right_bumper && AUTOMODE) {
             RunPowers[1] = Range.clip(RunPowers[1] + 0.02,-1,1);
-        }
+        }// это пока не робит(все что с условием AUTOMODE)
         if (opMode.gamepad2.dpad_up && AUTOMODE){
             i = i + 1;
             g = i;
@@ -93,10 +94,10 @@ public class VerticalSlider extends Thread{
             RunPowers[2] = 0.5;
         }
 
-        if(opMode.gamepad2.left_bumper && AUTOMODE){
-            RunPowers[1] = StartPowers[1];
-        } else if (opMode.gamepad2.right_bumper && AUTOMODE) {
-            RunPowers[1] = 0.5;
+        if(opMode.gamepad2.left_bumper){
+            RunPowers[1]  = -0.3;
+        } else {
+            RunPowers[1] = 0;
         }
 
         if (AUTOMODE && (g == 1 || g == 2)){
