@@ -46,10 +46,10 @@ hw = opMode.hardwareMap;
         }
         if (opMode.gamepad2.y && !AUTOMODE){
             krut.setPower(g);
-            g = Range.clip(g + 0.02, -0.9, 1);
+            g = Range.clip(g + 0.02, -0.92, 1);
         } else if (opMode.gamepad2.a && !AUTOMODE) {
             krut.setPower(g);
-            g = Range.clip(g - 0.02, -0.9, 1);
+            g = Range.clip(g - 0.02, -0.92, 1);
         }
         if (opMode.gamepad2.x && AUTOMODE){
             zx.setPower(f);
