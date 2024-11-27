@@ -18,7 +18,7 @@ public class VerticalSlider extends Thread{
     public VerticalSlider(LinearOpMode opMode){
 
         this.opMode = opMode;
-        hw = opMode.hardwareMap;
+        
     }
     CRServo vrash, klesh;
     DcMotorEx pod;
@@ -29,6 +29,7 @@ public class VerticalSlider extends Thread{
     double[] RunPowers = StartPowers;
 
     public void init(){
+        hw = opMode.hardwareMap;
         pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
