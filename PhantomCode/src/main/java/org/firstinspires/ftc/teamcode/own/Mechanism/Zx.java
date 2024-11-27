@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import com.qualcomm.robotcore.util.Range;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -18,11 +20,12 @@ public class Zx extends Thread {
         this.opMode = opMode;
         
     }
-    private final double krut_start_power = 0.0;
+    private final double krut_start_power = 0;
     private final double zx_start_power = 0;
     private final double zx_power = 0.1;
     private final double krut_skid = -1.0;
     private int i = 0;
+    private double g =0, f =0;
 
 
     public void init(){
@@ -40,16 +43,32 @@ hw = opMode.hardwareMap;
             i += 1;
         }
 
-        if (i % 2 == 0) {
+        if (i % 2 == 0 && AUTOMODE) {
             zx.setPower(zx_start_power);
-        } else if (i % 2 == 1) {
+        } else if (i % 2 == 1 && AUTOMODE) {
             zx.setPower(zx_power);
         }
+        if (opMode.gamepad2.y && !AUTOMODE){
+            krut.setPower(g);
+            g = Range.clip(g + 0.02, -1, 1);
+        } else if (opMode.gamepad2.a && !AUTOMODE) {
+            krut.setPower(g);
+            g = Range.clip(g - 0.02, -1, 1);
+        }
+        if (opMode.gamepad2.x && !AUTOMODE){
+            zx.setPower(f);
+            f = Range.clip(g + 0.02, -1, 1);
+        } else if (opMode.gamepad2.b && !AUTOMODE) {
+            zx.setPower(f);
+            f = Range.clip(g - 0.02, -1, 1);
+        }
 
-        if (opMode.gamepad2.y) {
+        if (opMode.gamepad2.y && AUTOMODE) {
             krut.setPower(krut_skid);
-        } else if (opMode.gamepad2.a) {
+        } else if (AUTOMODE){
             krut.setPower(krut_start_power);
         }
-    }
-}
+        opMode.telemetry.addData("zaxvat", zx.getPower());
+        opMode.telemetry.addData("krut", krut.getPower());
+        opMode.telemetry.update();
+    } }

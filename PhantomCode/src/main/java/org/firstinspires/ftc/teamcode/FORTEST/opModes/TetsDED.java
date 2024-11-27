@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
+import androidx.core.view.WindowInsetsAnimationCompat;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+@Disabled
 @TeleOp
 public class TetsDED extends LinearOpMode {
     DcMotor leftF, leftB,rightB,rightF;

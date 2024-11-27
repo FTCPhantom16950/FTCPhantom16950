@@ -39,19 +39,13 @@ public class PhantomIMU {
      *
      */
     public void valueGetter(){
-        Thread imuT = new Thread(() -> {
-            while (true){
-                // получаем скорость вращения
-                rotation = imu.getRobotYawPitchRollAngles();
-                rotateSpeed = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
-                // получаем текущий поворот робота
-                heading = rotation.getYaw(AngleUnit.DEGREES);
-                // получаем ускорение поворота
-                veloHead = rotateSpeed.yRotationRate;
-
-            }
-        });
-        imuT.start();
+        // получаем скорость вращения
+        rotation = imu.getRobotYawPitchRollAngles();
+        rotateSpeed = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+        // получаем текущий поворот робота
+        heading = rotation.getYaw(AngleUnit.DEGREES);
+        // получаем ускорение поворота
+        veloHead = rotateSpeed.yRotationRate;
     }
     // сбрасываем угол поврота робота
     public void resetHeading(){

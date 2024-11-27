@@ -157,6 +157,7 @@ public class WheelBase{
     public void driveFieldCentric(){
         //  считываем данные с геймпадов
         gamepads();
+        phantomIMU.valueGetter();
         // считываем значение изначального направления
         // нормализуем необходимый нам угол поворота робота и округляем от 1 до -1
 //        currentAngel = (phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));

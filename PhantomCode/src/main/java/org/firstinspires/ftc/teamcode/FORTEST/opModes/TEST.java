@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
+@Disabled
 
 @TeleOp
 public class TEST extends LinearOpMode {

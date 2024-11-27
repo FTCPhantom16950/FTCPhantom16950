@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+@Disabled
 @Autonomous(name = "1")
 public class TESTAUTO extends LinearOpMode {
     DcMotorEx motor1,motor2,motor3,motor4;

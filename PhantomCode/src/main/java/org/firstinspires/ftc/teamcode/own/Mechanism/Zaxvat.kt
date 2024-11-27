@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.own.Mechanism
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.CRServo
-
+// там zx а не zaxvat
 class Zaxvat(private val opmode: LinearOpMode) {
     lateinit var zx: CRServo
     lateinit var krut: CRServo
