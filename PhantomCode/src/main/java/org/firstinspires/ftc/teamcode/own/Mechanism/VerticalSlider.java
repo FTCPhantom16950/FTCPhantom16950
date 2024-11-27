@@ -48,16 +48,16 @@ public class VerticalSlider extends Thread{
         klesh.setPower(RunPowers[1]);
         vrash.setPower(RunPowers[2]);
         if(opMode.gamepad2.dpad_up && !AUTOMODE){
-            if (RunPowers[0] <= 0.5){
-                RunPowers[0] = RunPowers[0] + 0.02;
+            if (RunPowers[0] <= 0.85){
+                RunPowers[0] = RunPowers[0] + 0.2;
             } else {
-                RunPowers[0] = 0.5;
+                RunPowers[0] = 0.85;
             }
         } else if (opMode.gamepad2.dpad_down && !AUTOMODE) {
-            if (RunPowers[0] >= -0.5){
-                RunPowers[0] = RunPowers[0] - 0.02;
+            if (RunPowers[0] >= -0.85){
+                RunPowers[0] = RunPowers[0] - 0.2;
             } else {
-                RunPowers[0] = -0.5;
+                RunPowers[0] = -0.85;
             }
         } else {
             RunPowers[0] = 0.01;

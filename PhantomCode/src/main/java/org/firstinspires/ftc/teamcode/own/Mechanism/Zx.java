@@ -39,17 +39,17 @@ hw = opMode.hardwareMap;
     public void run(){
         AUTOMODE = config.isAUTOMODE();
 
-        if (opMode.gamepad2.x){
+        if (opMode.gamepad2.right_bumper){
             zx.setPower(0.3);
         } else {
             zx.setPower(0);
         }
         if (opMode.gamepad2.y && !AUTOMODE){
             krut.setPower(g);
-            g = Range.clip(g + 0.02, -1, 1);
+            g = Range.clip(g + 0.02, -0.9, 1);
         } else if (opMode.gamepad2.a && !AUTOMODE) {
             krut.setPower(g);
-            g = Range.clip(g - 0.02, -1, 1);
+            g = Range.clip(g - 0.02, -0.9, 1);
         }
         if (opMode.gamepad2.x && AUTOMODE){
             zx.setPower(f);
