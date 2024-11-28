@@ -35,5 +35,10 @@ public class Main_Teleop_Java extends LinearOpMode {
             verticalSlider.run();
             zx.run();
         }
+        if (!opModeIsActive()){
+            horizontSlider.stop();
+            verticalSlider.stop();
+            zx.stop();
+        }
     }
 }
