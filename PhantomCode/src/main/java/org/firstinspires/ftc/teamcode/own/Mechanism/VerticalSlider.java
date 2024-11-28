@@ -18,7 +18,7 @@ public class VerticalSlider extends Thread{
     public VerticalSlider(LinearOpMode opMode){
 
         this.opMode = opMode;
-        
+        this.setDaemon(true);
     }
     CRServo vrash, klesh;
     DcMotorEx pod;

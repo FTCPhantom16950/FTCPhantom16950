@@ -29,7 +29,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         zx.init();
         timer.reset();
         waitForStart();
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             wheelBase.driveEasy();
             horizontSlider.run();
             verticalSlider.run();

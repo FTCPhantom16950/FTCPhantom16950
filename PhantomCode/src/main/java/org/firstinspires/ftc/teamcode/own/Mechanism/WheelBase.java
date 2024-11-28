@@ -123,7 +123,7 @@ public class WheelBase{
     public void gamepads(){
         gamepad1 = opMode.gamepad1;
         if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
-            config.setAUTOMODE(!config.isAUTOMODE());
+        //    config.setAUTOMODE(!config.isAUTOMODE());
 
         }
         //

@@ -13,6 +13,7 @@ public class HorizontSlider extends Thread {
 
     public HorizontSlider(LinearOpMode opMode){
         this.opMode = opMode;
+        this.setDaemon(true);
     }
     Config config = new Config();
     boolean AUTOMODE = config.isAUTOMODE();

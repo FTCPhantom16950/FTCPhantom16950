@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import java.io.LineNumberReader;
 
 public class Zx extends Thread {
+
     Config config = new Config();
     LinearOpMode opMode;
     CRServo zx, krut;
@@ -18,7 +19,7 @@ public class Zx extends Thread {
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
         this.opMode = opMode;
-        
+        this.setDaemon(true);
     }
     private final double krut_start_power = 0;
     private final double zx_start_power = 0;
@@ -37,6 +38,7 @@ hw = opMode.hardwareMap;
     }
     @Override
     public void run(){
+
         AUTOMODE = config.isAUTOMODE();
 
         if (opMode.gamepad2.right_bumper){
@@ -46,10 +48,10 @@ hw = opMode.hardwareMap;
         }
         if (opMode.gamepad2.y && !AUTOMODE){
             krut.setPower(g);
-            g = Range.clip(g + 0.02, -0.92, 1);
+            g = Range.clip(g + 0.02, -0.95, 1);
         } else if (opMode.gamepad2.a && !AUTOMODE) {
             krut.setPower(g);
-            g = Range.clip(g - 0.02, -0.92, 1);
+            g = Range.clip(g - 0.02, -0.95, 1);
         }
         if (opMode.gamepad2.x && AUTOMODE){
             zx.setPower(f);
@@ -61,8 +63,8 @@ hw = opMode.hardwareMap;
 
         if (opMode.gamepad2.y && AUTOMODE) {
             krut.setPower(krut_skid);
-        } else if (AUTOMODE){
-            krut.setPower(krut_start_power);
+        } else if (opMode.gamepad2.a && AUTOMODE){
+            krut.setPower(-0.95);
         }
         opMode.telemetry.addData("zaxvat", zx.getPower());
         opMode.telemetry.addData("krut", krut.getPower());
