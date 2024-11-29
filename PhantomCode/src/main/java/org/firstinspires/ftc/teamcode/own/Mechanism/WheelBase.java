@@ -33,7 +33,7 @@ public class WheelBase{
         this.opMode = opMode;
     }
     //скорости для моторов
-    double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+    public double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
     //проекция результируещего вектора на оси
     double resultX, resultY;
 
@@ -119,12 +119,13 @@ public class WheelBase{
        rightFront.setPower(0);
     }*/
 
+
+
     // считываем значения с геймпадов
     public void gamepads(){
         gamepad1 = opMode.gamepad1;
         if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
-        //    config.setAUTOMODE(!config.isAUTOMODE());
-
+          config.setAUTOMODE(!config.isAUTOMODE());
         }
         //
         if (gamepad1.left_bumper){
@@ -263,22 +264,7 @@ public class WheelBase{
         lfSpeed = (y + spin + x);
         lbSpeed = (y + spin - x);
         // выводим всю возможную телеметрию
-        opMode.telemetry.addData("rbspeed", rbSpeed);
-        opMode.telemetry.addData("rfspeed", rfSpeed);
-        opMode.telemetry.addData("lbspeed", lbSpeed);
-        opMode.telemetry.addData("lfspeed", lfSpeed);
-        opMode.telemetry.addData("rbtick", rightBack.getCurrentPosition());
-        opMode.telemetry.addData("rftick", rightFront.getCurrentPosition());
-        opMode.telemetry.addData("lbtick", leftBack.getCurrentPosition());
-        opMode.telemetry.addData("lftick", leftFront.getCurrentPosition());
-        opMode.telemetry.addData("rightBack", rightBack.getPower());
-        opMode.telemetry.addData("leftBack", leftBack.getPower());
-        opMode.telemetry.addData("rightFront", rightFront.getPower());
-        opMode.telemetry.addData("leftFront", leftFront.getPower());
-        opMode.telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
-        opMode.telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
+
         opMode.telemetry.update();
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
@@ -287,6 +273,13 @@ public class WheelBase{
         leftBack.setPower(lbSpeed);
     }
 
+    public void start(){
+        if (!config.TELEOPIMU){
+            driveEasy();
+        } else if (config.TELEOPIMU){
+            driveFieldCentric();
+        }
+    }
 }
 
 

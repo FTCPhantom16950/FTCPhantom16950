@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 
 @TeleOp
 public class Main_Teleop_Java extends LinearOpMode {
-    Config config = new Config();
     ElapsedTime timer = new ElapsedTime();
     HorizontSlider horizontSlider = new HorizontSlider(this);
     LynxModule lynxModule = new LynxModule(this);
@@ -30,15 +29,14 @@ public class Main_Teleop_Java extends LinearOpMode {
         timer.reset();
         waitForStart();
         while (opModeIsActive()) {
-            wheelBase.driveEasy();
-            horizontSlider.run();
-            verticalSlider.run();
-            zx.run();
+            wheelBase.start();
+            horizontSlider.autoMoving();
+            horizontSlider.manualMoving();
+            verticalSlider.preSet2();
+            zx.manualKRUT();
+            zx.autoZX();
+            zx.autoKrut();
         }
-        if (!opModeIsActive()){
-            horizontSlider.stop();
-            verticalSlider.stop();
-            zx.stop();
-        }
+
     }
 }

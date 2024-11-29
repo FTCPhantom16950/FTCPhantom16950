@@ -8,47 +8,61 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 
 public class HorizontSlider extends Thread {
     LinearOpMode opMode;
-    CRServo sL, sR;
+    public CRServo sL, sR;
     HardwareMap hw;
 
     public HorizontSlider(LinearOpMode opMode){
         this.opMode = opMode;
         this.setDaemon(true);
     }
-    Config config = new Config();
-    boolean AUTOMODE = config.isAUTOMODE();
-    double startLeftPower = 0, startRightPower = 0, i = 0, sl_power, sr_power;
+
+    public double startLeftPower = 0, startRightPower = 0, i = 0, sl_power, sr_power;
     public void init() {
         hw = opMode.hardwareMap;
         sL = opMode.hardwareMap.get(CRServo.class, "horL");
         sR = opMode.hardwareMap.get(CRServo.class, "horR");
         sL.setPower(startLeftPower);
         sR.setPower(startRightPower);
+        sl_power = startLeftPower;
+        sr_power = startRightPower;
     }
+
     @Override
-    public void run(){
-        AUTOMODE = config.isAUTOMODE();
-        sl_power = i;
-        sr_power = -i;
-        sL.setPower(sl_power);
-        sR.setPower(sr_power);
-        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.6 && !AUTOMODE){
+    public synchronized void start() {
+        super.start();
+        if (opMode.opModeInInit()){
+            init();
+        }
+        while(opMode.opModeIsActive()){
+            sl_power = i;
+            sr_power = -i;
+            sL.setPower(sl_power);
+            sR.setPower(sr_power);
+            manualMoving();
+            autoMoving();
+        }
+
+    }
+
+    public void manualMoving(){
+        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.6){
             i += opMode.gamepad2.right_trigger * 0.05;
         } else if (i >= 0.6){
             i = 0.6;
         }
-        if (opMode.gamepad2.left_trigger != 0.0 && i > 0 && !AUTOMODE){
+        if (opMode.gamepad2.left_trigger != 0.0 && i > 0){
             i -= opMode.gamepad2.left_trigger * 0.05;
         }
         else if (i <= 0){
             i = 0;
         }
-        if (opMode.gamepad2.left_stick_button && AUTOMODE) {
+    }
+    public void autoMoving(){
+        if (opMode.gamepad2.left_stick_button) {
             i = startLeftPower;
-        } else if (opMode.gamepad2.right_stick_button && AUTOMODE) {
+        } else if (opMode.gamepad2.right_stick_button) {
             i = 0.6;
         }
-
     }
 }
 
