@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-
+@Disabled
 @TeleOp
 public class Telepop extends LinearOpMode {
     @Override

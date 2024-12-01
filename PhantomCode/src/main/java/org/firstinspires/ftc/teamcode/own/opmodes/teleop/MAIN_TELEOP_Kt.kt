@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.teleop
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -6,7 +7,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontalSlider
 import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zaxvat
-
+@Disabled
 @TeleOp
 class MAIN_TELEOP_Kt: LinearOpMode() {
     val bool = true

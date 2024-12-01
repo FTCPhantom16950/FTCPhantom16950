@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -183,6 +184,39 @@ public class WheelBase{
         leftBack.setPower(lbSpeed);
 
     }
+    public void vpred_Taiming(long time, double power){
+        ElapsedTime tiner = new ElapsedTime();
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        tiner.reset();
+        if (opMode.opModeIsActive()){
+            opMode.sleep(time);
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+    }
+    public void diag(long time, double power){
+        ElapsedTime tiner = new ElapsedTime();
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        tiner.reset();
+        if (opMode.opModeIsActive()){
+            opMode.sleep(time);
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+    }
+    public void nazad_timing(long time, double power){
+        vpred_Taiming(time, -power);
+    }
 
     public void vpered(int pos, double power){
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -253,7 +287,25 @@ public class WheelBase{
     public void vlevo(int pos, double power){
         vpravo(-pos, power);
     }
+    /*
+    разварот - rf, rb, -lf, -lb
 
+     */
+    public void razvarot(long time, double power){
+        ElapsedTime tiner = new ElapsedTime();
+        rightBack.setPower(power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        tiner.reset();
+        if (opMode.opModeIsActive()){
+            opMode.sleep(time);
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+    }
 
     public void driveEasy()  {
         //активируем геймпады

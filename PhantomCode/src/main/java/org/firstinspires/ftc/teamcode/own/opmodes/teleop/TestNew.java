@@ -16,8 +16,10 @@ public class TestNew extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         lynxModule.init_Lynx();
         slider.start();
-        verticalSlider.start();
+        //
         waitForStart();
-        while(opModeIsActive()){}
+        while(opModeIsActive()){
+            sleep(120000);
+        }
     }
 }
