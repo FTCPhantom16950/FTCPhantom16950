@@ -73,18 +73,18 @@ public class PhantomProcessor implements VisionProcessor {
      */
     @Override
     public Object processFrame(Mat input, long captureTimeNanos) {
+
         // конвертируем матрицы из одного формата в дргой
-        Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
-        // преобразуем из серого в ч/б формат
-        Imgproc.adaptiveThreshold(yCbCrChan2Mat, yCbCrChan2Mat, max_value, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, blockSize,C);
-        // преобразуем картинку назад в RGB
-        Imgproc.cvtColor(yCbCrChan2Mat, yCbCrChan2Mat, Imgproc.COLOR_GRAY2RGB);
+       Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
+//        // преобразуем из серого в ч/б формат
+        Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 122, 255, Imgproc.THRESH_BINARY_INV);
+ //
+//        // преобразуем картинку назад в RGB
+    Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
         // считываем значения в квадратах
-        valLeft = getAverageValue(yCbCrChan2Mat, leftRect);
-        valRight = getAverageValue(yCbCrChan2Mat, rightRect);
-//        telemetry.addData("left", valLeft);
-//        telemetry.addData("right", valRight);
-//        telemetry.update();
+        valLeft = getAverageValue(input, leftRect);
+        valRight = getAverageValue(input, rightRect);
+        
 
         // проверяем значения hue
         // если значение в правом квадрате 122, то выбираем правый

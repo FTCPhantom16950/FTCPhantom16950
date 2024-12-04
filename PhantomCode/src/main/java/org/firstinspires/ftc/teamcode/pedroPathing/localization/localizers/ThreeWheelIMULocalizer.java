@@ -26,18 +26,18 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.NanoTimer;
  *
  * forward on robot is the x positive direction
  *
- *    /--------------\
- *    |     ____     |
- *    |     ----     |
- *    | ||        || |
- *    | ||        || |  ----> left (y positive)
- *    |              |
- *    |              |
- *    \--------------/
- *           |
- *           |
- *           V
- *    forward (x positive)
+ *                         forward (x positive)
+ *                                △
+ *                                |
+ *                                |
+ *                         /--------------\
+ *                         |              |
+ *                         |              |
+ *                         | ||        || |
+ *  left (y positive) <--- | ||        || |  
+ *                         |     ____     |
+ *                         |     ----     |
+ *                         \--------------/
  *
  * @author Logan Nash
  * @author Anyi Lin - 10158 Scott's Bots
@@ -63,9 +63,9 @@ public class ThreeWheelIMULocalizer extends Localizer {
     private double previousIMUOrientation;
     private double deltaRadians;
     private double totalHeading;
-    public static double FORWARD_TICKS_TO_INCHES = 0.0031;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
-    public static double STRAFE_TICKS_TO_INCHES = -0.0263;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
-    public static double TURN_TICKS_TO_RADIANS = 0.0025;//8192 * 1.37795 * 2 * Math.PI * 0.5;
+    public static double FORWARD_TICKS_TO_INCHES = 0.002957;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
+    public static double STRAFE_TICKS_TO_INCHES = -0.003127403096038503;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
+    public static double TURN_TICKS_TO_RADIANS = 0.002995;//8192 * 1.37795 * 2 * Math.PI * 0.5;
 
     public static boolean useIMU = true;
 
@@ -94,9 +94,9 @@ public class ThreeWheelIMULocalizer extends Localizer {
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP)));
 
         // TODO: replace these with your encoder positions
-        leftEncoderPose = new Pose( 0.598, -2.553, 0);
-        rightEncoderPose = new Pose(0.598, 2.553, 0);
-        strafeEncoderPose = new Pose(0.754, 4.810, Math.toRadians(90));
+        leftEncoderPose = new Pose( 6, 2.8, 0);
+        rightEncoderPose = new Pose(6, -2.8, 0);
+        strafeEncoderPose = new Pose(-4.9, -1.1, Math.toRadians(90));
 
 
         // TODO: replace these with your encoder ports
@@ -219,7 +219,7 @@ public class ThreeWheelIMULocalizer extends Localizer {
         globalDeltas = Matrix.multiply(Matrix.multiply(prevRotationMatrix, transformation), robotDeltas);
 
         displacementPose.add(new Pose(globalDeltas.get(0, 0), globalDeltas.get(1, 0), globalDeltas.get(2, 0)));
-        currentVelocity = new Pose(globalDeltas.get(0, 0) / (deltaTimeNano * Math.pow(10.0, 9)), globalDeltas.get(1, 0) / (deltaTimeNano * Math.pow(10.0, 9)), globalDeltas.get(2, 0) / (deltaTimeNano * Math.pow(10.0, 9)));
+        currentVelocity = new Pose(globalDeltas.get(0, 0) / (deltaTimeNano / Math.pow(10.0, 9)), globalDeltas.get(1, 0) / (deltaTimeNano / Math.pow(10.0, 9)), globalDeltas.get(2, 0) / (deltaTimeNano / Math.pow(10.0, 9)));
 
         totalHeading += globalDeltas.get(2, 0);
     }
@@ -312,5 +312,15 @@ public class ThreeWheelIMULocalizer extends Localizer {
      */
     public void resetIMU() {
         imu.resetYaw();
+    }
+
+    /**
+     * This is returns the IMU.
+     *
+     * @return returns the IMU
+     */
+    @Override
+    public IMU getIMU() {
+        return imu;
     }
 }

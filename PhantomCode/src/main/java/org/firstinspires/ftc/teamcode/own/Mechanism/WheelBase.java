@@ -172,10 +172,10 @@ public class WheelBase{
         // максимальное значение скорости моторов
         denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        rfSpeed = (resultY - resultX - spin) / denominator;
-        rbSpeed = (resultY + resultX - spin) / denominator;
-        lfSpeed = (resultY + resultX + spin) / denominator;
-        lbSpeed = (resultY - resultX + spin) / denominator;
+        rfSpeed = Range.clip((resultY - resultX - spin) / denominator, -1, 1);
+        rbSpeed = Range.clip((resultY + resultX - spin) / denominator, -1, 1);
+        lfSpeed = Range.clip((resultY + resultX + spin) / denominator, -1, 1);
+        lbSpeed = Range.clip((resultY - resultX + spin) / denominator, -1, 1);
 
         // Устанавливаем скорость моторам
         rightFront.setPower(rfSpeed);
