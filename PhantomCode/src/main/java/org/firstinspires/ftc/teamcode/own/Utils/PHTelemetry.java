@@ -11,14 +11,14 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 
 public class PHTelemetry {
     private LinearOpMode opMode;
-    boolean isHorSlider = false, isVertSlider = false, isZX = false, isWheelBAse = false;
 
-    public PHTelemetry(LinearOpMode opMode, boolean isHorSlider, boolean isVertSlider, boolean isZX, boolean isWheelBAse) {
+
+    public PHTelemetry(LinearOpMode opMode, VerticalSlider verticalSlider, HorizontSlider horizontSlider,Zx zx, WheelBase wheelBase) {
         this.opMode = opMode;
-        this.isHorSlider = isHorSlider;
-        this.isVertSlider = isVertSlider;
-        this.isZX = isZX;
-        this.isWheelBAse = isWheelBAse;
+        this.zx = zx;
+        this.wheelBase = wheelBase;
+        this.verticalSlider = verticalSlider;
+        this.horizontSlider = horizontSlider;
     }
     Zx zx;
     VerticalSlider verticalSlider;
@@ -26,11 +26,11 @@ public class PHTelemetry {
     WheelBase wheelBase;
     public void start_telemetry(){
         Telemetry telemetry = opMode.telemetry;
-        if(isZX){
+        if(zx != null){
             telemetry.addData("zx pos:", zx.zx.getPower());
             telemetry.addData("krut pos:", zx.krut.getPower());
         }
-        if (isWheelBAse){
+        if (wheelBase != null){
             telemetry.addData("rbspeed", wheelBase.rbSpeed);
             telemetry.addData("rfspeed", wheelBase.rfSpeed);
             telemetry.addData("lbspeed", wheelBase.lbSpeed);
@@ -48,11 +48,11 @@ public class PHTelemetry {
             telemetry.addData("rightFrontCurr", wheelBase.rightFront.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("leftFrontCurr", wheelBase.leftFront.getCurrent(CurrentUnit.AMPS));
         }
-        if (isVertSlider){
+        if (verticalSlider != null){
             telemetry.addData("pod power:", verticalSlider.RunPowers[0]);
             telemetry.addData("kleshna power:", verticalSlider.RunPowers[1]);
             telemetry.addData("vrash power:", verticalSlider.RunPowers[2]);
-        } if (isHorSlider){
+        } if (horizontSlider != null){
             telemetry.addData("horL power:", horizontSlider.sL);
             telemetry.addData("horR power:", horizontSlider.sR);
         }

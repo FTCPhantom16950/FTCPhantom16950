@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
  * @version 1.0, 4/22/2024
  */
 public class Drawing {
-    public static final double ROBOT_RADIUS = 9;
+    public static final double ROBOT_RADIUS = 8;
 
     private static TelemetryPacket packet;
 
