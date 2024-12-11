@@ -62,7 +62,6 @@ public class WheelBase{
     pos1, pos2 - энкодеры стоящие для прямого движения, параллельны обычным колесам
     pos3 - энкодер, перпендикулярный обычным колесам, движение вбок
      */
-    Config config = new Config();
 
     // объявляем моторы через MotorEx
 
@@ -118,9 +117,9 @@ public class WheelBase{
     // считываем значения с геймпадов
     public void gamepads(){
         gamepad1 = opMode.gamepad1;
-        if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
-          config.setAUTOMODE(!config.isAUTOMODE());
-        }
+//        if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
+//          Config.AUTOMODE = !Config.AUTOMODE;
+//        }
         //
         if (gamepad1.left_bumper){
             lbump = 0.3;
@@ -134,9 +133,9 @@ public class WheelBase{
             rbump = 0;
         }
 
-        y = -(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.4);
-        x = gamepad1.left_stick_y * 1.1 + gamepad1.right_stick_y * 0.4 * 1.1;
-        spin = -gamepad1.right_trigger + gamepad1.left_trigger - rbump + lbump;
+        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x * 0.4));
+        x = smoothing(gamepad1.left_stick_y * 1.1) + smoothing(gamepad1.right_stick_y * 0.4 * 1.1);
+        spin = smoothing(-gamepad1.right_trigger) + smoothing(gamepad1.left_trigger) - rbump + lbump;
         if (x <= 0.1 && x >= -0.1){
             x = 0;
         }
@@ -148,39 +147,7 @@ public class WheelBase{
         }
     }
 
-    // движение относительно центра аоля
-    public void driveFieldCentric(){
-        //  считываем данные с геймпадов
-        gamepads();
-        // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
-        resultX = x * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) - y * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        resultY = x * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + y * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        // максимальное значение скорости моторов
-        denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
-        //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        rfSpeed = (resultY - resultX - spin);
-        rbSpeed = (resultY + resultX - spin);
-        lfSpeed = (resultY + resultX + spin);
-        lbSpeed = (resultY - resultX + spin);
-        rfSpeed = smoothing(rbSpeed);
-        rbSpeed = smoothing(rfSpeed);
-        lfSpeed = smoothing(lbSpeed);
-        lbSpeed = smoothing(lfSpeed);
-        if (denominator > 1.0) {
-            rfSpeed = (resultY - resultX - spin) / denominator;
-            rbSpeed = (resultY + resultX - spin) / denominator;
-            lfSpeed = (resultY + resultX + spin) / denominator;
-            lbSpeed = (resultY - resultX + spin) / denominator;
-        }
 
-
-        // Устанавливаем скорость моторам
-        rightFront.setPower(rfSpeed);
-        rightBack.setPower(rbSpeed);
-        leftFront.setPower(lfSpeed);
-        leftBack.setPower(lbSpeed);
-
-    }
     public void vpred_Taiming(long time, double power){
         ElapsedTime tiner = new ElapsedTime();
         rightBack.setPower(-power);
@@ -303,15 +270,37 @@ public class WheelBase{
         rightFront.setPower(0);
         leftFront.setPower(0);
     }
+    // движение относительно центра аоля
+    public void driveFieldCentric(){
+        //  считываем данные с геймпадов
+        gamepads();
+        // https://matthew-brett.github.io/teaching/rotation_2d.html здесь объяснение
+        resultX = x * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) - y * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        resultY = x * Math.sin(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)) + y * Math.cos(-phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        // максимальное значение скорости моторов
+        denominator = Math.max(Math.abs(resultY) + Math.abs(resultX) + Math.abs(spin), 1);
+        //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
+        if (denominator > 1.0) {
+            rfSpeed = (resultY - resultX - spin) / denominator;
+            rbSpeed = (resultY + resultX - spin) / denominator;
+            lfSpeed = (resultY + resultX + spin) / denominator;
+            lbSpeed = (resultY - resultX + spin) / denominator;
+        }
+        // Устанавливаем скорость моторам
+        rightFront.setPower(rfSpeed);
+        rightBack.setPower(rbSpeed);
+        leftFront.setPower(lfSpeed);
+        leftBack.setPower(lbSpeed);
 
+    }
     public void driveEasy()  {
         //активируем геймпады
         gamepads();
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        rfSpeed = smoothing(y - spin - x);
-        rbSpeed = smoothing(y - spin + x);
-        lfSpeed = smoothing(y + spin + x);
-        lbSpeed = smoothing(y + spin - x);
+        rfSpeed = (y - spin - x);
+        rbSpeed = (y - spin + x);
+        lfSpeed = (y + spin + x);
+        lbSpeed = (y + spin - x);
         double max_powers = Math.max(Math.abs(lfSpeed), Math.max(Math.abs(rfSpeed),
                 Math.max(Math.abs(lbSpeed), Math.abs(rbSpeed))));
         if (max_powers > 1) {
@@ -380,9 +369,13 @@ public class WheelBase{
         }
     }
     public void start(){
-        if (!config.TELEOPIMU){
+        if (Config.PEDROTELEOP && Config.TELEOPIMU){
+            follower.setTeleOpMovementVectors(y, x, spin, true);
+        } else if (Config.PEDROTELEOP && Config.TELEOPIMU) {
+            follower.setTeleOpMovementVectors(y, x, spin, true);
+        } else if (!Config.TELEOPIMU){
             driveEasy();
-        } else if (config.TELEOPIMU){
+        } else if (Config.TELEOPIMU){
             driveFieldCentric();
         }
         //to90degrees();

@@ -16,15 +16,16 @@ package org.firstinspires.ftc.teamcode.own.Utils;
        |     |---|                         |
        |_____-ls                  -rs_____|
  */
-public class Config {
-    public boolean AUTOMODE = false;
-    public boolean TELEOPIMU = false;
+public  class Config {
+    public static boolean AUTOMODE = false;
+    public static boolean TELEOPIMU = false;
+    public static boolean PEDROTELEOP = false;
 
     public boolean isAUTOMODE() {
         return AUTOMODE;
     }
 
-    public void setAUTOMODE(boolean AUTOMODE) {
-        this.AUTOMODE = AUTOMODE;
+    public static void setAUTOMODE(boolean AUTOMODE) {
+        Config.AUTOMODE = AUTOMODE;
     }
 }
