@@ -133,8 +133,8 @@ public class WheelBase{
             rbump = 0;
         }
 
-        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x * 0.4));
-        x = smoothing(gamepad1.left_stick_y * 1.1) + smoothing(gamepad1.right_stick_y * 0.4 * 1.1);
+        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.4);
+        x = smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.4;
         spin = smoothing(-gamepad1.right_trigger) + smoothing(gamepad1.left_trigger) - rbump + lbump;
         if (x <= 0.1 && x >= -0.1){
             x = 0;
