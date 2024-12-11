@@ -10,6 +10,7 @@ public class PID_Tester extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         verticalSlider.init();
+        verticalSlider.pidThread.start();
         waitForStart();
         while(opModeIsActive()){
             verticalSlider.test();

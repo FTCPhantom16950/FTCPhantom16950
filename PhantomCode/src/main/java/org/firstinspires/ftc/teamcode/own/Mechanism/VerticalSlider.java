@@ -41,9 +41,9 @@ public class VerticalSlider{
         pod.setPower(StartPowers[0]);
         klesh.setPower(StartPowers[1]);
         vrash.setPower(StartPowers[2]);
-        pidThread.start();
+
     }
-    Thread pidThread = new Thread(() -> {
+    public Thread pidThread = new Thread(() -> {
         while(opMode.opModeIsActive()){
             if (!opMode.gamepad2.dpad_up && !opMode.gamepad2.dpad_down){
                 output = controller.calculate(targetPos, pod.getCurrentPosition());
@@ -68,7 +68,7 @@ public class VerticalSlider{
                 RunPowers[0] = -1;
             }
         } else {
-            RunPowers[0] = 0.01;
+            RunPowers[0] = 0.015;
         }
         opMode.telemetry.addData("position", pod.getCurrentPosition());
         opMode.telemetry.addData("error", targetPos - pod.getCurrentPosition());

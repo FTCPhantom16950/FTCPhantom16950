@@ -80,8 +80,8 @@ public class WheelBase{
      * @param hw HardwareMap
      */
     public void initWheelBase(@NonNull HardwareMap hw){
-        follower = new Follower(opMode.hardwareMap);
-        builder  = new PathBuilder();
+//        follower = new Follower(opMode.hardwareMap);
+//        builder  = new PathBuilder();
         // инициализируем моторы
         rightFront = hw.get(DcMotorEx.class, "rf");
         leftFront = hw.get(DcMotorEx.class, "rb");
