@@ -36,12 +36,12 @@ public class VerticalSlider{
         pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
-        pod.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(StartPowers[0]);
         klesh.setPower(StartPowers[1]);
         vrash.setPower(StartPowers[2]);
-
     }
     public Thread pidThread = new Thread(() -> {
         while(opMode.opModeIsActive()){
@@ -55,6 +55,7 @@ public class VerticalSlider{
     });
 
     public void test(){
+        pod.setPower(RunPowers[0]);
         if(opMode.gamepad2.dpad_up){
             if (RunPowers[0] <= 1){
                 RunPowers[0] = 1;
@@ -68,33 +69,29 @@ public class VerticalSlider{
                 RunPowers[0] = -1;
             }
         } else {
-            RunPowers[0] = 0.015;
+            RunPowers[0] = 0.012;
         }
-        opMode.telemetry.addData("position", pod.getCurrentPosition());
-        opMode.telemetry.addData("error", targetPos - pod.getCurrentPosition());
-        opMode.telemetry.addData("targpos", targetPos);
-        opMode.telemetry.update();
+
     }
 
     public void run(){
         lasti = i;
-        pod.setPower(RunPowers[0]);
         klesh.setPower(RunPowers[1]);
         vrash.setPower(RunPowers[2]);
         if(opMode.gamepad2.dpad_up){
-            if (RunPowers[0] <= 1){
-                RunPowers[0] = 1;
+            if (pod.getPower() <= 1){
+                pod.setPower(1);
             } else {
-                RunPowers[0] = 1;
+                pod.setPower(1);
             }
         } else if (opMode.gamepad2.dpad_down) {
-            if (RunPowers[0] >= -1){
-                RunPowers[0] = -1;
+            if (pod.getPower() >= -1){
+                pod.setPower(-1);
             } else {
-                RunPowers[0] = -1;
+                pod.setPower(-1);
             }
         } else {
-            RunPowers[0] = 0.01;
+            pod.setPower(0.013);
         }
 
         if(opMode.gamepad2.dpad_right){

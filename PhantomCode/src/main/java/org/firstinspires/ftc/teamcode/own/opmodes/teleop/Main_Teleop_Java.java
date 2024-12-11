@@ -62,6 +62,7 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("horR power:", horizontSlider.sR.getPower());
             telemetry.addData("zx pos:", zx.zx.getPower());
             telemetry.addData("krut pos:", zx.krut.getPower());
+            telemetry.addData("position", verticalSlider.pod.getCurrentPosition());
             telemetry.update();
         }
 
