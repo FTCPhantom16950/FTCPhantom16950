@@ -52,10 +52,10 @@ public class HorizontSlider extends Thread {
         sR.setPower(sr_power);
     }
     public void manualMoving(){
-        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.4){
+        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.3){
             i += opMode.gamepad2.right_trigger * 0.05;
-        } else if (i >= 0.4){
-            i = 0.4;
+        } else if (i >= 0.3){
+            i = 0.3;
         }
         if (opMode.gamepad2.left_trigger != 0.0 && i > 0){
             i -= opMode.gamepad2.left_trigger * 0.05;

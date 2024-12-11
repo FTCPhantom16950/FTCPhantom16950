@@ -1,23 +1,27 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
+import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.PIDEx;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficientsEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
 
 public class VerticalSlider{
 
     LinearOpMode opMode;
-
+    double  output = 0, targetPos = 0;
+    // creation of the PID object
+    PIDCoefficients coefficients = new PIDCoefficients(0,0,0);
+    BasicPID controller = new BasicPID(coefficients);
     HardwareMap hw;
     public VerticalSlider(LinearOpMode opMode){
         this.opMode = opMode;
-
     }
     public CRServo vrash, klesh;
     public DcMotorEx pod;
@@ -32,15 +36,47 @@ public class VerticalSlider{
         pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
-        pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pod.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(StartPowers[0]);
         klesh.setPower(StartPowers[1]);
         vrash.setPower(StartPowers[2]);
+        pidThread.start();
+    }
+    Thread pidThread = new Thread(() -> {
+        while(opMode.opModeIsActive()){
+            if (!opMode.gamepad2.dpad_up && !opMode.gamepad2.dpad_down){
+                output = controller.calculate(targetPos, pod.getCurrentPosition());
+                pod.setPower(output);
+            } else {
+                targetPos = pod.getCurrentPosition();
+            }
+        }
+    });
+
+    public void test(){
+        if(opMode.gamepad2.dpad_up){
+            if (RunPowers[0] <= 1){
+                RunPowers[0] = 1;
+            } else {
+                RunPowers[0] = 1;
+            }
+        } else if (opMode.gamepad2.dpad_down) {
+            if (RunPowers[0] >= -1){
+                RunPowers[0] = -1;
+            } else {
+                RunPowers[0] = -1;
+            }
+        } else {
+            RunPowers[0] = 0.01;
+        }
+        opMode.telemetry.addData("position", pod.getCurrentPosition());
+        opMode.telemetry.addData("error", targetPos - pod.getCurrentPosition());
+        opMode.telemetry.addData("targpos", targetPos);
+        opMode.telemetry.update();
     }
 
     public void run(){
-
         lasti = i;
         pod.setPower(RunPowers[0]);
         klesh.setPower(RunPowers[1]);
@@ -49,7 +85,7 @@ public class VerticalSlider{
             if (RunPowers[0] <= 1){
                 RunPowers[0] = 1;
             } else {
-                RunPowers[0] = 0.85;
+                RunPowers[0] = 1;
             }
         } else if (opMode.gamepad2.dpad_down) {
             if (RunPowers[0] >= -1){
