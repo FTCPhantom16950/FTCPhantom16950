@@ -10,6 +10,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -62,6 +63,7 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
 
     private boolean stopping;
     private boolean end;
+    CRServo sR, krut, sL;
 
     /**
      * This initializes the drive motors as well as the FTC Dashboard telemetry.
@@ -74,10 +76,12 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
         rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-
+        sL = hardwareMap.get(CRServo.class, "horL");
+        krut= hardwareMap.get(CRServo.class, "krut");
+        sR = hardwareMap.get(CRServo.class, "horR");
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -97,7 +101,8 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         telemetryA.addLine("Make sure you have enough room.");
         telemetryA.addLine("After stopping, the lateral zero power acceleration (natural deceleration) will be displayed.");
         telemetryA.addLine("Press CROSS or A on game pad 1 to stop.");
-        telemetryA.update();
+        telemetry.addData("speed", previousVelocity);
+        telemetry.update();
     }
 
     /**
@@ -109,6 +114,10 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         leftRear.setPower(-1);
         rightFront.setPower(-1);
         rightRear.setPower(1);
+        sL.setPower(0);
+        sR.setPower(0);
+        telemetry.addData("speed", previousVelocity);
+        telemetry.update();
     }
 
     /**
@@ -119,6 +128,8 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
      */
     @Override
     public void loop() {
+        telemetry.addData("speed", previousVelocity);
+        telemetry.update();
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -131,6 +142,8 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading() - Math.PI / 2);
         if (!end) {
             if (!stopping) {
+                sL.setPower(0);
+                sR.setPower(0);
                 if (MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) > VELOCITY) {
                     previousVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
                     previousTimeNano = System.nanoTime();

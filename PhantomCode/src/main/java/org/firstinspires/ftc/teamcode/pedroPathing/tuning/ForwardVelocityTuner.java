@@ -10,6 +10,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -58,7 +59,7 @@ public class ForwardVelocityTuner extends OpMode {
     private Telemetry telemetryA;
 
     private boolean end;
-
+    CRServo sR, krut, sL;
     /**
      * This initializes the drive motors as well as the cache of velocities and the FTC Dashboard
      * telemetry.
@@ -71,10 +72,12 @@ public class ForwardVelocityTuner extends OpMode {
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
         rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-
+         sL = hardwareMap.get(CRServo.class, "horL");
+         krut= hardwareMap.get(CRServo.class, "krut");
+         sR = hardwareMap.get(CRServo.class, "horR");
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -121,6 +124,8 @@ public class ForwardVelocityTuner extends OpMode {
      */
     @Override
     public void loop() {
+        sL.setPower(0);
+        sR.setPower(0);
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

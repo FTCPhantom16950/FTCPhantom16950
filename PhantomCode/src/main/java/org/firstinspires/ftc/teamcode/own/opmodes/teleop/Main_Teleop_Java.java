@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule;
+import org.firstinspires.ftc.teamcode.own.Mechanism.Podves;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
@@ -21,6 +22,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     VerticalSlider verticalSlider  = new VerticalSlider(this);
     Zx zx = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
+    Podves podves = new Podves(this);
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
@@ -28,6 +30,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         horizontSlider.init();
         verticalSlider.init();
         zx.init();
+        podves.init();
         timer.reset();
         waitForStart();
         while (opModeIsActive()) {
@@ -38,6 +41,7 @@ public class Main_Teleop_Java extends LinearOpMode {
             verticalSlider.run();
             zx.run();
             horizontSlider.run_wiithout();
+            podves.run();
            // zx.autoKrut();
             telemetry.addData("rbspeed", wheelBase.rbSpeed);
             telemetry.addData("rfspeed", wheelBase.rfSpeed);
@@ -63,6 +67,8 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("zx pos:", zx.zx.getPower());
             telemetry.addData("krut pos:", zx.krut.getPower());
             telemetry.addData("position", verticalSlider.pod.getCurrentPosition());
+            telemetry.addData("podves1", podves.podv1.getPower());
+            telemetry.addData("podves2", podves.podv2.getPower());
             telemetry.update();
         }
 
