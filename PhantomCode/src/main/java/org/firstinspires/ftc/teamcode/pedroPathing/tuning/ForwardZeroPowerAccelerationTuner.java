@@ -77,11 +77,11 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
         sL = hardwareMap.get(CRServo.class, "horL");
-        krut= hardwareMap.get(CRServo.class, "krut");
+
         sR = hardwareMap.get(CRServo.class, "horR");
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -101,8 +101,8 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         telemetryA.addLine("Make sure you have enough room.");
         telemetryA.addLine("After stopping, the forward zero power acceleration (natural deceleration) will be displayed.");
         telemetryA.addLine("Press CROSS or A on game pad 1 to stop.");
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+
+        telemetryA.update();
     }
 
     /**
@@ -116,8 +116,7 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         rightRear.setPower(1);
         sL.setPower(0);
         sR.setPower(0);
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+
     }
 
     /**
@@ -128,8 +127,7 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -140,6 +138,8 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
 
         poseUpdater.update();
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading());
+        telemetry.addData("speed", MathFunctions.dotProduct(poseUpdater.getVelocity(), heading));
+        telemetry.update();
         if (!end) {
             if (!stopping) {
                 sL.setPower(0);
