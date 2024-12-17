@@ -1,60 +1,76 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.lbSpeed;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.leftBack;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.leftFront;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.lfSpeed;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
+
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
-import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
+
 
 public class PHTelemetry {
     private LinearOpMode opMode;
+    private boolean isWheelBase, isZX, isVerticalSlider, isPodves, isHorizontalSlider;
 
-
-    public PHTelemetry(LinearOpMode opMode, VerticalSlider verticalSlider, HorizontSlider horizontSlider,Zx zx, WheelBase wheelBase) {
+    public PHTelemetry(LinearOpMode opMode, boolean isWheelBase, boolean isZX, boolean isVerticalSlider, boolean isPodves, boolean isHorizontalSlider) {
         this.opMode = opMode;
-        this.zx = zx;
-        this.wheelBase = wheelBase;
-        this.verticalSlider = verticalSlider;
-        this.horizontSlider = horizontSlider;
+        this.isWheelBase = isWheelBase;
+        this.isZX = isZX;
+        this.isVerticalSlider = isVerticalSlider;
+        this.isPodves = isPodves;
+        this.isHorizontalSlider = isHorizontalSlider;
     }
-    Zx zx;
-    VerticalSlider verticalSlider;
-    HorizontSlider horizontSlider;
-    WheelBase wheelBase;
+
+    public PHTelemetry(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
+
     public void start_telemetry(){
         Telemetry telemetry = opMode.telemetry;
-        if(zx != null){
-            telemetry.addData("zx pos:", zx.zx.getPower());
-            telemetry.addData("krut pos:", zx.krut.getPower());
+        if(isZX){
+            telemetry.addData("zx pos:", zx.getPower());
+            telemetry.addData("krut pos:", krut.getPower());
         }
-        if (wheelBase != null){
-            telemetry.addData("rbspeed", wheelBase.rbSpeed);
-            telemetry.addData("rfspeed", wheelBase.rfSpeed);
-            telemetry.addData("lbspeed", wheelBase.lbSpeed);
-            telemetry.addData("lfspeed", wheelBase.lfSpeed);
-            telemetry.addData("rbtick", wheelBase.rightBack.getCurrentPosition());
-            telemetry.addData("rftick", wheelBase.rightFront.getCurrentPosition());
-            telemetry.addData("lbtick", wheelBase.leftBack.getCurrentPosition());
-            telemetry.addData("lftick", wheelBase.leftFront.getCurrentPosition());
-            telemetry.addData("rightBack", wheelBase.rightBack.getPower());
-            telemetry.addData("leftBack", wheelBase.leftBack.getPower());
-            telemetry.addData("rightFront", wheelBase.rightFront.getPower());
-            telemetry.addData("leftFront", wheelBase.leftFront.getPower());
-            telemetry.addData("rightBackCurr", wheelBase.rightBack.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("leftBackCurr", wheelBase.leftBack.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("rightFrontCurr", wheelBase.rightFront.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("leftFrontCurr", wheelBase.leftFront.getCurrent(CurrentUnit.AMPS));
+        if (isWheelBase){
+            telemetry.addData("rbspeed", rbSpeed);
+            telemetry.addData("rfspeed", rfSpeed);
+            telemetry.addData("lbspeed", lbSpeed);
+            telemetry.addData("lfspeed", lfSpeed);
+            telemetry.addData("rbtick", rightBack.getCurrentPosition());
+            telemetry.addData("rftick", rightFront.getCurrentPosition());
+            telemetry.addData("lbtick", leftBack.getCurrentPosition());
+            telemetry.addData("lftick", leftFront.getCurrentPosition());
+            telemetry.addData("rightBack", rightBack.getPower());
+            telemetry.addData("leftBack", leftBack.getPower());
+            telemetry.addData("rightFront", rightFront.getPower());
+            telemetry.addData("leftFront", leftFront.getPower());
+            telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
         }
-        if (verticalSlider != null){
-            telemetry.addData("pod power:", verticalSlider.RunPowers[0]);
-            telemetry.addData("kleshna power:", verticalSlider.RunPowers[1]);
-            telemetry.addData("vrash power:", verticalSlider.RunPowers[2]);
-        } if (horizontSlider != null){
-            telemetry.addData("horL power:", horizontSlider.sL);
-            telemetry.addData("horR power:", horizontSlider.sR);
+        if (isVerticalSlider){
+            telemetry.addData("pod power:", pod.getPower());
+            telemetry.addData("kleshna power:", klesh.getPower());
+            telemetry.addData("vrash power:", vrash.getPower());
+        } if(isHorizontalSlider){
+            telemetry.addData("horL power:", sL.getPower());
+            telemetry.addData("horR power:", sR.getPower());
         }
         telemetry.update();
     }

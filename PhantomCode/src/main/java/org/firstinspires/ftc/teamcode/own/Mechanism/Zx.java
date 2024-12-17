@@ -14,7 +14,7 @@ public class Zx {
 
     Config config = new Config();
     LinearOpMode opMode;
-    public CRServo zx, krut, klesh;
+    public static CRServo zx, krut;
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
         this.opMode = opMode;
@@ -24,25 +24,30 @@ public class Zx {
     private final double zx_start_power = 0;
     private final double zx_power = 0.1;
     private final double krut_skid = -1.0;
-    private int i = 0;
-    private double g =0, f =0;
+    public static int i = 0;
+    public static double g =0;
 
 
     public void init(){
         hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
         krut= opMode.hardwareMap.get(CRServo.class, "krut");
-        klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
-        klesh.setPower(0);
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
     }
 
     public void run(){
-        if (opMode.gamepad2.right_bumper){
-            zx.setPower(0.3);
-        } else {
+        if ( i == 0){
             zx.setPower(0);
+        } else if (i == 1){
+            zx.setPower(0.3);
+        }
+        if (opMode.gamepad2.right_bumper){
+            if (i == 0){
+                i = 1;
+            } else if (i == 1) {
+                i = 0;
+            }
         }
         if (opMode.gamepad2.y){
             g = Range.clip(g + 0.02, -0.95, 1);
@@ -51,29 +56,5 @@ public class Zx {
             g = Range.clip(g - 0.02, -0.95, 1);
             krut.setPower(g);
         }
-//        if (opMode.gamepad2.b){
-//            zx.setPower(0);
-//            opMode.sleep(200);
-//            klesh.setPower(0.3);
-//            opMode.sleep(200);
-//            klesh.setPower(0);
-//            opMode.sleep(200);
-//            zx.setPower(0.3);
-//            krut.setPower(krut_start_power);
-//            opMode.sleep(200);
-//        }
-//        if (opMode.gamepad2.x ){
-//            zx.setPower(f);
-//            f = Range.clip(f + 0.02, -1, 1);
-//        } else if (opMode.gamepad2.b) {
-//            zx.setPower(f);
-//            f = Range.clip(f - 0.02, -1, 1);
-//        }
-
-//        if (opMode.gamepad2.y) {
-//            krut.setPower(krut_skid);
-//        } else if (opMode.gamepad2.a){
-//            krut.setPower(-0.95);
-//        }
 
     } }

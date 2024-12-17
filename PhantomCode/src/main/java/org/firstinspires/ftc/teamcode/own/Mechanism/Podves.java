@@ -15,7 +15,7 @@ public class Podves {
         this.opMode = opMode;
     }
     HardwareMap hw;
-    public DcMotorEx podv1, podv2;
+    public static DcMotorEx podv1, podv2;
     public void init(){
         hw = opMode.hardwareMap;
         podv1 = hw.get(DcMotorEx.class, "podv1");

@@ -23,13 +23,12 @@ public class VerticalSlider{
     public VerticalSlider(LinearOpMode opMode){
         this.opMode = opMode;
     }
-    public CRServo vrash, klesh;
-    public DcMotorEx pod;
+    public static CRServo vrash, klesh;
+    public static DcMotorEx pod;
     int i = 0, g = 0, lasti;
     // мне лень писать 3 переменне поэтому 0 - мотор 1 - клешнят 2 - поворот
-    double[] StartPowers = new double[]{0,0,-0.5};
+    public static double podPower = 0, vrashPower = -0.5, kleshPower = 0;
     //аналогично
-    public double[] RunPowers = StartPowers;
 
     public void init(){
         hw = opMode.hardwareMap;
@@ -39,9 +38,9 @@ public class VerticalSlider{
         pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(StartPowers[0]);
-        klesh.setPower(StartPowers[1]);
-        vrash.setPower(StartPowers[2]);
+        pod.setPower(podPower);
+        klesh.setPower(kleshPower);
+        vrash.setPower(vrashPower);
     }
     public Thread pidThread = new Thread(() -> {
         while(opMode.opModeIsActive()){
@@ -54,30 +53,30 @@ public class VerticalSlider{
         }
     });
 
-    public void test(){
-        pod.setPower(RunPowers[0]);
-        if(opMode.gamepad2.dpad_up){
-            if (RunPowers[0] <= 1){
-                RunPowers[0] = 1;
-            } else {
-                RunPowers[0] = 1;
-            }
-        } else if (opMode.gamepad2.dpad_down) {
-            if (RunPowers[0] >= -1){
-                RunPowers[0] = -1;
-            } else {
-                RunPowers[0] = -1;
-            }
-        } else {
-            RunPowers[0] = 0.012;
-        }
-
-    }
+//    public void test(){
+//        pod.setPower(RunPowers[0]);
+//        if(opMode.gamepad2.dpad_up){
+//            if (RunPowers[0] <= 1){
+//                RunPowers[0] = 1;
+//            } else {
+//                RunPowers[0] = 1;
+//            }
+//        } else if (opMode.gamepad2.dpad_down) {
+//            if (RunPowers[0] >= -1){
+//                RunPowers[0] = -1;
+//            } else {
+//                RunPowers[0] = -1;
+//            }
+//        } else {
+//            RunPowers[0] = 0.012;
+//        }
+//
+//    }
 
     public void run(){
         lasti = i;
-        klesh.setPower(RunPowers[1]);
-        vrash.setPower(RunPowers[2]);
+        klesh.setPower(kleshPower);
+        vrash.setPower(vrashPower);
         if(opMode.gamepad2.dpad_up){
             if (pod.getPower() <= 1){
                 pod.setPower(1);
@@ -93,59 +92,18 @@ public class VerticalSlider{
         } else {
             pod.setPower(0.013);
         }
-
         if(opMode.gamepad2.dpad_right){
-            RunPowers[2] = Range.clip(RunPowers[2] + 0.02, -1,1);
+            vrashPower = Range.clip(vrashPower + 0.02, -1,1);
         } else if (opMode.gamepad2.dpad_left) {
-            RunPowers[2] = Range.clip( RunPowers[2] -0.02, -1,1);
+            vrashPower = Range.clip( vrashPower -0.02, -1,1);
         }
-        // открытие
-//        if(opMode.gamepad2.left_bumper){
-//            RunPowers[1] = Range.clip(RunPowers[1] - 0.02,-1,1);
-//        } else if (opMode.gamepad2.right_bumper) {
-//            RunPowers[1] = Range.clip(RunPowers[1] + 0.02,-1,1);
-      //  }// это пока не робит(все что с условием AUTOMODE)
-//        if (opMode.gamepad2.dpad_up ){
-//            i = i + 1;
-//            g = i;
-//        } else if (opMode.gamepad2.dpad_down) {
-//            i = -1;
-//            g = i;
-//        }
-//        if (i>2) {
-//            i = 0;
-//            g = i;
-//        } else if (i == lasti) {
-//            g = 0;
-//        }
-
-//        if (opMode.gamepad2.dpad_right ){
-//            RunPowers[2] = StartPowers[2];
-//        } else if (opMode.gamepad2.dpad_left ) {
-//            RunPowers[2] = 0.5;
-//        }
-
         if(opMode.gamepad2.left_bumper){
-            RunPowers[1]  = -0.3;
+            kleshPower  = -0.3;
         } else {
-            RunPowers[1] = 0;
+            kleshPower = 0;
         }
 
-//        if (AUTOMODE && (g == 1 || g == 2)){
-//            pod.setTargetPosition(1000 * g);
-//            pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            pod.setPower(0.3);
-//            while (pod.isBusy()){}
-//            pod.setPower(0.01);
-//            g = 0;
-//        } else if (AUTOMODE && g == -1) {
-//            pod.setTargetPosition((int)(pod.getCurrentPosition() / 10) *10);
-//            pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            pod.setPower(-0.3);
-//            while (pod.isBusy()){}
-//            pod.setPower(0);
-//            g =0;
-//        }
+
 
     }
 }

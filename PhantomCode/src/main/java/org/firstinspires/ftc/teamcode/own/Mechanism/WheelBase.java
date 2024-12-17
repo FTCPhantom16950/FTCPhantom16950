@@ -32,7 +32,7 @@ public class WheelBase{
     ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
      */
     // объявляем моторы через DcMotorEx
-    public DcMotorEx rightFront, leftFront, rightBack, leftBack;
+    public static DcMotorEx rightFront, leftFront, rightBack, leftBack;
     // объявляем опмод для считывания данных
     LinearOpMode opMode;
 
@@ -42,7 +42,7 @@ public class WheelBase{
         this.opMode = opMode;
     }
     //скорости для моторов
-    public double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
+    public static double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
     //проекция результируещего вектора на оси
     double resultX, resultY;
 

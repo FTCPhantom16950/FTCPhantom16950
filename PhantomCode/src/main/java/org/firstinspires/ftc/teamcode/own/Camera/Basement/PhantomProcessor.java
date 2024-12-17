@@ -5,12 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import androidx.annotation.NonNull;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+
+import org.opencv.dnn.Net;
 import org.opencv.imgproc.Imgproc;
 
 public class PhantomProcessor implements VisionProcessor {
@@ -19,7 +23,7 @@ public class PhantomProcessor implements VisionProcessor {
 //    public PhantomProcessor(Telemetry telemetry) {
 //        this.telemetry = telemetry;
 //    }
-
+    private Net net;
     // объявляем константы для левого прямоугольника
     private static final int LEFT_RECT_X = 30;
     private static final int LEFT_RECT_Y = 40;
@@ -48,6 +52,7 @@ public class PhantomProcessor implements VisionProcessor {
     private Mat yCbCrChan2Mat;
     // создаем дополнительую матрицу для обработки
     private Mat submat ;
+    private Mat output;
 
     /**
      * метод инициализации, значения устанавливаются при запуске visionportal
@@ -63,6 +68,7 @@ public class PhantomProcessor implements VisionProcessor {
             rightRect = new Rect(RIGHT_RECT_X, RIGHT_RECT_Y, RIGHT_RECT_WIDTH, RIGHT_RECT_HEIGHT);
             submat = new Mat();
             yCbCrChan2Mat = new Mat();
+            output = new Mat();
         }
 
     /**
@@ -72,18 +78,18 @@ public class PhantomProcessor implements VisionProcessor {
      * @return возвращает выбор одного из двух прямоугольников, у которого больше значение value
      */
     @Override
-    public Object processFrame(Mat input, long captureTimeNanos) {
-
+    public Object processFrame(@NonNull Mat input, long captureTimeNanos) {
+        output = input.clone();
         // конвертируем матрицы из одного формата в дргой
-       Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);
+       Imgproc.cvtColor(output, yCbCrChan2Mat, Imgproc.COLOR_BGR2GRAY);
 //        // преобразуем из серого в ч/б формат
         Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 122, 255, Imgproc.THRESH_BINARY_INV);
  //
 //        // преобразуем картинку назад в RGB
-    Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
+        Imgproc.cvtColor(yCbCrChan2Mat, output, Imgproc.COLOR_GRAY2RGB);
         // считываем значения в квадратах
-        valLeft = getAverageValue(input, leftRect);
-        valRight = getAverageValue(input, rightRect);
+        valLeft = getAverageValue(output, leftRect);
+        valRight = getAverageValue(output, rightRect);
         
 
         // проверяем значения hue
@@ -127,6 +133,7 @@ public class PhantomProcessor implements VisionProcessor {
      */
         @Override
         public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+
             //создаем обЪект стиля квалратов
             Paint rectPaint = new Paint();
             // указываем цвет
