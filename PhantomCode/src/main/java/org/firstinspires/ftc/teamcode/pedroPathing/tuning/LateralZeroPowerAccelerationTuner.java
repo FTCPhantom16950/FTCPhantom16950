@@ -81,7 +81,6 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
         sL = hardwareMap.get(CRServo.class, "horL");
-        krut= hardwareMap.get(CRServo.class, "krut");
         sR = hardwareMap.get(CRServo.class, "horR");
         leftFront.setDirection(leftFrontMotorDirection);
         leftRear.setDirection(leftRearMotorDirection);
@@ -106,8 +105,7 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         telemetryA.addLine("Make sure you have enough room.");
         telemetryA.addLine("After stopping, the lateral zero power acceleration (natural deceleration) will be displayed.");
         telemetryA.addLine("Press CROSS or A on game pad 1 to stop.");
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+        telemetryA.update();
     }
 
     /**
@@ -121,8 +119,7 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         rightRear.setPower(1);
         sL.setPower(0);
         sR.setPower(0);
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+
     }
 
     /**
@@ -133,8 +130,7 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("speed", previousVelocity);
-        telemetry.update();
+
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -145,6 +141,8 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
 
         poseUpdater.update();
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading() - Math.PI / 2);
+        telemetryA.addData("speed", MathFunctions.dotProduct(poseUpdater.getVelocity(), heading));
+        telemetryA.update();
         if (!end) {
             if (!stopping) {
                 sL.setPower(0);

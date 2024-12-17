@@ -63,7 +63,7 @@ public class ThreeWheelIMULocalizer extends Localizer {
     private double previousIMUOrientation;
     private double deltaRadians;
     private double totalHeading;
-    public static double FORWARD_TICKS_TO_INCHES = 0.003;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
+    public static double FORWARD_TICKS_TO_INCHES = -0.003;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
     public static double STRAFE_TICKS_TO_INCHES = 0.0043;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
     public static double TURN_TICKS_TO_RADIANS = -0.0027;//8192 * 1.37795 * 2 * Math.PI * 0.5;
 
@@ -91,7 +91,7 @@ public class ThreeWheelIMULocalizer extends Localizer {
         imu = hardwareMap.get(IMU.class, "imu");
 
         // TODO: replace this with your IMU's orientation
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP)));
+        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP)));
 
         // TODO: replace these with your encoder positions
         leftEncoderPose = new Pose( 6.1, 2.8, 0);
@@ -100,9 +100,9 @@ public class ThreeWheelIMULocalizer extends Localizer {
 
 
         // TODO: replace these with your encoder ports
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rf"));
-        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb"));
+        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
 
         // TODO: reverse any encoders necessary
         leftEncoder.setDirection(Encoder.REVERSE);
