@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PHTelemetry;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 @TeleOp
 public class Main_Teleop_Java extends LinearOpMode {
@@ -40,6 +41,29 @@ public class Main_Teleop_Java extends LinearOpMode {
     Zx zx = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
+    Follower follower;
+    Thread horSlider = new Thread(() -> {
+        while (opModeIsActive()){
+            horizontSlider.autoMoving();
+            horizontSlider.manualMoving();
+
+        }
+    });
+    Thread horSlider1 = new Thread(() -> {
+        while (opModeIsActive()){
+            horizontSlider.run_wiithout();
+        }
+    });
+    Thread verticSlider = new Thread(() -> {
+        while (opModeIsActive()){
+            verticalSlider.run();
+        }
+    });
+    Thread zX = new Thread(() -> {
+        while (opModeIsActive()){
+            zx.run();
+        }
+    });
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
@@ -50,14 +74,13 @@ public class Main_Teleop_Java extends LinearOpMode {
         podves.init();
         timer.reset();
         waitForStart();
+        horSlider.start();
+        verticSlider.start();
+        horSlider1.start();
+        zX.start();
         while (opModeIsActive()) {
             wheelBase.start();
-            horizontSlider.autoMoving();
-            horizontSlider.manualMoving();
 //            verticalSlider.preSet2();
-            verticalSlider.run();
-            zx.run();
-            horizontSlider.run_wiithout();
             podves.run();
            // zx.autoKrut();
             telemetry.addData("rbspeed", rbSpeed);

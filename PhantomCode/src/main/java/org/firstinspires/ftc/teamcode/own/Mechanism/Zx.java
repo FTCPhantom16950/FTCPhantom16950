@@ -25,8 +25,8 @@ public class Zx {
     private final double zx_power = 0.1;
     private final double krut_skid = -1.0;
     public static int i = 0;
-    public static double g =0;
-
+    public static double g = 0;
+    public static boolean not = false;
 
     public void init(){
         hw = opMode.hardwareMap;
@@ -34,27 +34,37 @@ public class Zx {
         krut= opMode.hardwareMap.get(CRServo.class, "krut");
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
+        g = 0;
+        thread.start();
     }
-
-    public void run(){
-        if ( i == 0){
-            zx.setPower(0);
-        } else if (i == 1){
-            zx.setPower(0.3);
+    Thread thread = new Thread(() -> {
+        while (true){
+            krut.setPower(g);
         }
+    });
+    public void run(){
+//        if (i == 0){
+//            zx.setPower(0);
+//        } else if (i == 1){
+//            zx.setPower(0.5);
+//        }
         if (opMode.gamepad2.right_bumper){
-            if (i == 0){
-                i = 1;
-            } else if (i == 1) {
-                i = 0;
-            }
+//            if (i == 0){
+//                i = 1;
+//                opMode.sleep(200);
+//            } else if (i == 1) {
+//                i = 0;
+//                opMode.sleep(200);
+//            }
+            zx.setPower(0.5);
+        } else if (!not){
+            zx.setPower(0);
         }
         if (opMode.gamepad2.y){
-            g = Range.clip(g + 0.02, -0.95, 1);
+            g = Range.clip(g + 0.01, -0.95, 1);
             krut.setPower(g);
         } else if (opMode.gamepad2.a) {
-            g = Range.clip(g - 0.02, -0.95, 1);
+            g = Range.clip(g - 0.01, -0.95, 1);
             krut.setPower(g);
         }
-
     } }

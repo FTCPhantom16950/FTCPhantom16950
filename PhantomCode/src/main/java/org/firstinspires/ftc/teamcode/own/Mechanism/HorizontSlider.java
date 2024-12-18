@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.not;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.g;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
 
@@ -52,13 +54,13 @@ public class HorizontSlider {
         sl_power = i;
         sr_power = -i;
         sL.setPower(sl_power);
-        sR.setPower(sr_power);
+        sR.setPower(sr_power - 0.05);
     }
     public void manualMoving(){
-        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.3){
+        if (opMode.gamepad2.right_trigger != 0.0 && i < 0.45){
             i += opMode.gamepad2.right_trigger * 0.05;
-        } else if (i >= 0.3){
-            i = 0.3;
+        } else if (i >= 0.45){
+            i = 0.45;
         }
         if (opMode.gamepad2.left_trigger != 0.0 && i > 0){
             i -= opMode.gamepad2.left_trigger * 0.05;
@@ -72,31 +74,29 @@ public class HorizontSlider {
             i = startLeftPower;
         }
         if (opMode.gamepad2.right_stick_button){
-            i = 0.3;
+            i = 0.45;
             opMode.sleep(100);
-            krut.setPower(-0.95);
+            g = 1;
+            krut.setPower(g);
             Zx.i = 1;
         }
         if (opMode.gamepad2.x){
-            Zx.i = 0;
-            opMode.sleep(100);
-            Zx.g = 0.3;
-            opMode.sleep(100);
+            Zx.not = true;
+            zx.setPower(0);
+            opMode.sleep(200);
+            g = -0.5;
+            krut.setPower(g);
+            opMode.sleep(200);
             i = startLeftPower;
-            opMode.sleep(100);
-            Zx.g = 0.5;
-            opMode.sleep(100);
-            Zx.i = 1;
-            opMode.sleep(100);
-            Zx.i = 0;
-            Zx.g = 0.3;
-            opMode.sleep(100);
-            VerticalSlider.kleshPower = -0.3;
-            vrashPower = -0.8;
-            opMode.sleep(100);
-            VerticalSlider.kleshPower = 0;
-            opMode.sleep(100);
-            vrashPower = 0;
+            opMode.sleep(200);
+            zx.setPower(0.5);
+            opMode.sleep(200);
+            zx.setPower(0);
+            opMode.sleep(200);
+            g = 0;
+            krut.setPower(g);
+            opMode.sleep(200);
+            Zx.not = false;
         }
     }
 }

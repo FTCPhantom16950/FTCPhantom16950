@@ -143,6 +143,8 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
 
         poseUpdater.update();
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading());
+        telemetry.addData("speed", MathFunctions.dotProduct(poseUpdater.getVelocity(), heading));
+        telemetry.update();
         if (!end) {
             if (!stopping) {
                 sL.setPower(0);

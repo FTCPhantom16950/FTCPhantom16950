@@ -28,6 +28,7 @@ public class VerticalSlider{
     int i = 0, g = 0, lasti;
     // мне лень писать 3 переменне поэтому 0 - мотор 1 - клешнят 2 - поворот
     public static double podPower = 0, vrashPower = -0.5, kleshPower = 0;
+    public static boolean not;
     //аналогично
 
     public void init(){
@@ -76,7 +77,7 @@ public class VerticalSlider{
     public void run(){
         lasti = i;
         klesh.setPower(kleshPower);
-        vrash.setPower(vrashPower);
+
         if(opMode.gamepad2.dpad_up){
             if (pod.getPower() <= 1){
                 pod.setPower(1);
@@ -93,16 +94,28 @@ public class VerticalSlider{
             pod.setPower(0.013);
         }
         if(opMode.gamepad2.dpad_right){
-            vrashPower = Range.clip(vrashPower + 0.02, -1,1);
+            vrashPower = Range.clip(vrashPower + 0.01, -1,1);
+            vrash.setPower(vrashPower);
         } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = Range.clip( vrashPower -0.02, -1,1);
+            vrashPower = Range.clip( vrashPower -0.01, -1,1);
+            vrash.setPower(vrashPower);
         }
         if(opMode.gamepad2.left_bumper){
             kleshPower  = -0.3;
-        } else {
+//        } else if (opMode.gamepad2.b) {
+//            not = true;
+//            VerticalSlider.kleshPower = -0.3;
+//            opMode.sleep(200);
+//            vrashPower = -0.9;
+//            opMode.sleep(200);
+//            VerticalSlider.kleshPower = 0;
+//            opMode.sleep(200);
+//            vrashPower = 0;
+//            opMode.sleep(200);
+//            not = false;
+        }else if (!not){
             kleshPower = 0;
         }
-
 
 
     }

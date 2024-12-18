@@ -35,8 +35,8 @@ public class FollowerConstants {
     public static DcMotorSimple.Direction rightFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
     public static DcMotorSimple.Direction leftRearMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static DcMotorSimple.Direction rightRearMotorDirection = DcMotorSimple.Direction.REVERSE;
-    private static double xMovement = 58.9687;
-    private static double yMovement = 70.0442;
+    private static double xMovement = 207.9529;
+    private static double yMovement = 93.2632;
     private static double[] convertToPolar = Point.cartesianToPolar(xMovement, -yMovement);
     public static Vector frontLeftVector = MathFunctions.normalizeVector(new Vector(convertToPolar[0], convertToPolar[1]));
 
@@ -88,7 +88,7 @@ public class FollowerConstants {
 
 
     // Mass of robot in kilograms
-    public static double mass = 10.65942;
+    public static double mass = 12;
 
     // Centripetal force to power scaling
     public static double centripetalScaling = 0.0005;
@@ -96,11 +96,11 @@ public class FollowerConstants {
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double forwardZeroPowerAcceleration = -36.668637627530735;
+    public static double forwardZeroPowerAcceleration = -10.365741041260167;
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double lateralZeroPowerAcceleration = 126.99009747577173;
+    public static double lateralZeroPowerAcceleration = -107.7473707968449;
 
     // A multiplier for the zero power acceleration to change the speed the robot decelerates at
     // the end of paths.
