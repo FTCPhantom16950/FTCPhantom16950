@@ -35,18 +35,18 @@ public class FollowerConstants {
     public static DcMotorSimple.Direction rightFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
     public static DcMotorSimple.Direction leftRearMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static DcMotorSimple.Direction rightRearMotorDirection = DcMotorSimple.Direction.REVERSE;
-    private static double xMovement = 207.9529;
-    private static double yMovement = 93.2632;
+    private static double xMovement = 97.98619505361877;
+    private static double yMovement = 44.1364;
     private static double[] convertToPolar = Point.cartesianToPolar(xMovement, -yMovement);
     public static Vector frontLeftVector = MathFunctions.normalizeVector(new Vector(convertToPolar[0], convertToPolar[1]));
 
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.2,
-            0.001,
-            0.01,
-            -3);
+            0.06,
+            0,
+            0.02,
+            0.005);
 
     // Translational Integral
     public static CustomPIDFCoefficients translationalIntegral = new CustomPIDFCoefficients(
@@ -61,10 +61,10 @@ public class FollowerConstants {
 
     // Heading error PIDF coefficients
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
-            1.6,
+            0.052,
             0,
             0.01,
-            0);
+            0.092);
 
     // Feed forward constant added on to the heading PIDF
     public static double headingPIDFFeedForward = 0.01;
@@ -96,11 +96,11 @@ public class FollowerConstants {
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double forwardZeroPowerAcceleration = -10.365741041260167;
+    public static double forwardZeroPowerAcceleration = -50.47520340541257;
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double lateralZeroPowerAcceleration = -107.7473707968449;
+    public static double lateralZeroPowerAcceleration = -181.0824088852779;
 
     // A multiplier for the zero power acceleration to change the speed the robot decelerates at
     // the end of paths.

@@ -23,7 +23,7 @@ public class VerticalSlider{
     public VerticalSlider(LinearOpMode opMode){
         this.opMode = opMode;
     }
-    public static CRServo vrash, klesh;
+    public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
     int i = 0, g = 0, lasti;
     // мне лень писать 3 переменне поэтому 0 - мотор 1 - клешнят 2 - поворот
@@ -33,15 +33,18 @@ public class VerticalSlider{
 
     public void init(){
         hw = opMode.hardwareMap;
+
         pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
+        sample = opMode.hardwareMap.get(CRServo.class, "sample");
         pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(podPower);
         klesh.setPower(kleshPower);
         vrash.setPower(vrashPower);
+        sample.setPower(0.73);
     }
     public Thread pidThread = new Thread(() -> {
         while(opMode.opModeIsActive()){
@@ -94,10 +97,10 @@ public class VerticalSlider{
             pod.setPower(0.013);
         }
         if(opMode.gamepad2.dpad_right){
-            vrashPower = Range.clip(vrashPower + 0.01, -1,1);
+            vrashPower = Range.clip(vrashPower + 0.02, -0.95,1);
             vrash.setPower(vrashPower);
         } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = Range.clip( vrashPower -0.01, -1,1);
+            vrashPower = -0.95;
             vrash.setPower(vrashPower);
         }
         if(opMode.gamepad2.left_bumper){
@@ -117,6 +120,13 @@ public class VerticalSlider{
             kleshPower = 0;
         }
 
+        if (opMode.gamepad1.y){
+            sample.setPower(0.73);
+        } else if (opMode.gamepad1.a){
+            sample.setPower(-0.75);}
+//        } else {
+//            sample.setPower(0);
+//        }
 
     }
 }

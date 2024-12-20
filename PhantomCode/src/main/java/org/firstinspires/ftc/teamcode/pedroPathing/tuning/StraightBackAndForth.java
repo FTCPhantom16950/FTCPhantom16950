@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
@@ -30,7 +31,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
 
-    public static double DISTANCE = -23  ;
+    public static double DISTANCE = 48  ;
 
     private boolean forward = true;
 
@@ -38,6 +39,7 @@ public class StraightBackAndForth extends OpMode {
 
     private Path forwards;
     private Path backwards;
+    CRServo sR, krut, sL;
 
     /**
      * This initializes the Follower and creates the forward and backward Paths. Additionally, this
@@ -46,12 +48,13 @@ public class StraightBackAndForth extends OpMode {
     @Override
     public void init() {
         follower = new Follower(hardwareMap);
-
+        sL = hardwareMap.get(CRServo.class, "horL");
+        sR = hardwareMap.get(CRServo.class, "horR");
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(-DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Point(-DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
-        follower.setMaxPower(0.5);
+        follower.setMaxPower(0.3);
         follower.followPath(forwards);
 
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -67,6 +70,8 @@ public class StraightBackAndForth extends OpMode {
      */
     @Override
     public void loop() {
+        sL.setPower(0);
+        sR.setPower(0);
         follower.update();
         if (!follower.isBusy()) {
             if (forward) {

@@ -81,8 +81,10 @@ public class HorizontSlider {
             Zx.i = 1;
         }
         if (opMode.gamepad2.x){
+            i = 0;
             Zx.not = true;
             zx.setPower(0);
+            g = 1;
             opMode.sleep(200);
             g = -0.5;
             krut.setPower(g);

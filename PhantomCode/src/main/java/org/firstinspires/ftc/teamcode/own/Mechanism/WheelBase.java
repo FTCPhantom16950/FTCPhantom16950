@@ -147,7 +147,60 @@ public class WheelBase{
         }
     }
 
+    public void vperedEncoder(double pos, double power){
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        while(((-leftFront.getCurrentPosition() + rightFront.getCurrentPosition()) / 2 <= pos) && opMode.opModeIsActive()){
+                opMode.telemetry.addData("lf", leftFront.getCurrentPosition());
+                opMode.telemetry.addData("rf", rightFront.getCurrentPosition());
+                opMode.telemetry.addData("avg",(leftFront.getCurrentPosition() + -rightFront.getCurrentPosition()) / 2);
+                opMode.telemetry.update();
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+    }
+    public void razvarotEncoder(double pos, double power){
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        while(rightBack.getCurrentPosition() <= pos && opMode.opModeIsActive()){
+            opMode.telemetry.addData("rb", rightBack.getCurrentPosition());
+            opMode.telemetry.update();;
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+    }
 
+    public void nazadEncoder(double pos, double power){
+        vperedEncoder(pos, -power);
+    }
     public void vpred_Taiming(long time, double power){
         ElapsedTime tiner = new ElapsedTime();
         rightBack.setPower(-power);
@@ -182,75 +235,8 @@ public class WheelBase{
         vpred_Taiming(time, -power);
     }
 
-    public void vpered(int pos, double power){
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setTargetPosition(pos);
-        leftBack.setTargetPosition(pos);
-        leftFront.setTargetPosition(pos);
-        rightBack.setTargetPosition(pos);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBack.setPower(power);
-        leftBack.setPower(power);
-        rightFront.setPower(power);
-        leftFront.setPower(power);
-        while(rightFront.isBusy() && rightBack.isBusy() && leftFront.isBusy() && leftBack.isBusy() && opMode.opModeIsActive()){
-            opMode.telemetry.addData("rbtick", rightBack.getCurrentPosition());
-            opMode.telemetry.addData("rftick", rightFront.getCurrentPosition());
-            opMode.telemetry.addData("lbtick", leftBack.getCurrentPosition());
-            opMode.telemetry.addData("lftick", leftFront.getCurrentPosition());
-            opMode.telemetry.update();
-        }
-        rightBack.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        leftFront.setPower(0);
-    }
-    public void nazad(int pos, double power){
-        vpered(-pos, power);
-    }
-    public void vpravo(int pos, double power) {
 
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftFront.setTargetPosition(-pos);
-        rightBack.setTargetPosition(-pos);
-        rightFront.setTargetPosition(pos);
-        leftBack.setTargetPosition(-pos);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFront.setPower(power);
-        rightBack.setPower(power);
-        rightFront.setPower(power);
-        leftBack.setPower(power);
-
-        while (opMode.opModeIsActive() && (leftFront.isBusy()) && (rightFront.isBusy()) && (rightBack.isBusy()) && (leftBack.isBusy())) {
-
-        }
-
-        // Stop all motion;
-        rightBack.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        leftFront.setPower(0);
-        opMode.sleep(100);
-
-    }
-    public void vlevo(int pos, double power){
-        vpravo(-pos, power);
-    }
     /*
     разварот - rf, rb, -lf, -lb
 
