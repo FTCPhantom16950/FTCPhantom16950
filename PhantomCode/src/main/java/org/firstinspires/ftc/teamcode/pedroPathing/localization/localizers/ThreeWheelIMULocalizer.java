@@ -100,14 +100,14 @@ public class ThreeWheelIMULocalizer extends Localizer {
 
 
         // TODO: replace these with your encoder ports
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lb"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rf"));
         strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb"));
 
         // TODO: reverse any encoders necessary
-        leftEncoder.setDirection(Encoder.REVERSE);
-        rightEncoder.setDirection(Encoder.FORWARD);
-        strafeEncoder.setDirection(Encoder.REVERSE);
+        leftEncoder.setDirection(Encoder.FORWARD);
+        rightEncoder.setDirection(Encoder.REVERSE);
+        strafeEncoder.setDirection(Encoder.FORWARD);
 
         setStartPose(setStartPose);
         timer = new NanoTimer();

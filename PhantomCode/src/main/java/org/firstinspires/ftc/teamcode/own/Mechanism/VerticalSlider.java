@@ -94,13 +94,13 @@ public class VerticalSlider{
                 pod.setPower(-1);
             }
         } else {
-            pod.setPower(0.013);
+            pod.setPower(0.022);
         }
         if(opMode.gamepad2.dpad_right){
             vrashPower = Range.clip(vrashPower + 0.02, -0.95,1);
             vrash.setPower(vrashPower);
         } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = -0.95;
+            vrashPower = -0.93;
             vrash.setPower(vrashPower);
         }
         if(opMode.gamepad2.left_bumper){
@@ -118,6 +118,10 @@ public class VerticalSlider{
 //            not = false;
         }else if (!not){
             kleshPower = 0;
+        }
+        if (opMode.gamepad2.b){
+            vrashPower = 1;
+            vrash.setPower(vrashPower);
         }
 
         if (opMode.gamepad1.y){

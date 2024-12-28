@@ -148,10 +148,6 @@ public class WheelBase{
     }
 
     public void vperedEncoder(double pos, double power){
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -164,16 +160,21 @@ public class WheelBase{
         leftBack.setPower(power);
         rightFront.setPower(power);
         leftFront.setPower(-power);
-        while(((-leftFront.getCurrentPosition() + rightFront.getCurrentPosition()) / 2 <= pos) && opMode.opModeIsActive()){
-                opMode.telemetry.addData("lf", leftFront.getCurrentPosition());
+        double encdoerpos = 0;
+        opMode.sleep(100);
+        while(encdoerpos <= pos && opMode.opModeIsActive()){
+            encdoerpos = (rightFront.getCurrentPosition() + leftBack.getCurrentPosition()) / 2;
+            opMode.telemetry.addData("rb", leftFront.getCurrentPosition());
+                opMode.telemetry.addData("lb", leftBack.getCurrentPosition());
                 opMode.telemetry.addData("rf", rightFront.getCurrentPosition());
-                opMode.telemetry.addData("avg",(leftFront.getCurrentPosition() + -rightFront.getCurrentPosition()) / 2);
+                opMode.telemetry.addData("avg",encdoerpos);
                 opMode.telemetry.update();
         }
         rightBack.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         leftFront.setPower(0);
+        opMode.sleep(100);
     }
     public void razvarotEncoder(double pos, double power){
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -184,22 +185,58 @@ public class WheelBase{
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setPower(-power);
-        leftBack.setPower(power);
+        rightBack.setPower(power);
+        leftBack.setPower(-power);
         rightFront.setPower(power);
         leftFront.setPower(-power);
-        while(rightBack.getCurrentPosition() <= pos && opMode.opModeIsActive()){
-            opMode.telemetry.addData("rb", rightBack.getCurrentPosition());
-            opMode.telemetry.update();;
+        opMode.sleep(100);
+        double encdoerpos = 0;
+        opMode.sleep(100);
+        while(encdoerpos <= pos && opMode.opModeIsActive()){
+            encdoerpos = (rightFront.getCurrentPosition() - leftBack.getCurrentPosition()) / 2;
+            opMode.telemetry.addData("rb", leftFront.getCurrentPosition());
+            opMode.telemetry.addData("lb", leftBack.getCurrentPosition());
+            opMode.telemetry.addData("rf", rightFront.getCurrentPosition());
+            opMode.telemetry.addData("avg",encdoerpos);
+            opMode.telemetry.update();
         }
         rightBack.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         leftFront.setPower(0);
+        opMode.sleep(100);
     }
 
     public void nazadEncoder(double pos, double power){
-        vperedEncoder(pos, -power);
+        pos = - pos;
+        power = - power;
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        double encdoerpos = 0;
+        opMode.sleep(100);
+        while(encdoerpos >= pos && opMode.opModeIsActive()){
+            encdoerpos = (rightFront.getCurrentPosition() + leftBack.getCurrentPosition()) / 2;
+            opMode.telemetry.addData("rb", leftFront.getCurrentPosition());
+            opMode.telemetry.addData("lb", leftBack.getCurrentPosition());
+            opMode.telemetry.addData("rf", rightFront.getCurrentPosition());
+            opMode.telemetry.addData("avg",encdoerpos);
+            opMode.telemetry.update();
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+        opMode.sleep(100);
     }
     public void vpred_Taiming(long time, double power){
         ElapsedTime tiner = new ElapsedTime();

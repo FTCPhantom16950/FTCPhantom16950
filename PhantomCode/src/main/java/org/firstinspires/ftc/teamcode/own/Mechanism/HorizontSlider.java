@@ -90,9 +90,9 @@ public class HorizontSlider {
             krut.setPower(g);
             opMode.sleep(200);
             i = startLeftPower;
-            opMode.sleep(200);
+            opMode.sleep(100);
             zx.setPower(0.5);
-            opMode.sleep(200);
+            opMode.sleep(300);
             zx.setPower(0);
             opMode.sleep(200);
             g = 0;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 
 @Autonomous
+@Disabled
 public class ParkovkaOBEZD extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     WheelBase wheelBase = new WheelBase(this);

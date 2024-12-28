@@ -26,19 +26,25 @@ public class ParkovaVesh extends LinearOpMode {
         waitForStart();
         timer.reset();
         while (opModeIsActive()){
-            verticalSlider.pod.setPower(1.0);
-            sleep(250);
-            pod.setPower(0.13);
-            wheelBase.nazad_timing(2100, 0.3);
-            wheelBase.vpred_Taiming(200, 0.3);
-            pod.setPower(1.0);
-            sleep(300);
-            pod.setPower(-1);
-            sleep(300);
-            pod.setPower(0.13);
-            wheelBase.vpred_Taiming(2500, 0.3);
-            wheelBase.razvarot(1800, 0.3);
-            wheelBase.nazad_timing(3000, 0.3);
+            sleep(10000);
+//            verticalSlider.pod.setPower(1.0);
+//            sleep(300);
+//            pod.setPower(0.13);
+////            wheelBase.nazadEncoder(1000, 0.3);
+//            wheelBase.nazad_timing(2000, 0.3);
+//            wheelBase.vpred_Taiming(180, 0.3);
+//            sleep(500);
+//            pod.setPower(1.0);
+//            sleep(450);
+//            pod.setPower(0.13);
+//            sleep(500);
+//            wheelBase.vpred_Taiming(200, 0.3);
+//            pod.setPower(-1);
+//            sleep(300);
+//            pod.setPower(0.13);
+//            wheelBase.vpred_Taiming(1800, 0.3);
+//            wheelBase.razvarot(1200, 0.3);
+            wheelBase.nazad_timing(2500, 0.3);
             sleep(30000);
         }
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 @Autonomous
+@Disabled
 public class PedroTest extends LinearOpMode {
     HorizontSlider horizontSlider = new HorizontSlider(this);
     Follower follower;

@@ -61,10 +61,10 @@ public class Zx {
             zx.setPower(0);
         }
         if (opMode.gamepad2.y){
-            g = Range.clip(g + 0.01, -0.95, 1);
+            g = Range.clip(g + 0.015, -0.57, 1);
             krut.setPower(g);
         } else if (opMode.gamepad2.a) {
-            g = Range.clip(g - 0.01, -0.95, 1);
+            g = Range.clip(g - 0.015, -0.57, 1);
             krut.setPower(g);
         }
     } }

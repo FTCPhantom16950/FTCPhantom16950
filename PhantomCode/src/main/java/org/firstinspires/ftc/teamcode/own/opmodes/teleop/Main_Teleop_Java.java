@@ -55,6 +55,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         }
     });
     Thread verticSlider = new Thread(() -> {
+
         while (opModeIsActive()){
             verticalSlider.run();
         }
@@ -67,13 +68,14 @@ public class Main_Teleop_Java extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
-        lynxModule.init_Lynx();
+       // lynxModule.init_Lynx();
         horizontSlider.init();
         verticalSlider.init();
         zx.init();
         podves.init();
         timer.reset();
         waitForStart();
+        horSlider.setDaemon(true);
         horSlider.start();
         verticSlider.start();
         horSlider1.start();

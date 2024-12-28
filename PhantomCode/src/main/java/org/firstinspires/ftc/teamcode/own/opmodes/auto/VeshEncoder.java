@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
+
+import android.content.pm.LabeledIntent;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +14,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 
 @Autonomous
-public class ParkovkaPLAYOFF extends LinearOpMode {
+public class VeshEncoder extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     WheelBase wheelBase = new WheelBase(this);
     HorizontSlider horizontSlider = new HorizontSlider(this);
@@ -24,26 +28,24 @@ public class ParkovkaPLAYOFF extends LinearOpMode {
         zx.init();
         waitForStart();
         timer.reset();
-        if (opModeIsActive()){
-            wheelBase.nazad_timing(400, 0.5);
+        while (opModeIsActive()){
+            pod.setPower(1.0);
+            sleep(300);
+            pod.setPower(0.13);
+            wheelBase.nazadEncoder(10000, 0.2);
+            wheelBase.vperedEncoder(300, 0.2);
             sleep(500);
-            verticalSlider.pod.setPower(1);
-            sleep(1000);
-            verticalSlider.pod.setPower(0.15);
-            verticalSlider.vrash.setPower(1);
-            sleep(1000);
-            verticalSlider.klesh.setPower(-0.3);
-            sleep(1000);
-            verticalSlider.vrash.setPower(-0.5);
-            sleep(100);
-            verticalSlider.klesh.setPower(0);
-            verticalSlider.pod.setPower(-1);
-            sleep(1000);
-            verticalSlider.pod.setPower(0.15);
-            sleep(200);
-            wheelBase.vpred_Taiming(4500, 0.5);
-
+            pod.setPower(0.7);
+            sleep(700);
+            pod.setPower(0.13);
+            sleep(500);
+            wheelBase.vperedEncoder(200, 0.2);
+            pod.setPower(-1);
+            sleep(300);
+            pod.setPower(0.13);
+            wheelBase.vperedEncoder(7900, 0.2);
+            wheelBase.razvarotEncoder(1500, -0.3);
+            wheelBase.vperedEncoder(18000, 0.3);
             sleep(30000);
         }
-    }
-}
+    }}
