@@ -24,10 +24,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.KalmanFilterParameters;
 public class FollowerConstants {
 
     // This section is for configuring your motors
-    public static String leftFrontMotorName = "rb";
+    public static String leftFrontMotorName = "lf";
     public static String leftRearMotorName = "lb";
     public static String rightFrontMotorName = "rf";
-    public static String rightRearMotorName = "lf";
+    public static String rightRearMotorName = "rb";
 
     // This section is for setting the actual drive vector for the front left wheel, if the robot
     // is facing a heading of 0 radians with the wheel centered at (0,0)
@@ -43,10 +43,10 @@ public class FollowerConstants {
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.095,
             0,
-            0.015,
-            0.008);
+            0,
+            -0.015,
+            0);
 
     // Translational Integral
     public static CustomPIDFCoefficients translationalIntegral = new CustomPIDFCoefficients(

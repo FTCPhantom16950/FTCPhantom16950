@@ -26,9 +26,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
@@ -136,10 +138,10 @@ public class Follower {
     private double previousRawDriveError;
 
     public static boolean drawOnDashboard = true;
-    public static boolean useTranslational = true;
-    public static boolean useCentripetal = true;
-    public static boolean useHeading = true;
-    public static boolean useDrive = true;
+    public static boolean useTranslational = false;
+    public static boolean useCentripetal = false;
+    public static boolean useHeading = false;
+    public static boolean useDrive = false;
 
     /**
      * This creates a new Follower given a HardwareMap.
@@ -149,6 +151,58 @@ public class Follower {
     public Follower(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
         initialize();
+    }
+    /**
+     * This creates a new Follower given a HardwareMap and a localizer.
+     * @param hardwareMap HardwareMap required
+     * @param localizer the localizer you wish to use
+     */
+    public Follower(HardwareMap hardwareMap, Localizer localizer) {
+        this.hardwareMap = hardwareMap;
+        initialize(localizer);
+    }
+    /**
+     * This initializes the follower.
+     * In this, the DriveVectorScaler and PoseUpdater is instantiated, the drive motors are
+     * initialized and their behavior is set, and the variables involved in approximating first and
+     * second derivatives for teleop are set.
+     * @param localizer the localizer you wish to use
+     */
+
+    public void initialize(Localizer localizer) {
+        driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
+        poseUpdater = new PoseUpdater(hardwareMap, localizer);
+
+        //        rightFront = hardwareMap.get(DcMotorEx.class, "motor_rf");
+        //        rightRear = hardwareMap.get(DcMotorEx.class, "motor_rb");
+        //        leftFront = hardwareMap.get(DcMotorEx.class, "motor_lf");
+        //        leftRear = hardwareMap.get(DcMotorEx.class, "motor_lb");
+
+        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
+        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+
+        leftFront.setDirection(leftFrontMotorDirection);
+        leftRear.setDirection(leftRearMotorDirection);
+        rightFront.setDirection(rightFrontMotorDirection);
+        rightRear.setDirection(rightRearMotorDirection);
+
+        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+
+        for (DcMotorEx motor : motors) {
+            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
+            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
+            motor.setMotorType(motorConfigurationType);
+        }
+
+        for (DcMotorEx motor : motors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+
+        dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
+
+        breakFollowing();
     }
 
     /**
