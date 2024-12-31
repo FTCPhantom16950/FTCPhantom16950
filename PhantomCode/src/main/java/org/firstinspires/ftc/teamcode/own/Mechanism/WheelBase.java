@@ -4,6 +4,11 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.pathgen.BezierLine;
+import com.pedropathing.pathgen.PathBuilder;
+import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -17,13 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelIMULocalizer;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
+
 
 public class WheelBase{
     Follower follower;

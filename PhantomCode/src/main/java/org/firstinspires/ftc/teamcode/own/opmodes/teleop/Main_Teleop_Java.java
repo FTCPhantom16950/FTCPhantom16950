@@ -17,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,7 +31,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PHTelemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
+
 
 @TeleOp
 public class Main_Teleop_Java extends LinearOpMode {
@@ -41,7 +42,6 @@ public class Main_Teleop_Java extends LinearOpMode {
     Zx zx = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
-    Follower follower;
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
             horizontSlider.autoMoving();

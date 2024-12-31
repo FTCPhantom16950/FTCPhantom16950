@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
+import com.pedropathing.follower.Follower;
+import com.pedropathing.pathgen.BezierLine;
+import com.pedropathing.pathgen.PathBuilder;
+import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+
 @Autonomous
 @Disabled
 public class PedroTest extends LinearOpMode {
@@ -38,7 +41,7 @@ public class PedroTest extends LinearOpMode {
                 )
                 .setTangentHeadingInterpolation().build();
         horizontSlider.init();
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setMaxPower(0.3);
         waitForStart();
         if (opModeIsActive()){

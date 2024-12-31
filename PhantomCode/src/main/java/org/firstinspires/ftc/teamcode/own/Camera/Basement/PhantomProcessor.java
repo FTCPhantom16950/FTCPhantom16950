@@ -81,17 +81,17 @@ public class PhantomProcessor implements VisionProcessor {
     public Object processFrame(@NonNull Mat input, long captureTimeNanos) {
         output = input.clone();
         // конвертируем матрицы из одного формата в дргой
-       Imgproc.cvtColor(output, yCbCrChan2Mat, Imgproc.COLOR_BGR2GRAY);
+       Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_BGR2GRAY);
 //        // преобразуем из серого в ч/б формат
         Imgproc.threshold(yCbCrChan2Mat, yCbCrChan2Mat, 122, 255, Imgproc.THRESH_BINARY_INV);
  //
 //        // преобразуем картинку назад в RGB
-        Imgproc.cvtColor(yCbCrChan2Mat, output, Imgproc.COLOR_GRAY2RGB);
+        Imgproc.cvtColor(yCbCrChan2Mat, input, Imgproc.COLOR_GRAY2RGB);
         // считываем значения в квадратах
-        valLeft = getAverageValue(output, leftRect);
-        valRight = getAverageValue(output, rightRect);
+        valLeft = getAverageValue(input, leftRect);
+        valRight = getAverageValue(input, rightRect);
+//        input.convertTo(input, -1, 100, 100);
         
-
         // проверяем значения hue
         // если значение в правом квадрате 122, то выбираем правый
         if (valRight >= 122){
