@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,57 +15,61 @@ public class Zx {
 
     Config config = new Config();
     LinearOpMode opMode;
-    public static CRServo zx, krut;
+    public static CRServo zx, krut, krut2;
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
         this.opMode = opMode;
 
     }
-    private final double krut_start_power = 0.3;
-    private final double zx_start_power = 0;
-    private final double zx_power = 0.1;
-    private final double krut_skid = -1.0;
+    private static final double krut_start_power = -0.3;
+    private static final double krut2_start_power = -0.3;
+    private static final double zx_start_power = 0;
+    private static double zx_power = zx_start_power;
+    private static double krut_power = krut_start_power;
+    private static double krut2_power = krut2_start_power;
     public static int i = 0;
     public static double g = 0;
     public static boolean not = false;
+
 
     public void init(){
         hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
         krut= opMode.hardwareMap.get(CRServo.class, "krut");
+        krut2 = opMode.hardwareMap.get(CRServo.class, "vrash2");
+        krut2.setDirection(DcMotorSimple.Direction.REVERSE);
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
-        g = 0;
-        thread.start();
+        krut2.setPower(krut2_start_power);
     }
-    Thread thread = new Thread(() -> {
-        while (true){
-            krut.setPower(g);
-        }
-    });
+
     public void run(){
-//        if (i == 0){
-//            zx.setPower(0);
-//        } else if (i == 1){
-//            zx.setPower(0.5);
-//        }
-        if (opMode.gamepad2.right_bumper){
-//            if (i == 0){
-//                i = 1;
-//                opMode.sleep(200);
-//            } else if (i == 1) {
-//                i = 0;
-//                opMode.sleep(200);
-//            }
+
+        if(opMode.gamepad2.right_bumper){
             zx.setPower(0.5);
-        } else if (!not){
+        } else{
             zx.setPower(0);
         }
-        if (opMode.gamepad2.y){
-            g = Range.clip(g + 0.015, -0.57, 1);
-            krut.setPower(g);
-        } else if (opMode.gamepad2.a) {
-            g = Range.clip(g - 0.015, -0.57, 1);
-            krut.setPower(g);
+
+        // вперед
+        if(opMode.gamepad2.y){
+            krut_power = krut_power + 0.01;
+            krut.setPower(krut_power);
         }
-    } }
+        // назад
+        if(opMode.gamepad2.a){
+            krut_power = krut_power - 0.01;
+            krut.setPower(krut_power);
+        }
+        // вперед
+        if(opMode.gamepad2.b){
+            krut2_power = krut2_power + 0.01;
+            krut2.setPower(krut2_power);
+        }
+        // назад
+        if(opMode.gamepad2.x){
+            krut2_power = krut2_power - 0.01;
+            krut2.setPower(krut2_power);
+        }
+    }
+}

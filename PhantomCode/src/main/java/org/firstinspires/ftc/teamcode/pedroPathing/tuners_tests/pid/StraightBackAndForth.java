@@ -3,18 +3,20 @@ package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.pid;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.localization.localizers.ThreeWheelIMULocalizer;
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 /**
  * This is the StraightBackAndForth autonomous OpMode. It runs the robot in a specified distance
@@ -39,6 +41,7 @@ public class StraightBackAndForth extends OpMode {
     private boolean forward = true;
 
     private Follower follower;
+    public static CRServo sL, sR;
 
     private Path forwards;
     private Path backwards;
@@ -49,7 +52,9 @@ public class StraightBackAndForth extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+        Constants.setConstants(FConstants.class, LConstants.class);
+        ThreeWheelIMULocalizer threeWheelIMULocalizer = new ThreeWheelIMULocalizer(hardwareMap);
+        follower = new Follower(hardwareMap, threeWheelIMULocalizer);
 
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
@@ -63,6 +68,10 @@ public class StraightBackAndForth extends OpMode {
                             + " inches forward. The robot will go forward and backward continuously"
                             + " along the path. Make sure you have enough room.");
         telemetryA.update();
+        sL = hardwareMap.get(CRServo.class, "horL");
+        sR = hardwareMap.get(CRServo.class, "horR");
+        sL.setPower(0);
+        sR.setPower(0);
     }
 
     /**
@@ -71,6 +80,8 @@ public class StraightBackAndForth extends OpMode {
      */
     @Override
     public void loop() {
+        sL.setPower(0);
+        sR.setPower(0);
         follower.update();
         if (!follower.isBusy()) {
             if (forward) {
