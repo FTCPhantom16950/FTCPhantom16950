@@ -1,19 +1,19 @@
-package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.verification;
+package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 /**
  * This is the Circle autonomous OpMode. It runs the robot in a PathChain that's actually not quite
@@ -27,7 +27,7 @@ import com.pedropathing.pathgen.Point;
  * @version 1.0, 3/12/2024
  */
 @Config
-@Autonomous (name = "Circle", group = "Verification")
+@Autonomous (name = "Circle", group = "Examples")
 public class Circle extends OpMode {
     private Telemetry telemetryA;
 
@@ -43,7 +43,8 @@ public class Circle extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
 
         circle = follower.pathBuilder()
                 .addPath(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(RADIUS,0, Point.CARTESIAN), new Point(RADIUS, RADIUS, Point.CARTESIAN)))

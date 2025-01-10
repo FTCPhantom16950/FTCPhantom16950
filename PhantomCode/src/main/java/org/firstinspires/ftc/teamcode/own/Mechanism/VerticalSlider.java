@@ -105,24 +105,10 @@ public class VerticalSlider{
         }
         if(opMode.gamepad2.left_bumper){
             kleshPower  = -0.3;
-//        } else if (opMode.gamepad2.b) {
-//            not = true;
-//            VerticalSlider.kleshPower = -0.3;
-//            opMode.sleep(200);
-//            vrashPower = -0.9;
-//            opMode.sleep(200);
-//            VerticalSlider.kleshPower = 0;
-//            opMode.sleep(200);
-//            vrashPower = 0;
-//            opMode.sleep(200);
-//            not = false;
         }else if (!not){
             kleshPower = 0;
         }
-        if (opMode.gamepad2.b){
-            vrashPower = 1;
-            vrash.setPower(vrashPower);
-        }
+
 
         if (opMode.gamepad1.y){
             sample.setPower(0.73);

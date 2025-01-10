@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.verification;
+package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -7,25 +7,25 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Timer;
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 
 /**
- * This is the Circle autonomous OpMode.
+ * This is the Triangle autonomous OpMode.
  * It runs the robot in a triangle, with the starting point being the bottom-middle point.
  *
- * @author Baron Henderson
+ * @author Baron Henderson - 20077 The Indubitables
  * @author Samarth Mahapatra - 1002 CircuitRunners Robotics Surge
  * @version 1.0, 12/30/2024
  */
-@Autonomous(name = "Triangle", group = "Verification")
+@Autonomous(name = "Triangle", group = "Examples")
 public class Triangle extends OpMode {
     private Follower follower;
 
@@ -58,7 +58,8 @@ public class Triangle extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
 
         triangle = follower.pathBuilder()

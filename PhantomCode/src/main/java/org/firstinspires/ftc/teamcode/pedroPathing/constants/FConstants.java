@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 
 import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
+import com.pedropathing.localization.constants.ThreeWheelIMUConstants;
+import com.pedropathing.localization.localizers.ThreeWheelIMULocalizer;
 import com.pedropathing.util.CustomFilteredPIDFCoefficients;
 import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,17 +24,21 @@ public class FConstants {
 
         FollowerConstants.mass = 12;
 
-        FollowerConstants.xMovement = 97.98619505361877;
-        FollowerConstants.yMovement = 44.1364;
+        FollowerConstants.xMovement = 73.13207972253893;
+        FollowerConstants.yMovement = 50.607968786099335;
 
-        FollowerConstants.forwardZeroPowerAcceleration = -50.47520340541257;
-        FollowerConstants.lateralZeroPowerAcceleration = -181.0824088852779;
+        FollowerConstants.forwardZeroPowerAcceleration = -34.90168374138196;
+        FollowerConstants.lateralZeroPowerAcceleration = -92.07477745019709;
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.03,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(2,0,0.1,0);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(
+                0,
+                0,
+                0,
+                0);
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 

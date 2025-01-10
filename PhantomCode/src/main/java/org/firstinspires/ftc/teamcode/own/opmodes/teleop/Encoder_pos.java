@@ -17,8 +17,6 @@ public class Encoder_pos extends LinearOpMode {
         lb = hardwareMap.get(DcMotorEx.class, "lb");
         rf = hardwareMap.get(DcMotorEx.class, "rf");
         lf = hardwareMap.get(DcMotorEx.class, "lf");
-        rf.setDirection(DcMotorSimple.Direction.REVERSE);
-        rb.setDirection(DcMotorSimple.Direction.REVERSE);
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -30,10 +28,6 @@ public class Encoder_pos extends LinearOpMode {
             telemetry.addData("rf pos", rf.getCurrentPosition());
             telemetry.addData("lf pos", lf.getCurrentPosition());
             telemetry.update();
-            lf.setPower(0.2);
-            rf.setPower(0.2);
-            rb.setPower(0.2);
-            lb.setPower(0.2);
             sleep(3000);
         }
     }

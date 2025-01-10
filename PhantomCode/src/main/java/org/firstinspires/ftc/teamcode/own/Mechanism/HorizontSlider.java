@@ -70,36 +70,6 @@ public class HorizontSlider {
         }
     }
     public void autoMoving(){
-        if (opMode.gamepad2.left_stick_button) {
-            i = startLeftPower;
-        }
-        if (opMode.gamepad2.right_stick_button){
-            i = 0.45;
-            opMode.sleep(100);
-            g = 1;
-            krut.setPower(g);
-            Zx.i = 1;
-        }
-        if (opMode.gamepad2.x){
-            i = 0;
-            Zx.not = true;
-            zx.setPower(0);
-            g = 1;
-            opMode.sleep(200);
-            g = -0.5;
-            krut.setPower(g);
-            opMode.sleep(200);
-            i = startLeftPower;
-            opMode.sleep(100);
-            zx.setPower(0.5);
-            opMode.sleep(300);
-            zx.setPower(0);
-            opMode.sleep(200);
-            g = 0;
-            krut.setPower(g);
-            opMode.sleep(200);
-            Zx.not = false;
-        }
     }
 }
 
