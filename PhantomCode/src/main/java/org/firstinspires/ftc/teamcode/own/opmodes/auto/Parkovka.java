@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.i;
+
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

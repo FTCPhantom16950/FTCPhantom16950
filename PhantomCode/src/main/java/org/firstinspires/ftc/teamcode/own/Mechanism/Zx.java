@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 import java.io.LineNumberReader;
 
@@ -21,13 +22,12 @@ public class Zx {
         this.opMode = opMode;
 
     }
+    ZxPos.KRUT krutpos = ZxPos.KRUT.POXOD;
+    ZxPos.ZX zxpos = ZxPos.ZX.OTPUSK;
+    ZxPos.ZX curr_pos = zxpos;
     private static final double krut_start_power = -0.3;
     private static final double krut2_start_power = -0.3;
     private static final double zx_start_power = 0;
-    private static double zx_power = zx_start_power;
-    private static double krut_power = krut_start_power;
-    private static double krut2_power = krut2_start_power;
-    public static int i = 0;
     public static double g = 0;
     public static boolean not = false;
 
@@ -44,32 +44,59 @@ public class Zx {
     }
 
     public void run(){
+        boolean ready = true;
+        curr_pos = zxpos;
+        switch (krutpos){
+            case PEREDACHA -> {
 
+                krut.setPower(-0.4);
+                krut2.setPower(-0.4);
+                opMode.sleep(300);
+                zxpos = ZxPos.ZX.OTPUSK;
+                opMode.sleep(300);
+            }
+            case ZAXVAT -> {
+                zxpos = ZxPos.ZX.OTPUSK;
+                opMode.sleep(200);
+                krut.setPower(0.75);
+                krut2.setPower(0.4);
+            }
+            case null, default -> {
+                krut.setPower(krut_start_power);
+                krut2.setPower(krut2_start_power);}
+
+        }
+        switch (zxpos){
+            case OTPUSK ->{
+                zx.setPower(0);
+            }
+            case ZAXVAT ->{
+                zx.setPower(0.25);
+            }
+        }
         if(opMode.gamepad2.right_bumper){
-            zx.setPower(0.5);
-        } else{
-            zx.setPower(0);
+            if (zxpos == ZxPos.ZX.ZAXVAT){
+                zxpos = ZxPos.ZX.OTPUSK;
+                opMode.sleep(300);
+            } else if (zxpos == ZxPos.ZX.OTPUSK) {
+                zxpos = ZxPos.ZX.ZAXVAT;
+                opMode.sleep(200);
+            }
         }
 
-        // вперед
         if(opMode.gamepad2.y){
-            krut_power = krut_power + 0.01;
-            krut.setPower(krut_power);
+            krutpos = ZxPos.KRUT.ZAXVAT;
+            opMode.sleep(200);
         }
-        // назад
-        if(opMode.gamepad2.a){
-            krut_power = krut_power - 0.01;
-            krut.setPower(krut_power);
+        // назад -
+        else if(opMode.gamepad2.a){
+            krutpos = ZxPos.KRUT.PEREDACHA;
+            opMode.sleep(200);
+        } else if (opMode.gamepad2.b) {
+            krutpos = ZxPos.KRUT.POXOD;
+            opMode.sleep(200);
         }
-        // вперед
-        if(opMode.gamepad2.b){
-            krut2_power = krut2_power + 0.01;
-            krut2.setPower(krut2_power);
-        }
-        // назад
-        if(opMode.gamepad2.x){
-            krut2_power = krut2_power - 0.01;
-            krut2.setPower(krut2_power);
-        }
+
+
     }
 }
