@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
@@ -17,16 +17,10 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
 
-import android.graphics.Bitmap;
-
 import com.acmerobotics.dashboard.config.Config;
-import com.pedropathing.follower.Follower;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -38,12 +32,11 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
-import org.firstinspires.ftc.teamcode.own.Utils.PHTelemetry;
 
 
 @TeleOp
 @Config
-public class Main_Teleop_Java extends LinearOpMode {
+public class TELEPOPTEST extends LinearOpMode {
     public static double gain = 103;
     Color color = new Color();
     ElapsedTime timer = new ElapsedTime();

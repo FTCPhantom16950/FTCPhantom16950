@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.own.positions;
 
 public class ZxPos {
-    public  enum ZX{
+    public static enum ZX{
         ZAXVAT,
-        OTPUSK
+        OTPUSK,
+
     }
-    public  enum KRUT{
+    public static enum KRUT{
         ZAXVAT,
         PEREDACHA,
-        POXOD
+        POXOD,
+        AUto,
+        DEFAULT
     }
 }

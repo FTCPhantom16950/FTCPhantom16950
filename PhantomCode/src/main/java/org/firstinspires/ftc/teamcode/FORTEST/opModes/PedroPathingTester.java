@@ -6,11 +6,12 @@ import com.pedropathing.pathgen.PathBuilder;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
-
+@Autonomous
 public class PedroPathingTester extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,7 +31,7 @@ public class PedroPathingTester extends LinearOpMode {
         waitForStart();
         follower.setMaxPower(0.3);
         if (opModeIsActive()){
-            follower.followPath(to90, true);
+            follower.followPath(to90, false);
             follower.update();
             sleep(30000);
         }

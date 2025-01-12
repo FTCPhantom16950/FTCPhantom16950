@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +12,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 
 @Autonomous
-public class ParkovkaPLAYOFF extends LinearOpMode {
+public class ParkovaVeshTEST extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     WheelBase wheelBase = new WheelBase(this);
     HorizontSlider horizontSlider = new HorizontSlider(this);
@@ -24,24 +26,27 @@ public class ParkovkaPLAYOFF extends LinearOpMode {
         zx.init();
         waitForStart();
         timer.reset();
-        if (opModeIsActive()){
-            wheelBase.nazad_timing(400, 0.5);
+        while (opModeIsActive()){
+            timer.reset();
+            verticalSlider.pod.setPower(1.0);
+            sleep(300);
+            pod.setPower(0.13);
+            wheelBase.nazadEncoder(8100, 0.3);
             sleep(500);
-            verticalSlider.pod.setPower(1);
-            sleep(1000);
-            verticalSlider.pod.setPower(0.15);
-            verticalSlider.vrash.setPower(1);
-            sleep(1000);
-            verticalSlider.klesh.setPower(-0.3);
-            sleep(1000);
-            verticalSlider.vrash.setPower(-0.5);
-            sleep(100);
-            verticalSlider.klesh.setPower(0);
-            verticalSlider.pod.setPower(-1);
-            sleep(1000);
-            verticalSlider.pod.setPower(0.15);
+            pod.setPower(0.7);
+            sleep(800);
+            pod.setPower(0.13);
+            sleep(500);
+            wheelBase.vperedEncoder(500, 0.3);
+            pod.setPower(-0.7);
+            sleep(500);
+            pod.setPower(0.13);
+            // sleep(10000);
+            wheelBase.vperedEncoder(7600, 0.3);
             sleep(200);
-            wheelBase.vpred_Taiming(4500, 0.5);
+            wheelBase.razvarotEncoder(1550, 0.3);
+            sleep(200);
+            wheelBase.nazadEncoder(20000, 0.4);
 
             sleep(30000);
         }

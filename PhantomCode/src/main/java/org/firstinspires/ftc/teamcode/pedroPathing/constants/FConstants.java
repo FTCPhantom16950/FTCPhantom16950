@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
     static {
-        FollowerConstants.localizers = Localizers.THREE_WHEEL_IMU;
+        FollowerConstants.localizers = Localizers.THREE_WHEEL;
 
         FollowerConstants.leftFrontMotorName = "lf";
         FollowerConstants.leftRearMotorName = "lb";

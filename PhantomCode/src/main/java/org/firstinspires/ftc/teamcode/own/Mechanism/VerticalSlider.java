@@ -46,37 +46,6 @@ public class VerticalSlider{
         vrash.setPower(vrashPower);
         sample.setPower(0.73);
     }
-    public Thread pidThread = new Thread(() -> {
-        while(opMode.opModeIsActive()){
-            if (!opMode.gamepad2.dpad_up && !opMode.gamepad2.dpad_down){
-                output = controller.calculate(targetPos, pod.getCurrentPosition());
-                pod.setPower(output);
-            } else {
-                targetPos = pod.getCurrentPosition();
-            }
-        }
-    });
-
-//    public void test(){
-//        pod.setPower(RunPowers[0]);
-//        if(opMode.gamepad2.dpad_up){
-//            if (RunPowers[0] <= 1){
-//                RunPowers[0] = 1;
-//            } else {
-//                RunPowers[0] = 1;
-//            }
-//        } else if (opMode.gamepad2.dpad_down) {
-//            if (RunPowers[0] >= -1){
-//                RunPowers[0] = -1;
-//            } else {
-//                RunPowers[0] = -1;
-//            }
-//        } else {
-//            RunPowers[0] = 0.012;
-//        }
-//
-//    }
-
     public void run(){
         lasti = i;
         klesh.setPower(kleshPower);
@@ -106,17 +75,28 @@ public class VerticalSlider{
         if(opMode.gamepad2.left_bumper){
             kleshPower  = -0.3;
         }else if (!not){
-            kleshPower = 0;
+            kleshPower = 0.1;
         }
-
-
         if (opMode.gamepad1.y){
             sample.setPower(0.73);
         } else if (opMode.gamepad1.a){
             sample.setPower(-0.75);}
-//        } else {
-//            sample.setPower(0);
-//        }
-
+    }
+    public void poloz(){
+        klesh.setPower(0);
+        pod.setPower(1);
+        opMode.sleep(1000);
+        pod.setPower(0.13);
+        vrash.setPower(1);
+        opMode.sleep(1000);
+        klesh.setPower(-0.3);
+        opMode.sleep(1000);
+        vrash.setPower(-0.5);
+        opMode.sleep(100);
+        klesh.setPower(0);
+        pod.setPower(-1);
+        opMode.sleep(800);
+        pod.setPower(0.13);
+        opMode.sleep(200);
     }
 }
