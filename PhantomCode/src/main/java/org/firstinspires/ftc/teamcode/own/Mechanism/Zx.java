@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.Range;
+
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
-import java.io.LineNumberReader;
+
 
 public class Zx {
 
@@ -22,14 +23,15 @@ public class Zx {
         this.opMode = opMode;
 
     }
-    ZxPos.KRUT krutpos = ZxPos.KRUT.POXOD;
-    ZxPos.ZX zxpos = ZxPos.ZX.OTPUSK;
-    ZxPos.ZX curr_pos = zxpos;
+    public static ZxPos.KRUT krutpos;
+    public static ZxPos.ZX zxpos;
     private static final double krut_start_power = -0.3;
     private static final double krut2_start_power = -0.3;
     private static final double zx_start_power = 0;
     public static double g = 0;
+    double krut2_power, krut_power;
     public static boolean not = false;
+    public static boolean zxgo, krutgo;
 
 
     public void init(){
@@ -41,60 +43,78 @@ public class Zx {
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
         krut2.setPower(krut2_start_power);
+        krutpos = ZxPos.KRUT.POXOD;
+        zxpos = ZxPos.ZX.OTPUSK;
     }
 
     public void run(){
-        boolean ready = true;
-        curr_pos = zxpos;
-        switch (krutpos){
-            case PEREDACHA -> {
+        krut_power = krut2.getPower();
 
-                krut.setPower(-0.4);
-                krut2.setPower(-0.4);
-                opMode.sleep(300);
-                zxpos = ZxPos.ZX.OTPUSK;
-                opMode.sleep(300);
-            }
-            case ZAXVAT -> {
-                zxpos = ZxPos.ZX.OTPUSK;
-                opMode.sleep(200);
-                krut.setPower(0.75);
-                krut2.setPower(0.4);
-            }
-            case null, default -> {
-                krut.setPower(krut_start_power);
-                krut2.setPower(krut2_start_power);}
-
-        }
-        switch (zxpos){
-            case OTPUSK ->{
-                zx.setPower(0);
-            }
-            case ZAXVAT ->{
-                zx.setPower(0.25);
-            }
-        }
-        if(opMode.gamepad2.right_bumper){
+        if (opMode.gamepad2.right_bumper){
             if (zxpos == ZxPos.ZX.ZAXVAT){
                 zxpos = ZxPos.ZX.OTPUSK;
                 opMode.sleep(300);
+                zxgo = true;
             } else if (zxpos == ZxPos.ZX.OTPUSK) {
                 zxpos = ZxPos.ZX.ZAXVAT;
-                opMode.sleep(200);
+                opMode.sleep(300);
+                zxgo = true;
             }
+        }
+        if (zxpos == ZxPos.ZX.ZAXVAT && zxgo){
+            zx.setPower(0.23);
+            zxgo = false;
+        }   else if (zxpos == ZxPos.ZX.OTPUSK && zxgo) {
+            zx.setPower(-0.33);
+            zxgo = false;
         }
 
         if(opMode.gamepad2.y){
             krutpos = ZxPos.KRUT.ZAXVAT;
+            zxpos = ZxPos.ZX.OTPUSK;
             opMode.sleep(200);
+            zxgo = true;
+            krutgo = true;
         }
-        // назад -
         else if(opMode.gamepad2.a){
             krutpos = ZxPos.KRUT.PEREDACHA;
             opMode.sleep(200);
-        } else if (opMode.gamepad2.b) {
+            krutgo = true;
+        } else if (opMode.gamepad2.b && !(krutpos == ZxPos.KRUT.ZAXVAT)) {
             krutpos = ZxPos.KRUT.POXOD;
             opMode.sleep(200);
+            krutgo = true;
+        }
+        if (krutpos == ZxPos.KRUT.AUto && krutgo){
+            krut.setPower(0.67);
+            krut2.setPower(-0.3);
+            krutgo = false;
+        }
+        else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo){
+            krut.setPower(0.67);
+            krut2.setPower(0.42);
+            krutgo = false;
+        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo){
+            krut.setPower(-0.4);
+            krut2.setPower(-0.4);
+            krutgo = false;
+        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo){
+            krut.setPower(krut_start_power);
+            krut2.setPower(krut2_start_power);
+            krutgo = false;
+        }
+        if (opMode.gamepad2.b && krutpos == ZxPos.KRUT.ZAXVAT) {
+            krut2_power = Range.clip(krut2_power + 0.1, -1, 0.5);
+            krut_power = Range.clip(krut_power + 0.2, -1, 1);
+            krut2.setPower(krut2_power);
+            krut.setPower(krut_power);
+            opMode.sleep(300);
+        } else if (opMode.gamepad2.x && krutpos == ZxPos.KRUT.ZAXVAT) {
+            krut2_power = Range.clip(krut2_power - 0.1, -1, 0.5);
+            krut_power = Range.clip(krut_power - 0.2, -1, 1);
+            krut2.setPower(krut2_power);
+            krut.setPower(krut_power);
+            opMode.sleep(300);
         }
 
 

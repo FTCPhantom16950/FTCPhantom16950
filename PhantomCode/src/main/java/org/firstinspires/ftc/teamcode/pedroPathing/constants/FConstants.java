@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class FConstants {
     private double RobotWidth = 14.6, RobotLength = 17.2;
     static {
-        FollowerConstants.localizers = Localizers.THREE_WHEEL_IMU;
+        FollowerConstants.localizers = Localizers.THREE_WHEEL;
 
         FollowerConstants.leftFrontMotorName = "lf";
         FollowerConstants.leftRearMotorName = "lb";

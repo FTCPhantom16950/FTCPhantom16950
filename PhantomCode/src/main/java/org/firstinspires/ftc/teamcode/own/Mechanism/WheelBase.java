@@ -83,8 +83,8 @@ public class WheelBase{
 //        builder  = new PathBuilder();
         // инициализируем моторы
         rightFront = hw.get(DcMotorEx.class, "rf");
-        leftFront = hw.get(DcMotorEx.class, "rb");
-        rightBack = hw.get(DcMotorEx.class, "lf");
+        leftFront = hw.get(DcMotorEx.class, "lf");
+        rightBack = hw.get(DcMotorEx.class, "rb");
         leftBack = hw.get(DcMotorEx.class, "lb");
 
         // сбрасываем энкодеры
@@ -95,8 +95,8 @@ public class WheelBase{
 
 //        устанавливаем режим моторов
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // устанавливаем установки при подачи 0 питания
@@ -121,19 +121,19 @@ public class WheelBase{
 //        }
         //
         if (gamepad1.left_bumper){
-            lbump = 0.3;
+            lbump = 0.6;
         } else{
             lbump = 0;
         }
         if (gamepad1.right_bumper){
-            rbump = 0.3;
+            rbump = 0.6;
         }
         else{
             rbump = 0;
         }
 
-        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.4);
-        x = smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.4;
+        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.7);
+        x = smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.7;
         spin = smoothing(-gamepad1.right_trigger) + smoothing(gamepad1.left_trigger) - rbump + lbump;
         if (x <= 0.1 && x >= -0.1){
             x = 0;
@@ -145,7 +145,38 @@ public class WheelBase{
             spin = 0;
         }
     }
-
+    public void vpravoEnvoder(double pos, double power){
+        levoEncoder(-pos, -power);
+    }
+    public void levoEncoder(double pos, double power){
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
+        leftFront.setPower(-power);
+        double encdoerpos = 0;
+        opMode.sleep(100);
+        while(encdoerpos <= pos && opMode.opModeIsActive()){
+            encdoerpos = leftFront.getCurrentPosition() ;
+            opMode.telemetry.addData("rb", leftFront.getCurrentPosition());
+            opMode.telemetry.addData("lb", leftBack.getCurrentPosition());
+            opMode.telemetry.addData("rf", rightFront.getCurrentPosition());
+            opMode.telemetry.addData("avg",encdoerpos);
+            opMode.telemetry.update();
+        }
+        rightBack.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
+        opMode.sleep(100);
+    }
     public void vperedEncoder(double pos, double power){
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -176,6 +207,7 @@ public class WheelBase{
         opMode.sleep(100);
     }
     public void razvarotEncoder(double pos, double power){
+        pos = -pos;
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -191,7 +223,7 @@ public class WheelBase{
         opMode.sleep(100);
         double encdoerpos = 0;
         opMode.sleep(100);
-        while(encdoerpos <= pos && opMode.opModeIsActive()){
+        while(encdoerpos >= pos && opMode.opModeIsActive()){
             encdoerpos = (rightFront.getCurrentPosition() - leftBack.getCurrentPosition()) / 2;
             opMode.telemetry.addData("rb", leftFront.getCurrentPosition());
             opMode.telemetry.addData("lb", leftBack.getCurrentPosition());
@@ -245,7 +277,9 @@ public class WheelBase{
         leftFront.setPower(-power);
         tiner.reset();
         if (opMode.opModeIsActive()){
+
             opMode.sleep(time);
+
         }
         rightBack.setPower(0);
         leftBack.setPower(0);
@@ -319,10 +353,10 @@ public class WheelBase{
         //активируем геймпады
         gamepads();
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
-        rfSpeed = (y - spin - x);
-        rbSpeed = (y - spin + x);
-        lfSpeed = (y + spin + x);
-        lbSpeed = (y + spin - x);
+        rfSpeed = smoothing(y - spin - x);
+        rbSpeed = smoothing(y - spin + x);
+        lfSpeed = smoothing(y + spin + x);
+        lbSpeed = smoothing(y + spin - x);
         double max_powers = Math.max(Math.abs(lfSpeed), Math.max(Math.abs(rfSpeed),
                 Math.max(Math.abs(lbSpeed), Math.abs(rbSpeed))));
         if (max_powers > 1) {
