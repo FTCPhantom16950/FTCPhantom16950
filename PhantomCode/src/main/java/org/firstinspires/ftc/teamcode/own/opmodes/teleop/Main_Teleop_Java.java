@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -84,6 +85,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     });
     @Override
     public void runOpMode() throws InterruptedException {
+
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
         wheelBase.initWheelBase(hardwareMap);
        // lynxModule.init_Lynx();

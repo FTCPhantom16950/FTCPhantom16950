@@ -12,14 +12,14 @@ public class LConstants {
         ThreeWheelIMUConstants.leftY = 2.8;
         ThreeWheelIMUConstants.rightY = -2.8;
         ThreeWheelIMUConstants.strafeX = -4.9;
-        ThreeWheelIMUConstants.leftEncoder_HardwareMapName = "lb";
-        ThreeWheelIMUConstants.rightEncoder_HardwareMapName = "rf";
-        ThreeWheelIMUConstants.strafeEncoder_HardwareMapName = "rb";
+        ThreeWheelIMUConstants.leftEncoder_HardwareMapName = "rf";
+        ThreeWheelIMUConstants.rightEncoder_HardwareMapName = "lb";
+        ThreeWheelIMUConstants.strafeEncoder_HardwareMapName = "lf";
         ThreeWheelIMUConstants.leftEncoderDirection = Encoder.FORWARD;
         ThreeWheelIMUConstants.rightEncoderDirection = Encoder.REVERSE;
         ThreeWheelIMUConstants.strafeEncoderDirection = Encoder.REVERSE;
-        ThreeWheelIMUConstants.IMU_HardwareMapName = "imu1";
-        ThreeWheelIMUConstants.IMU_Orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
+        ThreeWheelIMUConstants.IMU_HardwareMapName = "imu";
+        ThreeWheelIMUConstants.IMU_Orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
     }
 }
 

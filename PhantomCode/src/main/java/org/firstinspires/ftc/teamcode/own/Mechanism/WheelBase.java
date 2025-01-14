@@ -106,8 +106,8 @@ public class WheelBase{
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // устанавливаем направление моторов
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         phantomIMU.initIMU(opMode.hardwareMap);
         phantomIMU.valueGetter();
@@ -132,8 +132,8 @@ public class WheelBase{
             rbump = 0;
         }
 
-        y = -(smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.7);
-        x = smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.7;
+        x = (smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.7);
+        y = -(smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.7);
         spin = smoothing(-gamepad1.right_trigger) + smoothing(gamepad1.left_trigger) - rbump + lbump;
         if (x <= 0.1 && x >= -0.1){
             x = 0;

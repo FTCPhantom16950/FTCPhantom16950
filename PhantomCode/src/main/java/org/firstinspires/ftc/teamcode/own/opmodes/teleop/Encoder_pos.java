@@ -30,14 +30,26 @@ public class Encoder_pos extends LinearOpMode {
             if (gamepad2.a){
                 rb.setPower(0.5);
             }
+            else{
+                rb.setPower(0);
+            }
             if (gamepad2.y){
                 rf.setPower(0.5);
+            }
+            else{
+                rf.setPower(0);
             }
             if (gamepad2.x){
                 lb.setPower(0.5);
             }
+            else{
+                lb.setPower(0);
+            }
             if (gamepad2.b){
                 lf.setPower(0.5);
+            }
+            else{
+                lf.setPower(0);
             }
             telemetry.addData("rb pos", rb.getCurrentPosition());
             telemetry.addData("lb pos", lb.getCurrentPosition());

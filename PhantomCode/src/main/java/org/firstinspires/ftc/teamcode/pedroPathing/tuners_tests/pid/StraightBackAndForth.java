@@ -52,13 +52,14 @@ public class StraightBackAndForth extends OpMode {
      */
     @Override
     public void init() {
+        Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
 
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.2);
         follower.followPath(forwards);
 
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
