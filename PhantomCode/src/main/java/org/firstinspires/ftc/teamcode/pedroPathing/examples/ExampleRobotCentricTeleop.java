@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import android.provider.SyncStateContract;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
@@ -22,13 +25,15 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 public class ExampleRobotCentricTeleop extends OpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
-
+    private Telemetry telemetryA;
     /** This method is call once when init is played, it initializes the follower **/
     @Override
     public void init() {
         Constants.setConstants(FConstants.class,LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
+        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+
     }
 
     /** This method is called continuously after Init while waiting to be started. **/
@@ -63,6 +68,7 @@ public class ExampleRobotCentricTeleop extends OpMode {
 
         /* Update Telemetry to the Driver Hub */
         telemetry.update();
+        follower.telemetryDebug(telemetryA);
 
     }
 

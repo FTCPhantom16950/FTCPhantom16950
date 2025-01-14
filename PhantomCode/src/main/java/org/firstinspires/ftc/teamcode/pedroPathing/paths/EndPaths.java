@@ -25,7 +25,7 @@ public class EndPaths {
                                 new Point(62.000, 95.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(-45), Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(90))
                 .build();
         toPark1fromSPICEMAN = builder
                 .addPath(
@@ -36,7 +36,7 @@ public class EndPaths {
                                 new Point(62.000, 96.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(-45), Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(90))
                 .build();
         toPark2fromBucket = builder
                 .addPath(
@@ -48,7 +48,7 @@ public class EndPaths {
                                 new Point(8.451, 8.285, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(-45), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(0))
                 .build();
         toPark2fromSPICEMAN = builder
                 .addPath(

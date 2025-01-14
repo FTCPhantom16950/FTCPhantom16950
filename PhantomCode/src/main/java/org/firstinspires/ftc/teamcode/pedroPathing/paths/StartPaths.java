@@ -19,11 +19,11 @@ public class StartPaths {
                 .addPath(
                         // Line 1
                         new BezierLine(
-                                new Point(7.800, 70.000, Point.CARTESIAN),
-                                new Point(38.500, 72.000, Point.CARTESIAN)
+                                new Point(70.000,7.800 , Point.CARTESIAN),
+                                new Point(70.000,38.500 , Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-180))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180)).setReversed(true)
                 .build();
         toBucket = builder
                 .addPath(
@@ -33,7 +33,7 @@ public class StartPaths {
                                 new Point(13.754, 128.589, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-45))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
                 .build();
 
     }

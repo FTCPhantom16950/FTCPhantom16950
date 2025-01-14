@@ -30,7 +30,7 @@ public class MiddlePaths {
                                 new Point(38.500, 72.000, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-180))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
                 .build();
         toBucket = builder
                 .addPath(
@@ -40,7 +40,7 @@ public class MiddlePaths {
                                 new Point(13.754, 128.589, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-45))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(315))
                 .build();
         toFirstSample = builder
                 .addPath(
@@ -62,7 +62,7 @@ public class MiddlePaths {
                                 new Point(24.359, 129.915, Point.CARTESIAN)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(-45), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(0))
                 .build();
 
     }
