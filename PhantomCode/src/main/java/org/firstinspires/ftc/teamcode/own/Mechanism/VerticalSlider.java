@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
-import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.PIDEx;
-import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
-import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficientsEx;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,8 +14,6 @@ public class VerticalSlider{
     LinearOpMode opMode;
     double  output = 0, targetPos = 0;
     // creation of the PID object
-    PIDCoefficients coefficients = new PIDCoefficients(0,0,0);
-    BasicPID controller = new BasicPID(coefficients);
     HardwareMap hw;
     public VerticalSlider(LinearOpMode opMode){
         this.opMode = opMode;

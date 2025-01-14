@@ -427,8 +427,8 @@ public class WheelBase{
     public void start(){
         if (Config.PEDROTELEOP && Config.TELEOPIMU){
             follower.setTeleOpMovementVectors(y, x, spin, true);
-        } else if (Config.PEDROTELEOP && Config.TELEOPIMU) {
-            follower.setTeleOpMovementVectors(y, x, spin, true);
+        } else if (Config.PEDROTELEOP && !Config.TELEOPIMU) {
+            follower.setTeleOpMovementVectors(y, x, spin, false);
         } else if (!Config.TELEOPIMU){
             driveEasy();
         } else if (Config.TELEOPIMU){
