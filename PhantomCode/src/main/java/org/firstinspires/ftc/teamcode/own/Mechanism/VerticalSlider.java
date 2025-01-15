@@ -41,9 +41,22 @@ public class VerticalSlider{
         vrash.setPower(vrashPower);
         sample.setPower(0.73);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+        playLoop.start();
     }
+    Thread playLoop = new Thread(() -> {
+        while (opMode.opModeIsActive()){
+            if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK){
+                kleshPower = -0.3;
+                klesh.setPower(kleshPower);
+                kleshgo = false;
+            } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT) {
+                kleshPower = 0;
+                klesh.setPower(kleshPower);
+                kleshgo = false;
+            }
+        }
+    });
     public void run(){
-
         if(opMode.gamepad2.dpad_up){
             if (pod.getPower() <= 1){
                 pod.setPower(1);
@@ -77,17 +90,34 @@ public class VerticalSlider{
                 kleshgo = true;
             }
         }
-        if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK){
-            kleshPower = -0.3;
-            klesh.setPower(kleshPower);
-            kleshgo = false;
-        } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT) {
-            kleshPower = 0;
-            klesh.setPower(kleshPower);
-            kleshgo = false;
-        }
-//            kleshPower  = -0.3;
-
-//            kleshPower = 0.1;
+    }
+    public void podvesSpiecMan(){
+        opMode.sleep(500);
+        pod.setPower(0.7);
+        opMode.sleep(700);
+        pod.setPower(0.13);
+        opMode.sleep(500);
+        pod.setPower(-0.7);
+        opMode.sleep(700);
+        pod.setPower(0.13);
+    }
+    public void podvesSample(){
+        kleshgo = true;
+        verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
+        vrash.setPower(-0.93);
+        opMode.sleep(200);
+        kleshgo = true;
+        verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+        vrash.setPower(-0.5);
+        pod.setPower(1);
+        opMode.sleep(500);
+        vrash.setPower(1);
+        opMode.sleep(300);
+        kleshgo = true;
+        verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
+        opMode.sleep(200);
+        vrash.setPower(-0.5);
+        pod.setPower(-1);
+        opMode.sleep(500);
     }
 }

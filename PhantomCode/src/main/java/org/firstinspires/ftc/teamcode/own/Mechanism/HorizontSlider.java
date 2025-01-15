@@ -35,9 +35,22 @@ public class HorizontSlider {
         sr_power = startRightPower;
         inited = true;
         horPos = HorSliderPos.HorPos.SLOZ;
-
+        initloop.start();
     }
+    Thread initloop = new Thread(()-> {
+        while (opMode.opModeIsActive()){
 
+            if (horPos == HorSliderPos.HorPos.SLOZ && horGO){
+                sL.setPower(0- 0.01);
+                sR.setPower(0);
+                horGO = false;
+            } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO){
+                sL.setPower(0.45 );
+                sR.setPower(-0.45);
+                horGO = false;
+            }
+        }
+    });
     public void moving(){
         if (opMode.gamepad2.right_stick_button){
             horPos = HorSliderPos.HorPos.SLOZ;
@@ -47,15 +60,6 @@ public class HorizontSlider {
             horPos = HorSliderPos.HorPos.VIDVIG;
             opMode.sleep(200);
             horGO = true;
-        }
-        if (horPos == HorSliderPos.HorPos.SLOZ && horGO){
-            sL.setPower(0- 0.01);
-            sR.setPower(0);
-            horGO = false;
-        } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO){
-            sL.setPower(0.45 );
-            sR.setPower(-0.45);
-            horGO = false;
         }
 //       - 0.05  if (opMode.gamepad2.right_stick_x > 0.1 && !horGO){
 //            double previous_power = sl_power;
@@ -115,6 +119,20 @@ public class HorizontSlider {
         zxpos = ZxPos.ZX.OTPUSK;
         zxgo = true;
         krutgo = true;
+    }
+    public void bliz_zx(){
+        zxgo = true;
+        krutgo = true;
+        krutpos = ZxPos.KRUT.ZAXVAT;
+        zxpos = ZxPos.ZX.OTPUSK;
+        opMode.sleep(500);
+        zxgo = true;
+        krutgo = true;
+        zxpos = ZxPos.ZX.ZAXVAT;
+        krutpos = ZxPos.KRUT.PEREDACHA;
+        opMode.sleep(500);
+        zxgo = true;
+         zxpos = ZxPos.ZX.OTPUSK;
     }
 }
 

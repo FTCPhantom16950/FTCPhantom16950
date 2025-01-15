@@ -140,63 +140,49 @@ public class ParkovaVeshTEST extends LinearOpMode {
 
             case 1: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - 1) && follower.getPose().getY() > (toSpiecman.getY() - 1))) {
-                    sleep(500);
-                    pod.setPower(0.7);
-                    sleep(700);
-                    pod.setPower(0.13);
-                    sleep(500);
-                    pod.setPower(-0.7);
-                    sleep(500);
-                    pod.setPower(0.13);
+                    verticalSlider.podvesSpiecMan();
                     follower.followPath(to1SamplePC, true);
                     setPathState(4);
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to1Sample.getX() - 1) && follower.getPose().getY() > (to1Sample.getY() - 1))) {
-                    zx.krutpos = ZxPos.KRUT.ZAXVAT;
-                    zx.zxpos = ZxPos.ZX.OTPUSK;
-                    sleep(1000);
-                    zx.zxgo = true;
-                    zx.krutgo = true;
-                    sleep(1000);
-                    zx.zxpos = ZxPos.ZX.ZAXVAT;
-                    zx.krutpos = ZxPos.KRUT.PEREDACHA;
-                    zx.zxgo = true;
-                    zx.krutgo = true;
-                    sleep(1000);
-                    zx.zxpos = ZxPos.ZX.OTPUSK;
-                    zx.zxgo = true;
+                    horizontSlider.bliz_zx();
                     follower.followPath(toBucketPCfirst, true);
                     setPathState(5);
                 }
                 break;
             case 5: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))) {
+                    verticalSlider.podvesSample();
                     follower.followPath(to2SamplePC, true);
                     setPathState(6);
                 }
                 break;
             case 6: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1))) {
+                    horizontSlider.bliz_zx();
                     follower.followPath(toBucketPCsecond, true);
                     setPathState(7);
                 }
                 break;
             case 7: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))) {
+                    verticalSlider.podvesSample();
                     follower.followPath(to3SamplePC, true);
                     setPathState(8);
                 }
                 break;
             case 8: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1))) {
+                    horizontSlider.bliz_zx();
                     follower.followPath(toBucketPCthird, true);
                     setPathState(9);
                 }
                 break;
             case 9:
                 if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))) {
+                    verticalSlider.podvesSample();
                     follower.followPath(toParkPC, true);
                     setPathState(-1);
                 }
