@@ -92,6 +92,8 @@ public class Main_Teleop_Java extends LinearOpMode {
         horSlider.start();
         verticSlider.start();
         zX.start();
+        gamepad2.setTimestamp(100);
+
         wheelBasethr.start();
         while (opModeIsActive()) {
             colorSensor.setGain((float)gain);

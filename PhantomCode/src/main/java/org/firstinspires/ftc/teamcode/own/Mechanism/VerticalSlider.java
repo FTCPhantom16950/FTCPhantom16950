@@ -69,9 +69,11 @@ public class VerticalSlider{
         if(opMode.gamepad2.left_bumper) {
             if (verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT){
                 verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
+                opMode.sleep(200);
                 kleshgo = true;
             } else if (verticalPOS == VerticalPOS.KLESHPOS.OTPUSK) {
                 verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+                opMode.sleep(200);
                 kleshgo = true;
             }
         }

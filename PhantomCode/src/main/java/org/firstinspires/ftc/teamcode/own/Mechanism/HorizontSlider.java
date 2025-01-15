@@ -41,41 +41,39 @@ public class HorizontSlider {
     public void moving(){
         if (opMode.gamepad2.right_stick_button){
             horPos = HorSliderPos.HorPos.SLOZ;
+            opMode.sleep(200);
             horGO = true;
         } else if (opMode.gamepad2.left_stick_button){
             horPos = HorSliderPos.HorPos.VIDVIG;
+            opMode.sleep(200);
             horGO = true;
         }
         if (horPos == HorSliderPos.HorPos.SLOZ && horGO){
-            sl_power = 0;
-            sr_power = -sl_power;
-            sL.setPower(sl_power);
-            sR.setPower(sr_power - 0.05);
+            sL.setPower(0- 0.01);
+            sR.setPower(0);
             horGO = false;
         } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO){
-            sl_power = 0.45;
-            sr_power = -sl_power;
-            sL.setPower(sl_power);
-            sR.setPower(sr_power - 0.05);
+            sL.setPower(0.45 );
+            sR.setPower(-0.45);
             horGO = false;
         }
-        if (opMode.gamepad2.right_stick_x > 0.1 && !horGO){
-            double previous_power = sl_power;
-            if (previous_power <= opMode.gamepad2.right_stick_x * 0.45){
-                sl_power = opMode.gamepad2.right_stick_x * 0.45;
-            }
-            sr_power = -sl_power;
-            sL.setPower(sl_power);
-            sR.setPower(sr_power - 0.05);
-        } else if (opMode.gamepad2.right_stick_x < 0.1 && !horGO) {
-            double previous_power = sl_power;
-            if (previous_power >= opMode.gamepad2.right_stick_x * 0.45){
-                sl_power = opMode.gamepad2.right_stick_x * 0.45;
-            }
-            sr_power = -sl_power;
-            sL.setPower(sl_power);
-            sR.setPower(sr_power - 0.05);
-        }
+//       - 0.05  if (opMode.gamepad2.right_stick_x > 0.1 && !horGO){
+//            double previous_power = sl_power;
+//            if (previous_power <= opMode.gamepad2.right_stick_x * 0.45){
+//                sl_power = opMode.gamepad2.right_stick_x * 0.45;
+//            }
+//            sr_power = -sl_power;
+//            sL.setPower(sl_power);
+//            sR.setPower(sr_power - 0.05);
+//        } else if (opMode.gamepad2.right_stick_x < 0.1 && !horGO) {
+//            double previous_power = sl_power;
+//            if (previous_power >= opMode.gamepad2.right_stick_x * 0.45){
+//                sl_power = opMode.gamepad2.right_stick_x * 0.45;
+//            }
+//            sr_power = -sl_power;
+//            sL.setPower(sl_power);
+//            sR.setPower(sr_power - 0.05);
+//        }
         if (opMode.gamepad2.right_trigger!= 0.0){
             vidvig();
         } else if (opMode.gamepad2.left_trigger!= 0.0) {

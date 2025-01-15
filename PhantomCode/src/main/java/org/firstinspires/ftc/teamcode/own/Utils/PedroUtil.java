@@ -20,9 +20,22 @@ import org.firstinspires.ftc.teamcode.own.positions.*;
 
 public class PedroUtil {
     List<AutonomousPositions.AutonomousPosition> autonomousPositionList = new ArrayList<>();
+
+    public void setHorizontSlider(HorizontSlider horizontSlider) {
+        this.horizontSlider = horizontSlider;
+    }
+
+    public void setVerticalSlider(VerticalSlider verticalSlider) {
+        this.verticalSlider = verticalSlider;
+    }
+
+    public void setZx(Zx zx) {
+        this.zx = zx;
+    }
+
     private Follower follower;
     private LinearOpMode opMode;
-    private int pathState = 0;
+    public int pathState = 0;
     private Timer pathTimer, actionTimer;
     public PedroUtil(Follower follower, LinearOpMode opMode) {
         this.follower = follower;
@@ -32,7 +45,7 @@ public class PedroUtil {
     VerticalSlider verticalSlider;
     Zx zx;
 
-    final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
+    public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
     final Pose toSpiecman = new Pose(109.6830102622577, 72.73888255416192, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(128.07297605473204,15.270239452679593, Math.toRadians(135));
@@ -61,6 +74,7 @@ public class PedroUtil {
     }
 
     public void initPedro(){
+        pathTimer = new Timer();
         if (zx != null){
             zx.init();
         }
@@ -71,8 +85,6 @@ public class PedroUtil {
             horizontSlider.init();
         }
         pathBuilding();
-        follower.setStartingPose(startPose);
-        follower.setMaxPower(0.5);
     }
     public void pathBuilding(){
         toSpiecmanPC = follower.pathBuilder().addPath(new BezierLine(
@@ -124,6 +136,8 @@ public class PedroUtil {
     }
     public void spicemanTrajectory() {
         switch (pathState) {
+            case -1:
+                opMode.sleep(300000);
             case 0: // Move from start to scoring position
                 follower.followPath(toSpiecmanPC);
                 setPathState(1);
@@ -139,6 +153,7 @@ public class PedroUtil {
     }
     public void trajectory2() {
         switch (pathState) {
+
             case 0:
                 follower.followPath(toSpiecmanPC);
                 setPathState(1);
