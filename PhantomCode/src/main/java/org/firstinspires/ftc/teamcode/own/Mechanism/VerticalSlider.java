@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
 public class VerticalSlider{
 
     LinearOpMode opMode;
+    public boolean inited = false;
     double  output = 0, targetPos = 0;
     // creation of the PID object
     HardwareMap hw;
@@ -20,15 +22,13 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
-    int i = 0, g = 0, lasti;
-    // мне лень писать 3 переменне поэтому 0 - мотор 1 - клешнят 2 - поворот
     public static double podPower = 0, vrashPower = -0.5, kleshPower = 0;
-    public static boolean not;
-    //аналогично
+    public  boolean kleshgo = false;
+    VerticalPOS.KLESHPOS verticalPOS ;
 
     public void init(){
         hw = opMode.hardwareMap;
-
+        inited = true;
         pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
@@ -40,10 +40,9 @@ public class VerticalSlider{
         klesh.setPower(kleshPower);
         vrash.setPower(vrashPower);
         sample.setPower(0.73);
+        verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
     }
     public void run(){
-        lasti = i;
-        klesh.setPower(kleshPower);
 
         if(opMode.gamepad2.dpad_up){
             if (pod.getPower() <= 1){
@@ -58,7 +57,7 @@ public class VerticalSlider{
                 pod.setPower(-1);
             }
         } else {
-            pod.setPower(0.022);
+            pod.setPower(0.025);
         }
         if(opMode.gamepad2.dpad_right){
             vrashPower = Range.clip(vrashPower + 0.02, -0.95,1);
@@ -67,31 +66,26 @@ public class VerticalSlider{
             vrashPower = -0.93;
             vrash.setPower(vrashPower);
         }
-        if(opMode.gamepad2.left_bumper){
-            kleshPower  = -0.3;
-        }else if (!not){
-            kleshPower = 0.1;
+        if(opMode.gamepad2.left_bumper) {
+            if (verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT){
+                verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
+                kleshgo = true;
+            } else if (verticalPOS == VerticalPOS.KLESHPOS.OTPUSK) {
+                verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+                kleshgo = true;
+            }
         }
-        if (opMode.gamepad1.y){
-            sample.setPower(0.73);
-        } else if (opMode.gamepad1.a){
-            sample.setPower(-0.75);}
-    }
-    public void poloz(){
-        klesh.setPower(0);
-        pod.setPower(1);
-        opMode.sleep(1000);
-        pod.setPower(0.13);
-        vrash.setPower(1);
-        opMode.sleep(1000);
-        klesh.setPower(-0.3);
-        opMode.sleep(1000);
-        vrash.setPower(-0.5);
-        opMode.sleep(100);
-        klesh.setPower(0);
-        pod.setPower(-1);
-        opMode.sleep(800);
-        pod.setPower(0.13);
-        opMode.sleep(200);
+        if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK){
+            kleshPower = -0.3;
+            klesh.setPower(kleshPower);
+            kleshgo = false;
+        } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT) {
+            kleshPower = 0;
+            klesh.setPower(kleshPower);
+            kleshgo = false;
+        }
+//            kleshPower  = -0.3;
+
+//            kleshPower = 0.1;
     }
 }

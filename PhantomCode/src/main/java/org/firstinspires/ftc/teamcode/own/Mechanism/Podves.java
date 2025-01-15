@@ -14,6 +14,7 @@ public class Podves {
     public Podves(LinearOpMode opMode) {
         this.opMode = opMode;
     }
+    public boolean inited = false;
     HardwareMap hw;
     public static DcMotorEx podv1, podv2;
     public void init(){
@@ -25,6 +26,7 @@ public class Podves {
         podv1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         podv2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         podv2.setDirection(DcMotorSimple.Direction.REVERSE);
+        inited = true;
     }
     public void run(){
         if(opMode.gamepad1.x){

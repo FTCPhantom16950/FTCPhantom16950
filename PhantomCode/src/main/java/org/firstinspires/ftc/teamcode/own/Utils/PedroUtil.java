@@ -12,6 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
+import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
+import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.positions.*;
 
 public class PedroUtil {
@@ -24,6 +28,10 @@ public class PedroUtil {
         this.follower = follower;
         this.opMode = opMode;
     }
+    HorizontSlider horizontSlider;
+    VerticalSlider verticalSlider;
+    Zx zx;
+
     final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
     final Pose toSpiecman = new Pose(109.6830102622577, 72.73888255416192, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
@@ -40,7 +48,28 @@ public class PedroUtil {
     PathChain toSpiecmanPC, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC, toPark2PC;
 
 
+    public Zx getZx() {
+        return zx;
+    }
+
+    public VerticalSlider getVerticalSlider() {
+        return verticalSlider;
+    }
+
+    public HorizontSlider getHorizontSlider() {
+        return horizontSlider;
+    }
+
     public void initPedro(){
+        if (zx != null){
+            zx.init();
+        }
+        if (verticalSlider != null){
+            verticalSlider.init();
+        }
+        if (horizontSlider != null){
+            horizontSlider.init();
+        }
         pathBuilding();
         follower.setStartingPose(startPose);
         follower.setMaxPower(0.5);

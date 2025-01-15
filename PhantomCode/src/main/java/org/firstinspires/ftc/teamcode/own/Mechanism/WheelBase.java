@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathBuilder;
@@ -16,10 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
@@ -73,6 +70,7 @@ public class WheelBase{
     //значения правого и левого бампера
     double rbump = 0;
     double lbump = 0;
+    public boolean inited = false;
     Gamepad gamepad1;
     /**
      * инициализация всех моторов колесной базы
@@ -111,6 +109,7 @@ public class WheelBase{
 
         phantomIMU.initIMU(opMode.hardwareMap);
         phantomIMU.valueGetter();
+        inited = true;
     }
 
     // считываем значения с геймпадов

@@ -32,7 +32,7 @@ public class Zx {
     double krut2_power, krut_power;
     public static boolean not = false;
     public static boolean zxgo, krutgo;
-
+    public boolean inited = false;
 
     public void init(){
         hw = opMode.hardwareMap;
@@ -45,6 +45,7 @@ public class Zx {
         krut2.setPower(krut2_start_power);
         krutpos = ZxPos.KRUT.POXOD;
         zxpos = ZxPos.ZX.OTPUSK;
+        inited = true;
     }
 
     public void run(){

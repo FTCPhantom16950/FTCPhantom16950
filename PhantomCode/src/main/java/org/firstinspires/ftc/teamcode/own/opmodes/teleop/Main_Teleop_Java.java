@@ -57,18 +57,12 @@ public class Main_Teleop_Java extends LinearOpMode {
     ColorRangeSensor colorSensor;
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
-            horizontSlider.autoMoving();
-            horizontSlider.manualMoving();
-
-        }
-    });
-    Thread horSlider1 = new Thread(() -> {
-        while (opModeIsActive()){
-            horizontSlider.run_wiithout();
+            if (horizontSlider.inited){
+                horizontSlider.moving();
+            }
         }
     });
     Thread verticSlider = new Thread(() -> {
-
         while (opModeIsActive()){
             verticalSlider.run();
         }
@@ -85,7 +79,6 @@ public class Main_Teleop_Java extends LinearOpMode {
     });
     @Override
     public void runOpMode() throws InterruptedException {
-
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
         wheelBase.initWheelBase(hardwareMap);
        // lynxModule.init_Lynx();
@@ -98,12 +91,10 @@ public class Main_Teleop_Java extends LinearOpMode {
         horSlider.setDaemon(true);
         horSlider.start();
         verticSlider.start();
-        horSlider1.start();
         zX.start();
         wheelBasethr.start();
         while (opModeIsActive()) {
             colorSensor.setGain((float)gain);
-
 //            verticalSlider.preSet2();
             podves.run();
            // zx.autoKrut();
