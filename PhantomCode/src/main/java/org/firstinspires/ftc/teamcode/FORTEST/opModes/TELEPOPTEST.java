@@ -49,15 +49,8 @@ public class TELEPOPTEST extends LinearOpMode {
     ColorRangeSensor colorSensor;
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
-            horizontSlider.autoMoving();
-            horizontSlider.manualMoving();
-
-        }
-    });
-    Thread horSlider1 = new Thread(() -> {
-        while (opModeIsActive()){
-            horizontSlider.run_wiithout();
-        }
+            horizontSlider.moving();
+            }
     });
     Thread verticSlider = new Thread(() -> {
 
@@ -89,7 +82,6 @@ public class TELEPOPTEST extends LinearOpMode {
         horSlider.setDaemon(true);
         horSlider.start();
         verticSlider.start();
-        horSlider1.start();
         zX.start();
         wheelBasethr.start();
         while (opModeIsActive()) {
