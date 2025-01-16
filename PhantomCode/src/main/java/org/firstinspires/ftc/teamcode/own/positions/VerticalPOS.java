@@ -5,5 +5,4 @@ public class VerticalPOS {
         ZAXVAT,
         OTPUSK,
     }
-
 }

@@ -39,12 +39,11 @@ public class VerticalSlider{
         pod.setPower(podPower);
         klesh.setPower(kleshPower);
         vrash.setPower(vrashPower);
-        sample.setPower(0.73);
+        sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
-        playLoop.start();
+
     }
-    Thread playLoop = new Thread(() -> {
-        while (opMode.opModeIsActive()){
+   public void play(){
             if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK){
                 kleshPower = -0.3;
                 klesh.setPower(kleshPower);
@@ -54,9 +53,10 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             }
-        }
-    });
+
+    }
     public void run(){
+        play();
         if(opMode.gamepad2.dpad_up){
             if (pod.getPower() <= 1){
                 pod.setPower(1);
@@ -92,32 +92,49 @@ public class VerticalSlider{
         }
     }
     public void podvesSpiecMan(){
-        opMode.sleep(500);
         pod.setPower(0.7);
         opMode.sleep(700);
         pod.setPower(0.13);
-        opMode.sleep(500);
-        pod.setPower(-0.7);
-        opMode.sleep(700);
-        pod.setPower(0.13);
+        opMode.sleep(200);
     }
     public void podvesSample(){
-        kleshgo = true;
-        verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
+        kleshPower = -0.25;
+        klesh.setPower(kleshPower);
         vrash.setPower(-0.93);
-        opMode.sleep(200);
-        kleshgo = true;
-        verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+        opMode.sleep(500);
+        kleshPower = 0;
+        klesh.setPower(kleshPower);
+        opMode.sleep(400);
         vrash.setPower(-0.5);
+        opMode.sleep(1000);
         pod.setPower(1);
-        opMode.sleep(500);
+        opMode.sleep(900);
+        pod.setPower(0.15);
         vrash.setPower(1);
-        opMode.sleep(300);
-        kleshgo = true;
-        verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
-        opMode.sleep(200);
-        vrash.setPower(-0.5);
-        pod.setPower(-1);
+        opMode.sleep(1000);
+        kleshPower = -0.3;
+        klesh.setPower(kleshPower);
         opMode.sleep(500);
+        vrash.setPower(-0.5);
+        opMode.sleep(500);
+
+    }
+    public void podvesSamplelast(){
+        kleshPower = -0.25;
+        klesh.setPower(kleshPower);
+        vrash.setPower(-0.93);
+        opMode.sleep(500);
+        kleshPower = 0;
+        klesh.setPower(kleshPower);
+        opMode.sleep(400);
+        vrash.setPower(-0.5);
+        opMode.sleep(1000);
+        pod.setPower(1);
+        opMode.sleep(900);
+        pod.setPower(0.15);
+        vrash.setPower(1);
+        opMode.sleep(1000);
+        kleshPower = -0.3;
+        klesh.setPower(kleshPower);
     }
 }

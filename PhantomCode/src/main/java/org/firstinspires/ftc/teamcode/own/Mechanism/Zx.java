@@ -25,8 +25,8 @@ public class Zx {
     }
     public static ZxPos.KRUT krutpos;
     public static ZxPos.ZX zxpos;
-    private static final double krut_start_power = -0.3;
-    private static final double krut2_start_power = -0.3;
+    public static final double krut_start_power = -0.3;
+    public static final double krut2_start_power = -0.3;
     private static final double zx_start_power = 0;
     public static double g = 0;
     double krut2_power, krut_power;
@@ -46,40 +46,45 @@ public class Zx {
         krutpos = ZxPos.KRUT.POXOD;
         zxpos = ZxPos.ZX.OTPUSK;
         inited = true;
-        playloop.start();
     }
-    Thread playloop = new Thread(() -> {
-        while (opMode.opModeIsActive()){
-            krut_power = krut2.getPower();
-            if (zxpos == ZxPos.ZX.ZAXVAT && zxgo){
-                zx.setPower(0.23);
-                zxgo = false;
-            }   else if (zxpos == ZxPos.ZX.OTPUSK && zxgo) {
-                zx.setPower(-0.33);
-                zxgo = false;
-            }
-            if (krutpos == ZxPos.KRUT.AUto && krutgo){
-                krut.setPower(0.67);
-                krut2.setPower(-0.3);
-                krutgo = false;
-            }
-            else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo){
-                krut.setPower(0.67);
-                krut2.setPower(0.42);
-                krutgo = false;
-            } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo){
-                krut.setPower(-0.4);
-                krut2.setPower(-0.4);
-                krutgo = false;
-            } else if (krutpos == ZxPos.KRUT.POXOD && krutgo){
-                krut.setPower(krut_start_power);
-                krut2.setPower(krut2_start_power);
-                krutgo = false;
-            }
+    public void play1(){
+        if (zxpos == ZxPos.ZX.ZAXVAT && zxgo){
+            zx.setPower(0.23);
+            zxgo = false;
+        }   else if (zxpos == ZxPos.ZX.OTPUSK && zxgo) {
+            zx.setPower(-0.33);
+            zxgo = false;
         }
-    });
-    public void run(){
 
+    }
+    public void play(){
+        krut_power = krut2.getPower();
+
+        if (krutpos == ZxPos.KRUT.AUto && krutgo){
+            krut.setPower(0.67);
+            krut2.setPower(-0.3);
+            krutgo = false;
+        }
+        else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo){
+            krut.setPower(0.67);
+            krut2.setPower(0.42);
+            krutgo = false;
+        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo){
+            krut.setPower(-0.4);
+            krut2.setPower(-0.4);
+            krutgo = false;
+        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo){
+            krut.setPower(krut_start_power);
+            krut2.setPower(krut2_start_power);
+            krutgo = false;
+        }
+    }
+
+
+
+    public void run(){
+        play();
+        play1();
         if (opMode.gamepad2.right_bumper){
             if (zxpos == ZxPos.ZX.ZAXVAT){
                 zxpos = ZxPos.ZX.OTPUSK;
@@ -121,5 +126,26 @@ public class Zx {
             krut.setPower(krut_power);
             opMode.sleep(300);
         }
+    }
+    public void bliz_zx(){
+//        krutpos = ZxPos.KRUT.ZAXVAT;
+        krut.setPower(0.67);
+        krut2.setPower(0.42);
+        opMode.sleep(200);
+//        zxpos = ZxPos.ZX.OTPUSK;
+        zx.setPower(-0.33);
+        opMode.sleep(800);
+//        zxpos = ZxPos.ZX.ZAXVAT;
+        zx.setPower(0.23);
+        opMode.sleep(200);
+//        krutpos = ZxPos.KRUT.PEREDACHA;
+        krut.setPower(krut_start_power);
+        krut2.setPower(krut2_start_power);
+        opMode.sleep(1000);
+//        zxpos = ZxPos.ZX.OTPUSK;
+        zx.setPower(-0.33);
+        opMode.sleep(300);
+        krut.setPower(0);
+        krut2.setPower(0);
     }
 }
