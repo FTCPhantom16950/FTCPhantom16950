@@ -88,8 +88,8 @@ public class Main_Teleop_Java extends LinearOpMode {
         verticSlider.start();
         zX.start();
         gamepad2.setTimestamp(100);
-
         wheelBasethr.start();
+        wheelBase.followerthr.start();
         while (opModeIsActive()) {
 
 //            verticalSlider.preSet2();

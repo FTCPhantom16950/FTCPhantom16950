@@ -92,6 +92,7 @@ public class WheelBase{
 //        follower = new Follower(opMode.hardwareMap);
 //        builder  = new PathBuilder();
         // инициализируем моторы
+        gamepad1 = opMode.gamepad1;
         rightFront = hw.get(DcMotorEx.class, "rf");
         leftFront = hw.get(DcMotorEx.class, "lf");
         rightBack = hw.get(DcMotorEx.class, "rb");
@@ -127,7 +128,7 @@ public class WheelBase{
 
     // считываем значения с геймпадов
     public void gamepads(){
-        gamepad1 = opMode.gamepad1;
+
 //        if (opMode.gamepad2.right_stick_x == 1 && opMode.gamepad2.left_stick_x  == -1){
 //          Config.AUTOMODE = !Config.AUTOMODE;
 //        }
@@ -409,7 +410,7 @@ public class WheelBase{
         leftBack.setPower(0);
     }
     public void to90degrees(){
-        PathChain pathChain1 = builder
+        PathChain pathChain1 = follower.pathBuilder()
                 .addPath(
                         // Line 1
                         new BezierLine(
@@ -419,7 +420,7 @@ public class WheelBase{
                 )
                 .setLinearHeadingInterpolation(follower.getPose().getHeading(), Math.toRadians(90))
                 .build();
-        PathChain pathChain2 = builder
+        PathChain pathChain2 = follower.pathBuilder()
                 .addPath(
                         // Line 1
                         new BezierLine(
@@ -429,7 +430,7 @@ public class WheelBase{
                 )
                 .setLinearHeadingInterpolation(follower.getPose().getHeading(), Math.toRadians(270))
                 .build();
-        PathChain pathChain3 = builder
+        PathChain pathChain3 = follower.pathBuilder()
                 .addPath(
                         // Line 1
                         new BezierLine(
@@ -448,7 +449,7 @@ public class WheelBase{
             follower.followPath(pathChain3, false);
         }
     }
-    Thread followerthr = new Thread(() -> {
+    public Thread followerthr = new Thread(() -> {
         while (opMode.opModeIsActive()){
             follower.update();
         }
@@ -457,11 +458,11 @@ public class WheelBase{
         if (Config.PEDROTELEOP && Config.TELEOPIMU){
             follower.setTeleOpMovementVectors(y, x, spin, true);
             to90degrees();
-            followerthr.start();
+
         } else if (Config.PEDROTELEOP && !Config.TELEOPIMU) {
             follower.setTeleOpMovementVectors(y, x, spin, false);
             to90degrees();
-            followerthr.start();
+
         } else if (!Config.TELEOPIMU){
             driveEasy();
         } else if (Config.TELEOPIMU){
