@@ -452,6 +452,7 @@ public class WheelBase{
     public Thread followerthr = new Thread(() -> {
         while (opMode.opModeIsActive()){
             follower.update();
+gamepads();
         }
     });
     public void start(){
