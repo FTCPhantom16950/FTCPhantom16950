@@ -34,10 +34,12 @@ public class ParkovaVesh extends LinearOpMode  {
     final Pose toSpiecman = new Pose(106.8, 71, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(128.6365280289331,19.790235081374327, Math.toRadians(135));
-    final Pose to1Sample = new Pose(108, 24.73779385171791, Math.toRadians(180));
-    final Pose to1SampleControl = new Pose(143.47920433996384, 27.8625678119349);
-    final Pose to2Sample = new Pose(108.32549728752261, 15.88426763110307, Math.toRadians(180));
-    final Pose to2SampleControl = new Pose(121.34093500570125, 7.8814139110604255);
+    final Pose to1Sample = new Pose(119.26220614828209, 23.43580470162748, Math.toRadians(180));
+    final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
+    final Pose to1SampleEnd = new Pose(108, 24.73779385171791, Math.toRadians(180));
+    final Pose to2Sample = new Pose(114.5750452079566, 15.88426763110307, Math.toRadians(180));
+    final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
+    final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
     final Pose to3Sample = new Pose(115.59407069555303, 10.672748004560997, Math.toRadians(210));
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
     final Pose toPark2 = new Pose(80.20253164556962,47.132007233273065, Math.toRadians(270));
@@ -117,14 +119,28 @@ public class ParkovaVesh extends LinearOpMode  {
                                 new Point(to1SampleControl),
                                 new Point(to1Sample)
                         )
-                ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading()).build();
-        to2SamplePC = follower.pathBuilder()
+                ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading())
                 .addPath(
                         new BezierLine(
+                            new Point(to1Sample),
+                            new Point(to1SampleEnd)
+                        )
+                ).build();
+        to2SamplePC = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
                                 new Point(toBucket),
+                                new Point(to2SampleControl),
                                 new Point(to2Sample)
                         )
-                ).setLinearHeadingInterpolation(toBucket.getHeading(), to2Sample.getHeading()).build();
+                )
+                .addPath(
+                        new BezierLine(
+                                new Point(to2Sample),
+                                new Point(to2SampleEnd)
+                        )
+                )
+                .setLinearHeadingInterpolation(toBucket.getHeading(), to2Sample.getHeading()).build();
         to3SamplePC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(

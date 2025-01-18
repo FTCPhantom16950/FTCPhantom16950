@@ -4,10 +4,13 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import androidx.annotation.NonNull;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathBuilder;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,8 +18,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 
@@ -24,6 +29,8 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
 public class WheelBase{
     Follower follower;
     PathBuilder builder;
+    public static Rev2mDistanceSensor ds;
+    final Pose toPark2 = new Pose(80.20253164556962,47.132007233273065, Math.toRadians(270));
     /*
     ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
      */
@@ -41,10 +48,9 @@ public class WheelBase{
     public static double rfSpeed, rbSpeed, lfSpeed, lbSpeed;
     //проекция результируещего вектора на оси
     double resultX, resultY;
-
-
     // создаем иму
     PhantomIMU phantomIMU = new PhantomIMU();
+
     // создаем класс расчетов
 
 
@@ -84,7 +90,7 @@ public class WheelBase{
         leftFront = hw.get(DcMotorEx.class, "lf");
         rightBack = hw.get(DcMotorEx.class, "rb");
         leftBack = hw.get(DcMotorEx.class, "lb");
-
+        ds = hw.get(Rev2mDistanceSensor.class, "ds");
         // сбрасываем энкодеры
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -110,6 +116,7 @@ public class WheelBase{
         phantomIMU.initIMU(opMode.hardwareMap);
         phantomIMU.valueGetter();
         inited = true;
+        follower.setStartingPose(toPark2);
     }
 
     // считываем значения с геймпадов
@@ -143,6 +150,17 @@ public class WheelBase{
         if (spin <= 0.1 && spin >= -0.1){
             spin = 0;
         }
+        if (ds.getDistance(DistanceUnit.CM) < 11){
+            x = Range.clip(x, -0.3, 1);
+            y = Range.clip(y, -0.3, 1);
+            spin = Range.clip(spin, -0.3, 0.3);
+        }
+        else if (ds.getDistance(DistanceUnit.CM) < 31){
+            x = Range.clip(x, -0.5, 1);
+            y = Range.clip(y, -0.5, 1);
+            spin = Range.clip(spin, -0.5, 0.5);
+        }
+
     }
     public void vpravoEnvoder(double pos, double power){
         levoEncoder(-pos, -power);
@@ -389,45 +407,55 @@ public class WheelBase{
                 .addPath(
                         // Line 1
                         new BezierLine(
-                                new Point(9.757, 84.983, Point.CARTESIAN),
-                                new Point(9.757, 84.983, Point.CARTESIAN)
+                                new Point(follower.getPose()),
+                                new Point(follower.getPose())
                         )
                 )
-                .setLinearHeadingInterpolation(phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS), Math.toRadians(90))
+                .setLinearHeadingInterpolation(follower.getPose().getHeading(), Math.toRadians(90))
                 .build();
         PathChain pathChain2 = builder
                 .addPath(
                         // Line 1
                         new BezierLine(
-                                new Point(9.757, 84.983, Point.CARTESIAN),
-                                new Point(9.757, 84.983, Point.CARTESIAN)
+                                new Point(follower.getPose()),
+                                new Point(follower.getPose())
                         )
                 )
-                .setLinearHeadingInterpolation(phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS), Math.toRadians(90))
+                .setLinearHeadingInterpolation(follower.getPose().getHeading(), Math.toRadians(270))
                 .build();
         PathChain pathChain3 = builder
                 .addPath(
                         // Line 1
                         new BezierLine(
-                                new Point(9.757, 84.983, Point.CARTESIAN),
-                                new Point(9.757, 84.983, Point.CARTESIAN)
+                                new Point(follower.getPose()),
+                                new Point(follower.getPose())
                         )
                 )
-                .setLinearHeadingInterpolation(phantomIMU.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS), Math.toRadians(180))
+                .setLinearHeadingInterpolation(follower.getPose().getHeading(), Math.toRadians(180))
                 .build();
         if (gamepad1.left_stick_button){
             follower.followPath(pathChain1, false);
+
         } else if (gamepad1.right_stick_button){
             follower.followPath(pathChain2, false);
         } else if (gamepad1.right_stick_button && gamepad1.left_stick_button){
             follower.followPath(pathChain3, false);
         }
     }
+    Thread followerthr = new Thread(() -> {
+        while (opMode.opModeIsActive()){
+            follower.update();
+        }
+    });
     public void start(){
         if (Config.PEDROTELEOP && Config.TELEOPIMU){
             follower.setTeleOpMovementVectors(y, x, spin, true);
+            to90degrees();
+            followerthr.start();
         } else if (Config.PEDROTELEOP && !Config.TELEOPIMU) {
             follower.setTeleOpMovementVectors(y, x, spin, false);
+            to90degrees();
+            followerthr.start();
         } else if (!Config.TELEOPIMU){
             driveEasy();
         } else if (Config.TELEOPIMU){

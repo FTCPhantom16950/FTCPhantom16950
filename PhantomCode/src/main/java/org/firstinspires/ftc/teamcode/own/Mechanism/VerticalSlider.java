@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -52,6 +57,11 @@ public class VerticalSlider{
                 kleshPower = 0;
                 klesh.setPower(kleshPower);
                 kleshgo = false;
+            }
+            if (opMode.gamepad1.a){
+                sample.setPower(-0.5);
+            }else if (opMode.gamepad1.y){
+                sample.setPower(0.71);
             }
 
     }
@@ -106,7 +116,6 @@ public class VerticalSlider{
         klesh.setPower(kleshPower);
         opMode.sleep(400);
         vrash.setPower(-0.5);
-        opMode.sleep(1000);
         pod.setPower(1);
         opMode.sleep(900);
         pod.setPower(0.15);
@@ -136,5 +145,19 @@ public class VerticalSlider{
         opMode.sleep(1000);
         kleshPower = -0.3;
         klesh.setPower(kleshPower);
+    }
+    public void perviPodem(){
+        vrash.setPower(-0.1);
+        VerticalSlider.pod.setPower(1.0);
+        opMode.sleep(300);
+        pod.setPower(0.13);
+    }
+    public void spuskPosleBucket(){
+        opMode.sleep(1000);
+        pod.setPower(-0.9);
+        opMode.sleep(900);
+        pod.setPower(0.15);
+        krut.setPower(krut_start_power);
+        krut2.setPower(krut2_start_power);
     }
 }

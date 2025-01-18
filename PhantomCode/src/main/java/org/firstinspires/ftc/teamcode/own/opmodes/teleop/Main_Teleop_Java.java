@@ -18,6 +18,8 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
@@ -37,7 +39,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Color;
 @TeleOp
 @Config
 public class Main_Teleop_Java extends LinearOpMode {
-    public static double gain = 103;
+
     Color color = new Color();
     ElapsedTime timer = new ElapsedTime();
     HorizontSlider horizontSlider = new HorizontSlider(this);
@@ -46,7 +48,8 @@ public class Main_Teleop_Java extends LinearOpMode {
     Zx zx = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
-    ColorRangeSensor colorSensor;
+
+
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
             if (horizontSlider.inited){
@@ -71,7 +74,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     });
     @Override
     public void runOpMode() throws InterruptedException {
-        colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
+
         wheelBase.initWheelBase(hardwareMap);
        // lynxModule.init_Lynx();
         horizontSlider.init();
@@ -88,17 +91,15 @@ public class Main_Teleop_Java extends LinearOpMode {
 
         wheelBasethr.start();
         while (opModeIsActive()) {
-            colorSensor.setGain((float)gain);
+
 //            verticalSlider.preSet2();
             podves.run();
            // zx.autoKrut();
-            colorSensor.enableLed(false);
-            telemetry.addData("gain", gain );
-            telemetry.addData("RED", colorSensor.getNormalizedColors().red );
-            telemetry.addData("GREEN", colorSensor.getNormalizedColors().green);
-            telemetry.addData("BLUE", colorSensor.getNormalizedColors().blue);
-            telemetry.addData("Color",color.color(colorSensor.getNormalizedColors().red,colorSensor.getNormalizedColors().green,colorSensor.getNormalizedColors().blue));
-            telemetry.addData("DISTANCE", colorSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
+            telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);
+            telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
+            telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
+            telemetry.addData("DISTANCE", WheelBase.ds.getDistance(DistanceUnit.MM));
             telemetry.addData("rbspeed", rbSpeed);
             telemetry.addData("rfspeed", rfSpeed);
             telemetry.addData("lbspeed", lbSpeed);

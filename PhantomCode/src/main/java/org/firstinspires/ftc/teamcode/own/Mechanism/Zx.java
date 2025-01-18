@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 
 public class Zx {
-
+    public static double gain = 103;
     org.firstinspires.ftc.teamcode.own.Utils.Config config = new org.firstinspires.ftc.teamcode.own.Utils.Config();
     static LinearOpMode opMode;
     public static CRServo zx, krut, krut2;
@@ -20,6 +21,7 @@ public class Zx {
         this.opMode = opMode;
 
     }
+    public static RevColorSensorV3 colorSensor;
     public static ZxPos.KRUT krutpos;
     public static ZxPos.ZX zxpos;
     public static final double krut_start_power = -0.3;
@@ -30,12 +32,14 @@ public class Zx {
     public static boolean not = false;
     public static boolean zxgo, krutgo;
     public boolean inited = false;
+    public static boolean captured = false;
 
     public void init(){
         hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
         krut= opMode.hardwareMap.get(CRServo.class, "krut");
         krut2 = opMode.hardwareMap.get(CRServo.class, "vrash2");
+        colorSensor = hw.get(RevColorSensorV3.class, "color");
         krut2.setDirection(DcMotorSimple.Direction.REVERSE);
         zx.setPower(zx_start_power);
         krut.setPower(krut_start_power);
@@ -43,14 +47,17 @@ public class Zx {
         krutpos = ZxPos.KRUT.POXOD;
         zxpos = ZxPos.ZX.OTPUSK;
         inited = true;
+        colorSensor.setGain((float)gain);
     }
     public void play1(){
         if (zxpos == ZxPos.ZX.ZAXVAT && zxgo){
             zx.setPower(0.23);
             zxgo = false;
+            captured = true;
         }   else if (zxpos == ZxPos.ZX.OTPUSK && zxgo) {
             zx.setPower(-0.33);
             zxgo = false;
+            captured = false;
         }
 
     }
@@ -128,12 +135,14 @@ public class Zx {
 //        krutpos = ZxPos.KRUT.ZAXVAT;
         krut.setPower(0.67);
         krut2.setPower(0.42);
+
         opMode.sleep(200);
 //        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
         opMode.sleep(800);
 //        zxpos = ZxPos.ZX.ZAXVAT;
         zx.setPower(0.23);
+        captured = true;
         opMode.sleep(200);
 //        krutpos = ZxPos.KRUT.PEREDACHA;
         krut.setPower(krut_start_power);

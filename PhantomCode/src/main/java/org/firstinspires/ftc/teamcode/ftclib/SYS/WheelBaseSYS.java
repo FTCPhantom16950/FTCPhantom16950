@@ -16,4 +16,10 @@ public class WheelBaseSYS extends SubsystemBase {
         follower = new Follower(opMode.hardwareMap);
         follower.setStartingPose(pose);
     }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        follower.update();
+    }
 }

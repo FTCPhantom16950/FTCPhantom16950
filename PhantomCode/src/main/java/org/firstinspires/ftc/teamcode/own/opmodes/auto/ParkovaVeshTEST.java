@@ -142,11 +142,7 @@ public class ParkovaVeshTEST extends LinearOpMode {
                 )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).build();
     }
     Thread thread = new Thread(() -> {
-        vrash.setPower(-0.1);
-        setPathState(1);
-        verticalSlider.pod.setPower(1.0);
-        sleep(300);
-        pod.setPower(0.13);
+        verticalSlider.perviPodem();
     });
     Thread thread1 = new Thread(() -> {
         pod.setPower(-0.7);
@@ -154,31 +150,19 @@ public class ParkovaVeshTEST extends LinearOpMode {
         pod.setPower(0.13);
     });
     Thread thread9 = new Thread(() -> {
-        sleep(1000);
-        pod.setPower(-0.9);
-        sleep(900);
-        pod.setPower(0.15);
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        verticalSlider.spuskPosleBucket();
     });
     Thread thread10 = new Thread(() -> {
-        vrash.setPower(0.5);
-        sleep(1000);
-        pod.setPower(-0.9);
-        sleep(900);
-        pod.setPower(0.15);
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        verticalSlider.spuskPosleBucket();
         pod.setPower(0.7);
         sleep(750);
         pod.setPower(0.13);
         sleep(200);
-
     });
 
     Thread thread5 = new Thread(() -> {
         pod.setPower(-0.9);
-        sleep(900);
+        sleep(800);
         pod.setPower(0.15);
     });
     public void spicemanTrajectory() {
@@ -186,6 +170,7 @@ public class ParkovaVeshTEST extends LinearOpMode {
             case 0:
                 // Move from start to scoring position
                 follower.followPath(toSpiecmanPC);
+                setPathState(1);
                 thread.start();
                 break;
 
