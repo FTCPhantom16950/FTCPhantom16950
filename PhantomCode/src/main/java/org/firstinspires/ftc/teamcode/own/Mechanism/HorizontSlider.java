@@ -42,7 +42,7 @@ public class HorizontSlider {
                 sR.setPower(0);
                 horGO = false;
             } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO){
-                sL.setPower(0.45 );
+                sL.setPower(0.45);
                 sR.setPower(-0.45);
                 horGO = false;
 

@@ -1,22 +1,19 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 
 
 public class Zx {
 
-    Config config = new Config();
-    LinearOpMode opMode;
+    org.firstinspires.ftc.teamcode.own.Utils.Config config = new org.firstinspires.ftc.teamcode.own.Utils.Config();
+    static LinearOpMode opMode;
     public static CRServo zx, krut, krut2;
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
@@ -127,7 +124,7 @@ public class Zx {
             opMode.sleep(300);
         }
     }
-    public void bliz_zx(){
+    public static void bliz_zx(){
 //        krutpos = ZxPos.KRUT.ZAXVAT;
         krut.setPower(0.67);
         krut2.setPower(0.42);

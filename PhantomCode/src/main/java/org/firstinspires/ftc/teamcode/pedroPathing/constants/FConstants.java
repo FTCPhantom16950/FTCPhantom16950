@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 
-import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.localization.constants.ThreeWheelIMUConstants;
-import com.pedropathing.localization.localizers.ThreeWheelIMULocalizer;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
+import com.pedropathing.localization.Localizers;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
