@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
+import android.provider.SyncStateContract;
+
 import androidx.annotation.NonNull;
 
 import com.pedropathing.follower.Follower;
@@ -9,6 +11,7 @@ import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathBuilder;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,6 +27,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 
 public class WheelBase{
@@ -83,6 +88,7 @@ public class WheelBase{
      * @param hw HardwareMap
      */
     public void initWheelBase(@NonNull HardwareMap hw){
+        Constants.setConstants(FConstants.class, LConstants.class);
 //        follower = new Follower(opMode.hardwareMap);
 //        builder  = new PathBuilder();
         // инициализируем моторы
@@ -96,7 +102,7 @@ public class WheelBase{
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        follower = new Follower(hw);
 //        устанавливаем режим моторов
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
