@@ -25,7 +25,6 @@ public class VerticalSliderSYS extends SubsystemBase {
     public VerticalSliderSYS(LinearOpMode opMode){
         this.opMode = opMode;
         hw = opMode.hardwareMap;
-
         pod = new MotorEx(hw, "pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
@@ -35,7 +34,8 @@ public class VerticalSliderSYS extends SubsystemBase {
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
         pod.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        pod.setRunMode(Motor.RunMode.VelocityControl);
+        pod.stopAndResetEncoder();
+        pod.setRunMode(Motor.RunMode.RawPower);
         control.setOpMode(opMode);
         control.setTolerance(100);
         control.setkD(kD);

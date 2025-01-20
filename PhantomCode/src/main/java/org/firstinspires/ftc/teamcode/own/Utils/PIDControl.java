@@ -4,10 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDControl extends Thread{
-    int target, measured, tolerance = 0;
+    int target, measured, tolerance = 50;
     LinearOpMode opMode;
     int error = 0, lastError = error;
     double D, I, P, iSum;
+
+    public boolean isAtTargetPos() {
+        return atTargetPos;
+    }
+
+    public void setAtTargetPos(boolean atTargetPos) {
+        this.atTargetPos = atTargetPos;
+    }
+
     boolean atTargetPos = false;
     public void setkP(double kP) {
         this.kP = kP;
@@ -67,6 +76,11 @@ public class PIDControl extends Thread{
             D = kD * ((error - lastError) / timer.seconds());
             P = error * kP;
             iSum = iSum + (error * timer.seconds());
+            if (iSum > 100){
+                iSum = 100;
+            } else if (iSum < -100){
+                iSum = -100;
+            }
             I = iSum * kI;
             out = P + I + D;
             atTargetPos = false;
