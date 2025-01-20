@@ -12,8 +12,22 @@ public class ZaxvatSample extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        zxsys.zxOtpusk();
+        zxsys.krutOtpusk();
+    }
+
+    @Override
     public void execute() {
         super.execute();
+        zxsys.krutZaxvat();
+        withTimeout(500);
+        zxsys.zxZaxvat();
+        withTimeout(300);
+        zxsys.krutOtpusk();
+        withTimeout(500);
+        zxsys.zxOtpusk();
     }
 
     @Override

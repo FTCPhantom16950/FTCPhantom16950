@@ -43,10 +43,6 @@ public class VerticalSliderSYS extends SubsystemBase {
         control.setkI(kI);
     }
 
-    @Override
-    public void register() {
-        super.register();
-    }
 
     public void init(){
         klesh.setPower(kleshPower);

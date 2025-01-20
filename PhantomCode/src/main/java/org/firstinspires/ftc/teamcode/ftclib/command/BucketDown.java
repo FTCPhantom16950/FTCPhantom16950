@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.ftclib.SYS.VerticalSliderSYS;
 import org.firstinspires.ftc.teamcode.own.Utils.PIDControl;
 
-public class VeshSpiceman extends CommandBase {
+public class BucketDown extends CommandBase {
     VerticalSliderSYS veetSl;
     PIDControl pidControl;
 
@@ -18,7 +18,7 @@ public class VeshSpiceman extends CommandBase {
         thread.start();
     }
 
-    public VeshSpiceman(VerticalSliderSYS veetSl) {
+    public BucketDown(VerticalSliderSYS veetSl) {
         this.veetSl = veetSl;
         addRequirements(veetSl);
     }
@@ -29,13 +29,15 @@ public class VeshSpiceman extends CommandBase {
             VerticalSliderSYS.pod.set(pidControl.getOut());
         }
     });
+
     @Override
     public void execute() {
         super.execute();
-        pidControl.setTarget(1000);
-        while(!pidControl.isAtTargetPos()){}
-        pidControl.setTarget(2000);
-        while(!pidControl.isAtTargetPos()){}
+        veetSl.kleshClosed();
+        veetSl.poxod();
+        withTimeout(300);
+        pidControl.setTarget(-3000);
+        while (!pidControl.isAtTargetPos()){}
     }
 
     @Override

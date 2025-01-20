@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 public class PIDControl extends Thread{
     int target, measured, tolerance = 50;
     LinearOpMode opMode;
     int error = 0, lastError = error;
     double D, I, P, iSum;
-
+    double minPower = -1, maxPower = 1;
     public boolean isAtTargetPos() {
         return atTargetPos;
     }
@@ -71,6 +72,22 @@ public class PIDControl extends Thread{
     }
 
 
+    public double getMinPower() {
+        return minPower;
+    }
+
+    public void setMinPower(double minPower) {
+        this.minPower = minPower;
+    }
+
+    public double getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(double maxPower) {
+        this.maxPower = maxPower;
+    }
+
     public void calculate(int target, int measured){
         while(!(target - tolerance < measured) && !(target + tolerance > measured)){
             D = kD * ((error - lastError) / timer.seconds());
@@ -82,7 +99,7 @@ public class PIDControl extends Thread{
                 iSum = -100;
             }
             I = iSum * kI;
-            out = P + I + D;
+            out = Range.clip( P + I + D, minPower, maxPower);
             atTargetPos = false;
         }
         if (!(!(target - tolerance < measured) && !(target + tolerance > measured))){
