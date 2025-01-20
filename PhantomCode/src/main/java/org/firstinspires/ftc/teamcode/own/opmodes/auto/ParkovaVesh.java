@@ -69,6 +69,7 @@ public class ParkovaVesh extends LinearOpMode  {
             horizontSlider.play();
             verticalSlider.play();
             spicemanTrajectory();
+            follower.telemetryDebug(telemetry);
             follower.update();
             telemetry.addData("State pos", pathState);
             telemetry.update();
@@ -83,14 +84,16 @@ public class ParkovaVesh extends LinearOpMode  {
                 .addPath(new BezierLine(
                         new Point(toBucket),
                         new Point(toPark)
-                )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()).build();
+                )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()
+                ).setPathEndTimeoutConstraint(1500).build();
         toBucketPC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
                                 new Point(startPose),
                                 new Point(toBucket)
                         )
-                ).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading()).build();
+                ).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading())
+                .setPathEndTimeoutConstraint(1000).build();
         toBucketPCfirst = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -122,8 +125,8 @@ public class ParkovaVesh extends LinearOpMode  {
                 ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading())
                 .addPath(
                         new BezierLine(
-                            new Point(to1Sample),
-                            new Point(to1SampleEnd)
+                                new Point(to1Sample),
+                                new Point(to1SampleEnd)
                         )
                 ).build();
         to2SamplePC = follower.pathBuilder()
@@ -153,7 +156,7 @@ public class ParkovaVesh extends LinearOpMode  {
                         new Point(toBucket),
                         new Point(ToPark2Control),
                         new Point(toPark2)
-                )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).build();
+                )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
     }
     Thread thread = new Thread(() -> {
         vrash.setPower(-0.1);
@@ -167,7 +170,6 @@ public class ParkovaVesh extends LinearOpMode  {
         pod.setPower(0.13);
     });
     Thread thread9 = new Thread(() -> {
-        sleep(1000);
         pod.setPower(-0.9);
         sleep(900);
         pod.setPower(0.15);
@@ -176,14 +178,13 @@ public class ParkovaVesh extends LinearOpMode  {
     });
     Thread thread10 = new Thread(() -> {
         vrash.setPower(0.5);
-        sleep(1000);
-        pod.setPower(-0.9);
-        sleep(900);
+        pod.setPower(-1);
+        sleep(750);
         pod.setPower(0.15);
         krut.setPower(krut_start_power);
         krut2.setPower(krut2_start_power);
-        pod.setPower(0.7);
-        sleep(750);
+        pod.setPower(1);
+        sleep(500);
         pod.setPower(0.13);
         sleep(200);
 
@@ -212,8 +213,8 @@ public class ParkovaVesh extends LinearOpMode  {
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (to1Sample.getX() - 1) && follower.getPose().getY() > (to1Sample.getY() - 1))) {
-                    zx.bliz_zx();
+                if (!follower.isBusy() && (follower.getPose().getX() > (to1SampleEnd.getX() - 1) && follower.getPose().getY() > (to1SampleEnd.getY() - 1))) {
+                    Zx.bliz_zx();
                     follower.followPath(toBucketPCfirst, true);
                     setPathState(5);
                 }
@@ -227,9 +228,9 @@ public class ParkovaVesh extends LinearOpMode  {
                 }
                 break;
             case 6: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1))) {
+                if (!follower.isBusy() && (follower.getPose().getX() > (to2SampleEnd.getX() - 1) && follower.getPose().getY() > (to2SampleEnd.getY() - 1))) {
                     vrash.setPower(-0.1);
-                    zx.bliz_zx();
+                    Zx.bliz_zx();
                     follower.followPath(toBucketPCsecond, true);
                     setPathState(10);
                 }

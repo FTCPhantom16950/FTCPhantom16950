@@ -21,7 +21,7 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 public  class Config {
     public static boolean AUTOMODE = false;
     public static boolean TELEOPIMU = false;
-    public static boolean PEDROTELEOP = true;
+    public static boolean PEDROTELEOP = false;
 
 
     public boolean isAUTOMODE() {

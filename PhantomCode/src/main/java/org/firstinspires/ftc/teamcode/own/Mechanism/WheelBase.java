@@ -125,7 +125,11 @@ public class WheelBase{
         inited = true;
         follower.setStartingPose(toPark2);
     }
-
+    Thread gamepad = new Thread(() ->{
+        while (opMode.opModeIsActive()){
+            gamepads();
+        }
+    });
     // считываем значения с геймпадов
     public void gamepads(){
 
@@ -147,7 +151,7 @@ public class WheelBase{
 
         x = (smoothing(gamepad1.left_stick_x) + smoothing(gamepad1.right_stick_x) * 0.7);
         y = -(smoothing(gamepad1.left_stick_y) + smoothing(gamepad1.right_stick_y) * 0.7);
-        spin = smoothing(-gamepad1.right_trigger) + smoothing(gamepad1.left_trigger) - rbump + lbump;
+        spin = smoothing(gamepad1.right_trigger) + smoothing(-gamepad1.left_trigger) + rbump - lbump;
         if (x <= 0.1 && x >= -0.1){
             x = 0;
         }
@@ -157,16 +161,7 @@ public class WheelBase{
         if (spin <= 0.1 && spin >= -0.1){
             spin = 0;
         }
-        if (ds.getDistance(DistanceUnit.CM) < 11){
-            x = Range.clip(x, -0.3, 1);
-            y = Range.clip(y, -0.3, 1);
-            spin = Range.clip(spin, -0.3, 0.3);
-        }
-        else if (ds.getDistance(DistanceUnit.CM) < 31){
-            x = Range.clip(x, -0.5, 1);
-            y = Range.clip(y, -0.5, 1);
-            spin = Range.clip(spin, -0.5, 0.5);
-        }
+
 
     }
     public void vpravoEnvoder(double pos, double power){
@@ -375,7 +370,10 @@ public class WheelBase{
     }
     public void driveEasy()  {
         //активируем геймпады
-        gamepads();
+        if(!gamepad.isAlive()){
+            gamepad.start();
+        }
+
         //https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html#deriving-mecanum-control-equations смотреть векторы
         rfSpeed = smoothing(y - spin - x);
         rbSpeed = smoothing(y - spin + x);
@@ -388,6 +386,12 @@ public class WheelBase{
             rbSpeed /= max_powers;
             lfSpeed /= max_powers;
             lbSpeed /= max_powers;
+        }
+        if (ds.getDistance(DistanceUnit.MM) <= 410){
+            rbSpeed = Range.clip(rbSpeed, -0.15, 1);
+            lbSpeed = Range.clip(lbSpeed, -0.15, 1);
+            rfSpeed = Range.clip(rfSpeed, -0.15, 1);
+            lfSpeed = Range.clip(lfSpeed, -0.15, 1);
         }
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
@@ -449,21 +453,13 @@ public class WheelBase{
             follower.followPath(pathChain3, false);
         }
     }
-    public Thread followerthr = new Thread(() -> {
-        while (opMode.opModeIsActive()){
-            follower.update();
-gamepads();
-        }
-    });
     public void start(){
         if (Config.PEDROTELEOP && Config.TELEOPIMU){
             follower.setTeleOpMovementVectors(y, x, spin, true);
             to90degrees();
-
         } else if (Config.PEDROTELEOP && !Config.TELEOPIMU) {
             follower.setTeleOpMovementVectors(y, x, spin, false);
             to90degrees();
-
         } else if (!Config.TELEOPIMU){
             driveEasy();
         } else if (Config.TELEOPIMU){

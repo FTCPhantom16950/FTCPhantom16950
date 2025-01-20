@@ -21,25 +21,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
-import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 @Autonomous
-public class ParkovaVeshTEST extends LinearOpMode {
+public class ParkovaVeshTEST extends LinearOpMode  {
     Follower follower;
     ElapsedTime timer = new ElapsedTime();
     public int pathState = 0;
     public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
-    final Pose toSpiecman = new Pose(106.8, 71, Math.toRadians(0));
+    final Pose toSpiecman = new Pose(106.7, 71, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(128.6365280289331,19.790235081374327, Math.toRadians(135));
-    final Pose to1Sample = new Pose(108, 24.73779385171791, Math.toRadians(180));
-    final Pose to1SampleControl = new Pose(143.47920433996384, 27.8625678119349);
-    final Pose to2Sample = new Pose(108.32549728752261, 15.88426763110307, Math.toRadians(180));
-    final Pose to2SampleControl = new Pose(121.34093500570125, 7.8814139110604255);
+    final Pose to1Sample = new Pose(119.26220614828209, 23.43580470162748, Math.toRadians(180));
+    final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
+    final Pose to1SampleEnd = new Pose(108, 24.73779385171791, Math.toRadians(180));
+    final Pose to2Sample = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
     final Pose to3Sample = new Pose(115.59407069555303, 10.672748004560997, Math.toRadians(210));
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
     final Pose toPark2 = new Pose(80.20253164556962,47.132007233273065, Math.toRadians(270));
@@ -69,6 +67,7 @@ public class ParkovaVeshTEST extends LinearOpMode {
             horizontSlider.play();
             verticalSlider.play();
             spicemanTrajectory();
+            follower.telemetryDebug(telemetry);
             follower.update();
             telemetry.addData("State pos", pathState);
             telemetry.update();
@@ -83,14 +82,16 @@ public class ParkovaVeshTEST extends LinearOpMode {
                 .addPath(new BezierLine(
                         new Point(toBucket),
                         new Point(toPark)
-                )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()).build();
+                )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()
+                ).setPathEndTimeoutConstraint(1500).build();
         toBucketPC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
                                 new Point(startPose),
                                 new Point(toBucket)
                         )
-                ).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading()).build();
+                ).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading())
+                .setPathEndTimeoutConstraint(1000).build();
         toBucketPCfirst = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -119,14 +120,22 @@ public class ParkovaVeshTEST extends LinearOpMode {
                                 new Point(to1SampleControl),
                                 new Point(to1Sample)
                         )
-                ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading()).build();
-        to2SamplePC = follower.pathBuilder()
+                ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading())
                 .addPath(
                         new BezierLine(
+                                new Point(to1Sample),
+                                new Point(to1SampleEnd)
+                        )
+                ).build();
+        to2SamplePC = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
                                 new Point(toBucket),
+
                                 new Point(to2Sample)
                         )
-                ).setLinearHeadingInterpolation(toBucket.getHeading(), to2Sample.getHeading()).build();
+                )
+                .setLinearHeadingInterpolation(toBucket.getHeading(), to2Sample.getHeading()).build();
         to3SamplePC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -139,10 +148,13 @@ public class ParkovaVeshTEST extends LinearOpMode {
                         new Point(toBucket),
                         new Point(ToPark2Control),
                         new Point(toPark2)
-                )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).build();
+                )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
     }
     Thread thread = new Thread(() -> {
-        verticalSlider.perviPodem();
+        vrash.setPower(-0.1);
+        VerticalSlider.pod.setPower(1.0);
+        sleep(300);
+        pod.setPower(0.13);
     });
     Thread thread1 = new Thread(() -> {
         pod.setPower(-0.7);
@@ -150,19 +162,27 @@ public class ParkovaVeshTEST extends LinearOpMode {
         pod.setPower(0.13);
     });
     Thread thread9 = new Thread(() -> {
-        verticalSlider.spuskPosleBucket();
+        pod.setPower(-0.9);
+        sleep(900);
+        pod.setPower(0.15);
+        krut.setPower(krut_start_power);
+        krut2.setPower(krut2_start_power);
     });
     Thread thread10 = new Thread(() -> {
-        verticalSlider.spuskPosleBucket();
-        pod.setPower(0.7);
-        sleep(750);
-        pod.setPower(0.13);
+        vrash.setPower(0.5);
         sleep(200);
+        pod.setPower(-1);
+        sleep(450);
+        pod.setPower(0.15);
+        krut.setPower(krut_start_power);
+        krut2.setPower(krut2_start_power);
+        sleep(1000);
+        vrash.setPower(1);
     });
 
     Thread thread5 = new Thread(() -> {
         pod.setPower(-0.9);
-        sleep(800);
+        sleep(900);
         pod.setPower(0.15);
     });
     public void spicemanTrajectory() {
@@ -183,8 +203,8 @@ public class ParkovaVeshTEST extends LinearOpMode {
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (to1Sample.getX() - 1) && follower.getPose().getY() > (to1Sample.getY() - 1))) {
-                    zx.bliz_zx();
+                if (!follower.isBusy() && (follower.getPose().getX() > (to1SampleEnd.getX() - 1) && follower.getPose().getY() > (to1SampleEnd.getY() - 1))) {
+                    Zx.bliz_zx();
                     follower.followPath(toBucketPCfirst, true);
                     setPathState(5);
                 }
@@ -200,7 +220,7 @@ public class ParkovaVeshTEST extends LinearOpMode {
             case 6: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1))) {
                     vrash.setPower(-0.1);
-                    zx.bliz_zx();
+                    Zx.bliz_zx();
                     follower.followPath(toBucketPCsecond, true);
                     setPathState(10);
                 }
@@ -222,7 +242,6 @@ public class ParkovaVeshTEST extends LinearOpMode {
                     follower.followPath(toPark2PC, true);
                     setPathState(-1);
                     thread10.start();
-                    vrash.setPower(1);
                 }
                 break;
 

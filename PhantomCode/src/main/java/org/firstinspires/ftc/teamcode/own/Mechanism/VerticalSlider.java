@@ -59,7 +59,7 @@ public class VerticalSlider{
                 kleshgo = false;
             }
             if (opMode.gamepad1.a){
-                sample.setPower(-0.5);
+                sample.setPower(-0.85);
             }else if (opMode.gamepad1.y){
                 sample.setPower(0.71);
             }
@@ -120,7 +120,7 @@ public class VerticalSlider{
         opMode.sleep(900);
         pod.setPower(0.15);
         vrash.setPower(1);
-        opMode.sleep(1000);
+        opMode.sleep(500);
         kleshPower = -0.3;
         klesh.setPower(kleshPower);
         opMode.sleep(500);
@@ -137,12 +137,11 @@ public class VerticalSlider{
         klesh.setPower(kleshPower);
         opMode.sleep(400);
         vrash.setPower(-0.5);
-        opMode.sleep(1000);
         pod.setPower(1);
         opMode.sleep(900);
         pod.setPower(0.15);
         vrash.setPower(1);
-        opMode.sleep(1000);
+        opMode.sleep(500);
         kleshPower = -0.3;
         klesh.setPower(kleshPower);
     }
