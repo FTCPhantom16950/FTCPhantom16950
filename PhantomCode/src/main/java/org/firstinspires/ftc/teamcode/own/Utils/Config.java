@@ -23,6 +23,7 @@ public  class Config {
     public static boolean TELEOPIMU = false;
     public static boolean PEDROTELEOP = true;
 
+
     public boolean isAUTOMODE() {
         return AUTOMODE;
     }

@@ -14,7 +14,6 @@ public class ZaxvatSample extends CommandBase {
     @Override
     public void execute() {
         super.execute();
-        
     }
 
     @Override

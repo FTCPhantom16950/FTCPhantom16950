@@ -1,45 +1,54 @@
 package org.firstinspires.ftc.teamcode.ftclib.SYS;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.own.Utils.PIDControl;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
-
+@Config
 public class VerticalSliderSYS extends SubsystemBase {
+    public static double kP = 0, kD = 0, kI = 0;
     public static CRServo vrash, klesh, sample;
-    public static DcMotorEx pod;
-    public static double podPower = 0, vrashPower = -0.5, kleshPower = 0;
-    public  boolean kleshgo = false;
+    public PIDControl control = new PIDControl();
+    public static MotorEx pod;
+    public static double vrashPower = -0.5, kleshPower = 0;
     VerticalPOS.KLESHPOS verticalPOS ;
     LinearOpMode opMode;
-    public boolean inited = false;
-    double  output = 0, targetPos = 0;
-    // creation of the PID object
+
     HardwareMap hw;
     public VerticalSliderSYS(LinearOpMode opMode){
         this.opMode = opMode;
         hw = opMode.hardwareMap;
-        inited = true;
-        pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
+
+        pod = new MotorEx(hw, "pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
         sample = opMode.hardwareMap.get(CRServo.class, "sample");
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(podPower);
         klesh.setPower(kleshPower);
         vrash.setPower(vrashPower);
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
+        pod.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        pod.setRunMode(Motor.RunMode.VelocityControl);
+        control.setOpMode(opMode);
+        control.setTolerance(100);
+        control.setkD(kD);
+        control.setkP(kP);
+        control.setkI(kI);
     }
+
+    @Override
+    public void register() {
+        super.register();
+    }
+
     public void init(){
-        pod.setPower(podPower);
         klesh.setPower(kleshPower);
         vrash.setPower(vrashPower);
     }
@@ -62,6 +71,4 @@ public class VerticalSliderSYS extends SubsystemBase {
     public void vrashSkin(){
         vrash.setPower(1);
     }
-
-
 }

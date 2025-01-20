@@ -35,5 +35,6 @@ public class TESTOPMODE extends CommandOpMode {
         verticalSliderSYS = new VerticalSliderSYS(this);
         horSliderSYS = new HorSliderSYS(this);
         register(wheelBaseSYS, verticalSliderSYS, zxsys, horSliderSYS);
+        schedule();
     }
 }
