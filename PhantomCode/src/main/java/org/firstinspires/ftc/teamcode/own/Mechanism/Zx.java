@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
+import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 import java.util.Objects;
@@ -162,9 +163,16 @@ public class Zx {
         krut2.setPower(0);
     }
     public static void zxAuto(){
+        Config.ACTIONINWORK = true;
         HorizontSlider.nepolniVidvig();
         opMode.sleep(200);
-        if (colorSensor.getDistance(DistanceUnit.MM) <= 20 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
+        krut.setPower(0.67);
+        krut2.setPower(0.42);
+        opMode.sleep(200);
+//        zxpos = ZxPos.ZX.OTPUSK;
+        zx.setPower(-0.33);
+        opMode.sleep(500);
+        if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
             bliz_zx();
             opMode.sleep(200);
             HorizontSlider.sloz();
@@ -172,8 +180,10 @@ public class Zx {
             otpusk();
             canBeCaptured = true;
         } else {
+            opMode.sleep(500);
             HorizontSlider.vidvigAuto();
-            if (colorSensor.getDistance(DistanceUnit.MM) <= 20 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
+            opMode.sleep(500);
+            if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
                 bliz_zx();
                 HorizontSlider.sloz();
                 opMode.sleep(200);
@@ -181,8 +191,12 @@ public class Zx {
                 canBeCaptured = true;
             }
             else {
+                krut.setPower(krut_start_power);
+                krut2.setPower(krut2_start_power);
+                HorizontSlider.sloz();
                 canBeCaptured = false;
             }
         }
+        Config.ACTIONINWORK = false;
     }
 }

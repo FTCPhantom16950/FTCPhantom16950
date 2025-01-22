@@ -27,13 +27,13 @@ public class ParkovaVesh extends LinearOpMode  {
     ElapsedTime timer = new ElapsedTime();
     public int pathState = 0;
     public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
-    final Pose toSpiecman = new Pose(106.8, 71, Math.toRadians(0));
+    final Pose toSpiecman = new Pose(105.8, 71, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(128.6365280289331,19.790235081374327, Math.toRadians(135));
     final Pose to1Sample = new Pose(119.26220614828209, 23.43580470162748, Math.toRadians(180));
     final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
     final Pose to1SampleEnd = new Pose(108, 24.73779385171791, Math.toRadians(180));
-    final Pose to2Sample = new Pose(114.5750452079566, 15.88426763110307, Math.toRadians(180));
+    final Pose to2Sample = new Pose(119.26220614828209, 15.88426763110307, Math.toRadians(180));
     final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
     final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
     final Pose to3Sample = new Pose(115.59407069555303, 10.672748004560997, Math.toRadians(210));

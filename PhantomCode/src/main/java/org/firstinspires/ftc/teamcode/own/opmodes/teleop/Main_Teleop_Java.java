@@ -98,6 +98,7 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
             telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);
             telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
+            telemetry.addData("DistanceColor1", Zx.colorSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
             telemetry.addData("DISTANCE", WheelBase.ds.getDistance(DistanceUnit.MM));
             telemetry.addData("rbspeed", rbSpeed);

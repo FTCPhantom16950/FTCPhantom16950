@@ -109,11 +109,11 @@ public class HorizontSlider {
         horGO = true;
     }
     public static void vidvigAuto(){
-        sL.setPower(0.45);
+        sL.setPower(0.43);
         sR.setPower(-sL.getPower());
     }
     public static void nepolniVidvig(){
-        sL.setPower(0.3);
+        sL.setPower(0.32);
         sR.setPower(-sL.getPower());
 }
     public static void sloz(){

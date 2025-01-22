@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
 public class VerticalSlider{
@@ -102,12 +103,15 @@ public class VerticalSlider{
         }
     }
     public void podvesSpiecMan(){
+        Config.ACTIONINWORK = true;
         pod.setPower(0.7);
         opMode.sleep(700);
         pod.setPower(0.13);
         opMode.sleep(200);
+        Config.ACTIONINWORK = false;
     }
     public void podvesSample(){
+        Config.ACTIONINWORK = true;
         kleshPower = -0.25;
         klesh.setPower(kleshPower);
         vrash.setPower(-0.93);
@@ -126,9 +130,10 @@ public class VerticalSlider{
         opMode.sleep(500);
         vrash.setPower(-0.5);
         opMode.sleep(500);
-
+        Config.ACTIONINWORK = false;
     }
     public void podvesSamplelast(){
+        Config.ACTIONINWORK = true;
         kleshPower = -0.25;
         klesh.setPower(kleshPower);
         vrash.setPower(-0.93);
@@ -144,19 +149,24 @@ public class VerticalSlider{
         opMode.sleep(500);
         kleshPower = -0.3;
         klesh.setPower(kleshPower);
+        Config.ACTIONINWORK = false;
     }
     public void perviPodem(){
+        Config.ACTIONINWORK = true;
         vrash.setPower(-0.1);
         VerticalSlider.pod.setPower(1.0);
         opMode.sleep(300);
         pod.setPower(0.13);
+        Config.ACTIONINWORK = false;
     }
     public void spuskPosleBucket(){
+        Config.ACTIONINWORK = true;
         opMode.sleep(1000);
         pod.setPower(-0.9);
         opMode.sleep(900);
         pod.setPower(0.15);
         krut.setPower(krut_start_power);
         krut2.setPower(krut2_start_power);
+        Config.ACTIONINWORK = false;
     }
 }
