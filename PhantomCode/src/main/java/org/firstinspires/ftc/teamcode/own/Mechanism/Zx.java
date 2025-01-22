@@ -7,8 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
+import java.util.Objects;
 
 
 public class Zx {
@@ -33,7 +36,8 @@ public class Zx {
     public static boolean zxgo, krutgo;
     public boolean inited = false;
     public static boolean captured = false;
-
+    static Color color = new Color();
+    public static boolean canBeCaptured = true;
     public void init(){
         hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
@@ -135,7 +139,6 @@ public class Zx {
 //        krutpos = ZxPos.KRUT.ZAXVAT;
         krut.setPower(0.67);
         krut2.setPower(0.42);
-
         opMode.sleep(200);
 //        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
@@ -148,10 +151,38 @@ public class Zx {
         krut.setPower(krut_start_power);
         krut2.setPower(krut2_start_power);
         opMode.sleep(1000);
-//        zxpos = ZxPos.ZX.OTPUSK;
+//
+
+    }
+    public static void otpusk(){
+        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
         opMode.sleep(300);
         krut.setPower(0);
         krut2.setPower(0);
+    }
+    public static void zxAuto(){
+        HorizontSlider.nepolniVidvig();
+        opMode.sleep(200);
+        if (colorSensor.getDistance(DistanceUnit.MM) <= 20 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
+            bliz_zx();
+            opMode.sleep(200);
+            HorizontSlider.sloz();
+            opMode.sleep(200);
+            otpusk();
+            canBeCaptured = true;
+        } else {
+            HorizontSlider.vidvigAuto();
+            if (colorSensor.getDistance(DistanceUnit.MM) <= 20 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")){
+                bliz_zx();
+                HorizontSlider.sloz();
+                opMode.sleep(200);
+                otpusk();
+                canBeCaptured = true;
+            }
+            else {
+                canBeCaptured = false;
+            }
+        }
     }
 }

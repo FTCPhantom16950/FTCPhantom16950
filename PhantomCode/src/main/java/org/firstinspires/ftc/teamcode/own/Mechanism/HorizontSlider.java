@@ -18,7 +18,7 @@ public class HorizontSlider {
     public static CRServo sL, sR;
     HardwareMap hw;
     public boolean inited = false;
-    HorSliderPos.HorPos horPos;
+    static HorSliderPos.HorPos horPos;
     public HorizontSlider(LinearOpMode opMode) {
         this.opMode = opMode;
         // this.setDaemon(true);
@@ -46,7 +46,8 @@ public class HorizontSlider {
                 sR.setPower(-0.45);
                 horGO = false;
 
-        }}
+        }
+    }
 
 
     public void moving(){
@@ -99,7 +100,7 @@ public class HorizontSlider {
         }
     }
 
-    public void vidvig(){
+    public  void vidvig(){
         horPos = HorSliderPos.HorPos.VIDVIG;
         krutpos = ZxPos.KRUT.ZAXVAT;
         zxpos = ZxPos.ZX.OTPUSK;
@@ -107,6 +108,19 @@ public class HorizontSlider {
         zxgo = true;
         horGO = true;
     }
+    public static void vidvigAuto(){
+        sL.setPower(0.45);
+        sR.setPower(-sL.getPower());
+    }
+    public static void nepolniVidvig(){
+        sL.setPower(0.3);
+        sR.setPower(-sL.getPower());
+}
+    public static void sloz(){
+        sL.setPower(0);
+        sR.setPower(0);
+    }
+
     public void zaxvat(){
         zxpos = ZxPos.ZX.ZAXVAT;
         horPos = HorSliderPos.HorPos.SLOZ;

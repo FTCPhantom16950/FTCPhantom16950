@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -159,10 +155,7 @@ public class ParkovaVesh extends LinearOpMode  {
                 )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
     }
     Thread thread = new Thread(() -> {
-        vrash.setPower(-0.1);
-        VerticalSlider.pod.setPower(1.0);
-        sleep(300);
-        pod.setPower(0.13);
+        verticalSlider.perviPodem();
     });
     Thread thread1 = new Thread(() -> {
         pod.setPower(-0.7);
@@ -170,19 +163,10 @@ public class ParkovaVesh extends LinearOpMode  {
         pod.setPower(0.13);
     });
     Thread thread9 = new Thread(() -> {
-        pod.setPower(-0.9);
-        sleep(900);
-        pod.setPower(0.15);
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        verticalSlider.spuskPosleBucket();
     });
     Thread thread10 = new Thread(() -> {
-        vrash.setPower(0.5);
-        pod.setPower(-1);
-        sleep(750);
-        pod.setPower(0.15);
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        verticalSlider.spuskPosleBucket();
         pod.setPower(1);
         sleep(500);
         pod.setPower(0.13);
@@ -215,6 +199,7 @@ public class ParkovaVesh extends LinearOpMode  {
             case 4: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to1SampleEnd.getX() - 1) && follower.getPose().getY() > (to1SampleEnd.getY() - 1))) {
                     Zx.bliz_zx();
+                    Zx.otpusk();
                     follower.followPath(toBucketPCfirst, true);
                     setPathState(5);
                 }
@@ -229,8 +214,8 @@ public class ParkovaVesh extends LinearOpMode  {
                 break;
             case 6: // Wait until the robot is near the scoring position
                 if (!follower.isBusy() && (follower.getPose().getX() > (to2SampleEnd.getX() - 1) && follower.getPose().getY() > (to2SampleEnd.getY() - 1))) {
-                    vrash.setPower(-0.1);
                     Zx.bliz_zx();
+                    Zx.otpusk();
                     follower.followPath(toBucketPCsecond, true);
                     setPathState(10);
                 }
