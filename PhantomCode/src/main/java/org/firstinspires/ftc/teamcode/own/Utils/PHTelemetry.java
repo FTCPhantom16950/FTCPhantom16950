@@ -13,7 +13,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 
@@ -44,7 +44,7 @@ public class PHTelemetry {
         Telemetry telemetry = opMode.telemetry;
         if(isZX){
             telemetry.addData("zx pos:", zx.getPower());
-            telemetry.addData("krut pos:", krut.getPower());
+            telemetry.addData("krut pos:", brat.getPower());
         }
         if (isWheelBase){
             telemetry.addData("rbspeed", rbSpeed);

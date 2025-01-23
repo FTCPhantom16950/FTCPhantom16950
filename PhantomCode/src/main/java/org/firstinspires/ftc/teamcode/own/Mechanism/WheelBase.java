@@ -387,12 +387,12 @@ public class WheelBase{
             lfSpeed /= max_powers;
             lbSpeed /= max_powers;
         }
-        if (ds.getDistance(DistanceUnit.MM) <= 410){
-            rbSpeed = Range.clip(rbSpeed, -0.15, 1);
-            lbSpeed = Range.clip(lbSpeed, -0.15, 1);
-            rfSpeed = Range.clip(rfSpeed, -0.15, 1);
-            lfSpeed = Range.clip(lfSpeed, -0.15, 1);
-        }
+//        if (ds.getDistance(DistanceUnit.MM) <= 410){
+//            rbSpeed = Range.clip(rbSpeed, -0.15, 1);
+//            lbSpeed = Range.clip(lbSpeed, -0.15, 1);
+//            rfSpeed = Range.clip(rfSpeed, -0.15, 1);
+//            lfSpeed = Range.clip(lfSpeed, -0.15, 1);
+//        }
         // подстановка в моторы
         rightFront.setPower(rfSpeed);
         rightBack.setPower(rbSpeed);

@@ -15,7 +15,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -119,8 +119,8 @@ public class TELEPOPTEST extends LinearOpMode {
             telemetry.addData("horL power:", sL.getPower());
             telemetry.addData("horR power:", sR.getPower());
             telemetry.addData("zx pos:", Zx.zx.getPower());
-            telemetry.addData("krut pos:", krut.getPower());
-            telemetry.addData("krut2 pos:", Zx.krut2.getPower());
+            telemetry.addData("krut pos:", brat.getPower());
+            telemetry.addData("krut2 pos:", Zx.brat2.getPower());
             telemetry.addData("position", pod.getCurrentPosition());
             telemetry.addData("podves1", podv1.getPower());
             telemetry.addData("podves2", podv2.getPower());

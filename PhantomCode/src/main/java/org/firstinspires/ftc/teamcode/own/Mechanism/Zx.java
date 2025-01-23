@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
+
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -10,6 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 import java.util.Objects;
@@ -19,12 +22,13 @@ public class Zx {
     public static double gain = 103;
     org.firstinspires.ftc.teamcode.own.Utils.Config config = new org.firstinspires.ftc.teamcode.own.Utils.Config();
     static LinearOpMode opMode;
-    public static CRServo zx, krut, krut2;
+    public static CRServo zx, brat, brat2;
     HardwareMap hw;
     public Zx(LinearOpMode opMode){
         this.opMode = opMode;
 
     }
+
     public static RevColorSensorV3 colorSensor;
     public static ZxPos.KRUT krutpos;
     public static ZxPos.ZX zxpos;
@@ -42,13 +46,13 @@ public class Zx {
     public void init(){
         hw = opMode.hardwareMap;
         zx = opMode.hardwareMap.get(CRServo.class, "zx");
-        krut= opMode.hardwareMap.get(CRServo.class, "krut");
-        krut2 = opMode.hardwareMap.get(CRServo.class, "vrash2");
+        brat = opMode.hardwareMap.get(CRServo.class, "krut");
+        brat2 = opMode.hardwareMap.get(CRServo.class, "vrash2");
         colorSensor = hw.get(RevColorSensorV3.class, "color");
-        krut2.setDirection(DcMotorSimple.Direction.REVERSE);
+        brat2.setDirection(DcMotorSimple.Direction.REVERSE);
         zx.setPower(zx_start_power);
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        brat.setPower(krut_start_power);
+        brat2.setPower(krut2_start_power);
         krutpos = ZxPos.KRUT.POXOD;
         zxpos = ZxPos.ZX.OTPUSK;
         inited = true;
@@ -67,29 +71,34 @@ public class Zx {
 
     }
     public void play(){
-        krut_power = krut2.getPower();
+        krut_power = brat2.getPower();
 
         if (krutpos == ZxPos.KRUT.AUto && krutgo){
-            krut.setPower(0.67);
-            krut2.setPower(-0.3);
+            brat.setPower(0.67);
+            brat2.setPower(-0.3);
             krutgo = false;
         }
         else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo){
-            krut.setPower(0.67);
-            krut2.setPower(0.42);
+            brat.setPower(0.67);
+            brat2.setPower(0.42);
             krutgo = false;
         } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo){
-            krut.setPower(-0.4);
-            krut2.setPower(-0.4);
+            klesh.setPower(0);
+            brat.setPower(-0.15);
+            brat2.setPower(-0.9);
+            opMode.sleep(650);
+            zx.setPower(-0.33);
+            opMode.sleep(300);
+            klesh.setPower(-0.35);
+            brat.setPower(krut_start_power);
+            brat2.setPower(krut2_start_power);
             krutgo = false;
         } else if (krutpos == ZxPos.KRUT.POXOD && krutgo){
-            krut.setPower(krut_start_power);
-            krut2.setPower(krut2_start_power);
+            brat.setPower(krut_start_power);
+            brat2.setPower(krut2_start_power);
             krutgo = false;
         }
     }
-
-
 
     public void run(){
         play();
@@ -116,30 +125,17 @@ public class Zx {
             krutpos = ZxPos.KRUT.PEREDACHA;
             opMode.sleep(200);
             krutgo = true;
-        } else if (opMode.gamepad2.b && !(krutpos == ZxPos.KRUT.ZAXVAT)) {
+        } else if (opMode.gamepad2.b) {
             krutpos = ZxPos.KRUT.POXOD;
             opMode.sleep(200);
             krutgo = true;
         }
 
-        if (opMode.gamepad2.b && krutpos == ZxPos.KRUT.ZAXVAT) {
-            krut2_power = Range.clip(krut2_power + 0.1, -1, 0.5);
-            krut_power = Range.clip(krut_power + 0.2, -1, 1);
-            krut2.setPower(krut2_power);
-            krut.setPower(krut_power);
-            opMode.sleep(300);
-        } else if (opMode.gamepad2.x && krutpos == ZxPos.KRUT.ZAXVAT) {
-            krut2_power = Range.clip(krut2_power - 0.1, -1, 0.5);
-            krut_power = Range.clip(krut_power - 0.2, -1, 1);
-            krut2.setPower(krut2_power);
-            krut.setPower(krut_power);
-            opMode.sleep(300);
-        }
     }
     public static void bliz_zx(){
 //        krutpos = ZxPos.KRUT.ZAXVAT;
-        krut.setPower(0.67);
-        krut2.setPower(0.42);
+        brat.setPower(0.67);
+        brat2.setPower(0.42);
         opMode.sleep(200);
 //        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
@@ -149,8 +145,8 @@ public class Zx {
         captured = true;
         opMode.sleep(200);
 //        krutpos = ZxPos.KRUT.PEREDACHA;
-        krut.setPower(krut_start_power);
-        krut2.setPower(krut2_start_power);
+        brat.setPower(krut_start_power);
+        brat2.setPower(krut2_start_power);
         opMode.sleep(1000);
 //
 
@@ -159,15 +155,15 @@ public class Zx {
         zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
         opMode.sleep(300);
-        krut.setPower(0);
-        krut2.setPower(0);
+        brat.setPower(0);
+        brat2.setPower(0);
     }
     public static void zxAuto(){
         Config.ACTIONINWORK = true;
         HorizontSlider.nepolniVidvig();
         opMode.sleep(200);
-        krut.setPower(0.67);
-        krut2.setPower(0.42);
+        brat.setPower(0.67);
+        brat2.setPower(0.42);
         opMode.sleep(200);
 //        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
@@ -191,8 +187,8 @@ public class Zx {
                 canBeCaptured = true;
             }
             else {
-                krut.setPower(krut_start_power);
-                krut2.setPower(krut2_start_power);
+                brat.setPower(krut_start_power);
+                brat2.setPower(krut2_start_power);
                 HorizontSlider.sloz();
                 canBeCaptured = false;
             }
