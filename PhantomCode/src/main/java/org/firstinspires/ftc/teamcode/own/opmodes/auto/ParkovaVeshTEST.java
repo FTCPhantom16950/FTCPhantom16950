@@ -15,11 +15,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
@@ -66,6 +64,7 @@ public class ParkovaVeshTEST extends LinearOpMode  {
             vrash.setPower(-0.93);
         }
         followerthr.start();
+        follower.poseUpdater.resetHeadingToIMU();
         while (opModeIsActive()){
             zx.play();
             zx.play1();
@@ -139,7 +138,8 @@ public class ParkovaVeshTEST extends LinearOpMode  {
                                 new Point(toBucket),
                                 new Point(to3Sample)
                         )
-                ).setLinearHeadingInterpolation(toBucket.getHeading(), to3Sample.getHeading()).build();
+                ).setLinearHeadingInterpolation(toBucket.getHeading(), to3Sample.getHeading())
+                .build();
         toPark2PC = follower.pathBuilder()
                 .addPath(new BezierCurve(
                         new Point(toBucket),
