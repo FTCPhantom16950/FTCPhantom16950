@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 public class WheelBase{
     Follower follower;
     PathBuilder builder;
-    public static Rev2mDistanceSensor ds;
+
     final Pose toPark2 = new Pose(80.20253164556962,47.132007233273065, Math.toRadians(270));
     /*
     ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
@@ -97,7 +97,7 @@ public class WheelBase{
         leftFront = hw.get(DcMotorEx.class, "lf");
         rightBack = hw.get(DcMotorEx.class, "rb");
         leftBack = hw.get(DcMotorEx.class, "lb");
-        ds = hw.get(Rev2mDistanceSensor.class, "ds");
+
         // сбрасываем энкодеры
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

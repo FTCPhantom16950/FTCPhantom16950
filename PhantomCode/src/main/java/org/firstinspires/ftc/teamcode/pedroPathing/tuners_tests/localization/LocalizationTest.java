@@ -47,12 +47,12 @@ public class LocalizationTest extends OpMode {
     private PoseUpdater poseUpdater;
     private DashboardPoseTracker dashboardPoseTracker;
     private Telemetry telemetryA;
-    public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
     private DcMotorEx leftFront;
     private DcMotorEx leftRear;
     private DcMotorEx rightFront;
     private DcMotorEx rightRear;
     private List<DcMotorEx> motors;
+    public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
 
     /**
      * This initializes the PoseUpdater, the mecanum drive motors, and the FTC Dashboard telemetry.
@@ -64,7 +64,7 @@ public class LocalizationTest extends OpMode {
         poseUpdater = new PoseUpdater(hardwareMap,threeWheelIMULocalizer);
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
-
+        poseUpdater.setStartingPose(startPose);
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
         rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);

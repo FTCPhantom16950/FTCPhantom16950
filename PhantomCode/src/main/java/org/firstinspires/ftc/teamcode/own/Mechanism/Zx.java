@@ -87,7 +87,7 @@ public class Zx {
             brat.setPower(0.67);
             brat2.setPower(0.42);
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo) {
+        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo && colorSensor.getDistance(DistanceUnit.MM) <= 36) {
             peredacha();
             krutgo = false;
         } else if (krutpos == ZxPos.KRUT.POXOD && krutgo) {

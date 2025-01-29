@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 
@@ -19,38 +20,34 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
-import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 @Autonomous
-public class ParkovaVesh extends LinearOpMode  {
+public class Sample3TEST extends LinearOpMode  {
     Follower follower;
     ElapsedTime timer = new ElapsedTime();
     public int pathState = 0;
-    public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
-    final Pose toSpiecman = new Pose(10.8, 71, Math.toRadians(0));
+    public final Pose startPose = new Pose(135.35, 34.19, Math.toRadians(90));
+    final Pose toSpiecman = new Pose(105.9, 71, Math.toRadians(0));
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
-    final Pose toBucket = new Pose(128.6365280289331,19.790235081374327, Math.toRadians(135));
-    final Pose to1Sample = new Pose(118, 24, Math.toRadians(180));
+    final Pose toBucket = new Pose(127.36,18.364, Math.toRadians(135));
+    final Pose toBucketCoontrol = new Pose(121.60578661844485,37.2368896925859);
+    final Pose to1Sample = new Pose(118, 25, Math.toRadians(180));
     final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
-    final Pose to2Sample = new Pose(118, 15.88426763110307, Math.toRadians(180));
+    final Pose to2Sample = new Pose(118, 15.5, Math.toRadians(180));
     final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
     final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
-    final Pose to3Sample = new Pose(115.59407069555303, 10.672748004560997, Math.toRadians(210));
+    final Pose to3Sample = new Pose(116, 28, Math.toRadians(225));
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
-    final Pose toPark2 = new Pose(80.20253164556962,47.132007233273065, Math.toRadians(270));
+    final Pose toPark2 = new Pose(80.20253164556962,46, Math.toRadians(270));
     final Pose ToPark2Control = new Pose(70.56781193490055,8.59312839059675);
+    final Pose ToPark2Control2 = new Pose(114.05424954792043,8.59312839059675);
     private Timer pathTimer, actionTimer;
-    PathChain toSpiecmanPC, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC, toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
+    PathChain toBucketStart, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC,toPark2PC2, toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
     Zx zx = new Zx(this);
-    Thread followerthr = new Thread(() ->{
-        while(opModeIsActive()){
-            follower.update();
-        }
-    });
     @Override
     public void runOpMode() throws InterruptedException {
         Constants.setConstants(FConstants.class, LConstants.class);
@@ -62,11 +59,8 @@ public class ParkovaVesh extends LinearOpMode  {
         waitForStart();
         follower.setStartingPose(startPose);
         pathBuilding();
-        if(opModeIsActive()){
-            vrash.setPower(-0.93);
-        }
-        followerthr.start();
         while (opModeIsActive()){
+            follower.update();
             zx.play();
             zx.play1();
             horizontSlider.play();
@@ -77,10 +71,11 @@ public class ParkovaVesh extends LinearOpMode  {
         }
     }
     public void pathBuilding(){
-        toSpiecmanPC = follower.pathBuilder().addPath(new BezierLine(
+        toBucketStart = follower.pathBuilder().addPath(new BezierCurve(
                 new Point(startPose),
-                new Point(toSpiecman)
-        )).setConstantHeadingInterpolation(Math.toRadians(0)).build();
+                new Point(toBucketCoontrol),
+                new Point(toBucket)
+        )).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading()).build();
         toParkPC = follower.pathBuilder()
                 .addPath(new BezierLine(
                         new Point(toBucket),
@@ -120,10 +115,9 @@ public class ParkovaVesh extends LinearOpMode  {
                 .addPath(
                         new BezierCurve(
                                 new Point(toSpiecman),
-                                new Point(to1SampleControl),
                                 new Point(to1Sample)
                         )
-                ).setLinearHeadingInterpolation(toSpiecman.getHeading(), to1Sample.getHeading())
+                ).setLinearHeadingInterpolation(toBucket.getHeading(), to1Sample.getHeading())
                 .build();
         to2SamplePC = follower.pathBuilder()
                 .addPath(
@@ -139,21 +133,26 @@ public class ParkovaVesh extends LinearOpMode  {
                                 new Point(toBucket),
                                 new Point(to3Sample)
                         )
-                ).setLinearHeadingInterpolation(toBucket.getHeading(), to3Sample.getHeading()).build();
+                ).setLinearHeadingInterpolation(toBucket.getHeading(), to3Sample.getHeading())
+                .build();
         toPark2PC = follower.pathBuilder()
                 .addPath(new BezierCurve(
                         new Point(toBucket),
                         new Point(ToPark2Control),
                         new Point(toPark2)
                 )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
+        toPark2PC2 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(toSpiecman),
+                                new Point(ToPark2Control2),
+                                new Point(toPark2)
+                        )
+                ).setLinearHeadingInterpolation(toSpiecman.getHeading(),toPark2.getHeading()).build();
     }
-    Thread thread = new Thread(() -> {
-        verticalSlider.perviPodem();
-    });
+
     Thread thread1 = new Thread(() -> {
-        pod.setPower(-0.7);
-        sleep(900);
-        pod.setPower(0.13);
+        verticalSlider.spuskPosleBucket();
     });
     Thread thread9 = new Thread(() -> {
         verticalSlider.spuskPosleBucket();
@@ -174,7 +173,7 @@ public class ParkovaVesh extends LinearOpMode  {
 
     Thread thread5 = new Thread(() -> {
         pod.setPower(-0.9);
-        sleep(900);
+        sleep(850);
         pod.setPower(0.15);
     });
 
@@ -182,21 +181,21 @@ public class ParkovaVesh extends LinearOpMode  {
         switch (pathState) {
             case 0:
                 // Move from start to scoring position
-                follower.followPath(toSpiecmanPC);
+                follower.followPath(toBucketStart);
                 setPathState(1);
-                thread.start();
                 break;
 
             case 1: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - 1) && follower.getPose().getY() > (toSpiecman.getY() - 1)) ) {
-                    verticalSlider.podvesSpiecMan();
-                    follower.followPath(to1SamplePC, true);
-                    thread1.start();
-                    setPathState(4);
+                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1)) || follower.isRobotStuck()) {
+                        verticalSlider.podvesSample();
+                        follower.followPath(to1SamplePC, true);
+                        thread1.start();
+                        setPathState(4);
+
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (to1Sample.getX() - 1.5) && follower.getPose().getY() > (to1Sample.getY() - 1)) ) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - 1) && follower.getPose().getY() > (to1Sample.getY() - 1))|| follower.isRobotStuck()) {
                     Zx.zxAuto();
                     if (Zx.canBeCaptured){
                         follower.followPath(toBucketPCfirst, true);
@@ -209,7 +208,7 @@ public class ParkovaVesh extends LinearOpMode  {
                 }
                 break;
             case 5: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1)) ) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()) {
                     verticalSlider.podvesSample();
                     follower.followPath(to2SamplePC, true);
                     thread5.start();
@@ -217,42 +216,50 @@ public class ParkovaVesh extends LinearOpMode  {
                 }
                 break;
             case 6: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1)) ) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1))|| follower.isRobotStuck()) {
+                    Zx.zxAuto();
+                    if (Zx.canBeCaptured) {
+                        follower.followPath(toBucketPCsecond, true);
+                        setPathState(7);
+                    } else {
+                        follower.followPath(toPark2PC, true);
+                        setPathState(11);
+                        thread6.start();
+                    }
+                }
+                break;
+            case 7:
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()) {
+                    verticalSlider.podvesSample();
+                    follower.followPath(to3SamplePC, true);
+                    thread5.start();
+                    setPathState(8);
+                }
+            case 8:
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1))|| follower.isRobotStuck()) {
                     Zx.zxAuto();
                     if (Zx.canBeCaptured) {
                         follower.followPath(toBucketPCsecond, true);
                         setPathState(10);
                     } else {
                         follower.followPath(toPark2PC, true);
-                        setPathState(-1);
+                        setPathState(11);
                         thread6.start();
-                        if(!follower.isBusy() && (follower.getPose().getX() > (toPark2.getX() - 1) && follower.getPose().getY() > (toPark2.getY() - 1))){
-                            vrash.setPower(1);
-                        }
                     }
                 }
-                break;
-
-            case 9:
-                if (!follower.isBusy() && (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1)) ) {
-                    verticalSlider.podvesSample();
-                    follower.followPath(toParkPC, true);
-                    sleep(500);
-                    vrash.setPower(-0.5);
-                    thread9.start();
-                    setPathState(-1);
-                }
-                break;
             case 10:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1)) ){
+                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()){
                     verticalSlider.podvesSample();
                     follower.followPath(toPark2PC, true);
-                    setPathState(-1);
+                    setPathState(11);
                     thread10.start();
-                    if(!follower.isBusy() && (follower.getPose().getX() > (toPark2.getX() - 1) && follower.getPose().getY() > (toPark2.getY() - 1)) ){
-                        vrash.setPower(1);
-                    }
                 }
+                break;
+            case 11:
+                if(!follower.isBusy()){
+                    vrash.setPower(1);
+                }
+                setPathState(-1);
                 break;
         }
     }

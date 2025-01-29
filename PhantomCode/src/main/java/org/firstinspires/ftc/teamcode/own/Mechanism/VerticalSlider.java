@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.colorSensor;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -25,6 +26,7 @@ public class VerticalSlider{
     public static RevColorSensorV3 verx_color;
     boolean once;
     LinearOpMode opMode;
+    public static Rev2mDistanceSensor ds;
     public boolean colorState = false , previousColorState = colorState;
     double  output = 0, targetPos = 0;
     // creation of the PID object
@@ -34,7 +36,7 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
-    public static double podPower = 0, vrashPower = -0.5, kleshPower = 0;
+    public static double podPower = 0, vrashPower = -0.5, kleshPower = -0.35;
     public static boolean kleshgo = false, captured = false;
     static VerticalPOS.KLESHPOS verticalPOS, prevPos ;
     boolean pressed = false;
@@ -53,7 +55,7 @@ public class VerticalSlider{
         vrash.setPower(vrashPower);
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
-
+        ds = hw.get(Rev2mDistanceSensor.class, "ds");
     }
 
    public void play(){
@@ -122,7 +124,7 @@ public class VerticalSlider{
     }
     public void podvesSpiecMan(){
         Config.ACTIONINWORK = true;
-        pod.setPower(0.7);
+        pod.setPower(0.9);
         opMode.sleep(700);
         pod.setPower(0.13);
         opMode.sleep(200);
@@ -130,19 +132,21 @@ public class VerticalSlider{
     }
     public void podvesSample(){
         Config.ACTIONINWORK = true;
+        kleshPower = -.3;
+        klesh.setPower(kleshPower);
         opMode.sleep(400);
         pod.setPower(1);
         opMode.sleep(900);
         pod.setPower(0.15);
         vrash.setPower(0.85);
+        opMode.sleep(800);
         kleshPower = 0;
-        klesh.setPower(kleshPower);
-        opMode.sleep(500);
-        kleshPower = -0.3;
         klesh.setPower(kleshPower);
         opMode.sleep(500);
         vrash.setPower(-0.49);
         opMode.sleep(500);
+        kleshPower = -.3;
+        klesh.setPower(kleshPower);
         Config.ACTIONINWORK = false;
     }
     public void perviPodem(){
@@ -157,7 +161,7 @@ public class VerticalSlider{
         Config.ACTIONINWORK = true;
         opMode.sleep(1000);
         pod.setPower(-0.9);
-        opMode.sleep(900);
+        opMode.sleep(800);
         pod.setPower(0.15);
         brat.setPower(krut_start_power);
         brat2.setPower(krut2_start_power);
