@@ -4,9 +4,11 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.ftclib.SYS.ZXSYS;
 import org.firstinspires.ftc.teamcode.ftclib.command.ZaxvatSample;
+@Disabled
 
 @Autonomous
 public class ZaxvatSampleTest extends CommandOpMode {

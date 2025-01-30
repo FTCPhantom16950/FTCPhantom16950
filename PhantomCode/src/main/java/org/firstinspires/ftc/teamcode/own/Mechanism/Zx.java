@@ -136,7 +136,6 @@ public class Zx {
 //        krutpos = ZxPos.KRUT.ZAXVAT;
         brat.setPower(0.67);
         brat2.setPower(0.42);
-        opMode.sleep(200);
         opMode.sleep(800);
 //        zxpos = ZxPos.ZX.ZAXVAT;
         zx.setPower(0.23);
@@ -147,7 +146,7 @@ public class Zx {
     public static void otpusk() {
         zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
-        opMode.sleep(300);
+        opMode.sleep(200);
         brat.setPower(0);
         brat2.setPower(0);
     }
@@ -155,7 +154,7 @@ public class Zx {
         klesh.setPower(0);
         brat.setPower(-0.15);
         brat2.setPower(-0.9);
-        opMode.sleep(650);
+        opMode.sleep(700);
         zx.setPower(-0.33);
         opMode.sleep(300);
         klesh.setPower(-0.35);
@@ -166,7 +165,7 @@ public class Zx {
     public static void zxAuto() {
         Config.ACTIONINWORK = true;
         HorizontSlider.nepolniVidvig();
-        opMode.sleep(200);
+        opMode.sleep(300);
         brat.setPower(0.67);
         brat2.setPower(0.42);
         opMode.sleep(200);
@@ -175,20 +174,20 @@ public class Zx {
         opMode.sleep(300);
         if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")) {
             bliz_zx();
-            opMode.sleep(200);
+            opMode.sleep(150);
             HorizontSlider.sloz();
             peredacha();
-            opMode.sleep(200);
+            opMode.sleep(100);
             otpusk();
             canBeCaptured = true;
         } else {
             HorizontSlider.vidvigAuto();
-            opMode.sleep(300);
+            opMode.sleep(200);
             if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")) {
                 bliz_zx();
                 HorizontSlider.sloz();
                 peredacha();
-                opMode.sleep(200);
+                opMode.sleep(100);
                 otpusk();
                 canBeCaptured = true;
             } else {

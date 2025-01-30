@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
+import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -33,14 +36,14 @@ public class Sample3TEST extends LinearOpMode  {
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(127.36,18.364, Math.toRadians(135));
     final Pose toBucketCoontrol = new Pose(121.60578661844485,37.2368896925859);
-    final Pose to1Sample = new Pose(118, 24.5, Math.toRadians(180));
+    final Pose to1Sample = new Pose(119, 24.8, Math.toRadians(180));
     final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
-    final Pose to2Sample = new Pose(118, 15.5, Math.toRadians(180));
+    final Pose to2Sample = new Pose(119, 16, Math.toRadians(180));
     final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
     final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
-    final Pose to3Sample = new Pose(112, 22, Math.toRadians(225));
+    final Pose to3Sample = new Pose(112.5, 18, Math.toRadians(225));
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
-    final Pose toPark2 = new Pose(80.20253164556962,46, Math.toRadians(270));
+    final Pose toPark2 = new Pose(80.20253164556962,50, Math.toRadians(270));
     final Pose ToPark2Control = new Pose(70.56781193490055,8.59312839059675);
     final Pose ToPark2Control2 = new Pose(114.05424954792043,8.59312839059675);
     private Timer pathTimer, actionTimer;
@@ -66,7 +69,7 @@ public class Sample3TEST extends LinearOpMode  {
             horizontSlider.play();
             verticalSlider.play();
             spicemanTrajectory();
-            follower.telemetryDebug(telemetry);
+            telemetry.addData("korob", verticalSlider.captured);
             telemetry.update();
         }
     }
@@ -123,7 +126,6 @@ public class Sample3TEST extends LinearOpMode  {
                 .addPath(
                         new BezierCurve(
                                 new Point(toBucket),
-                                new Point(to2SampleControl),
                                 new Point(to2Sample)
                         )
                 ).setLinearHeadingInterpolation(toBucket.getHeading(), to2Sample.getHeading()).build();
@@ -154,9 +156,7 @@ public class Sample3TEST extends LinearOpMode  {
     Thread thread1 = new Thread(() -> {
         verticalSlider.spuskPosleBucket();
     });
-    Thread thread9 = new Thread(() -> {
-        verticalSlider.spuskPosleBucket();
-    });
+    Thread thread12 = new Thread(VerticalSlider::podem);
     Thread thread10 = new Thread(() -> {
         verticalSlider.spuskPosleBucket();
         pod.setPower(1);
@@ -181,25 +181,44 @@ public class Sample3TEST extends LinearOpMode  {
         switch (pathState) {
             case 0:
                 // Move from start to scoring position
-                follower.followPath(toBucketStart);
+                follower.followPath(toBucketStart,true);
+                thread12.start();
                 setPathState(1);
                 break;
 
-            case 1: // Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1)) || follower.isRobotStuck()) {
-                        verticalSlider.podvesSample();
-                        follower.followPath(to1SamplePC, true);
-                        thread1.start();
-                        setPathState(4);
+            case 1:// Wait until the robot is near the scoring position
+                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance) && follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(toBucket);
+                    verticalSlider.podvesSample();
+                    follower.followPath(to1SamplePC, true);
+                    thread1.start();
+                    setPathState(4);
 
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - 1) && follower.getPose().getY() > (to1Sample.getY() - 1))) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - tolerance) && follower.getPose().getY() > (to1Sample.getY() - tolerance) && follower.getPose().getHeading() > (to1Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(to1Sample);
                     Zx.zxAuto();
                     if (Zx.canBeCaptured){
-                        follower.followPath(toBucketPCfirst, true);
-                        setPathState(5);
+                        sleep(200);
+                        if (verx_color.getDistance(DistanceUnit.MM) <= 28){
+                            VerticalSlider.captured = true;
+                        } else {
+                            VerticalSlider.captured = false;
+                        }
+                        if(VerticalSlider.captured){
+                            follower.followPath(toBucketPCfirst, true);
+                            thread12.start();
+                            setPathState(5);
+                        }
+                       else{
+                            follower.followPath(toPark2PC, true);
+                           setPathState(-1);
+                            pod.setPower(1);
+                            sleep(600);
+                            pod.setPower(0);
+                        }
                     }
                     else {
                         follower.followPath(to2SamplePC, true);
@@ -208,7 +227,8 @@ public class Sample3TEST extends LinearOpMode  {
                 }
                 break;
             case 5: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
                     follower.followPath(to2SamplePC, true);
                     thread5.start();
@@ -216,50 +236,81 @@ public class Sample3TEST extends LinearOpMode  {
                 }
                 break;
             case 6: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - 1) && follower.getPose().getY() > (to2Sample.getY() - 1))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - tolerance) && follower.getPose().getY() > (to2Sample.getY() - tolerance)&& follower.getPose().getHeading() > (to2Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(to2Sample);
                     Zx.zxAuto();
-                    if (Zx.canBeCaptured) {
-                        follower.followPath(toBucketPCsecond, true);
-                        setPathState(7);
+                    if (Zx.canBeCaptured){
+                        sleep(200);
+                        if (verx_color.getDistance(DistanceUnit.MM) <= 28){
+                            VerticalSlider.captured = true;
+                        } else {
+                            VerticalSlider.captured = false;
+                        }
+                        if(VerticalSlider.captured){
+                            follower.followPath(toBucketPCsecond, true);
+                            thread12.start();
+                            setPathState(7);
+                        }
+                        else{
+                            follower.followPath(toPark2PC, true);
+                            setPathState(-1);
+                            pod.setPower(1);
+                            sleep(600);
+                            pod.setPower(0);
+                        }
                     } else {
-                        follower.followPath(toPark2PC, true);
-                        setPathState(11);
-                        thread6.start();
+                        follower.followPath(to3SamplePC, true);
+                        setPathState(8);
                     }
                 }
                 break;
             case 7:
-                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - 1)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
                     follower.followPath(to3SamplePC, true);
                     thread5.start();
                     setPathState(8);
                 }
             case 8:
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to2Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                    follower.holdPoint(to3Sample);
                     Zx.zxAuto();
-                    if (Zx.canBeCaptured) {
-                        follower.followPath(toBucketPCsecond, true);
-                        setPathState(10);
+                    if (Zx.canBeCaptured){
+                        sleep(200);
+                        if (verx_color.getDistance(DistanceUnit.MM) <= 28){
+                            VerticalSlider.captured = true;
+                        } else {
+                            VerticalSlider.captured = false;
+                        }
+                        if(VerticalSlider.captured){
+                            follower.followPath(toBucketPCthird, true);
+                            thread12.start();
+                            setPathState(10);
+                        }
+                        else{
+                            follower.followPath(toPark2PC, true);
+                            setPathState(-1);
+                            pod.setPower(1);
+                            sleep(600);
+                            pod.setPower(0);
+                        }
                     } else {
                         follower.followPath(toPark2PC, true);
-                        setPathState(11);
-                        thread6.start();
+                        setPathState(-1);
+                        pod.setPower(1);
+                        sleep(600);
+                        pod.setPower(0);
                     }
                 }
             case 10:
-                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - 1) && follower.getPose().getY() > (toBucket.getY() - 1))|| follower.isRobotStuck()){
-                    verticalSlider.podvesSample();
+                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()){
                     follower.followPath(toPark2PC, true);
-                    setPathState(11);
-                    thread10.start();
+                    setPathState(-1);
+                    pod.setPower(1);
+                    sleep(600);
+                    pod.setPower(0);
                 }
-                break;
-            case 11:
-                if(!follower.isBusy()){
-                    vrash.setPower(1);
-                }
-                setPathState(-1);
                 break;
         }
     }

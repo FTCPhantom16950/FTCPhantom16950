@@ -25,7 +25,7 @@ public class VerticalSlider{
     ElapsedTime timer = new ElapsedTime();
     public static RevColorSensorV3 verx_color;
     boolean once;
-    LinearOpMode opMode;
+    static LinearOpMode opMode;
     public static Rev2mDistanceSensor ds;
     public boolean colorState = false , previousColorState = colorState;
     double  output = 0, targetPos = 0;
@@ -73,6 +73,7 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 captured = true;
             }
+
             if (verx_color.getDistance(DistanceUnit.MM) <= 28 && once){
                 timer.startTime();
                 once = false;
@@ -130,14 +131,16 @@ public class VerticalSlider{
         opMode.sleep(200);
         Config.ACTIONINWORK = false;
     }
-    public void podvesSample(){
-        Config.ACTIONINWORK = true;
+    public static void podem(){
         kleshPower = -.3;
         klesh.setPower(kleshPower);
         opMode.sleep(400);
         pod.setPower(1);
         opMode.sleep(900);
         pod.setPower(0.15);
+    }
+    public void podvesSample(){
+        Config.ACTIONINWORK = true;
         vrash.setPower(0.85);
         opMode.sleep(800);
         kleshPower = 0;
