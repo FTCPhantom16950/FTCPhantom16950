@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -290,7 +287,7 @@ public class Sample3TEST extends LinearOpMode  {
                     setPathState(8);
                 }
             case 8:
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to2Sample.getHeading() - 0.5))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to3Sample.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(to3Sample);
                     Zx.zxAuto();
                     if (Zx.canBeCaptured){
