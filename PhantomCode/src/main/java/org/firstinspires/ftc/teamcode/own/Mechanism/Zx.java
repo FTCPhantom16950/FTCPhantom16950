@@ -79,18 +79,18 @@ public class Zx {
     public void play() {
         krut_power = brat2.getPower();
 
-        if (krutpos == ZxPos.KRUT.AUto && krutgo) {
+        if (krutpos == ZxPos.KRUT.AUto && krutgo && !Config.ACTIONINWORK) {
             brat.setPower(0.67);
             brat2.setPower(-0.3);
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo) {
+        } else if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo && !Config.ACTIONINWORK) {
             brat.setPower(0.67);
             brat2.setPower(0.42);
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo && colorSensor.getDistance(DistanceUnit.MM) <= 36) {
+        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo&& !Config.ACTIONINWORK) {
             peredacha();
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo) {
+        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo&& !Config.ACTIONINWORK) {
             brat.setPower(krut_start_power);
             brat2.setPower(krut2_start_power);
             krutgo = false;
@@ -132,11 +132,11 @@ public class Zx {
     public static void bliz_zx() {
         vrashPower = -0.49;
         vrash.setPower(vrashPower);
-        zx.setPower(-0.33);
-//        krutpos = ZxPos.KRUT.ZAXVAT;
-        brat.setPower(0.67);
-        brat2.setPower(0.42);
-        opMode.sleep(800);
+//        zx.setPower(-0.33);
+////        krutpos = ZxPos.KRUT.ZAXVAT;
+//        brat.setPower(0.67);
+//        brat2.setPower(0.42);
+//        opMode.sleep(800);
 //        zxpos = ZxPos.ZX.ZAXVAT;
         zx.setPower(0.23);
         captured = true;
@@ -151,24 +151,28 @@ public class Zx {
         brat2.setPower(0);
     }
     public static void peredacha(){
-        klesh.setPower(0);
+        klesh.setPower(-0.1);
         brat.setPower(-0.15);
         brat2.setPower(-0.9);
-        opMode.sleep(700);
-        zx.setPower(-0.33);
-        opMode.sleep(300);
-        klesh.setPower(-0.35);
-        brat.setPower(krut_start_power);
-        brat2.setPower(krut2_start_power);
+        opMode.sleep(200);
+            opMode.sleep(650);
+            zx.setPower(-0.33);
+            opMode.sleep(1000);
+            brat.setPower(krut_start_power);
+            brat2.setPower(krut2_start_power);
+            klesh.setPower(-0.35);
+
+        
     }
 
     public static void zxAuto() {
         Config.ACTIONINWORK = true;
         HorizontSlider.nepolniVidvig();
-        opMode.sleep(300);
-        brat.setPower(0.67);
-        brat2.setPower(0.42);
         opMode.sleep(200);
+        brat.setPower(0.67);
+        opMode.sleep(100);
+        brat2.setPower(0.42);
+        opMode.sleep(500);
 //        zxpos = ZxPos.ZX.OTPUSK;
         zx.setPower(-0.33);
         opMode.sleep(300);

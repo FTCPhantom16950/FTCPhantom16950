@@ -7,6 +7,8 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
@@ -36,12 +38,12 @@ public class Sample3TEST extends LinearOpMode  {
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(127.36,18.364, Math.toRadians(135));
     final Pose toBucketCoontrol = new Pose(121.60578661844485,37.2368896925859);
-    final Pose to1Sample = new Pose(119, 24.8, Math.toRadians(180));
+    final Pose to1Sample = new Pose(118.7, 25, Math.toRadians(180));
     final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
-    final Pose to2Sample = new Pose(119, 16, Math.toRadians(180));
+    final Pose to2Sample = new Pose(119, 15.8, Math.toRadians(180));
     final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
     final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
-    final Pose to3Sample = new Pose(112.5, 18, Math.toRadians(225));
+    final Pose to3Sample = new Pose(117.2, 13.4, Math.toRadians(200));
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
     final Pose toPark2 = new Pose(80.20253164556962,50, Math.toRadians(270));
     final Pose ToPark2Control = new Pose(70.56781193490055,8.59312839059675);
@@ -51,6 +53,11 @@ public class Sample3TEST extends LinearOpMode  {
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
     Zx zx = new Zx(this);
+    Thread thread = new Thread(() -> {
+        while (opModeInInit()){
+            follower.telemetryDebug(new MultipleTelemetry(this.telemetry,  FtcDashboard.getInstance().getTelemetry()));
+        }
+    });
     @Override
     public void runOpMode() throws InterruptedException {
         Constants.setConstants(FConstants.class, LConstants.class);
@@ -62,6 +69,12 @@ public class Sample3TEST extends LinearOpMode  {
         waitForStart();
         follower.setStartingPose(startPose);
         pathBuilding();
+        follower.update();
+        if(opModeIsActive()){
+            follower.poseUpdater.setCurrentPoseWithOffset(startPose);
+            follower.update();
+        }
+        thread.start();
         while (opModeIsActive()){
             follower.update();
             zx.play();
@@ -84,7 +97,7 @@ public class Sample3TEST extends LinearOpMode  {
                         new Point(toBucket),
                         new Point(toPark)
                 )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()
-                ).setPathEndTimeoutConstraint(1500).build();
+                ).build();
         toBucketPC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -92,7 +105,7 @@ public class Sample3TEST extends LinearOpMode  {
                                 new Point(toBucket)
                         )
                 ).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading())
-                .setPathEndTimeoutConstraint(1000).build();
+                .build();
         toBucketPCfirst = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -165,15 +178,14 @@ public class Sample3TEST extends LinearOpMode  {
         sleep(200);
     });
     Thread thread6 = new Thread(() -> {
-        pod.setPower(1);
-        sleep(500);
-        pod.setPower(0.13);
-        sleep(200);
+        pod.setPower(-0.9);
+        sleep(800);
+        pod.setPower(0.15);
     });
 
     Thread thread5 = new Thread(() -> {
         pod.setPower(-0.9);
-        sleep(850);
+        sleep(800);
         pod.setPower(0.15);
     });
 
@@ -181,8 +193,8 @@ public class Sample3TEST extends LinearOpMode  {
         switch (pathState) {
             case 0:
                 // Move from start to scoring position
-                follower.followPath(toBucketStart,true);
                 thread12.start();
+                follower.followPath(toBucketStart,true);
                 setPathState(1);
                 break;
 
@@ -190,26 +202,29 @@ public class Sample3TEST extends LinearOpMode  {
                 if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance) && follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
                     follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
-                    follower.followPath(to1SamplePC, true);
                     thread1.start();
+                    follower.followPath(to1SamplePC, true);
                     setPathState(4);
 
                 }
                 break;
             case 4: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - tolerance) && follower.getPose().getY() > (to1Sample.getY() - tolerance) && follower.getPose().getHeading() > (to1Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - tolerance) && follower.getPose().getY() > (to1Sample.getY() - tolerance) && follower.getPose().getHeading() > (to1Sample.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(to1Sample);
+                    sleep(100);
                     Zx.zxAuto();
+                    sleep(100);
                     if (Zx.canBeCaptured){
-                        sleep(200);
+
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
                         } else {
                             VerticalSlider.captured = false;
                         }
+                        sleep(200);
                         if(VerticalSlider.captured){
-                            follower.followPath(toBucketPCfirst, true);
                             thread12.start();
+                            follower.followPath(toBucketPCfirst, true);
                             setPathState(5);
                         }
                        else{
@@ -227,28 +242,29 @@ public class Sample3TEST extends LinearOpMode  {
                 }
                 break;
             case 5: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
-                    follower.followPath(to2SamplePC, true);
                     thread5.start();
+                    follower.followPath(to2SamplePC, true);
                     setPathState(6);
                 }
                 break;
             case 6: // Wait until the robot is near the scoring position
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - tolerance) && follower.getPose().getY() > (to2Sample.getY() - tolerance)&& follower.getPose().getHeading() > (to2Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - tolerance) && follower.getPose().getY() > (to2Sample.getY() - tolerance)&& follower.getPose().getHeading() > (to2Sample.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(to2Sample);
                     Zx.zxAuto();
                     if (Zx.canBeCaptured){
-                        sleep(200);
+
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
                         } else {
                             VerticalSlider.captured = false;
                         }
+                        sleep(200);
                         if(VerticalSlider.captured){
-                            follower.followPath(toBucketPCsecond, true);
                             thread12.start();
+                            follower.followPath(toBucketPCsecond, true);
                             setPathState(7);
                         }
                         else{
@@ -261,31 +277,32 @@ public class Sample3TEST extends LinearOpMode  {
                     } else {
                         follower.followPath(to3SamplePC, true);
                         setPathState(8);
+
                     }
                 }
                 break;
             case 7:
-                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - 1)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - 1)&& follower.getPose().getHeading() > (toBucket.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
-                    follower.followPath(to3SamplePC, true);
                     thread5.start();
+                    follower.followPath(to3SamplePC, true);
                     setPathState(8);
                 }
             case 8:
-                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to2Sample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+                if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to2Sample.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     follower.holdPoint(to3Sample);
                     Zx.zxAuto();
                     if (Zx.canBeCaptured){
-                        sleep(200);
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
                         } else {
                             VerticalSlider.captured = false;
                         }
+                        sleep(200);
                         if(VerticalSlider.captured){
-                            follower.followPath(toBucketPCthird, true);
                             thread12.start();
+                            follower.followPath(toBucketPCthird, true);
                             setPathState(10);
                         }
                         else{
@@ -304,12 +321,20 @@ public class Sample3TEST extends LinearOpMode  {
                     }
                 }
             case 10:
-                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - tolerance))|| follower.isRobotStuck()){
+                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - 0.5))|| follower.isRobotStuck()){
+                    verticalSlider.podvesSample();
+                    thread6.start();
                     follower.followPath(toPark2PC, true);
-                    setPathState(-1);
+                    setPathState(11);
+                }
+                break;
+
+            case 11:
+                if(!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance)&& follower.getPose().getHeading() > (toBucket.getHeading() - 0.5))|| follower.isRobotStuck()) {
                     pod.setPower(1);
                     sleep(600);
                     pod.setPower(0);
+                    setPathState(-1);
                 }
                 break;
         }

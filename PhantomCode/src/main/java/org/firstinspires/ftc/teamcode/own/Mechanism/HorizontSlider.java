@@ -4,10 +4,12 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.colorSensor;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutpos;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.peredacha;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxpos;
@@ -16,6 +18,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
@@ -43,11 +47,11 @@ public class HorizontSlider {
         horPos = HorSliderPos.HorPos.SLOZ;
     }
     public void play(){
-            if (horPos == HorSliderPos.HorPos.SLOZ && horGO){
+            if (horPos == HorSliderPos.HorPos.SLOZ && horGO && !Config.ACTIONINWORK){
                 sL.setPower(0- 0.01);
                 sR.setPower(0);
                 horGO = false;
-            } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO){
+            } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO && !Config.ACTIONINWORK){
                 sL.setPower(0.48);
                 sR.setPower(-0.48);
                 horGO = false;
@@ -117,19 +121,12 @@ public class HorizontSlider {
         opMode.sleep(200);
         brat.setPower(krut_start_power);
         brat2.setPower(krut2_start_power);
-        sL.setPower(0- 0.01);
-        sR.setPower(0);
-        opMode.sleep(1000);
-        klesh.setPower(0);
-        brat.setPower(-0.15);
-        brat2.setPower(-0.9);
-        opMode.sleep(750);
-        zx.setPower(-0.33);
-        opMode.sleep(600);
-        klesh.setPower(-0.35);
+            sL.setPower(0 - 0.01);
+            sR.setPower(0);
+            opMode.sleep(1000);
+           peredacha();
         krutgo = false;
-        brat.setPower(krut_start_power);
-        brat2.setPower(krut2_start_power);
+
     }
 
 }

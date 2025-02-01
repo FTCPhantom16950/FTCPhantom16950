@@ -50,25 +50,25 @@ public class VerticalSlider{
         pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pod.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(podPower);
-        klesh.setPower(kleshPower);
-        vrash.setPower(vrashPower);
+        pod.setPower(0.15);
+        klesh.setPower(-0.35);
+        vrash.setPower(-0.49);
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
         ds = hw.get(Rev2mDistanceSensor.class, "ds");
     }
 
    public void play(){
-            if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT){
+            if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT&& !Config.ACTIONINWORK){
                 kleshPower = -0.35;
                 klesh.setPower(kleshPower);
                 kleshgo = false;
-            } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK) {
-                kleshPower = 0;
+            } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
+                kleshPower = -0.1;
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (verx_color.getDistance(DistanceUnit.MM) <= 28 && kleshPower !=-0.25 && timer.milliseconds() <= 200){
-                opMode.sleep(200);
+                opMode.sleep(400);
                 kleshPower = -0.35;
                 klesh.setPower(kleshPower);
                 captured = true;
@@ -127,28 +127,28 @@ public class VerticalSlider{
         Config.ACTIONINWORK = true;
         pod.setPower(0.9);
         opMode.sleep(700);
-        pod.setPower(0.13);
+        pod.setPower(0.15);
         opMode.sleep(200);
         Config.ACTIONINWORK = false;
     }
     public static void podem(){
-        kleshPower = -.3;
+        kleshPower = -.35;
         klesh.setPower(kleshPower);
-        opMode.sleep(400);
+        opMode.sleep(300);
         pod.setPower(1);
-        opMode.sleep(900);
+        opMode.sleep(950);
         pod.setPower(0.15);
     }
     public void podvesSample(){
         Config.ACTIONINWORK = true;
         vrash.setPower(0.85);
         opMode.sleep(800);
-        kleshPower = 0;
+        kleshPower = -0.1;
         klesh.setPower(kleshPower);
         opMode.sleep(500);
         vrash.setPower(-0.49);
         opMode.sleep(500);
-        kleshPower = -.3;
+        kleshPower = -.35;
         klesh.setPower(kleshPower);
         Config.ACTIONINWORK = false;
     }
