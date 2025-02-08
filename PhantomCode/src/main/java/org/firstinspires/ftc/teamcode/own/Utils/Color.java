@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
-
+/**
+ * класс для распределения нормализованного цвета сэмпла
+ */
 public class Color {
     public String color(double r, double g, double b){
         if((r <= 0.5 && g <= 0.61 && b <= 0.17) && (r >= 0.2 && g >= 0.19 && b >= 0.12) ) {

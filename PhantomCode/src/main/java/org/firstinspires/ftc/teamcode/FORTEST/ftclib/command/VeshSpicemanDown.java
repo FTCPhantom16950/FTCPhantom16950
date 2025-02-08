@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.ftclib.command;
+package org.firstinspires.ftc.teamcode.FORTEST.ftclib.command;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.ftclib.SYS.VerticalSliderSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.VerticalSliderSYS;
 import org.firstinspires.ftc.teamcode.own.Utils.PIDControl;
 
-public class Park2 extends CommandBase {
+public class VeshSpicemanDown extends CommandBase {
     VerticalSliderSYS veetSl;
     PIDControl pidControl;
 
@@ -18,7 +18,7 @@ public class Park2 extends CommandBase {
         thread.start();
     }
 
-    public Park2(VerticalSliderSYS veetSl) {
+    public VeshSpicemanDown(VerticalSliderSYS veetSl) {
         this.veetSl = veetSl;
         addRequirements(veetSl);
     }
@@ -29,13 +29,11 @@ public class Park2 extends CommandBase {
             VerticalSliderSYS.pod.set(pidControl.getOut());
         }
     });
-
     @Override
     public void execute() {
         super.execute();
-        pidControl.setTarget(3000);
-        while (!pidControl.isAtTargetPos()){}
-        veetSl.vrashSkin();
+        pidControl.setTarget(-3000);
+        while(!pidControl.isAtTargetPos()){}
     }
 
     @Override

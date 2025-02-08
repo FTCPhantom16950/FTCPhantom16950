@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.ftclib.command;
+package org.firstinspires.ftc.teamcode.FORTEST.ftclib.command;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.ftclib.SYS.VerticalSliderSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.VerticalSliderSYS;
 import org.firstinspires.ftc.teamcode.own.Utils.PIDControl;
 
 public class VeshSpiceman extends CommandBase {

@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.ftclib.command;
+package org.firstinspires.ftc.teamcode.FORTEST.ftclib.command;
 
-import static org.firstinspires.ftc.teamcode.ftclib.SYS.WheelBaseSYS.follower;
+import static org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.WheelBaseSYS.follower;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -11,9 +11,9 @@ import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 
-import org.firstinspires.ftc.teamcode.ftclib.SYS.VerticalSliderSYS;
-import org.firstinspires.ftc.teamcode.ftclib.SYS.WheelBaseSYS;
-import org.firstinspires.ftc.teamcode.ftclib.SYS.ZXSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.VerticalSliderSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.WheelBaseSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.ZXSYS;
 
 public class Spiceman2Sample extends SequentialCommandGroup {
 

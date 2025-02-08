@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.Camera;
 
-import android.util.Size;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,52 +9,55 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-@Disabled
+
+import java.util.List;
+
 @TeleOp(name = "CameraOpmode", group = "Phantom")
 public class CameraOpmode extends LinearOpMode {
-    ElapsedTime time = new ElapsedTime();
-    PhantomProcessor phantomProcessor = new PhantomProcessor();
-    AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
-            .setOutputUnits(DistanceUnit.MM, AngleUnit.DEGREES)
-            .setDrawCubeProjection(true)
-            .setDrawTagID(true)
-            .setDrawAxes(true)
-            .setDrawTagOutline(true)
-            .setCameraPose(new Position(DistanceUnit.MM, 0,0,0, time.nanoseconds() ), new YawPitchRollAngles(AngleUnit.DEGREES, 0,0,0, time.nanoseconds()))
-            .build();
-    VisionPortal visionPortal;
-    double x,y,z, heading;
-
-    @Override
+    ElapsedTime time = new ElapsedTime();@Override
     public void runOpMode() throws InterruptedException {
-//        phantomProcessor.init(480, 640, null);
-//        visionPortal = new VisionPortal.Builder()
-//                .addProcessors(phantomProcessor, aprilTagProcessor)
-//                .setCamera(hardwareMap.get(WebcamName.class, "/Users/glebe/OneDrive/Documents/photo_2024-11-16_22-19-44.jpg"))
-//                .setCameraResolution(new Size(480, 640))
-//                .build();
-//        telemetry.addData("detections", aprilTagProcessor.getDetections());
-//        telemetry.update();
-//        waitForStart();
-//        while (opModeIsActive()){
-//            for (AprilTagDetection detection : aprilTagProcessor.getDetections()){
-//                heading = detection.ftcPose.yaw;
-//                x = detection.ftcPose.x;
-//                y = detection.ftcPose.y;
-//                z = detection.ftcPose.z;
-//            }
-//            telemetry.addData("x", x);
-//            telemetry.addData("y", y);
-//            telemetry.addData("z", z);
-//            telemetry.addData("heading", heading);
-//            telemetry.addData("detections", aprilTagProcessor.getDetections());
-//            telemetry.addData("left", phantomProcessor.getValLeft());
-//            telemetry.addData("right", phantomProcessor.getValRight());
-//            telemetry.update();
-//        }
+        AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
+                .setDrawCubeProjection(true)
+                .setDrawAxes(true)
+                .setDrawTagID(true)
+                .setCameraPose(new Position(DistanceUnit.MM,0,0,0,0), new YawPitchRollAngles(AngleUnit.DEGREES,90,90,0,0))
+                .build();
+        VisionPortal visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "WebCam"))
+                .setShowStatsOverlay(true)
+                .addProcessor(aprilTagProcessor)
+                        .build();
+        waitForStart();
+        time.reset();
+        while (opModeIsActive()){
+            List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
+            telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+            // Step through the list of detections and display info for each one.
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                    telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                            detection.robotPose.getPosition().x,
+                            detection.robotPose.getPosition().y,
+                            detection.robotPose.getPosition().z));
+                    telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                            detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+                            detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+                            detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+                } else {
+                    telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                    telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+                }
+            }   // end for() loop
+
+            // Add "key" information to telemetry
+            telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+            telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+            telemetry.update();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftclib.opModes;
+package org.firstinspires.ftc.teamcode.FORTEST.ftclib.opModes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -6,14 +6,14 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.ftclib.SYS.VerticalSliderSYS;
-import org.firstinspires.ftc.teamcode.ftclib.command.VeshSpiceman;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.VerticalSliderSYS;
+import org.firstinspires.ftc.teamcode.FORTEST.ftclib.command.BucketUP;
 @Disabled
 
 @Autonomous
-public class VeshSpicemanTest extends CommandOpMode {
+public class BucketUPTest extends CommandOpMode {
     VerticalSliderSYS verticalSliderSYS;
-    VeshSpiceman veshSpiceman;
+    BucketUP bucketUP;
     @Override
     public void schedule(Command... commands) {
         super.schedule(commands);
@@ -27,9 +27,8 @@ public class VeshSpicemanTest extends CommandOpMode {
     @Override
     public void initialize() {
         verticalSliderSYS  = new VerticalSliderSYS(this);
-        veshSpiceman = new VeshSpiceman(verticalSliderSYS);
+        bucketUP = new BucketUP(verticalSliderSYS);
         register(verticalSliderSYS);
-        schedule(veshSpiceman);
+        schedule(bucketUP);
     }
-
 }

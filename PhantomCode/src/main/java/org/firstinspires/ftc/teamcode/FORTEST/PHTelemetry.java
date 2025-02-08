@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.FORTEST;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
@@ -22,7 +22,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-
+/**
+ * класс для вывода телеметрии
+ */
 public class PHTelemetry {
     private LinearOpMode opMode;
     private boolean isWheelBase, isZX, isVerticalSlider, isPodves, isHorizontalSlider;

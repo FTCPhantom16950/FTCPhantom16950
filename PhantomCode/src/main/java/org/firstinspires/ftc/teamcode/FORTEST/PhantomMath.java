@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.FORTEST;
 
 import org.firstinspires.ftc.teamcode.own.Camera.Basement.PhantomProcessor;
 
+/**
+ * Класс для просчета математики используемой роботом
+ */
 public class PhantomMath {
     // создаём пременные для работы с другими классами
     public double x, y;

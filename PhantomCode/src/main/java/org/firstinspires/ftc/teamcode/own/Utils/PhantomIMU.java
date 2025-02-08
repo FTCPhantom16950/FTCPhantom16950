@@ -8,12 +8,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+/**
+ * Класс для взаимодействия с imu
+ * Позволяет сбрасывать значения и считывать значения
+ */
 public class PhantomIMU {
     // Создаем перемнные для использования акселерометра и гироскопа
     public IMU imu;
     // создаем переменные для связи между классами и хранения данных
-    public double x,y,heading;
-    public double veloHead;
+    public static double x,y,heading;
+    public static double veloHead;
     // создаем переменные для внутренних классов данных, получаемых от иму
     private YawPitchRollAngles rotation;
     private AngularVelocity rotateSpeed;

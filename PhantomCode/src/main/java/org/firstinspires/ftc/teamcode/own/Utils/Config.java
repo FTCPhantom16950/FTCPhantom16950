@@ -18,6 +18,9 @@ package org.firstinspires.ftc.teamcode.own.Utils;
  */
 
 @com.acmerobotics.dashboard.config.Config
+/**
+ * класс конфига для настройки из FTCDashboard
+ */
 public  class Config {
     public static boolean AUTOMODE = false;
     public static boolean TELEOPIMU = false;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftclib.SYS;
+package org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS;
 
 
 import com.acmerobotics.dashboard.config.Config;
@@ -36,7 +36,6 @@ public class VerticalSliderSYS extends SubsystemBase {
         pod.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         pod.stopAndResetEncoder();
         pod.setRunMode(Motor.RunMode.RawPower);
-        control.setOpMode(opMode);
         control.setTolerance(100);
         control.setkD(kD);
         control.setkP(kP);
