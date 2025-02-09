@@ -4,8 +4,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.sample;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
 import com.pedropathing.follower.Follower;
@@ -15,23 +14,26 @@ import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
-import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+
 @Autonomous
-public class SpiceMan2Test extends LinearOpMode {
+/// тестовый автоном с траекторией для 2 спишмэнов
+public class SpiceMan2Test extends PhantomOpMode {
     Follower follower;
     ElapsedTime timer = new ElapsedTime();
     public int pathState = 0;
-    public final Pose startPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
+    // прописываем позиции
+
+    public final Pose initialPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
     final Pose toSpiecman = new Pose(105.9, 71, Math.toRadians(0));
     final Pose toGetToSample = new Pose(84.36889692585895,103.37793851717902, Math.toRadians(180));
     final Pose toGetToSampleControl = new Pose(131.5,112.7, Math.toRadians(180));
@@ -42,43 +44,49 @@ public class SpiceMan2Test extends LinearOpMode {
     final Pose toSet2SpicemanControl = new Pose(134.8860759493671,79.42133815551537);
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toParkControl = new Pose(132.54249547920432,94.78481012658227);
-    private Timer pathTimer, actionTimer;
     PathChain toSpiceManPC, toSecondSample, toSecondSpiceman, toCapture, toSpiceman2, toParkPC;
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
     Zx zx = new Zx(this);
+    private final double VRASH_POWER = -0.49;
+
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void initMechanism() {
         Constants.setConstants(FConstants.class, LConstants.class);
-        pathTimer = new Timer();
         follower = new Follower(hardwareMap);
         horizontSlider.init();
         verticalSlider.init();
         zx.init();
-        waitForStart();
-        follower.setStartingPose(startPose);
+        Zx.brat.setPower(KRUT_2_START_POWER);
+        Zx.brat2.setPower(KRUT_2_START_POWER);
+        follower.setStartingPose(initialPose);
+        vrash.setPower(VRASH_POWER );
         pathBuilding();
-        VerticalSlider.vrashPower = -0.49;
-        vrash.setPower(vrashPower);
-        Zx.brat.setPower(zx.krut_start_power);
-        Zx.brat.setPower(krut2_start_power);
-        while (opModeIsActive()){
-            follower.update();
-            zx.play();
-            zx.play1();
-            horizontSlider.play();
-            verticalSlider.play();
-            spicemanTrajectory();
-            follower.telemetryDebug(telemetry);
-            telemetry.update();
-        }
     }
+
+    @Override
+    public void play() {
+        follower.update();
+        zx.play();
+        zx.play1();
+        horizontSlider.play();
+        verticalSlider.play();
+        trajectory();
+        follower.telemetryDebug(telemetry);
+        telemetry.update();
+    }
+
+    @Override
+    public void telemetryDebug() {
+
+    }
+
     // производим постройку всех траекторий
     public void pathBuilding() {
         toSpiceManPC = follower.pathBuilder()
                 .addPath(
                 new BezierCurve(
-                        new Point(startPose),
+                        new Point(initialPose),
                         new Point(toSpiecman)
                 )
         ).setConstantHeadingInterpolation(0).build();
@@ -151,8 +159,8 @@ public class SpiceMan2Test extends LinearOpMode {
         sleep(900);
         pod.setPower(0.15);
     });
-
-    public void spicemanTrajectory() {
+    @Override
+    public void trajectory() {
         switch (pathState) {
             case 0:
                 case0.start();
@@ -210,8 +218,5 @@ public class SpiceMan2Test extends LinearOpMode {
                 break;
         }
     }
-    public void setPathState(int pState) {
-        pathState = pState;
-        pathTimer.resetTimer();
-    }
+
 }

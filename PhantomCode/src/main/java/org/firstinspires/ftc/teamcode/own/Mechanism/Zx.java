@@ -9,12 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
-import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 import java.util.Objects;
@@ -35,9 +33,9 @@ public class Zx {
     public static RevColorSensorV3 colorSensor;
     public static ZxPos.KRUT krutpos;
     public static ZxPos.ZX zxpos;
-    public static final double krut_start_power = -0.3;
-    public static final double krut2_start_power = -0.3;
-    private static final double zx_start_power = 0;
+    public static final double KRUT_START_POWER = -0.3;
+    public static final double KRUT_2_START_POWER = -0.3;
+    private static final double ZX_START_POWER = 0;
     public static double g = 0;
     double krut2_power, krut_power;
     public static boolean not = false;
@@ -54,9 +52,9 @@ public class Zx {
         brat2 = opMode.hardwareMap.get(CRServo.class, "vrash2");
         colorSensor = hw.get(RevColorSensorV3.class, "color");
         brat2.setDirection(DcMotorSimple.Direction.REVERSE);
-        zx.setPower(zx_start_power);
-        brat.setPower(krut_start_power);
-        brat2.setPower(krut2_start_power);
+        zx.setPower(ZX_START_POWER);
+        brat.setPower(KRUT_START_POWER);
+        brat2.setPower(KRUT_2_START_POWER);
         krutpos = ZxPos.KRUT.POXOD;
         zxpos = ZxPos.ZX.OTPUSK;
         inited = true;
@@ -91,8 +89,8 @@ public class Zx {
             peredacha();
             krutgo = false;
         } else if (krutpos == ZxPos.KRUT.POXOD && krutgo&& !Config.ACTIONINWORK) {
-            brat.setPower(krut_start_power);
-            brat2.setPower(krut2_start_power);
+            brat.setPower(KRUT_START_POWER);
+            brat2.setPower(KRUT_2_START_POWER);
             krutgo = false;
         }
     }
@@ -158,8 +156,8 @@ public class Zx {
             opMode.sleep(650);
             zx.setPower(-0.33);
             opMode.sleep(1000);
-            brat.setPower(krut_start_power);
-            brat2.setPower(krut2_start_power);
+            brat.setPower(KRUT_START_POWER);
+            brat2.setPower(KRUT_2_START_POWER);
             klesh.setPower(-0.35);
 
         
@@ -195,8 +193,8 @@ public class Zx {
                 otpusk();
                 canBeCaptured = true;
             } else {
-                brat.setPower(krut_start_power);
-                brat2.setPower(krut2_start_power);
+                brat.setPower(KRUT_START_POWER);
+                brat2.setPower(KRUT_2_START_POWER);
                 HorizontSlider.sloz();
                 canBeCaptured = false;
             }

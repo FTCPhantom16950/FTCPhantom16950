@@ -36,6 +36,9 @@ import org.firstinspires.ftc.teamcode.own.Utils.Color;
 
 @TeleOp
 @Config
+/***
+ * Главный телеоп для матчей
+ */
 public class Main_Teleop_Java extends LinearOpMode {
 
     Color color = new Color();
@@ -47,7 +50,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
 
-
+    // создаём поток для управления горизонтальным слайдером
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
             if (horizontSlider.inited){
@@ -55,16 +58,19 @@ public class Main_Teleop_Java extends LinearOpMode {
             }
         }
     });
+    // создаем поток для управления вертикальным слайдером
     Thread verticSlider = new Thread(() -> {
         while (opModeIsActive()){
             verticalSlider.run();
         }
     });
+    // создаём поток для управления нижним захвватом
     Thread zX = new Thread(() -> {
         while (opModeIsActive()){
             zx.run();
         }
     });
+    // создаём поток для управления колесами
     Thread wheelBasethr = new Thread(() -> {
         while (opModeIsActive()){
             wheelBase.start();
@@ -72,6 +78,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     });
     @Override
     public void runOpMode() throws InterruptedException {
+        // инициализируем все устройства
         wheelBase.initWheelBase(hardwareMap);
        // lynxModule.init_Lynx();
         horizontSlider.init();
@@ -80,6 +87,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         podves.init();
         timer.reset();
         waitForStart();
+        // активируем потоки
         horSlider.setDaemon(true);
         horSlider.start();
         verticSlider.start();
@@ -90,6 +98,7 @@ public class Main_Teleop_Java extends LinearOpMode {
 //            verticalSlider.preSet2();
             podves.run();
            // zx.autoKrut();
+            // вывод телеметрии
             telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
             telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
             telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);

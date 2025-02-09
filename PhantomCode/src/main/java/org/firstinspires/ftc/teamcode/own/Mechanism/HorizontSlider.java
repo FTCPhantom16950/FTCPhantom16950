@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.colorSensor;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutpos;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.peredacha;
@@ -18,7 +16,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
@@ -119,8 +116,8 @@ public class HorizontSlider {
     public void zaxvat(){
         zx.setPower(0.23);
         opMode.sleep(200);
-        brat.setPower(krut_start_power);
-        brat2.setPower(krut2_start_power);
+        brat.setPower(KRUT_START_POWER);
+        brat2.setPower(KRUT_2_START_POWER);
             sL.setPower(0 - 0.01);
             sR.setPower(0);
             opMode.sleep(1000);

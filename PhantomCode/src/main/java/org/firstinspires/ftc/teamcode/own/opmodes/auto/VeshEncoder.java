@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 
-import android.content.pm.LabeledIntent;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,8 +12,8 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 @Disabled
-
 @Autonomous
+/// автоном на таймингах для подвеса
 public class VeshEncoder extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     WheelBase wheelBase = new WheelBase(this);

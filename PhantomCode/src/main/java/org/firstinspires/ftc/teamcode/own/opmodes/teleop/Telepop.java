@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 @Disabled
 @TeleOp
+/// тестовый телеоп для 4 серв
 public class Telepop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

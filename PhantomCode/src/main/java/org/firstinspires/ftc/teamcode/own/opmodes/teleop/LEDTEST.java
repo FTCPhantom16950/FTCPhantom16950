@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.LED;
 @Disabled
 
 @TeleOp
+/// тестовый телеоп для управления светодиодом
 public class LEDTEST extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

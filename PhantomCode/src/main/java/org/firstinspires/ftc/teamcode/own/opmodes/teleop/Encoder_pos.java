@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-
+/// тестовый телеоп для проверки энкодеров
 public class Encoder_pos extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

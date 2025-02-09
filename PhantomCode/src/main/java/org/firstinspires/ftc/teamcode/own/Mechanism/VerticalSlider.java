@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.colorSensor;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut2_start_power;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krut_start_power;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_START_POWER;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -166,8 +165,8 @@ public class VerticalSlider{
         pod.setPower(-0.9);
         opMode.sleep(800);
         pod.setPower(0.15);
-        brat.setPower(krut_start_power);
-        brat2.setPower(krut2_start_power);
+        brat.setPower(KRUT_START_POWER);
+        brat2.setPower(KRUT_2_START_POWER);
         Config.ACTIONINWORK = false;
     }
 }

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 @TeleOp
+/// тестовый телеоп для управления светодиодом
 public class led extends LinearOpMode {
     SparkFunLEDStick led;
     AnalogInput servo;
