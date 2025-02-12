@@ -73,9 +73,9 @@ public class WheelBase{
     // объявляем моторы через MotorEx
 
     // значения скоростей с геймпадов
-    double y;
-    double spin;
-    double x;
+    public double y;
+    public double spin;
+    public double x;
     // число уменьшающее значение всех скоростей в рамки от 1 до -1
     double denominator;
     //значения правого и левого бампера

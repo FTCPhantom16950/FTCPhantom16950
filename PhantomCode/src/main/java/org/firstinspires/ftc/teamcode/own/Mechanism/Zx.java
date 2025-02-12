@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 import java.util.Objects;
@@ -92,6 +94,10 @@ public class Zx {
             brat.setPower(KRUT_START_POWER);
             brat2.setPower(KRUT_2_START_POWER);
             krutgo = false;
+        } else if(krutpos == ZxPos.KRUT.Sputnik && krutgo && !Config.ACTIONINWORK){
+            brat.setPower(0.67);
+            brat2.setPower(0.42);
+            krutgo = false;
         }
     }
 
@@ -123,6 +129,11 @@ public class Zx {
             krutpos = ZxPos.KRUT.POXOD;
             opMode.sleep(200);
             krutgo = true;
+        } else if(opMode.gamepad2.x){
+            brat.setPower(0.67);
+            brat2.setPower(0.42);
+            opMode.sleep(500);
+            zx.setPower(-0.33);
         }
 
     }
@@ -136,7 +147,6 @@ public class Zx {
 //        brat2.setPower(0.42);
 //        opMode.sleep(800);
 //        zxpos = ZxPos.ZX.ZAXVAT;
-        zx.setPower(0.23);
         captured = true;
         opMode.sleep(200);
     }
@@ -149,13 +159,13 @@ public class Zx {
         brat2.setPower(0);
     }
     public static void peredacha(){
-        klesh.setPower(-0.1);
+        klesh.setPower(-0.13);
         brat.setPower(-0.15);
         brat2.setPower(-0.9);
         opMode.sleep(200);
             opMode.sleep(650);
             zx.setPower(-0.33);
-            opMode.sleep(1000);
+            opMode.sleep(900);
             brat.setPower(KRUT_START_POWER);
             brat2.setPower(KRUT_2_START_POWER);
             klesh.setPower(-0.35);
@@ -166,16 +176,17 @@ public class Zx {
     public static void zxAuto() {
         Config.ACTIONINWORK = true;
         HorizontSlider.nepolniVidvig();
+        zx.setPower(-0.33);
         opMode.sleep(200);
         brat.setPower(0.67);
         opMode.sleep(100);
         brat2.setPower(0.42);
-        opMode.sleep(500);
 //        zxpos = ZxPos.ZX.OTPUSK;
-        zx.setPower(-0.33);
         opMode.sleep(300);
-        if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")) {
+        if (colorSensor.getDistance(DistanceUnit.MM) <= 30) {
             bliz_zx();
+            opMode.sleep(150);
+            zx.setPower(0.23);
             opMode.sleep(150);
             HorizontSlider.sloz();
             peredacha();
@@ -185,18 +196,26 @@ public class Zx {
         } else {
             HorizontSlider.vidvigAuto();
             opMode.sleep(200);
-            if (colorSensor.getDistance(DistanceUnit.MM) <= 36 || Objects.equals(color.color(colorSensor.getNormalizedColors().red, colorSensor.getNormalizedColors().green, colorSensor.getNormalizedColors().blue), "YELLOW")) {
+            if (colorSensor.getDistance(DistanceUnit.MM) <= 30) {
                 bliz_zx();
+                opMode.sleep(150);
+                zx.setPower(0.23);
+                opMode.sleep(150);
                 HorizontSlider.sloz();
                 peredacha();
                 opMode.sleep(100);
                 otpusk();
                 canBeCaptured = true;
             } else {
-                brat.setPower(KRUT_START_POWER);
-                brat2.setPower(KRUT_2_START_POWER);
+                bliz_zx();
+                opMode.sleep(150);
+                zx.setPower(0.23);
+                opMode.sleep(150);
                 HorizontSlider.sloz();
-                canBeCaptured = false;
+                peredacha();
+                opMode.sleep(100);
+                otpusk();
+                canBeCaptured = true;
             }
         }
         Config.ACTIONINWORK = false;

@@ -17,6 +17,7 @@ public class ZxPos {
         POXOD,
         /// Горизонтальная позиция нижнего захвата
         AUto,
-        DEFAULT
+        DEFAULT,
+        Sputnik
     }
 }

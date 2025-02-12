@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Podves.podv1;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Podves.podv2;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
@@ -17,10 +18,14 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 
+import android.provider.SyncStateContract;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -32,12 +37,19 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 
 @TeleOp
 @Config
-public class TELEPOPTEST extends LinearOpMode {
-    public static double gain = 103;
+public class TestOpMode extends LinearOpMode {
+    public final Pose startPose = new Pose(135.35, 34.19, Math.toRadians(90));
+    public double y;
+    public double spin;
+    public double x;
+    double rbump = 0;
+    double lbump = 0;
     Color color = new Color();
     ElapsedTime timer = new ElapsedTime();
     HorizontSlider horizontSlider = new HorizontSlider(this);
@@ -46,14 +58,16 @@ public class TELEPOPTEST extends LinearOpMode {
     Zx zx = new Zx(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
-    ColorRangeSensor colorSensor;
+    Follower follower;
+
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
-            horizontSlider.moving();
+            if (horizontSlider.inited){
+                horizontSlider.moving();
             }
+        }
     });
     Thread verticSlider = new Thread(() -> {
-
         while (opModeIsActive()){
             verticalSlider.run();
         }
@@ -65,12 +79,28 @@ public class TELEPOPTEST extends LinearOpMode {
     });
     Thread wheelBasethr = new Thread(() -> {
         while (opModeIsActive()){
-            wheelBase.start();
+            if (gamepad1.left_bumper){
+                lbump = 0.6;
+            } else{
+                lbump = 0;
+            }
+            if (gamepad1.right_bumper){
+                rbump = 0.6;
+            }
+            else{
+                rbump = 0;
+            }
+            x = (gamepad1.left_stick_x) + (gamepad1.right_stick_x) * 0.7;
+            y = -(gamepad1.left_stick_y) + (gamepad1.right_stick_y) * 0.7;
+            spin = (gamepad1.right_trigger) + (-gamepad1.left_trigger) + rbump - lbump;
+            follower.setTeleOpMovementVectors(y, x, spin);
         }
     });
     @Override
     public void runOpMode() throws InterruptedException {
-        colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(this.hardwareMap);
+        follower.setStartingPose(startPose);
         wheelBase.initWheelBase(hardwareMap);
        // lynxModule.init_Lynx();
         horizontSlider.init();
@@ -84,19 +114,20 @@ public class TELEPOPTEST extends LinearOpMode {
         verticSlider.start();
         zX.start();
         wheelBasethr.start();
+        follower.startTeleopDrive();
         while (opModeIsActive()) {
-            colorSensor.setGain((float)gain);
 
+            follower.update();
 //            verticalSlider.preSet2();
-            podves.run();
+//            podves.run();
            // zx.autoKrut();
-            colorSensor.enableLed(false);
-            telemetry.addData("gain", gain );
-            telemetry.addData("RED", colorSensor.getNormalizedColors().red );
-            telemetry.addData("GREEN", colorSensor.getNormalizedColors().green);
-            telemetry.addData("BLUE", colorSensor.getNormalizedColors().blue);
-            telemetry.addData("Color",color.color(colorSensor.getNormalizedColors().red,colorSensor.getNormalizedColors().green,colorSensor.getNormalizedColors().blue));
-            telemetry.addData("DISTANCE", colorSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
+            telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
+            telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);
+            telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
+            telemetry.addData("DistanceColor1", Zx.colorSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
+            telemetry.addData("DISTANCE", ds.getDistance(DistanceUnit.MM));
             telemetry.addData("rbspeed", rbSpeed);
             telemetry.addData("rfspeed", rfSpeed);
             telemetry.addData("lbspeed", lbSpeed);

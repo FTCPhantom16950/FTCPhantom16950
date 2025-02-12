@@ -63,7 +63,7 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
-                kleshPower = -0.1;
+                kleshPower = -0.13;
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (verx_color.getDistance(DistanceUnit.MM) <= 28 && kleshPower !=-0.25 && timer.milliseconds() <= 200){
@@ -142,7 +142,7 @@ public class VerticalSlider{
         Config.ACTIONINWORK = true;
         vrash.setPower(0.85);
         opMode.sleep(800);
-        kleshPower = -0.1;
+        kleshPower = -0.13;
         klesh.setPower(kleshPower);
         opMode.sleep(500);
         vrash.setPower(-0.49);

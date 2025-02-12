@@ -26,7 +26,7 @@ public  class Config {
     public static boolean TELEOPIMU = false;
     public static boolean PEDROTELEOP = false;
     public static boolean ACTIONINWORK = false;
-    public static double tolerance = 1;
+    public static double tolerance = 0.7;
 
     public boolean isAUTOMODE() {
         return AUTOMODE;
