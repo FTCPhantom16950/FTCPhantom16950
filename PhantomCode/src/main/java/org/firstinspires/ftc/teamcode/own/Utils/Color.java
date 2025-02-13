@@ -5,11 +5,11 @@ package org.firstinspires.ftc.teamcode.own.Utils;
  */
 public class Color {
     public String color(double r, double g, double b){
-        if((r <= 0.5 && g <= 0.61 && b <= 0.17) && (r >= 0.2 && g >= 0.19 && b >= 0.12) ) {
+        if((r <= 0.05 && g <= 0.03 && b <= 0.02) && (r >= 0.02 && g >= 0.005 && b >= 0.005) ) {
             return "RED";
-        } else if ((r <= 1 && g <= 1 && b <= 1) && (r >= 0.5 && g >= 0.61 && b >= 0.17)) {
+        } else if ((r <= 0.05 && g <= 0.06 && b <= 0.02) && (r >= 0.03 && g >= 0.03 && b >= 0.005)) {
             return "YELLOW";
-        } else if ((r <= 1 && g <= 1 && b <= 1) && (r >= 0.09 && g >= 0.17 && b >= 0.31)) {
+        } else if ((r <= 0.02 && g <= 0.03 && b <= 0.05) && (r >= 0.004 && g >= 0.01 && b >= 0.01)) {
             return "BLUE";
         } else{
             return "NONE";
