@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.localization.Localizers;
+import com.pedropathing.util.KalmanFilterParameters;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
@@ -51,5 +52,11 @@ public class FConstants {
         FollowerConstants.pathEndVelocityConstraint = 0.1;
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
+
+        FollowerConstants.useVoltageCompensationInAuto = true;
+        FollowerConstants.useVoltageCompensationInTeleOp = true;
+        FollowerConstants.nominalVoltage = 13.5;
+        FollowerConstants.cacheInvalidateSeconds = 0.5;
+        FollowerConstants.automaticHoldEnd = true;
     }
 }

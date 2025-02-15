@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
@@ -56,7 +57,12 @@ public class HorizontSlider {
         }
     }
 
-
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+            moving();
+        }
+    };
     public void moving(){
         play();
         if (opMode.gamepad2.right_stick_button){

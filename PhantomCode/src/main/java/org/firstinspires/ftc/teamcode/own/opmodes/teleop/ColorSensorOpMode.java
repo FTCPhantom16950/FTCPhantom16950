@@ -5,26 +5,52 @@ import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.own.Mechanism.ColorSensorClass;
+import org.firstinspires.ftc.teamcode.own.Mechanism.LedControl;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 
 @Config
 @TeleOp
-public class ColorSensorOpMode extends LinearOpMode {
+public class ColorSensorOpMode extends PhantomOpMode {
     public static double gain = 100;
-    @Override
-    public void runOpMode() throws InterruptedException {
-        Color color = new Color();
-        RevColorSensorV3 revColorSensorV3 = hardwareMap.get(RevColorSensorV3.class, "color_verx");
-        revColorSensorV3.setGain((float) gain);
-        waitForStart();
-        while(opModeIsActive()){
-            revColorSensorV3.enableLed(false);
-            telemetry.addData("red", revColorSensorV3.getNormalizedColors().red);
-            telemetry.addData("green", revColorSensorV3.getNormalizedColors().green);
-            telemetry.addData("blue", revColorSensorV3.getNormalizedColors().blue);
-            telemetry.addData("color", color.color(revColorSensorV3.getNormalizedColors().red,revColorSensorV3.getNormalizedColors().green,revColorSensorV3.getNormalizedColors().blue));
-            telemetry.update();
+    ColorSensorClass colorSensorClass = new ColorSensorClass(this);
+    LedControl ledControl = new LedControl(this);
 
-        }
+    @Override
+    public void afterWaitForStart() {
+        playActionOpMode(ledControl.teleOpActions, colorSensorClass.teleOpActions);
+    }
+
+    @Override
+    public void initMechanism() {
+        colorSensorClass.init();
+        ledControl.init();
+        ColorSensorClass.color_zx.setGain((float) gain);
+    }
+
+    @Override
+    public void play() {
+        sleep(30000000);
+    }
+
+    @Override
+    public void autoActions() {
+
+    }
+
+    @Override
+    public void telemetryDebug() {
+        telemetry.addData("status", ColorSensorClass.initZX);
+        telemetry.addData("red", ColorSensorClass.color_zx.getNormalizedColors().red);
+        telemetry.addData("green", ColorSensorClass.color_zx.getNormalizedColors().green);
+        telemetry.addData("blue", ColorSensorClass.color_zx.getNormalizedColors().blue);
+        telemetry.addData("color", ColorSensorClass.colorZX);
+    }
+
+    @Override
+    public void trajectory() {
+        //
     }
 }

@@ -51,6 +51,11 @@ public class SpiceMan2Test extends PhantomOpMode {
     private final double VRASH_POWER = -0.49;
 
     @Override
+    public void afterWaitForStart() {
+
+    }
+
+    @Override
     public void initMechanism() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
@@ -74,6 +79,11 @@ public class SpiceMan2Test extends PhantomOpMode {
         trajectory();
         follower.telemetryDebug(telemetry);
         telemetry.update();
+    }
+
+    @Override
+    public void autoActions() {
+
     }
 
     @Override

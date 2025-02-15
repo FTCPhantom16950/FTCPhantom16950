@@ -9,7 +9,7 @@ public class Color {
             return "RED";
         } else if ((r <= 0.05 && g <= 0.06 && b <= 0.02) && (r >= 0.03 && g >= 0.03 && b >= 0.005)) {
             return "YELLOW";
-        } else if ((r <= 0.02 && g <= 0.03 && b <= 0.05) && (r >= 0.004 && g >= 0.01 && b >= 0.01)) {
+        } else if ((r <= 0.04 && g <= 0.13 && b <= 0.13) && (r >= 0.0025 && g >= 0.0035 && b >= 0.011)) {
             return "BLUE";
         } else{
             return "NONE";

@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
@@ -100,7 +101,12 @@ public class Zx {
             krutgo = false;
         }
     }
-
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+Zx.this.run();
+        }
+    };
     public void run() {
         play();
         play1();

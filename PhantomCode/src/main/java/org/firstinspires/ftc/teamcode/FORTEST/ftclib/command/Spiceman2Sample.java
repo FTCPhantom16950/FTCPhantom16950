@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.FORTEST.ftclib.SYS.WheelBaseSYS.fol
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.pedropathing.commands.FollowPath;
+//import com.pedropathing.commands.FollowPath;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
@@ -39,31 +39,31 @@ public class Spiceman2Sample extends SequentialCommandGroup {
     PathChain toSpiecmanPC, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC, toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
 
     public Spiceman2Sample(VerticalSliderSYS verticalSliderSYS, WheelBaseSYS wheelBaseSYS, ZXSYS zxsys) {
-       addCommands(
-               new ParallelCommandGroup(
-                       new VeshSpiceman(verticalSliderSYS),
-                       new FollowPath(follower, toSpiecmanPC,true)
-               ),
-               new ParallelCommandGroup(
-                       new VeshSpicemanDown(verticalSliderSYS),
-                       new FollowPath(follower, toBucketPCfirst, true)
-               ),
-               new ZaxvatSample(zxsys),
-               new FollowPath(follower, toBucketPCsecond, true),
-               new BucketUP(verticalSliderSYS),
-               new ParallelCommandGroup(
-                       new BucketDown(verticalSliderSYS),
-                       new FollowPath(follower, to2SamplePC, true)
-               ),
-               new FollowPath(follower, toBucketPCsecond, true),
-               new ParallelCommandGroup(
-                       new FollowPath(follower, toPark2PC, true),
-                       new SequentialCommandGroup(
-                               new BucketDown(verticalSliderSYS),
-                               new Park2(verticalSliderSYS)
-                       )
-               )
-       );
+//       addCommands(
+//               new ParallelCommandGroup(
+//                       new VeshSpiceman(verticalSliderSYS),
+//                       new FollowPath(follower, toSpiecmanPC,true)
+//               ),
+//               new ParallelCommandGroup(
+//                       new VeshSpicemanDown(verticalSliderSYS),
+//                       new FollowPath(follower, toBucketPCfirst, true)
+//               ),
+//               new ZaxvatSample(zxsys),
+//               new FollowPath(follower, toBucketPCsecond, true),
+//               new BucketUP(verticalSliderSYS),
+//               new ParallelCommandGroup(
+//                       new BucketDown(verticalSliderSYS),
+//                       new FollowPath(follower, to2SamplePC, true)
+//               ),
+//               new FollowPath(follower, toBucketPCsecond, true),
+//               new ParallelCommandGroup(
+//                       new FollowPath(follower, toPark2PC, true),
+//                       new SequentialCommandGroup(
+//                               new BucketDown(verticalSliderSYS),
+//                               new Park2(verticalSliderSYS)
+//                       )
+//               )
+//       );
        addRequirements(verticalSliderSYS,wheelBaseSYS,zxsys);
     }
     public void pathBuilding(){

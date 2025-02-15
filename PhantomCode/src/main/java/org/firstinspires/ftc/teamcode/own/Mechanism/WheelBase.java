@@ -27,6 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomIMU;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
@@ -467,6 +468,12 @@ public class WheelBase{
         }
         //to90degrees();
     }
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+            driveEasy();
+        }
+    };
 }
 
 

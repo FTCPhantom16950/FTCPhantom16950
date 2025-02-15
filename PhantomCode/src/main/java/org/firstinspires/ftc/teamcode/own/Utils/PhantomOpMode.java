@@ -19,13 +19,24 @@ public abstract class PhantomOpMode extends LinearOpMode {
         actionTimer = new Timer();
         initMechanism();
         waitForStart();
+        afterWaitForStart();
         telemetryThread.start();
         while (opModeIsActive()) {
             play();
         }
     }
+    public abstract void afterWaitForStart();
     public abstract void initMechanism();
-    public abstract void play();
+    public void play(){
+        autoActions();
+    };
+    public abstract void autoActions();
+    public void playActionOpMode(TeleOpActions... teleOpActions){
+        for(int i = 0; i < teleOpActions.length;i++){
+            teleOpActions[i].setOpMode(this);
+            teleOpActions[i].start();
+        }
+    }
     public abstract void telemetryDebug();
     public abstract void trajectory();
 

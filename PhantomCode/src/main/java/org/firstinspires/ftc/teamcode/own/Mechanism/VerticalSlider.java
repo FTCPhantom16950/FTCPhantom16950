@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
 public class VerticalSlider{
@@ -86,6 +87,12 @@ public class VerticalSlider{
                 sample.setPower(0.71);
             }
     }
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+        VerticalSlider.this.run();
+        }
+    };
     public void run(){
         play();
         if(opMode.gamepad2.dpad_up){

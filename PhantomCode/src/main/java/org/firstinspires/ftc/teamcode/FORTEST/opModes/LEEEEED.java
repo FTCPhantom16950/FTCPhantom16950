@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.FORTEST.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
-
+@Disabled
 @Autonomous
 public class LEEEEED extends LinearOpMode {
 

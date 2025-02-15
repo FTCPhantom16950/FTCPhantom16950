@@ -120,7 +120,7 @@ public class PIDControl extends Thread{
     /// расчет вывода
     public void calculate(int target, int measured){
         // если в нужной позиции переводит соответствующую перемнную в истинну
-        if (!(!(target - tolerance < measured) && !(target + tolerance > measured))){
+        if ((target - tolerance < measured) && (target + tolerance > measured)){
             atTargetPos = true;
         }
         // если не в нужной позиции расчитываем выход

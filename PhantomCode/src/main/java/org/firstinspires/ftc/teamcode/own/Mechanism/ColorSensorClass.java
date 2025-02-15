@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 
 public class ColorSensorClass {
     LinearOpMode opMode;
@@ -20,8 +21,8 @@ public class ColorSensorClass {
     public void init(){
         HardwareMap hardwareMap = opMode.hardwareMap;
         color_zx = hardwareMap.get(RevColorSensorV3.class,"color");
-
     }
+
     public void play(){
         if (!(color_zx == null)){
             initZX = true;
@@ -31,4 +32,10 @@ public class ColorSensorClass {
             initZX = false;
         }
     }
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+            ColorSensorClass.this.play();
+        }
+    };
 }

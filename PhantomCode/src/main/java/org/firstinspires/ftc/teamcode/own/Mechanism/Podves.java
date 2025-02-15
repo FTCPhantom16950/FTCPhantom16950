@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
+
 public class Podves {
     LinearOpMode opMode;
     double runPowers1 = -1;
@@ -28,6 +30,12 @@ public class Podves {
         podv2.setDirection(DcMotorSimple.Direction.REVERSE);
         inited = true;
     }
+    public TeleOpActions teleOpActions = new TeleOpActions() {
+        @Override
+        public void play() {
+            Podves.this.run();
+        }
+    };
     public void run(){
         if(opMode.gamepad1.x){
             podv2.setPower(runPowers1);
