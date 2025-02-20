@@ -46,8 +46,8 @@ public class HorizontSlider {
     }
     public void play(){
             if (horPos == HorSliderPos.HorPos.SLOZ && horGO && !Config.ACTIONINWORK){
-                sL.setPower(0- 0.01);
-                sR.setPower(0);
+                sL.setPower(-0.1- 0.01);
+                sR.setPower(0.1);
                 horGO = false;
             } else if(horPos == HorSliderPos.HorPos.VIDVIG && horGO && !Config.ACTIONINWORK){
                 sL.setPower(0.48);
