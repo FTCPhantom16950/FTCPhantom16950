@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -10,7 +9,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 
 import java.util.Objects;
 
-public class LedControl {
+public class LedControl extends Thread {
     LinearOpMode opMode;
     DigitalChannelImpl blue , red, yellow;
     public LedControl(LinearOpMode opMode) {
@@ -19,7 +18,7 @@ public class LedControl {
     HardwareMap map;
     public void init(){
         map = opMode.hardwareMap;
-        blue = map.get(DigitalChannelImpl.class,"dg");
+        blue = opMode.hardwareMap.get(DigitalChannelImpl.class,"dg");
         blue.setMode(DigitalChannel.Mode.OUTPUT);
         blue.setState(false);
     }
@@ -46,6 +45,12 @@ public class LedControl {
 
         }else if (!ColorSensorClass.initZX) {
 //            yellow.setState(true);
+        }
+    }
+    @Override
+    public void run() {
+        while(!opMode.isStopRequested()){
+            play();
         }
     }
 }

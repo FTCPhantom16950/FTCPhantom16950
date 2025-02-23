@@ -61,9 +61,10 @@ public class TestOpMode extends PhantomOpMode {
     }
 
     @Override
-    public void autoActions() {
+    public void play() {
 
     }
+
 
     @Override
     public void telemetryDebug() {
@@ -102,9 +103,8 @@ public class TestOpMode extends PhantomOpMode {
         telemetry.addData("podves1", podv1.getPower());
         telemetry.addData("podves2", podv2.getPower());
     }
-
     @Override
-    public void trajectory() {
+    public void pathBuilding() {
 
     }
 }

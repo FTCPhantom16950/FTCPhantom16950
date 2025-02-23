@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,15 +22,19 @@ public class ColorSensorClass {
         color_zx = hardwareMap.get(RevColorSensorV3.class,"color");
     }
 
-    public void play(){
-        if (!(color_zx == null)){
+    public void play() {
+        if (color_zx != null) {
             initZX = true;
-            colorZX = color.color(color_zx.getNormalizedColors().red,color_zx.getNormalizedColors().green,color_zx.getNormalizedColors().blue);
-        }
-        else {
+            // Извлечение цветовых компонентов в локальные переменные для ясности
+            float red = color_zx.getNormalizedColors().red;
+            float green = color_zx.getNormalizedColors().green;
+            float blue = color_zx.getNormalizedColors().blue;
+            colorZX = color.color(red, green, blue);
+        } else {
             initZX = false;
         }
     }
+
     public TeleOpActions teleOpActions = new TeleOpActions() {
         @Override
         public void play() {

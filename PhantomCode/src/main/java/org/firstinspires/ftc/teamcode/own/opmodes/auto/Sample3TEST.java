@@ -31,7 +31,7 @@ public class Sample3TEST extends LinearOpMode  {
     ElapsedTime timer = new ElapsedTime();
     private int pathState = 0;
     public final Pose startPose = new Pose(135.35, 34.19, Math.toRadians(90));
-    final Pose toSpiecman = new Pose(105.9, 71, Math.toRadians(0));
+
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(127.8,18.1, Math.toRadians(135));
     final Pose toBucketCoontrol = new Pose(121.60578661844485,37.2368896925859);
@@ -46,7 +46,7 @@ public class Sample3TEST extends LinearOpMode  {
     final Pose ToPark2Control = new Pose(70.56781193490055,8.59312839059675);
     final Pose ToPark2Control2 = new Pose(114.05424954792043,8.59312839059675);
     private Timer pathTimer, actionTimer;
-    PathChain toBucketStart, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC,toPark2PC2, toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
+    PathChain toBucketStart, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC,toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
     Zx zx = new Zx(this);
@@ -93,12 +93,6 @@ public class Sample3TEST extends LinearOpMode  {
                 new Point(toBucketCoontrol),
                 new Point(toBucket)
         )).setLinearHeadingInterpolation(startPose.getHeading(), toBucket.getHeading()).build();
-        toParkPC = follower.pathBuilder()
-                .addPath(new BezierLine(
-                        new Point(toBucket),
-                        new Point(toPark)
-                )).setLinearHeadingInterpolation(toSpiecman.getHeading(), toPark.getHeading()
-                ).build();
         toBucketPC = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
@@ -157,14 +151,6 @@ public class Sample3TEST extends LinearOpMode  {
                         new Point(ToPark2Control),
                         new Point(toPark2)
                 )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
-        toPark2PC2 = follower.pathBuilder()
-                .addPath(
-                        new BezierCurve(
-                                new Point(toSpiecman),
-                                new Point(ToPark2Control2),
-                                new Point(toPark2)
-                        )
-                ).setLinearHeadingInterpolation(toSpiecman.getHeading(),toPark2.getHeading()).build();
     }
 
     Thread thread1 = new Thread(() -> {
@@ -200,8 +186,7 @@ public class Sample3TEST extends LinearOpMode  {
                 break;
 
             case 1:// Wait until the robot is near the scoring position
-                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance) && follower.getPose().getHeading() > (toBucket.getHeading() - 0.1))|| follower.isRobotStuck()) {
-                    follower.holdPoint(toBucket);
+                if (!follower.isBusy() && (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - tolerance) && follower.getPose().getHeading() > (toBucket.getHeading() - 0.1))|| follower.isRobotStuck()) {follower.holdPoint(toBucket);
                     verticalSlider.podvesSample();
                     thread1.start();
                     follower.followPath(to1SamplePC, true);

@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.sample;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -17,7 +14,6 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
@@ -32,7 +28,6 @@ public class SpiceMan2Test extends PhantomOpMode {
     ElapsedTime timer = new ElapsedTime();
     public int pathState = 0;
     // прописываем позиции
-
     public final Pose initialPose = new Pose(134.47662485746864, 75.53021664766247, Math.toRadians(0));
     final Pose toSpiecman = new Pose(105.9, 71, Math.toRadians(0));
     final Pose toGetToSample = new Pose(84.36889692585895,103.37793851717902, Math.toRadians(180));
@@ -76,15 +71,11 @@ public class SpiceMan2Test extends PhantomOpMode {
         zx.play1();
         horizontSlider.play();
         verticalSlider.play();
-        trajectory();
+//        trajectory();
         follower.telemetryDebug(telemetry);
         telemetry.update();
     }
 
-    @Override
-    public void autoActions() {
-
-    }
 
     @Override
     public void telemetryDebug() {
@@ -169,64 +160,64 @@ public class SpiceMan2Test extends PhantomOpMode {
         sleep(900);
         pod.setPower(0.15);
     });
-    @Override
-    public void trajectory() {
-        switch (pathState) {
-            case 0:
-                case0.start();
-                follower.followPath(toSpiceManPC,true);
-                setPathState(1);
-                break;
-            case 1:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - tolerance) && follower.getPose().getY() > (toSpiecman.getY() - tolerance) && follower.getPose().getHeading() > (toSpiecman.getHeading() - tolerance))|| follower.isRobotStuck()){
-                    follower.holdPoint(toSpiecman);
-                    verticalSlider.podvesSpiecMan();
-                    sleep(1000);
-                    follower.followPath(toSecondSample, true);
-                    case1.start();
-                    setPathState(2);
-                }
-                break;
-            case 2:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toThrowSecondSample.getX() - tolerance) && follower.getPose().getY() > (toThrowSecondSample.getY() - tolerance) && follower.getPose().getHeading() > (toThrowSecondSample.getHeading() - tolerance))|| follower.isRobotStuck()) {
-                    follower.holdPoint(toThrowSecondSample);
-                    sample.setPower(-0.85);
-                    if(ds.getDistance(DistanceUnit.MM) >= 30){
-                        follower.followPath(toCapture,true);
-                        setPathState(3);
-                    } else {
-                        follower.followPath(toParkPC,true);
-                        case4.start();
-                        setPathState(5);
-                    }
-                }
-                break;
-            case 3:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toCapture2Spiceman.getX() - tolerance) && follower.getPose().getY() > (toCapture2Spiceman.getY() - tolerance) && follower.getPose().getHeading() > (toCapture2Spiceman.getHeading() - tolerance))|| follower.isRobotStuck()) {
-                    sleep(4000);
-                    follower.holdPoint(toCapture2Spiceman);
-                    follower.followPath(toSpiceManPC,true);
-                    sample.setPower(0.71);
-                    case3.start();
-                    setPathState(4);
-                }
-                break;
-            case 4:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - tolerance) && follower.getPose().getY() > (toSpiecman.getY() - tolerance) && follower.getPose().getHeading() > (toSpiecman.getHeading() - tolerance))|| follower.isRobotStuck()) {
-                    follower.holdPoint(toSpiecman);
-                    verticalSlider.podvesSpiecMan();
-                    follower.followPath(toParkPC,true);
-                    case4.start();
-                    setPathState(5);
-                }
-                break;
-            case 5:
-                if(!follower.isBusy() && (follower.getPose().getX() > (toPark.getX() - tolerance) && follower.getPose().getY() > (toPark.getY() - tolerance) && follower.getPose().getHeading() > (toPark.getHeading() - tolerance))|| follower.isRobotStuck()) {
-                    follower.holdPoint(toPark);
-                    setPathState(-1);
-                }
-                break;
-        }
+
+//    public void trajectory() {
+//        switch (pathState) {
+//            case 0:
+//                case0.start();
+//                follower.followPath(toSpiceManPC,true);
+//                setPathState(1);
+//                break;
+//            case 1:
+//                if(!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - tolerance) && follower.getPose().getY() > (toSpiecman.getY() - tolerance) && follower.getPose().getHeading() > (toSpiecman.getHeading() - tolerance))|| follower.isRobotStuck()){
+//                    follower.holdPoint(toSpiecman);
+//                    verticalSlider.podvesSpiecMan();
+//                    sleep(1000);
+//                    follower.followPath(toSecondSample, true);
+//                    case1.start();
+//                    setPathState(2);
+//                }
+//                break;
+//            case 2:
+//                if(!follower.isBusy() && (follower.getPose().getX() > (toThrowSecondSample.getX() - tolerance) && follower.getPose().getY() > (toThrowSecondSample.getY() - tolerance) && follower.getPose().getHeading() > (toThrowSecondSample.getHeading() - tolerance))|| follower.isRobotStuck()) {
+//                    follower.holdPoint(toThrowSecondSample);
+//                    sample.setPower(-0.85);
+//                    if(ds.getDistance(DistanceUnit.MM) >= 30){
+//                        follower.followPath(toCapture,true);
+//                        setPathState(3);
+//                    } else {
+//                        follower.followPath(toParkPC,true);
+//                        case4.start();
+//                        setPathState(5);
+//                    }
+//                }
+//                break;
+//            case 3:
+//                if(!follower.isBusy() && (follower.getPose().getX() > (toCapture2Spiceman.getX() - tolerance) && follower.getPose().getY() > (toCapture2Spiceman.getY() - tolerance) && follower.getPose().getHeading() > (toCapture2Spiceman.getHeading() - tolerance))|| follower.isRobotStuck()) {
+//                    sleep(4000);
+//                    follower.holdPoint(toCapture2Spiceman);
+//                    follower.followPath(toSpiceManPC,true);
+//                    sample.setPower(0.71);
+//                    case3.start();
+//                    setPathState(4);
+//                }
+//                break;
+//            case 4:
+//                if(!follower.isBusy() && (follower.getPose().getX() > (toSpiecman.getX() - tolerance) && follower.getPose().getY() > (toSpiecman.getY() - tolerance) && follower.getPose().getHeading() > (toSpiecman.getHeading() - tolerance))|| follower.isRobotStuck()) {
+//                    follower.holdPoint(toSpiecman);
+//                    verticalSlider.podvesSpiecMan();
+//                    follower.followPath(toParkPC,true);
+//                    case4.start();
+//                    setPathState(5);
+//                }
+//                break;
+//            case 5:
+//                if(!follower.isBusy() && (follower.getPose().getX() > (toPark.getX() - tolerance) && follower.getPose().getY() > (toPark.getY() - tolerance) && follower.getPose().getHeading() > (toPark.getHeading() - tolerance))|| follower.isRobotStuck()) {
+//                    follower.holdPoint(toPark);
+//                    setPathState(-1);
+//                }
+//                break;
+//        }
     }
 
-}
+
