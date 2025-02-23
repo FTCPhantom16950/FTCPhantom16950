@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutpos;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.peredacha;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxpos;
-import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -49,8 +48,8 @@ public class HorizontSlider {
         switch(horPos) {
             case SLOZ:
                 if(horGO && !Config.ACTIONINWORK){
-                    sL.setPower(0- 0.01);
-                    sR.setPower(0);
+                    sL.setPower(-0.1- 0.01);
+                    sR.setPower(0.1);
                     horGO = false;
                 }
                 break;
