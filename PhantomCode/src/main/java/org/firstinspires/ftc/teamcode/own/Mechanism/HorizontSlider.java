@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.peredacha;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxpos;
+import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
