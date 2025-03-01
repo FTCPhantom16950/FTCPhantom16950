@@ -31,6 +31,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.Podves;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
+import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 
 
@@ -46,7 +47,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     HorizontSlider horizontSlider = new HorizontSlider(this);
     LynxModule lynxModule = new LynxModule(this);
     VerticalSlider verticalSlider  = new VerticalSlider(this);
-    Zx zx = new Zx(this);
+    Zxnew zx = new Zxnew(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
 
@@ -99,12 +100,12 @@ public class Main_Teleop_Java extends LinearOpMode {
             podves.run();
            // zx.autoKrut();
             // вывод телеметрии
-            telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
-            telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
-            telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);
-            telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
-            telemetry.addData("DistanceColor1", Zx.colorSensor.getDistance(DistanceUnit.MM));
-            telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
+//            telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
+//            telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );
+//            telemetry.addData("GREEN", Zx.colorSensor.getNormalizedColors().green);
+//            telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
+//            telemetry.addData("DistanceColor1", Zx.colorSensor.getDistance(DistanceUnit.MM));
+//            telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
             telemetry.addData("DISTANCE", ds.getDistance(DistanceUnit.MM));
             telemetry.addData("rbspeed", rbSpeed);
             telemetry.addData("rfspeed", rfSpeed);
@@ -127,9 +128,9 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("vrash power:", vrash.getPower());
             telemetry.addData("horL power:", sL.getPower());
             telemetry.addData("horR power:", sR.getPower());
-            telemetry.addData("zx pos:", Zx.zx.getPower());
+//            telemetry.addData("zx pos:", Zx.zx.getPower());
             telemetry.addData("krut pos:", brat.getPower());
-            telemetry.addData("krut2 pos:", Zx.brat2.getPower());
+//            telemetry.addData("krut2 pos:", Zx.brat2.getPower());
             telemetry.addData("position", pod.getCurrentPosition());
             telemetry.addData("podves1", podv1.getPower());
             telemetry.addData("podves2", podv2.getPower());
