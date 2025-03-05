@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.KRUT_2_START_POWER;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
-import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
+import org.firstinspires.ftc.teamcode.FORTEST.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;

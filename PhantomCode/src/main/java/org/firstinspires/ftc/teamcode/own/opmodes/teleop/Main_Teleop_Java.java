@@ -16,9 +16,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,13 +28,12 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Podves;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 
 
 @TeleOp
-@Config
+
 /***
  * Главный телеоп для матчей
  */
@@ -129,11 +126,12 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("horL power:", sL.getPower());
             telemetry.addData("horR power:", sR.getPower());
 //            telemetry.addData("zx pos:", Zx.zx.getPower());
-            telemetry.addData("krut pos:", brat.getPower());
+//            telemetry.addData("krut pos:", brat.getPower());
 //            telemetry.addData("krut2 pos:", Zx.brat2.getPower());
             telemetry.addData("position", pod.getCurrentPosition());
             telemetry.addData("podves1", podv1.getPower());
             telemetry.addData("podves2", podv2.getPower());
+            telemetry.addData("opMode.gamepad2.right_stick_y", gamepad2.right_stick_y);
             telemetry.update();
         }
 

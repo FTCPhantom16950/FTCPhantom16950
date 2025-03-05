@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutgo;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.krutpos;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.peredacha;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxgo;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zxpos;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_START_POWER;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat2;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutgo;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutpos;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.peredacha;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.zx;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxgo;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxpos;
 import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -88,17 +89,19 @@ public class HorizontSlider {
         }
     }
 
-    public  void vidvig(){
+    public  void vidvig() {
         horPos = HorSliderPos.HorPos.VIDVIG;
-        krutpos = ZxPos.KRUT.ZAXVAT;
-        zxpos = ZxPos.ZX.OTPUSK;
-        krutgo = true;
-        zxgo = true;
         horGO = true;
+        zxpos = ZxPos.ZX.OTPUSK;
+        zxgo = true;
+        opMode.sleep(500);
+        krutpos = ZxPos.KRUT.ZAXVAT;
+        krutgo = true;
+
     }
     public static void vidvigAuto(){
-        sL.setPower(0.43);
-        sR.setPower(-sL.getPower());
+        sL.setPower(0.3);
+        sR.setPower(-0.3);
     }
     public static void nepolniVidvig(){
         sL.setPower(0.32);
@@ -110,16 +113,16 @@ public class HorizontSlider {
     }
 
     public void zaxvat(){
-        zx.setPower(0.23);
+        klesh.setPower(-0.13);
+        Zxnew.zx.setPower(0.6);
         opMode.sleep(200);
-        brat.setPower(KRUT_START_POWER);
-        brat2.setPower(KRUT_2_START_POWER);
+        Zxnew.brat.setPower(KRUT_START_POWER);
+        Zxnew.brat2.setPower(KRUT_2_START_POWER);
             sL.setPower(0 - 0.01);
             sR.setPower(0);
             opMode.sleep(1000);
            peredacha();
         krutgo = false;
-
     }
 
 }

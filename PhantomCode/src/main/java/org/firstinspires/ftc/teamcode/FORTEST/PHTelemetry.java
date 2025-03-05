@@ -13,8 +13,8 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.zx;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

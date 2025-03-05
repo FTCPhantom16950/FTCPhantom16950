@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.FORTEST;
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
+import
+        static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
 
@@ -9,16 +10,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
-import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
-
-import java.util.Objects;
 
 
 public class Zx {

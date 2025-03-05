@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_2_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.KRUT_START_POWER;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat2;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.KRUT_START_POWER;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -36,7 +36,7 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
-    public static double podPower = 0, vrashPower = -0.5, kleshPower = -0.35;
+    public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35;
     public static boolean kleshgo = false, captured = false;
     static VerticalPOS.KLESHPOS verticalPOS, prevPos ;
     boolean pressed = false;
@@ -147,13 +147,15 @@ public class VerticalSlider{
     }
     public void podvesSample(){
         Config.ACTIONINWORK = true;
-        vrash.setPower(0.85);
-        opMode.sleep(800);
+        vrash.setPower(0);
+        opMode.sleep(100);
+        vrash.setPower(1);
+        opMode.sleep(700);
         kleshPower = -0.13;
         klesh.setPower(kleshPower);
-        opMode.sleep(500);
+        opMode.sleep(400);
         vrash.setPower(-0.49);
-        opMode.sleep(500);
+        opMode.sleep(300);
         kleshPower = -.35;
         klesh.setPower(kleshPower);
         Config.ACTIONINWORK = false;
@@ -169,11 +171,11 @@ public class VerticalSlider{
     public void spuskPosleBucket(){
         Config.ACTIONINWORK = true;
         opMode.sleep(1000);
-        pod.setPower(-0.9);
-        opMode.sleep(800);
+        pod.setPower(-1);
+        opMode.sleep(600);
         pod.setPower(0.15);
-        brat.setPower(KRUT_START_POWER);
-        brat2.setPower(KRUT_2_START_POWER);
+        Zxnew.brat.setPower(KRUT_START_POWER);
+        Zxnew.brat2.setPower(KRUT_2_START_POWER);
         Config.ACTIONINWORK = false;
     }
 }

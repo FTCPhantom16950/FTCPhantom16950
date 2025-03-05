@@ -58,8 +58,8 @@ public class Podves {
             left.setPower(0.5);
             right.setPower(0.5);
         } else if (opMode.gamepad1.dpad_down){
-            left.setPower(-0.8);
-            right.setPower(-0.8);
+            left.setPower(-0.9);
+            right.setPower(-0.9);
         }
         if(opMode.gamepad1.dpad_left){
             left.setPower(0.3);

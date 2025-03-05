@@ -16,7 +16,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zx.brat;
+import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.LynxModule;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Podves;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Mechanism.Zx;
+import org.firstinspires.ftc.teamcode.FORTEST.Zx;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 @TeleOp
