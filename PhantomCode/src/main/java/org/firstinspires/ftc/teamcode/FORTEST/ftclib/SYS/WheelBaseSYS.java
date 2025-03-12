@@ -13,7 +13,6 @@ public class WheelBaseSYS extends SubsystemBase {
     public static Follower follower;
     public WheelBaseSYS(LinearOpMode opMode, Pose pose) {
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(opMode.hardwareMap);
         follower.setStartingPose(pose);
     }
 

@@ -20,4 +20,8 @@ public class ZxPos {
         DEFAULT,
         Sputnik
     }
+    public  enum POVOROT{
+        Horizont,
+        Verticaaaaallll
+    }
 }

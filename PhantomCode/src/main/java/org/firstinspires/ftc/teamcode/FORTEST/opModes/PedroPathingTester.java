@@ -16,7 +16,7 @@ public class PedroPathingTester extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Constants.setConstants(FConstants.class, LConstants.class);
-        Follower follower = new Follower(hardwareMap);
+        Follower follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         PathBuilder builder = new PathBuilder();
         PathChain to90;
         to90 = builder

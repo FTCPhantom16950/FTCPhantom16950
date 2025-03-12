@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
+import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
@@ -52,7 +53,7 @@ public class VerticalSlider{
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(0.15);
         klesh.setPower(-0.35);
-        vrash.setPower(-0.49);
+        vrash.setPower(PhMath.fromDegreesToPower(40, 270));
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
         ds = hw.get(Rev2mDistanceSensor.class, "ds");
@@ -64,7 +65,7 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
-                kleshPower = -0.13;
+                kleshPower = PhMath.fromDegreesToPower(145, 270);
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (verx_color.getDistance(DistanceUnit.MM) <= 28 && kleshPower !=-0.25 && timer.milliseconds() <= 200){
@@ -111,10 +112,10 @@ public class VerticalSlider{
             pod.setPower(0.15);
         }
         if(opMode.gamepad2.dpad_right){
-            vrashPower = Range.clip(vrashPower + 0.1, -0.49,1);
+            vrashPower = Range.clip(vrashPower + 0.1, PhMath.fromDegreesToPower(40, 270),1);
             vrash.setPower(vrashPower);
         } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = -0.49;
+            vrashPower = PhMath.fromDegreesToPower(40, 270);
             vrash.setPower(vrashPower);
         }
         if(opMode.gamepad2.left_bumper) {

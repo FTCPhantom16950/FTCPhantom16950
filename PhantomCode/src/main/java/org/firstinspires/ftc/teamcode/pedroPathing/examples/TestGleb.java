@@ -30,7 +30,7 @@ public class TestGleb extends OpMode {
     @Override
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
 
         circle = follower.pathBuilder()
                 .addPath(

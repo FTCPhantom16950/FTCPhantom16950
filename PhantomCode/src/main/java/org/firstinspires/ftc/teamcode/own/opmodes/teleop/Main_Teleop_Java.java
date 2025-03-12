@@ -74,6 +74,11 @@ public class Main_Teleop_Java extends LinearOpMode {
             wheelBase.start();
         }
     });
+    Thread podvThr = new Thread(() -> {
+        while (opModeIsActive()){
+            podves.run();
+        }
+    });
     @Override
     public void runOpMode() throws InterruptedException {
         // инициализируем все устройства
@@ -91,10 +96,11 @@ public class Main_Teleop_Java extends LinearOpMode {
         verticSlider.start();
         zX.start();
         wheelBasethr.start();
+        podvThr.start();
 //        wheelBase.followerthr.start();
         while (opModeIsActive()) {
 //            verticalSlider.preSet2();
-            podves.run();
+
            // zx.autoKrut();
             // вывод телеметрии
 //            telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
@@ -131,6 +137,7 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("position", pod.getCurrentPosition());
             telemetry.addData("podves1", podv1.getPower());
             telemetry.addData("podves2", podv2.getPower());
+            telemetry.addData("Zxpos", Zxnew.zxpos);
             telemetry.addData("opMode.gamepad2.right_stick_y", gamepad2.right_stick_y);
             telemetry.update();
         }

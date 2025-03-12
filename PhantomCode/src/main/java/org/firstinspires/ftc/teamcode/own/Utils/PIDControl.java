@@ -84,9 +84,9 @@ public class PIDControl extends Thread{
     }
     /// запуск потока для расчета PID-контроллера
     @Override
-    public synchronized void start() {
-        super.start();
-        while (this.isInterrupted()){
+    public void run() {
+        super.run();
+        while (this.isInterrupted()) {
             calcError();
             calculate(target, measured);
             timer.reset();

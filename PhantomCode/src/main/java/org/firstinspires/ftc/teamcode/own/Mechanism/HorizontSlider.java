@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
-
+@com.acmerobotics.dashboard.config.Config
 public class HorizontSlider {
     LinearOpMode opMode;
     public static CRServo sL, sR;
@@ -39,19 +39,21 @@ public class HorizontSlider {
         hw = opMode.hardwareMap;
         sL = opMode.hardwareMap.get(CRServo.class, "horL");
         sR = opMode.hardwareMap.get(CRServo.class, "horR");
-        sL.setPower(startLeftPower);
-        sR.setPower(startRightPower);
         sl_power = startLeftPower;
         sr_power = startRightPower;
         inited = true;
         horPos = SLOZ;
+        while (opMode.opModeInInit()){
+            sL.setPower(startLeftPower);
+            sR.setPower(startRightPower);
+        }
     }
     public void play(){
         switch(horPos) {
             case SLOZ:
                 if(horGO && !Config.ACTIONINWORK){
-                    sL.setPower(-0.1- 0.01);
-                    sR.setPower(0.1);
+                    sL.setPower(startLeftPower - 0.01);
+                    sR.setPower(startRightPower);
                     horGO = false;
                 }
                 break;
@@ -82,9 +84,9 @@ public class HorizontSlider {
             opMode.sleep(200);
             horGO = true;
         }
-        if (opMode.gamepad2.right_trigger!= 0.0){
+        if (opMode.gamepad2.left_trigger == 1){
             vidvig();
-        } else if (opMode.gamepad2.left_trigger!= 0.0) {
+        } else if (opMode.gamepad2.right_trigger == 1) {
             zaxvat();
         }
     }

@@ -64,7 +64,7 @@ public class Sample3TEST extends LinearOpMode  {
     public void runOpMode() throws InterruptedException {
         Constants.setConstants(FConstants.class, LConstants.class);
         pathTimer = new Timer();
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         horizontSlider.init();
         verticalSlider.init();
         zx.init();

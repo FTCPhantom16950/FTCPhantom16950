@@ -52,7 +52,7 @@ public class CurvedBackAndForth extends OpMode {
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
         ThreeWheelIMULocalizer threeWheelIMULocalizer = new ThreeWheelIMULocalizer(hardwareMap);
-        follower = new Follower(hardwareMap, threeWheelIMULocalizer);
+        follower = new Follower(hardwareMap,FConstants.class, LConstants.class);
 
         forwards = new Path(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN)));
         backwards = new Path(new BezierCurve(new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));

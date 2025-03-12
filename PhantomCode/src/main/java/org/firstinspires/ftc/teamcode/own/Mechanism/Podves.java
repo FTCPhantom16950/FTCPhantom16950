@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 
 public class Podves {
@@ -44,29 +45,24 @@ public class Podves {
         }
     };
     public void run(){
-        if(opMode.gamepad1.x){
-            podv2.setPower(runPowers1);
-            podv1.setPower(runPowers1);
-        } else if (opMode.gamepad1.b){
-            podv1.setPower(runPowers2);
-            podv2.setPower(runPowers2);
-        } else{
-            podv1.setPower(0.01);
-            podv2.setPower(0.01);
+        if (opMode.gamepad2.left_stick_y >= 0.1){
+            podv1.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
+            podv2.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
         }
-        if(opMode.gamepad1.dpad_up){
-            left.setPower(0.5);
-            right.setPower(0.5);
-        } else if (opMode.gamepad1.dpad_down){
-            left.setPower(-0.9);
-            right.setPower(-0.9);
-        }
-        if(opMode.gamepad1.dpad_left){
-            left.setPower(0.3);
-            right.setPower(0.3);
+        else if(opMode.gamepad1.dpad_left){
+            podv1.setPower(-1);
+            podv2.setPower(-1);
+            left.setPower(PhMath.fromDegreesToPower(230, 270));
+            right.setPower(PhMath.fromDegreesToPower(230, 270));
+            opMode.sleep(600);
+            podv1.setPower(0.015);
+            podv2.setPower(0.015);
         } else if(opMode.gamepad1.dpad_right){
-            left.setPower(-0.3);
-            right.setPower(-0.3);
+            left.setPower(-0.6);
+            right.setPower(-0.5);
+        } else{
+            podv1.setPower(0.015);
+            podv2.setPower(0.015);
         }
     }
 

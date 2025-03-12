@@ -53,7 +53,7 @@ public class SpiceMan2Test extends PhantomOpMode {
     @Override
     public void initMechanism() {
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         horizontSlider.init();
         verticalSlider.init();
         zx.init();
