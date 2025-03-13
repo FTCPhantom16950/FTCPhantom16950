@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
-import org.firstinspires.ftc.teamcode.FORTEST.Zx;
+
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
@@ -46,7 +46,7 @@ public class ParkovaVeshTEST extends LinearOpMode  {
     PathChain toSpiecmanPC, toParkPC, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC,toPark2PC2, toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
-    Zx zx = new Zx(this);
+
     @Override
     public void runOpMode() throws InterruptedException {
         Constants.setConstants(FConstants.class, LConstants.class);
@@ -54,15 +54,14 @@ public class ParkovaVeshTEST extends LinearOpMode  {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         horizontSlider.init();
         verticalSlider.init();
-        zx.init();
+
         waitForStart();
         follower.setStartingPose(startPose);
         pathBuilding();
 
         while (opModeIsActive()){
             follower.update();
-            zx.play();
-            zx.play1();
+
             horizontSlider.play();
             verticalSlider.play();
             spicemanTrajectory();
@@ -206,8 +205,8 @@ public class ParkovaVeshTEST extends LinearOpMode  {
                 break;
             case 4: // Wait until the robot is near the scoring position
                 if (!follower.isBusy()) {
-                    Zx.zxAuto();
-                    if (Zx.canBeCaptured){
+//                    Zx.zxAuto();
+                    if (true){
                         follower.followPath(toBucketPCfirst, true);
                         setPathState(5);
                     }
@@ -227,8 +226,8 @@ public class ParkovaVeshTEST extends LinearOpMode  {
                 break;
             case 6: // Wait until the robot is near the scoring position
                 if (!follower.isBusy()) {
-                    Zx.zxAuto();
-                    if (Zx.canBeCaptured) {
+//                    Zx.zxAuto();
+                    if (true) {
                         follower.followPath(toBucketPCsecond, true);
                         setPathState(10);
                     } else {

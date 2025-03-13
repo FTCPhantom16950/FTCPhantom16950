@@ -13,8 +13,6 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rfSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightBack;
 
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.zx;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rightFront;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -44,10 +42,7 @@ public class PHTelemetry {
 
     public void start_telemetry(){
         Telemetry telemetry = opMode.telemetry;
-        if(isZX){
-            telemetry.addData("zx pos:", zx.getPower());
-            telemetry.addData("krut pos:", brat.getPower());
-        }
+
         if (isWheelBase){
             telemetry.addData("rbspeed", rbSpeed);
             telemetry.addData("rfspeed", rfSpeed);

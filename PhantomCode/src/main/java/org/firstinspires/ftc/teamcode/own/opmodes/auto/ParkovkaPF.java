@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.FORTEST.Zx;
+
 @Disabled
 
 @Autonomous
@@ -17,13 +17,13 @@ public class ParkovkaPF extends LinearOpMode {
     WheelBase wheelBase = new WheelBase(this);
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
-    Zx zx = new Zx(this);
+
     @Override
     public void runOpMode() throws InterruptedException {
         wheelBase.initWheelBase(hardwareMap);
         verticalSlider.init();
         horizontSlider.init();
-        zx.init();
+
         waitForStart();
         timer.reset();
         if (opModeIsActive()){

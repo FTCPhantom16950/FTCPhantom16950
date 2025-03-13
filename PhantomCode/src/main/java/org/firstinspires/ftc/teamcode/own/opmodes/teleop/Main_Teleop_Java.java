@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.Podves.podv2;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.lbSpeed;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.leftBack;
@@ -109,7 +110,7 @@ public class Main_Teleop_Java extends LinearOpMode {
 //            telemetry.addData("BLUE", Zx.colorSensor.getNormalizedColors().blue);
 //            telemetry.addData("DistanceColor1", Zx.colorSensor.getDistance(DistanceUnit.MM));
 //            telemetry.addData("Color",color.color(Zx.colorSensor.getNormalizedColors().red,Zx.colorSensor.getNormalizedColors().green,Zx.colorSensor.getNormalizedColors().blue));
-            telemetry.addData("DISTANCE", ds.getDistance(DistanceUnit.MM));
+            telemetry.addData("DISTANCE", verx_color.getDistance(DistanceUnit.MM));
             telemetry.addData("rbspeed", rbSpeed);
             telemetry.addData("rfspeed", rfSpeed);
             telemetry.addData("lbspeed", lbSpeed);

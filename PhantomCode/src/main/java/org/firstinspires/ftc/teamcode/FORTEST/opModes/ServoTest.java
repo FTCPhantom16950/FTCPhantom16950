@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 @TeleOp
 @Config
 public class ServoTest extends LinearOpMode {
-    public static double pZx = 13, pKrut = 0, pVrash2 = 50, pVrash3 = 155, pklesh = 110, pVrash = 60, prP = 67.5, plP = 67.5;
+    public static double pZx = 108, pKrut = 0, pVrash2 = 0, pVrash3 = 135, pklesh = 110, pVrash = 60, prP = 67.5, plP = 202.5;
     @Override
     public void runOpMode() throws InterruptedException {
         CRServo servo1 = hardwareMap.get(CRServo.class,"zx"),

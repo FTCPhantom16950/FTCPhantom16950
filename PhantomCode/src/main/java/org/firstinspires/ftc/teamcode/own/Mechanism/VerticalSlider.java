@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat;
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.brat2;
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.KRUT_2_START_POWER;
-import static org.firstinspires.ftc.teamcode.FORTEST.Zx.KRUT_START_POWER;
+
+
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_2_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_START_POWER;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -37,7 +37,7 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
-    public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35;
+    public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
     public static boolean kleshgo = false, captured = false;
     static VerticalPOS.KLESHPOS verticalPOS, prevPos ;
     boolean pressed = false;
@@ -53,7 +53,7 @@ public class VerticalSlider{
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(0.15);
         klesh.setPower(-0.35);
-        vrash.setPower(PhMath.fromDegreesToPower(40, 270));
+        vrash.setPower(PhMath.fromDegreesToPower(60, 270));
         sample.setPower(0.71);
         verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
         ds = hw.get(Rev2mDistanceSensor.class, "ds");
@@ -68,7 +68,7 @@ public class VerticalSlider{
                 kleshPower = PhMath.fromDegreesToPower(145, 270);
                 klesh.setPower(kleshPower);
                 kleshgo = false;
-            } else if (verx_color.getDistance(DistanceUnit.MM) <= 28 && kleshPower !=-0.25 && timer.milliseconds() <= 200){
+            } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && kleshPower !=-0.25 && timer.milliseconds() <= 20){
                 opMode.sleep(400);
                 kleshPower = -0.35;
                 klesh.setPower(kleshPower);
@@ -115,7 +115,7 @@ public class VerticalSlider{
             vrashPower = Range.clip(vrashPower + 0.1, PhMath.fromDegreesToPower(40, 270),1);
             vrash.setPower(vrashPower);
         } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = PhMath.fromDegreesToPower(40, 270);
+            vrashPower = PhMath.fromDegreesToPower(60, 270);
             vrash.setPower(vrashPower);
         }
         if(opMode.gamepad2.left_bumper) {
@@ -131,6 +131,7 @@ public class VerticalSlider{
         }
     }
     public void podvesSpiecMan(){
+        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         pod.setPower(0.9);
         opMode.sleep(700);
@@ -139,6 +140,7 @@ public class VerticalSlider{
         Config.ACTIONINWORK = false;
     }
     public static void podem(){
+        vrash.setPower(vidvig);
         kleshPower = -.35;
         klesh.setPower(kleshPower);
         opMode.sleep(300);
@@ -147,6 +149,7 @@ public class VerticalSlider{
         pod.setPower(0.15);
     }
     public void podvesSample(){
+        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         vrash.setPower(0);
         opMode.sleep(100);
@@ -162,6 +165,7 @@ public class VerticalSlider{
         Config.ACTIONINWORK = false;
     }
     public void perviPodem(){
+        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         vrash.setPower(-0.1);
         VerticalSlider.pod.setPower(1.0);
@@ -170,6 +174,7 @@ public class VerticalSlider{
         Config.ACTIONINWORK = false;
     }
     public void spuskPosleBucket(){
+        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         opMode.sleep(1000);
         pod.setPower(-1);

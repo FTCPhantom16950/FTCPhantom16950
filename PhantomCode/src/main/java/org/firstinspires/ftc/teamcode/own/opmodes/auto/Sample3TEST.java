@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
-import org.firstinspires.ftc.teamcode.FORTEST.Zx;
+
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
@@ -200,23 +200,16 @@ public class Sample3TEST extends LinearOpMode  {
                     HorizontSlider.vidvigAuto();
                     sleep(200);
                     zx.newZxAuto();
-                    if (Zx.canBeCaptured){
-                        if (verx_color.getDistance(DistanceUnit.MM) <= 28){
-                            VerticalSlider.captured = true;
-                        } else {
-                            VerticalSlider.captured = false;
-                        }
-                        if(VerticalSlider.captured){
-                            thread12.start();
-                            follower.followPath(toBucketPCfirst, true);
-                            setPathState(5);
-                        }
-                       else{
-                            follower.followPath(to2SamplePC, true);
-                            setPathState(6);
-                        }
+                    if (verx_color.getDistance(DistanceUnit.MM) <= 28) {
+                        VerticalSlider.captured = true;
+                    } else {
+                        VerticalSlider.captured = false;
                     }
-                    else {
+                    if (VerticalSlider.captured) {
+                        thread12.start();
+                        follower.followPath(toBucketPCfirst, true);
+                        setPathState(5);
+                    } else {
                         follower.followPath(to2SamplePC, true);
                         setPathState(6);
                     }
@@ -237,7 +230,6 @@ public class Sample3TEST extends LinearOpMode  {
                     HorizontSlider.vidvigAuto();
                     sleep(200);
                     zx.newZxAuto();
-                    if (Zx.canBeCaptured){
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
                         } else {
@@ -253,13 +245,7 @@ public class Sample3TEST extends LinearOpMode  {
                             follower.followPath(to3SamplePC, true);
                             setPathState(8);
                         }
-                    } else {
-                        sleep(100);
-                        follower.followPath(to3SamplePC, true);
-                        setPathState(8);
-
                     }
-                }
                 break;
             case 7:
                 if (!follower.isBusy()&& (follower.getPose().getX() > (toBucket.getX() - tolerance) && follower.getPose().getY() > (toBucket.getY() - 1)&& follower.getPose().getHeading() > (toBucket.getHeading() - 0.1))|| follower.isRobotStuck()) {

@@ -45,7 +45,7 @@ public class Podves {
         }
     };
     public void run(){
-        if (opMode.gamepad2.left_stick_y >= 0.1){
+        if (opMode.gamepad2.left_stick_y >= 0.1 && Math.abs(left.getPower()) > 0.65){
             podv1.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
             podv2.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
         }
