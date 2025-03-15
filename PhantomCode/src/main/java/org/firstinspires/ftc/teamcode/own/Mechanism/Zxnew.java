@@ -111,10 +111,8 @@ public class Zxnew {
             zxpower = 0.5;
             krutgo = false;
         } else if (krutpos == ZxPos.KRUT.Sputnik && krutgo && !Config.ACTIONINWORK) {
-            brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
-            brat2.setPower(PhMath.fromDegreesToPower(brat2_ZX, 270));
-            opMode.sleep(300);
-            zxpos = ZxPos.ZX.OTPUSK;
+            brat.setPower(PhMath.fromDegreesToPower(80,270));
+            brat2.setPower(KRUT_2_START_POWER);
             zxgo = true;
             krutgo = false;
         }
@@ -125,10 +123,10 @@ public class Zxnew {
         play();
         play1();
         play2();
-        if(opMode.gamepad2.right_stick_y == 1){
+        if(opMode.gamepad2.right_stick_y > 0){
             povorot = ZxPos.POVOROT.Horizont;
             povGo = true;
-        } else if (opMode.gamepad2.right_stick_y == -1) {
+        } else if (opMode.gamepad2.right_stick_y < 0) {
             povorot = ZxPos.POVOROT.Verticaaaaallll;
             povGo = true;
         }
@@ -164,6 +162,8 @@ public class Zxnew {
         }
     }
 public static void peredacha(){
+    kleshPower = PhMath.fromDegreesToPower(110, 270);
+    klesh.setPower(kleshPower);
     vrash.setPower(PhMath.fromDegreesToPower(vrash_peredacha, 270));
     zx.setPower(ZX_START_POWER);
     opMode.sleep(400);
@@ -172,8 +172,6 @@ public static void peredacha(){
         opMode.sleep(100);
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(100);
-        VerticalSlider.verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
-        VerticalSlider.kleshgo = true;
         opMode.sleep(200);
         brat.setPower(PhMath.fromDegreesToPower(60, 270));
         brat2.setPower(PhMath.fromDegreesToPower(10, 270));
@@ -192,26 +190,27 @@ public static void peredacha(){
     }
     public void newZxAuto(){
         zx.setPower(0.6);
+        kleshPower = PhMath.fromDegreesToPower(110, 270);
+        klesh.setPower(kleshPower);
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(200);
         brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
         brat2.setPower(PhMath.fromDegreesToPower(brat2_ZX, 270));
         opMode.sleep(650);
         HorizontSlider.zaxvat();
+        klesh.setPower(-0.35);
     }
     public void newZx3Auto(){
-        zx.setPower(-0.5);
-        zxpower = 0.5;
-        brat3.setPower(zxpower);
+        zx.setPower(0.6);
+        kleshPower = PhMath.fromDegreesToPower(110, 270);
+        klesh.setPower(kleshPower);
+        brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(200);
-        brat.setPower(-0.1);
-        brat2.setPower(-1);
+        brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
+        brat2.setPower(PhMath.fromDegreesToPower(brat2_ZX, 270));
         opMode.sleep(650);
-        zx.setPower(ZX_START_POWER);
-        opMode.sleep(300);
-        HorizontSlider.sloz();
-        opMode.sleep(300);
-        peredacha();
+        HorizontSlider.zaxvat();
+        klesh.setPower(-0.35);
     }
 
 }

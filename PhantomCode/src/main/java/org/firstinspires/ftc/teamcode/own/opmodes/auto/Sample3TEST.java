@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vidvig;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -36,18 +39,18 @@ public class Sample3TEST extends LinearOpMode  {
     final Pose toPark = new Pose(131.0285062713797, 133.1630558722919, Math.toRadians(90));
     final Pose toBucket = new Pose(127.8,18.1, Math.toRadians(135));
     final Pose toBucketCoontrol = new Pose(121.60578661844485,37.2368896925859);
-    final Pose to1Sample = new Pose(118.8, 25, Math.toRadians(180));
+    final Pose to1Sample = new Pose(118.2, 25, Math.toRadians(180));
     final Pose to1SampleControl = new Pose(142.95840867992766, 21.09222423146474);
-    final Pose to2Sample = new Pose(119.3, 15.7, Math.toRadians(180));
+    final Pose to2Sample = new Pose(119.1, 15.7, Math.toRadians(180));
     final Pose to2SampleControl = new Pose(118.48101265822785, 27.8625678119349);
     final Pose to2SampleEnd = new Pose(108.32549728752261,15.88426763110307,Math.toRadians(180));
-    final Pose to3Sample = new Pose(116.1, 12.3, Math.toRadians(200));
+    final Pose to3Sample = new Pose(109.07915528365983, 20.313779562871822, 4.17123375711215);
     final Pose to3SampleControl = new Pose(117.40022805017104, 31.03306727480046);
     final Pose toPark2 = new Pose(80.20253164556962,50, Math.toRadians(270));
     final Pose ToPark2Control = new Pose(70.56781193490055,8.59312839059675);
     final Pose ToPark2Control2 = new Pose(114.05424954792043,8.59312839059675);
     private Timer pathTimer, actionTimer;
-    PathChain toBucketStart, toBucketPC, to1SamplePC, to2SamplePC, to3SamplePC,toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
+    PathChain toBucketStart, toBucketPC, to1SamplePC, to2SamplePC, to2SamplePC2, to3SamplePC,toPark2PC,toBucketPCthird,toBucketPCfirst,toBucketPCsecond;
     HorizontSlider horizontSlider = new HorizontSlider(this);
     VerticalSlider verticalSlider = new VerticalSlider(this);
     Zxnew zx = new Zxnew(this);
@@ -151,12 +154,27 @@ public class Sample3TEST extends LinearOpMode  {
                         new Point(ToPark2Control),
                         new Point(toPark2)
                 )).setLinearHeadingInterpolation(toBucket.getHeading(), toPark2.getHeading()).setPathEndTimeoutConstraint(1500).build();
+        to2SamplePC2 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(to1Sample),
+                                new Point(to2Sample)
+                        )
+                ).setLinearHeadingInterpolation(to1Sample.getHeading(), to2Sample.getHeading()).build();
     }
-
+    boolean stopped = false;
     Thread thread1 = new Thread(() -> {
         verticalSlider.spuskPosleBucket();
     });
-    Thread thread12 = new Thread(VerticalSlider::podem);
+    Thread thread12 = new Thread(() -> {
+        vrash.setPower(vidvig);
+        klesh.setPower(-0.35);
+        pod.setPower(1);
+        klesh.setPower(-0.35);
+        sleep(950);
+        pod.setPower(0.15);
+        stopped = true;
+    });
     Thread thread10 = new Thread(() -> {
         verticalSlider.spuskPosleBucket();
         pod.setPower(1);
@@ -172,6 +190,7 @@ public class Sample3TEST extends LinearOpMode  {
 
     Thread thread5 = new Thread(() -> {
         pod.setPower(-1);
+        klesh.setPower(-0.35);
         sleep(650);
         pod.setPower(0.15);
     });
@@ -183,6 +202,7 @@ public class Sample3TEST extends LinearOpMode  {
                 thread12.start();
                 follower.followPath(toBucketStart,true);
                 setPathState(1);
+
                 break;
 
             case 1:// Wait until the robot is near the scoring position
@@ -210,7 +230,7 @@ public class Sample3TEST extends LinearOpMode  {
                         follower.followPath(toBucketPCfirst, true);
                         setPathState(5);
                     } else {
-                        follower.followPath(to2SamplePC, true);
+                        follower.followPath(to2SamplePC2, true);
                         setPathState(6);
                     }
                 }
@@ -261,7 +281,7 @@ public class Sample3TEST extends LinearOpMode  {
                     follower.holdPoint(to3Sample);
                     HorizontSlider.vidvigAuto();
                     sleep(200);
-                    zx.newZx3Auto();
+                    zx.newZxAuto();
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
                         } else {

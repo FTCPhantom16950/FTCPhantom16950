@@ -65,7 +65,7 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
-                kleshPower = PhMath.fromDegreesToPower(145, 270);
+                kleshPower = PhMath.fromDegreesToPower(110, 270);
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && kleshPower !=-0.25 && timer.milliseconds() <= 20){
@@ -139,28 +139,21 @@ public class VerticalSlider{
         opMode.sleep(200);
         Config.ACTIONINWORK = false;
     }
-    public static void podem(){
-        vrash.setPower(vidvig);
-        kleshPower = -.35;
-        klesh.setPower(kleshPower);
-        opMode.sleep(300);
-        pod.setPower(1);
-        opMode.sleep(950);
-        pod.setPower(0.15);
-    }
     public void podvesSample(){
+        kleshPower = -0.35;
+        klesh.setPower(kleshPower);
         vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         vrash.setPower(0);
         opMode.sleep(100);
         vrash.setPower(1);
         opMode.sleep(700);
-        kleshPower = -0.13;
+        kleshPower = PhMath.fromDegreesToPower(110, 270);
         klesh.setPower(kleshPower);
         opMode.sleep(400);
-        vrash.setPower(-0.49);
+        vrash.setPower(vidvig);
         opMode.sleep(300);
-        kleshPower = -.35;
+        kleshPower = -0.35;
         klesh.setPower(kleshPower);
         Config.ACTIONINWORK = false;
     }

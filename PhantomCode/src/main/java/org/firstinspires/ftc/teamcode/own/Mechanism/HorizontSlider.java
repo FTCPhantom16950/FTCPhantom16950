@@ -122,9 +122,9 @@ public class HorizontSlider {
     public static void  zaxvat(){
         Zxnew.zx.setPower(PhMath.fromDegreesToPower(108, 270));
         opMode.sleep(300);
-            brat.setPower(KRUT_START_POWER);
+            brat.setPower(PhMath.fromDegreesToPower(80,270));
             brat2.setPower(KRUT_2_START_POWER);
-            sL.setPower(0 - 0.01);
+            sL.setPower(0 - 0.05);
             sR.setPower(0);
             opMode.sleep(500);
            peredacha();
