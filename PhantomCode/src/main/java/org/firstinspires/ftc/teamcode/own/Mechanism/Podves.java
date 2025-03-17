@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
+import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 public class Podves {
     com.qualcomm.robotcore.hardware.CRServo left, right;
@@ -50,6 +51,8 @@ public class Podves {
             podv2.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
         }
         else if(opMode.gamepad1.dpad_left){
+            Zxnew.krutpos = ZxPos.KRUT.Sputnik;
+            Zxnew.krutgo = true;
             podv1.setPower(-1);
             podv2.setPower(-1);
             left.setPower(PhMath.fromDegreesToPower(230, 270));
