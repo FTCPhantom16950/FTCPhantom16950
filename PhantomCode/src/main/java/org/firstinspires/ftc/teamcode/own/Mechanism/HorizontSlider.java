@@ -4,9 +4,13 @@ package org.firstinspires.ftc.teamcode.own.Mechanism;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_2_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_START_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.ZX_CAPTURE_POWER;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.ZX_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat2;
 
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3_Hor;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutpos;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.peredacha;
@@ -120,7 +124,9 @@ public class HorizontSlider {
     }
 
     public static void  zaxvat(){
-        Zxnew.zx.setPower(PhMath.fromDegreesToPower(108, 270));
+        brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
+        opMode.sleep(100);
+        Zxnew.zx.setPower(ZX_START_POWER);
         opMode.sleep(300);
             brat.setPower(PhMath.fromDegreesToPower(80,270));
             brat2.setPower(KRUT_2_START_POWER);

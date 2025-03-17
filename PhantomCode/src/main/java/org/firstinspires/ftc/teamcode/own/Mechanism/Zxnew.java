@@ -4,6 +4,8 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startLeftPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startRightPower;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.KLESH_OTPUSK_POWER;
+
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.kleshPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
@@ -44,7 +46,8 @@ public class Zxnew {
             vrash_peredacha = 52;
     public static  double KRUT_START_POWER = PhMath.fromDegreesToPower(10,270);
     public static  double KRUT_2_START_POWER = PhMath.fromDegreesToPower(190,270);
-    public static  double ZX_START_POWER = PhMath.fromDegreesToPower(104, 270);
+    public static  double ZX_START_POWER = PhMath.fromDegreesToPower(98, 270),
+    ZX_CAPTURE_POWER = PhMath.fromDegreesToPower(216, 270);
     public static double g = 0;
     static double  zxpower, krut_power;
     public static boolean not = false;
@@ -74,7 +77,7 @@ public class Zxnew {
             zxgo = false;
             captured = true;
         } else if (zxpos == ZxPos.ZX.OTPUSK && zxgo) {
-            zx.setPower(0.6);
+            zx.setPower(ZX_CAPTURE_POWER);
             zxgo = false;
             captured = false;
         }
@@ -162,36 +165,34 @@ public class Zxnew {
         }
     }
 public static void peredacha(){
-    kleshPower = PhMath.fromDegreesToPower(110, 270);
-    klesh.setPower(kleshPower);
+
+    klesh.setPower(KLESH_OTPUSK_POWER);
     vrash.setPower(PhMath.fromDegreesToPower(vrash_peredacha, 270));
     zx.setPower(ZX_START_POWER);
     opMode.sleep(400);
-        sL.setPower(startLeftPower - 0.2);
-        sR.setPower(startRightPower + 0.2);
-        opMode.sleep(100);
-        brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
-        opMode.sleep(100);
-        opMode.sleep(200);
-        brat.setPower(PhMath.fromDegreesToPower(60, 270));
-        brat2.setPower(PhMath.fromDegreesToPower(10, 270));
-        opMode.sleep(800);
-        zx.setPower(0.1);
-        opMode.sleep(500);
-        kleshPower = -0.35;
-        klesh.setPower(kleshPower);
-        sL.setPower(startLeftPower);
-        sR.setPower(startRightPower);
-        brat.setPower(KRUT_START_POWER);
-        brat2.setPower(KRUT_2_START_POWER);
-        opMode.sleep(300);
-        zx.setPower(ZX_START_POWER);
-        krutgo = false;
+    brat.setPower(PhMath.fromDegreesToPower(70, 270));
+    brat2.setPower(PhMath.fromDegreesToPower(20, 270));
+    opMode.sleep(800);
+    sL.setPower(startLeftPower - 0.2);
+    sR.setPower(startRightPower + 0.2);
+    opMode.sleep(300);
+    zx.setPower(ZX_START_POWER-0.1);
+    opMode.sleep(300);
+    zx.setPower(0.1);
+    opMode.sleep(1000);
+    kleshPower = -0.35;
+    klesh.setPower(kleshPower);
+    sL.setPower(startLeftPower);
+    sR.setPower(startRightPower);
+    brat.setPower(KRUT_START_POWER);
+    brat2.setPower(KRUT_2_START_POWER);
+    opMode.sleep(300);
+    zx.setPower(ZX_START_POWER);
+    krutgo = false;
     }
     public void newZxAuto(){
-        zx.setPower(0.6);
-        kleshPower = PhMath.fromDegreesToPower(110, 270);
-        klesh.setPower(kleshPower);
+        zx.setPower(ZX_CAPTURE_POWER);
+        klesh.setPower(KLESH_OTPUSK_POWER);
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(200);
         brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
@@ -201,9 +202,8 @@ public static void peredacha(){
         klesh.setPower(-0.35);
     }
     public void newZx3Auto(){
-        zx.setPower(0.6);
-        kleshPower = PhMath.fromDegreesToPower(110, 270);
-        klesh.setPower(kleshPower);
+        zx.setPower(ZX_CAPTURE_POWER);
+        klesh.setPower(KLESH_OTPUSK_POWER);
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(200);
         brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));

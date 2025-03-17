@@ -202,7 +202,6 @@ public class Sample3TEST extends LinearOpMode  {
                 thread12.start();
                 follower.followPath(toBucketStart,true);
                 setPathState(1);
-
                 break;
 
             case 1:// Wait until the robot is near the scoring position
@@ -217,8 +216,6 @@ public class Sample3TEST extends LinearOpMode  {
             case 4: // Wait until the robot is near the scoring position
                 if (!follower.isBusy()&& (follower.getPose().getX() > (to1Sample.getX() - tolerance) && follower.getPose().getY() > (to1Sample.getY() - tolerance) && follower.getPose().getHeading() > (to1Sample.getHeading() - 0.1))|| follower.isRobotStuck()) {
                     follower.holdPoint(to1Sample);
-                    HorizontSlider.vidvigAuto();
-                    sleep(200);
                     zx.newZxAuto();
                     if (verx_color.getDistance(DistanceUnit.MM) <= 28) {
                         VerticalSlider.captured = true;
@@ -247,8 +244,6 @@ public class Sample3TEST extends LinearOpMode  {
             case 6: // Wait until the robot is near the scoring position
                 if (!follower.isBusy()&& (follower.getPose().getX() > (to2Sample.getX() - tolerance) && follower.getPose().getY() > (to2Sample.getY() - tolerance)&& follower.getPose().getHeading() > (to2Sample.getHeading() - 0.1))|| follower.isRobotStuck()) {
                     follower.holdPoint(to2Sample);
-                    HorizontSlider.vidvigAuto();
-                    sleep(200);
                     zx.newZxAuto();
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;
@@ -279,8 +274,6 @@ public class Sample3TEST extends LinearOpMode  {
             case 8:
                 if (!follower.isBusy()&& (follower.getPose().getX() > (to3Sample.getX() - 1) && follower.getPose().getY() > (to3Sample.getY() - 1)&& follower.getPose().getHeading() > (to3Sample.getHeading() - 0.1))|| follower.isRobotStuck()) {
                     follower.holdPoint(to3Sample);
-                    HorizontSlider.vidvigAuto();
-                    sleep(200);
                     zx.newZxAuto();
                         if (verx_color.getDistance(DistanceUnit.MM) <= 28){
                             VerticalSlider.captured = true;

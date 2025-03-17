@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
+import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
 public class VerticalSlider{
@@ -37,6 +38,7 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
+    public static double KLESH_OTPUSK_POWER = PhMath.fromDegreesToPower(115, 270);
     public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
     public static boolean kleshgo = false, captured = false;
     static VerticalPOS.KLESHPOS verticalPOS, prevPos ;
@@ -65,8 +67,7 @@ public class VerticalSlider{
                 klesh.setPower(kleshPower);
                 kleshgo = false;
             } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
-                kleshPower = PhMath.fromDegreesToPower(110, 270);
-                klesh.setPower(kleshPower);
+                klesh.setPower(KLESH_OTPUSK_POWER);
                 kleshgo = false;
             } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && kleshPower !=-0.25 && timer.milliseconds() <= 20){
                 opMode.sleep(400);
@@ -148,13 +149,15 @@ public class VerticalSlider{
         opMode.sleep(100);
         vrash.setPower(1);
         opMode.sleep(700);
-        kleshPower = PhMath.fromDegreesToPower(110, 270);
+        kleshPower = PhMath.fromDegreesToPower(120, 270);
         klesh.setPower(kleshPower);
         opMode.sleep(400);
         vrash.setPower(vidvig);
         opMode.sleep(300);
         kleshPower = -0.35;
         klesh.setPower(kleshPower);
+        HorizontSlider.horPos = HorSliderPos.HorPos.VIDVIG;
+        HorizontSlider.horGO = true;
         Config.ACTIONINWORK = false;
     }
     public void perviPodem(){

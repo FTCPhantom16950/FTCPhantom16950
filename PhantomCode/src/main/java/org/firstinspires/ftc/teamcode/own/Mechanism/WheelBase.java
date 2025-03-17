@@ -126,7 +126,7 @@ public class WheelBase{
         inited = true;
         follower.setStartingPose(toPark2);
     }
-    Thread gamepad = new Thread(() ->{
+    public Thread gamepad = new Thread(() ->{
         while (opMode.opModeIsActive()){
             gamepads();
         }
@@ -162,8 +162,6 @@ public class WheelBase{
         if (spin <= 0.1 && spin >= -0.1){
             spin = 0;
         }
-
-
     }
     public void vpravoEnvoder(double pos, double power){
         levoEncoder(-pos, -power);

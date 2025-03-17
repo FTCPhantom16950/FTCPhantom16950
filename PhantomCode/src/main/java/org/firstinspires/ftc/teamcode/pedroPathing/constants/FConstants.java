@@ -31,7 +31,6 @@ public class FConstants {
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.11,0,0.03,0.015);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.25,0,0.02,0.05); // Not being used, @see useSecondaryTranslationalPID
-
         FollowerConstants.headingPIDFCoefficients.setCoefficients(
                 2,
                 0,
