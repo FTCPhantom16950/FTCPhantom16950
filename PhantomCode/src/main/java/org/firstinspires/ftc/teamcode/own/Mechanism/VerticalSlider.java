@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-
-
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_2_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_START_POWER;
 
@@ -14,7 +12,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
@@ -41,7 +38,8 @@ public class VerticalSlider{
     public static double KLESH_OTPUSK_POWER = PhMath.fromDegreesToPower(115, 270);
     public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
     public static boolean kleshgo = false, captured = false;
-    static VerticalPOS.KLESHPOS verticalPOS, prevPos ;
+    public static VerticalPOS.KLESHPOS verticalPOS;
+    static VerticalPOS.KLESHPOS prevPos ;
     boolean pressed = false;
     public void init(){
         hw = opMode.hardwareMap;
@@ -97,39 +95,7 @@ public class VerticalSlider{
     };
     public void run(){
         play();
-        if(opMode.gamepad2.dpad_up){
-            if (pod.getPower() <= 1){
-                pod.setPower(1);
-            } else {
-                pod.setPower(1);
-            }
-        } else if (opMode.gamepad2.dpad_down) {
-            if (pod.getPower() >= -1){
-                pod.setPower(-1);
-            } else {
-                pod.setPower(-1);
-            }
-        } else {
-            pod.setPower(0.15);
-        }
-        if(opMode.gamepad2.dpad_right){
-            vrashPower = Range.clip(vrashPower + 0.1, PhMath.fromDegreesToPower(40, 270),1);
-            vrash.setPower(vrashPower);
-        } else if (opMode.gamepad2.dpad_left) {
-            vrashPower = PhMath.fromDegreesToPower(60, 270);
-            vrash.setPower(vrashPower);
-        }
-        if(opMode.gamepad2.left_bumper) {
-            if (verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT){
-                verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
-                opMode.sleep(200);
-                kleshgo = true;
-            } else if (verticalPOS == VerticalPOS.KLESHPOS.OTPUSK) {
-                verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
-                opMode.sleep(200);
-                kleshgo = true;
-            }
-        }
+
     }
     public void podvesSpiecMan(){
         vrash.setPower(vidvig);

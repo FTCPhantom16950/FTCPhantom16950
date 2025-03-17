@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startLeftPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startRightPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.KLESH_OTPUSK_POWER;
-
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.kleshPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
@@ -13,19 +12,14 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Color;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
-import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 @com.acmerobotics.dashboard.config.Config
-public class Zxnew {
+public class Zxnew extends Thread{
     public static double gain = 103;
-    org.firstinspires.ftc.teamcode.own.Utils.Config config = new org.firstinspires.ftc.teamcode.own.Utils.Config();
     static LinearOpMode opMode;
     public static CRServo zx, brat, brat2, brat3;
     HardwareMap hw;
@@ -54,7 +48,7 @@ public class Zxnew {
     public static boolean zxgo, krutgo, povGo;
     public boolean inited = false;
     public static boolean captured = false;
-    public static boolean canBeCaptured = true;
+    public static boolean peredacha_at_work = false;
 
     public void init() {
         hw = opMode.hardwareMap;
@@ -120,52 +114,18 @@ public class Zxnew {
             krutgo = false;
         }
     }
+    @Override
     public void run() {
+        super.run();
         krut_power = brat2.getPower();
         //gorizontal
         play();
         play1();
         play2();
-        if(opMode.gamepad2.right_stick_y > 0){
-            povorot = ZxPos.POVOROT.Horizont;
-            povGo = true;
-        } else if (opMode.gamepad2.right_stick_y < 0) {
-            povorot = ZxPos.POVOROT.Verticaaaaallll;
-            povGo = true;
-        }
-        if (opMode.gamepad2.right_bumper) {
-            if (zxpos == ZxPos.ZX.ZAXVAT) {
-                zxpos = ZxPos.ZX.OTPUSK;
-                opMode.sleep(300);
-                zxgo = true;
-            } else if (zxpos == ZxPos.ZX.OTPUSK) {
-                zxpos = ZxPos.ZX.ZAXVAT;
-                opMode.sleep(300);
-                zxgo = true;
-            }
-        }
-        if (opMode.gamepad2.y) {
-            krutpos = ZxPos.KRUT.ZAXVAT;
-            zxpos = ZxPos.ZX.OTPUSK;
-            opMode.sleep(200);
-            zxgo = true;
-            krutgo = true;
-        } else if (opMode.gamepad2.a) {
-            krutpos = ZxPos.KRUT.PEREDACHA;
-            opMode.sleep(200);
-            krutgo = true;
-        } else if (opMode.gamepad2.b) {
-            krutpos = ZxPos.KRUT.POXOD;
-            opMode.sleep(100);
-            krutgo = true;
-        } else if (opMode.gamepad2.x) {
-            krutpos = ZxPos.KRUT.Sputnik;
-            opMode.sleep(100);
-            krutgo = true;
-        }
+
     }
 public static void peredacha(){
-
+    peredacha_at_work = true;
     klesh.setPower(KLESH_OTPUSK_POWER);
     vrash.setPower(PhMath.fromDegreesToPower(vrash_peredacha, 270));
     zx.setPower(ZX_START_POWER);
@@ -189,6 +149,7 @@ public static void peredacha(){
     opMode.sleep(300);
     zx.setPower(ZX_START_POWER);
     krutgo = false;
+    peredacha_at_work = false;
     }
     public void newZxAuto(){
         zx.setPower(ZX_CAPTURE_POWER);

@@ -1,20 +1,15 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_2_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.KRUT_START_POWER;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.ZX_CAPTURE_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.ZX_START_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat2;
-
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3_Hor;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutpos;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.peredacha;
-
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxpos;
 import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
@@ -34,7 +29,7 @@ public class HorizontSlider {
     public static CRServo sL, sR;
     HardwareMap hw;
     public boolean inited = false;
-    static HorSliderPos.HorPos horPos;
+    public static HorSliderPos.HorPos horPos;
     public HorizontSlider(LinearOpMode opMode) {
         this.opMode = opMode;
         // this.setDaemon(true);
@@ -84,23 +79,10 @@ public class HorizontSlider {
     };
     public void moving(){
         play();
-        if (opMode.gamepad2.right_stick_button){
-            horPos = SLOZ;
-            opMode.sleep(200);
-            horGO = true;
-        } else if (opMode.gamepad2.left_stick_button){
-            horPos = HorSliderPos.HorPos.VIDVIG;
-            opMode.sleep(200);
-            horGO = true;
-        }
-        if (opMode.gamepad2.right_trigger == 1){
-            vidvig();
-        } else if (opMode.gamepad2.left_trigger == 1) {
-            zaxvat();
-        }
+
     }
 
-    public  void vidvig() {
+    public static void vidvig() {
         sL.setPower(0.48 - 0.05);
         sR.setPower(-0.48);
         opMode.sleep(300);

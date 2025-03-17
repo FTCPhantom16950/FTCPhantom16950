@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PhantomOpMode extends LinearOpMode {
-    Follower follower;
+    public Follower follower;
     public boolean holdEnd = true;
     /// List of linear auto actions before their path chain
     public List<AutoActions> beforePTLinear = new ArrayList();
@@ -143,7 +143,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public void pedroFollowOpMode(Follower follower, PathChain... pathChains){
         // adds follower
         this.follower = follower;
-        fUpdate.start();
+        if(!fUpdate.isAlive()){
+            fUpdate.start();
+        }
         for (int i = 0; i < pathChains.length; i++) {
             if (pathChains[i] != null) {
                 if(i == 0){

@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sL;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.sR;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Podves.podv1;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Podves.podv2;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.ds;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
@@ -32,6 +31,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.own.Utils.Color;
+import org.firstinspires.ftc.teamcode.own.Utils.GamepadControl;
 
 
 @TeleOp
@@ -50,6 +50,8 @@ public class Main_Teleop_Java extends LinearOpMode {
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
     CameraStarter cameraStarter = new CameraStarter(this);
+    GamepadControl gamepadControl = new GamepadControl(this);
+
     Thread camera = new Thread(()->{
         while(opModeIsActive()){
             cameraStarter.play();
@@ -72,7 +74,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     // создаём поток для управления нижним захвватом
     Thread zX = new Thread(() -> {
         while (opModeIsActive()){
-            zx.run();
+            zx.start();
         }
     });
     // создаём поток для управления колесами
@@ -105,6 +107,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         zX.start();
         wheelBasethr.start();
         podvThr.start();
+        gamepadControl.start();
 //        camera.start();
 //        wheelBase.followerthr.start();
         while (opModeIsActive()) {
