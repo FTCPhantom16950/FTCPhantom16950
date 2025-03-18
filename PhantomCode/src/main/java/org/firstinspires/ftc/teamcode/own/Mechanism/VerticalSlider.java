@@ -119,23 +119,15 @@ public class VerticalSlider{
         Config.ACTIONINWORK = false;
     }
     public void podvesSample(){
-        kleshPower = -0.35;
-        klesh.setPower(kleshPower);
-        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
-        vrash.setPower(0);
-        opMode.sleep(100);
+        HorizontSlider.vidvigAuto();
         vrash.setPower(1);
         opMode.sleep(700);
-        kleshPower = PhMath.fromDegreesToPower(120, 270);
-        klesh.setPower(kleshPower);
+        klesh.setPower(KLESH_OTPUSK_POWER);
+        opMode.sleep(200);
+        vrash.setPower(PhMath.fromDegreesToPower(60, 270));
         opMode.sleep(400);
-        vrash.setPower(vidvig);
-        opMode.sleep(300);
-        kleshPower = -0.35;
-        klesh.setPower(kleshPower);
-        HorizontSlider.horPos = HorSliderPos.HorPos.VIDVIG;
-        HorizontSlider.horGO = true;
+
         Config.ACTIONINWORK = false;
     }
     public static void perviPodem(){
@@ -147,9 +139,9 @@ public class VerticalSlider{
         Config.ACTIONINWORK = false;
     }
     public void spuskPosleBucket(){
-        vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
-        opMode.sleep(1000);
+        vrash.setPower(PhMath.fromDegreesToPower(60, 270));
+        opMode.sleep(200);
         pod.setPower(-1);
         opMode.sleep(600);
         pod.setPower(0.15);

@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.pod;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verticalPOS;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrashPower;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.peredacha;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxpos;
 import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
 
@@ -114,6 +115,7 @@ public class GamepadControl extends Thread {
             vidvig();
         } else if (opMode.gamepad2.left_trigger == 1) {
             zaxvat();
+            peredacha();
         }
         }
     }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants
 
-@Autonomous
+
 class Spiceman5Test: PhantomOpMode() {
 
     override fun afterWaitForStart() {

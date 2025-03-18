@@ -11,13 +11,13 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public Follower follower;
     public boolean holdEnd = true;
     /// List of linear auto actions before their path chain
-    public List<AutoActions> beforePTLinear = new ArrayList();
+    public List<AutoActions> beforePTLinear = new ArrayList<>(100);
     /// List of linear auto actions after their path chain
-    public List<AutoActions> afterPTLinear = new ArrayList();
+    public List<AutoActions> afterPTLinear = new ArrayList<>(100);
     /// List of parallel auto actions after their path chain
-    public List<AutoActions> beforePTParallel = new ArrayList();
+    public List<AutoActions> beforePTParallel = new ArrayList<>(100);
     /// List of parallel auto actions after their path chain
-    public List<AutoActions> afterPTParallel = new ArrayList();
+    public List<AutoActions> afterPTParallel = new ArrayList<>(100);
     /// Thread for telemetry, won't disturb main thread
     Thread telemetryThread = new Thread(() -> {
         while (opModeIsActive()) {
@@ -61,7 +61,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (autoActions == null || autoActions.length == 0) {
             throw new IllegalArgumentException("Пустой список");  // Or throw an exception if empty input is not allowed.
         }
-        List<Integer> pathNumbers = new ArrayList<>();
+        List<Integer> pathNumbers = new ArrayList<>(100);
         for (AutoActions autoAction : autoActions) {
 
             if (autoAction.pathNumber < 0) {
@@ -82,9 +82,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (autoActions == null || autoActions.length == 0) {
             throw new IllegalArgumentException("Пустой список");  // Or throw an exception if empty input is not allowed.
         }
-        List<Integer> pathNumbers = new ArrayList<>();
+        List<Integer> pathNumbers = new ArrayList<>(100);
         for (AutoActions autoAction : autoActions) {
-
             if (autoAction.pathNumber < 0) {
                 throw new IllegalArgumentException("Номер пути не может быть отрицательным: " + autoAction.pathNumber);
             }
@@ -95,7 +94,14 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 throw new IllegalArgumentException("AutoAction не может быть null.");
             }
             pathNumbers.add(autoAction.pathNumber);
-            beforePTParallel.add(autoAction.pathNumber, autoAction);
+            if(beforePTParallel.size() >= autoAction.pathNumber){
+            } else {
+                while (beforePTParallel.size() <= autoAction.pathNumber){
+                    beforePTParallel.add(null);
+                }
+                beforePTParallel.add(autoAction.pathNumber, autoAction);
+            }
+
         }
     }
     /// adds linear actions to list
@@ -103,7 +109,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (autoActions == null || autoActions.length == 0) {
             throw new IllegalArgumentException("Пустой список");  // Or throw an exception if empty input is not allowed.
         }
-        List<Integer> pathNumbers = new ArrayList<>();
+        List<Integer> pathNumbers = new ArrayList<>(100);
         for (AutoActions autoAction : autoActions) {
 
             if (autoAction.pathNumber < 0) {
@@ -116,7 +122,14 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 throw new IllegalArgumentException("AutoAction не может быть null.");
             }
             pathNumbers.add(autoAction.pathNumber);
-            afterPTLinear.add(autoAction.pathNumber, autoAction);
+            if(afterPTLinear.size() >= autoAction.pathNumber){
+                afterPTLinear.add(autoAction.pathNumber, autoAction);
+            } else {
+                while (afterPTLinear.size() <= autoAction.pathNumber){
+                    afterPTLinear.add(null);
+                }
+                afterPTLinear.add(autoAction.pathNumber, autoAction);
+            }
         }
     }
     /// adds parallel actions to list
@@ -124,7 +137,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (autoActions == null || autoActions.length == 0) {
             throw new IllegalArgumentException("Пустой список");  // Or throw an exception if empty input is not allowed.
         }
-        List<Integer> pathNumbers = new ArrayList<>();
+        List<Integer> pathNumbers = new ArrayList<>(100);
         for (AutoActions autoAction : autoActions) {
             if (autoAction.pathNumber < 0) {
                 throw new IllegalArgumentException("Номер пути не может быть отрицательным: " + autoAction.pathNumber);

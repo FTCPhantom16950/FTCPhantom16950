@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startR
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.KLESH_OTPUSK_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.kleshPower;
+import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
@@ -41,7 +43,7 @@ public class Zxnew extends Thread{
     public static  double KRUT_START_POWER = PhMath.fromDegreesToPower(10,270);
     public static  double KRUT_2_START_POWER = PhMath.fromDegreesToPower(190,270);
     public static  double ZX_START_POWER = PhMath.fromDegreesToPower(98, 270),
-    ZX_CAPTURE_POWER = PhMath.fromDegreesToPower(216, 270);
+    ZX_CAPTURE_POWER = PhMath.fromDegreesToPower(200, 270);
     public static double g = 0;
     static double  zxpower, krut_power;
     public static boolean not = false;
@@ -139,6 +141,11 @@ public static void peredacha(){
     zx.setPower(ZX_START_POWER-0.1);
     opMode.sleep(300);
     zx.setPower(0.1);
+    if (verx_color.getDistance(DistanceUnit.MM) <= 28) {
+        VerticalSlider.captured = true;
+    } else {
+        VerticalSlider.captured = false;
+    }
     opMode.sleep(1000);
     kleshPower = -0.35;
     klesh.setPower(kleshPower);
@@ -152,6 +159,7 @@ public static void peredacha(){
     peredacha_at_work = false;
     }
     public void newZxAuto(){
+        peredacha_at_work = true;
         zx.setPower(ZX_CAPTURE_POWER);
         klesh.setPower(KLESH_OTPUSK_POWER);
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
@@ -161,15 +169,17 @@ public static void peredacha(){
         opMode.sleep(650);
         HorizontSlider.zaxvat();
         klesh.setPower(-0.35);
+        peredacha_at_work = false;
     }
     public void newZx3Auto(){
         zx.setPower(ZX_CAPTURE_POWER);
         klesh.setPower(KLESH_OTPUSK_POWER);
-        brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
-        opMode.sleep(200);
+        brat3.setPower(PhMath.fromDegreesToPower(230, 270));
+        opMode.sleep(400);
         brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
         brat2.setPower(PhMath.fromDegreesToPower(brat2_ZX, 270));
         opMode.sleep(650);
+        zx.setPower(ZX_START_POWER);
         HorizontSlider.zaxvat();
         klesh.setPower(-0.35);
     }

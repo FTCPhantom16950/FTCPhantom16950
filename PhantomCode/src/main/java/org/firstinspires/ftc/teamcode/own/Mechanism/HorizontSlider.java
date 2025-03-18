@@ -115,7 +115,6 @@ public class HorizontSlider {
             sL.setPower(0 - 0.05);
             sR.setPower(0);
             opMode.sleep(500);
-           peredacha();
         krutgo = false;
     }
 
