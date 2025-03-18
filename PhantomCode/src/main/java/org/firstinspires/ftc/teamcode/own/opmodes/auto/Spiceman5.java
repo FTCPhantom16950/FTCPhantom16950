@@ -22,7 +22,9 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierCurve;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
+import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
@@ -30,6 +32,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @Autonomous
 public class Spiceman5 extends PhantomOpMode {
     VerticalSlider verticalSlider = new VerticalSlider(this);
+    HorizontSlider horizontalSlider = new HorizontSlider(this);
+    Zxnew zxnew = new Zxnew(this);
     MultipleTelemetry telemetry = new MultipleTelemetry(this.telemetry, this.telemetry);
     @Override
     public void afterWaitForStart() {
@@ -40,7 +44,26 @@ public class Spiceman5 extends PhantomOpMode {
     public void initMechanism() {
         follower = new Follower(this.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(POINTSPEDRO.startPosetoSpiceman);
+        verticalSlider.init();
+        horizontalSlider.init();
+        zxnew.init();
+        pathBuilding();
+        beforePTLinear();
+        beforePTParallel(new VerticalSlider.SetAutoAction(0),
+                new VerticalSlider.SlozAutoAction(1),
+                new VerticalSlider.SlozAutoAction(6),
+                new VerticalSlider.SlozAutoAction(9),
+                new VerticalSlider.SlozAutoAction(12),
+                new VerticalSlider.SlozAutoAction(15));
+        afterPTLinear(new VerticalSlider.SetAutoAction(0),
+                new VerticalSlider.SetAutoAction(5),
+                new VerticalSlider.SetAutoAction(8),
+                new VerticalSlider.SetAutoAction(11),
+                new VerticalSlider.SetAutoAction(14),
+                new VerticalSlider.SetAutoAction(17));
+        afterPTParallel();
     }
+
 
     @Override
     public void play() {

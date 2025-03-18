@@ -139,7 +139,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             afterPTParallel.add(autoAction.pathNumber, autoAction);
         }
     }
-    ///  Follows pathChains
+    ///  Follows pathChains first is 0
     public void pedroFollowOpMode(Follower follower, PathChain... pathChains){
         // adds follower
         this.follower = follower;

@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.own.Utils.AutoActions;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
@@ -97,11 +98,22 @@ public class VerticalSlider{
         play();
 
     }
-    public void podvesSpiecMan(){
+    public static void podvesSpiecMan(){
+        sample.setPower(-0.85);
         vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
         pod.setPower(0.9);
         opMode.sleep(700);
+        pod.setPower(0.15);
+        opMode.sleep(200);
+        Config.ACTIONINWORK = false;
+    }
+    public static void spuskSpiceman(){
+        sample.setPower(0.71);
+        vrash.setPower(vidvig);
+        Config.ACTIONINWORK = true;
+        pod.setPower(-0.9);
+        opMode.sleep(650);
         pod.setPower(0.15);
         opMode.sleep(200);
         Config.ACTIONINWORK = false;
@@ -126,11 +138,10 @@ public class VerticalSlider{
         HorizontSlider.horGO = true;
         Config.ACTIONINWORK = false;
     }
-    public void perviPodem(){
+    public static void perviPodem(){
         vrash.setPower(vidvig);
         Config.ACTIONINWORK = true;
-        vrash.setPower(-0.1);
-        VerticalSlider.pod.setPower(1.0);
+        pod.setPower(1.0);
         opMode.sleep(300);
         pod.setPower(0.13);
         Config.ACTIONINWORK = false;
@@ -145,5 +156,46 @@ public class VerticalSlider{
         Zxnew.brat.setPower(KRUT_START_POWER);
         Zxnew.brat2.setPower(KRUT_2_START_POWER);
         Config.ACTIONINWORK = false;
+    }
+    public static class SetAutoAction extends AutoActions {
+        /**
+         * Creating an action for an autonomous
+         *
+         * @param pathNumber with which pathchain will be used your action
+         */
+        public SetAutoAction(int pathNumber) {
+            super(pathNumber);
+        }
+
+        @Override
+        public void parallelAction() {
+            perviPodem();
+        }
+
+        @Override
+        public void linearAction() {
+            podvesSpiecMan();
+        }
+    }
+    public static class SlozAutoAction extends AutoActions {
+
+        /**
+         * Creating an action for an autonomous
+         *
+         * @param pathNumber with which pathchain will be used your action
+         */
+        public SlozAutoAction(int pathNumber) {
+            super(pathNumber);
+        }
+
+        @Override
+        public void parallelAction() {
+            spuskSpiceman();
+        }
+
+        @Override
+        public void linearAction() {
+
+        }
     }
 }
