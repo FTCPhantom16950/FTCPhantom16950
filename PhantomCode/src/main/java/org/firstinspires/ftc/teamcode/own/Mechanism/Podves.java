@@ -50,7 +50,7 @@ public class Podves {
             podv1.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
             podv2.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));
         }
-        else if(opMode.gamepad1.dpad_left){
+        else if(opMode.gamepad1.dpad_right){
             Zxnew.krutpos = ZxPos.KRUT.Sputnik;
             Zxnew.krutgo = true;
             podv1.setPower(-1);
@@ -58,14 +58,14 @@ public class Podves {
             left.setPower(PhMath.fromDegreesToPower(230, 270));
             right.setPower(PhMath.fromDegreesToPower(230, 270));
             opMode.sleep(600);
-            podv1.setPower(0.015);
-            podv2.setPower(0.015);
-        } else if(opMode.gamepad1.dpad_right){
+            podv1.setPower(0);
+            podv2.setPower(0);
+        } else if(opMode.gamepad1.dpad_left){
             left.setPower(-0.6);
             right.setPower(-0.5);
         } else{
-            podv1.setPower(0.015);
-            podv2.setPower(0.015);
+            podv1.setPower(0);
+            podv2.setPower(0);
         }
     }
 

@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 @com.acmerobotics.dashboard.config.Config
-public class Zxnew extends Thread{
+public class Zxnew{
     public static double gain = 103;
     static LinearOpMode opMode;
     public static CRServo zx, brat, brat2, brat3;
@@ -35,14 +35,14 @@ public class Zxnew extends Thread{
     public static ZxPos.KRUT krutpos;
     public static ZxPos.ZX zxpos;
     public static ZxPos.POVOROT povorot;
-    public static double brat_ZX= 90,
+    public static final double brat_ZX= 90,
     brat2_ZX = 270,
     brat3_Hor = 155,
     brat3_Vert = 50,
             vrash_peredacha = 52;
-    public static  double KRUT_START_POWER = PhMath.fromDegreesToPower(10,270);
-    public static  double KRUT_2_START_POWER = PhMath.fromDegreesToPower(190,270);
-    public static  double ZX_START_POWER = PhMath.fromDegreesToPower(98, 270),
+    public static final double KRUT_START_POWER = PhMath.fromDegreesToPower(10,270);
+    public static final double KRUT_2_START_POWER = PhMath.fromDegreesToPower(190,270);
+    public static final double ZX_START_POWER = PhMath.fromDegreesToPower(98, 270),
     ZX_CAPTURE_POWER = PhMath.fromDegreesToPower(200, 270);
     public static double g = 0;
     static double  zxpower, krut_power;
@@ -116,9 +116,8 @@ public class Zxnew extends Thread{
             krutgo = false;
         }
     }
-    @Override
+
     public void run() {
-        super.run();
         krut_power = brat2.getPower();
         //gorizontal
         play();
@@ -147,8 +146,7 @@ public static void peredacha(){
         VerticalSlider.captured = false;
     }
     opMode.sleep(1000);
-    kleshPower = -0.35;
-    klesh.setPower(kleshPower);
+    klesh.setPower(-0.35);
     sL.setPower(startLeftPower);
     sR.setPower(startRightPower);
     brat.setPower(KRUT_START_POWER);

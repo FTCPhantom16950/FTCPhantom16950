@@ -60,9 +60,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     // создаём поток для управления горизонтальным слайдером
     Thread horSlider = new Thread(() -> {
         while (opModeIsActive()){
-            if (horizontSlider.inited){
                 horizontSlider.moving();
-            }
         }
     });
     // создаем поток для управления вертикальным слайдером
@@ -74,7 +72,7 @@ public class Main_Teleop_Java extends LinearOpMode {
     // создаём поток для управления нижним захвватом
     Thread zX = new Thread(() -> {
         while (opModeIsActive()){
-            zx.start();
+            zx.run();
         }
     });
     // создаём поток для управления колесами
@@ -101,7 +99,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         timer.reset();
         waitForStart();
         // активируем потоки
-        horSlider.setDaemon(true);
+//        horSlider.setDaemon(true);
         horSlider.start();
         verticSlider.start();
         zX.start();
@@ -109,7 +107,6 @@ public class Main_Teleop_Java extends LinearOpMode {
         podvThr.start();
         gamepadControl.start();
 //        camera.start();
-//        wheelBase.followerthr.start();
         while (opModeIsActive()) {
 //            verticalSlider.preSet2();
 
@@ -139,6 +136,10 @@ public class Main_Teleop_Java extends LinearOpMode {
             telemetry.addData("leftBackCurr", leftBack.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("rightFrontCurr", rightFront.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("leftFrontCurr", leftFront.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("rightBackCurr", rightBack.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("vertical", VerticalSlider.pod.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("podv1curr", podv1.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("podv2curr", podv2.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("pod power:", pod.getPower());
             telemetry.addData("kleshna power:", klesh.getPower());
             telemetry.addData("vrash power:", vrash.getPower());

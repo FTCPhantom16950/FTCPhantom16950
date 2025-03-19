@@ -36,7 +36,7 @@ public class VerticalSlider{
     }
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
-    public static double KLESH_OTPUSK_POWER = PhMath.fromDegreesToPower(115, 270);
+    public static final double KLESH_OTPUSK_POWER = PhMath.fromDegreesToPower(115, 270);
     public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
     public static boolean kleshgo = false, captured = false;
     public static VerticalPOS.KLESHPOS verticalPOS;
@@ -62,26 +62,24 @@ public class VerticalSlider{
 
    public void play(){
             if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT&& !Config.ACTIONINWORK){
-                kleshPower = -0.35;
-                klesh.setPower(kleshPower);
+                klesh.setPower(-0.35);
                 kleshgo = false;
             } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
                 klesh.setPower(KLESH_OTPUSK_POWER);
-                kleshgo = false;
-            } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && kleshPower !=-0.25 && timer.milliseconds() <= 20){
-                opMode.sleep(400);
-                kleshPower = -0.35;
-                klesh.setPower(kleshPower);
-                captured = true;
-            }
+                kleshgo = false;}
+//            } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && klesh.getPower() != -0.35 && timer.milliseconds() <= 20){
+//                kleshPower = -0.35;
+//                klesh.setPower(kleshPower);
+//                captured = true;
+//            }
 
-            if (verx_color.getDistance(DistanceUnit.MM) <= 28 && once){
-                timer.startTime();
-                once = false;
-            } else if (verx_color.getDistance(DistanceUnit.MM) >= 45){
-                timer.reset();
-                once = true;
-            }
+//            if (verx_color.getDistance(DistanceUnit.MM) <= 28 && once){
+//                timer.startTime();
+//                once = false;
+//            } else if (verx_color.getDistance(DistanceUnit.MM) >= 45){
+//                timer.reset();
+//                once = true;
+//            }
        if (opMode.gamepad1.a){
                 sample.setPower(-0.85);
             }else if (opMode.gamepad1.y){

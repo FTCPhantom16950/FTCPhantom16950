@@ -40,14 +40,13 @@ public class HorizontSlider {
             sR.setPower(startRightPower);
         }
     });
-    public static double startLeftPower = -0.062, startRightPower = 0, sl_power, sr_power;
+    public static final double startLeftPower = -0.062, startRightPower = 0;
+
     public static boolean horGO = false;
     public void init() {
         hw = opMode.hardwareMap;
         sL = opMode.hardwareMap.get(CRServo.class, "horL");
         sR = opMode.hardwareMap.get(CRServo.class, "horR");
-        sl_power = startLeftPower;
-        sr_power = startRightPower;
         inited = true;
         horPos = SLOZ;
         thr.start();

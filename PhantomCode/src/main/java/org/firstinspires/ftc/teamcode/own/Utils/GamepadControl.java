@@ -82,7 +82,7 @@ public class GamepadControl extends Thread {
                 pod.setPower(-1);
             }
         } else {
-            pod.setPower(0.15);
+            pod.setPower(0.1);
         }
         if(opMode.gamepad2.dpad_right){
             vrashPower = Range.clip(vrashPower + 0.1, PhMath.fromDegreesToPower(40, 270),1);
@@ -94,12 +94,12 @@ public class GamepadControl extends Thread {
         if(opMode.gamepad2.left_bumper) {
             if (verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT){
                 verticalPOS = VerticalPOS.KLESHPOS.OTPUSK;
-                opMode.sleep(200);
                 VerticalSlider.kleshgo = true;
+                opMode.sleep(300);
             } else if (verticalPOS == VerticalPOS.KLESHPOS.OTPUSK) {
                 verticalPOS = VerticalPOS.KLESHPOS.ZAXVAT;
-                opMode.sleep(200);
                 VerticalSlider.kleshgo = true;
+                opMode.sleep(300);
             }
         }
         if (opMode.gamepad2.right_stick_button){
