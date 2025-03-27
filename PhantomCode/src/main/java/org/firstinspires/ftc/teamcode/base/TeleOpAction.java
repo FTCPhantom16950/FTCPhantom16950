@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.base;
 
-import org.firstinspires.ftc.teamcode.baseComand.Command;
+import org.firstinspires.ftc.teamcode.interfaces.Action;
+import org.firstinspires.ftc.teamcode.interfaces.Command;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,5 +14,15 @@ public class TeleOpAction extends Thread implements Action, Command {
 
     public List<Command> getCommands() {
         return commands;
+    }
+
+    @Override
+    public void runCommand() {
+
+    }
+
+    @Override
+    public void runAction() {
+
     }
 }

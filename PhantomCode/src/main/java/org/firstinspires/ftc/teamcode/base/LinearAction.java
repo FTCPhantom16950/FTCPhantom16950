@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.base;
 
-import org.firstinspires.ftc.teamcode.baseComand.Command;
+import org.firstinspires.ftc.teamcode.interfaces.Action;
+import org.firstinspires.ftc.teamcode.interfaces.Command;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,14 @@ public  class LinearAction implements Command, Action {
     }
 
     @Override
-    public void run() {
+    public void runCommand() {
+        runAction();
+    }
 
+    @Override
+    public void runAction() {
+        for (Command command : commands){
+            command.runCommand();
+        }
     }
 }
