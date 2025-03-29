@@ -86,7 +86,7 @@ public class Zxnew{
                     brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
                     povGo = false;
                     break;
-                case ZxPos.POVOROT.Verticaaaaallll:
+                case ZxPos.POVOROT.Vertical:
                     brat3.setPower(PhMath.fromDegreesToPower(brat3_Vert, 270));
                     povGo = false;
                     break;

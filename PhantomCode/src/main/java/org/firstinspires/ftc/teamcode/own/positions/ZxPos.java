@@ -22,6 +22,6 @@ public class ZxPos {
     }
     public  enum POVOROT{
         Horizont,
-        Verticaaaaallll
+        Vertical
     }
 }
