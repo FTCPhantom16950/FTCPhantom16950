@@ -10,7 +10,7 @@ public class ColorSensorClass {
     LinearOpMode opMode;
     Color color  = new Color();
     public static RevColorSensorV3 color_zx;
-    public static String colorZX;
+    public static int colorZX;
     public static boolean initZX = false;
     public ColorSensorClass(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -28,7 +28,7 @@ public class ColorSensorClass {
             float red = color_zx.getNormalizedColors().red;
             float green = color_zx.getNormalizedColors().green;
             float blue = color_zx.getNormalizedColors().blue;
-            colorZX = color.color(red, green, blue);
+            colorZX = color.color(red, green, blue).ordinal();
         } else {
             initZX = false;
         }
