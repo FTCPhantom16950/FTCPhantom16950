@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 import org.firstinspires.ftc.teamcode.FORTEST.CustomException;
 
-public class PhMath{
-    static double resultPower;
+public class PhMath {
     private static final double EPSILON = 1e-10;
     /**
      * @param targetAngle целевое значение угла поворота сервомотора в градусах
-     * @param maxAngle максимальный угол сервомотора
+     * @param maxAngle    максимальный угол сервомотора
      * @return возвращает уровень мощности для сервомотора в диапазоне [-1; 1], которая позволяет
      * повернуться сервомотору на нужный угол, где -1 это 0 градусов, а 1 - максимальный угол
      */
     public static double fromDegreesToPower(double targetAngle, double maxAngle) {
-        if(maxAngle <= EPSILON) {
+        double resultPower;
+        if (maxAngle <= EPSILON) {
             throw new CustomException("Максимальное должно быть больше 0");
         }
         if (targetAngle > maxAngle || targetAngle < 0) {
