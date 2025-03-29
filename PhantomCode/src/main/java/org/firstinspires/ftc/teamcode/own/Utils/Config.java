@@ -21,18 +21,13 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 /**
  * класс конфига для настройки из FTCDashboard
  */
-public  class Config {
-    public static boolean AUTOMODE = false;
-    public static boolean TELEOPIMU = false;
-    public static boolean PEDROTELEOP = false;
-    public static boolean ACTIONINWORK = false;
+public class Config {
+    /// включает движение в Телеопе относительно центра поля
+    public static boolean teleOpIMU = false;
+    /// включает движение в Телеопе при помощи библиотеки PedroPathing
+    public static boolean pedroTeleOp = false;
+    /// хранит выполняется ли действие в данный момент времени
+    public static boolean actionInWork = false;
+    /// погрешность для передвижения в автономном периоде (в дюймах)
     public static double tolerance = 0.7;
-
-    public boolean isAUTOMODE() {
-        return AUTOMODE;
-    }
-
-    public static void setAUTOMODE(boolean AUTOMODE) {
-        Config.AUTOMODE = AUTOMODE;
-    }
 }

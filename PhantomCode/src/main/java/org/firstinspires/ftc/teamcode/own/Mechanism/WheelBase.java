@@ -446,15 +446,15 @@ public class WheelBase{
         }
     }
     public void start(){
-        if (Config.PEDROTELEOP && Config.TELEOPIMU){
+        if (Config.pedroTeleOp && Config.teleOpIMU){
             follower.setTeleOpMovementVectors(y, x, spin, true);
             to90degrees();
-        } else if (Config.PEDROTELEOP && !Config.TELEOPIMU) {
+        } else if (Config.pedroTeleOp && !Config.teleOpIMU) {
             follower.setTeleOpMovementVectors(y, x, spin, false);
             to90degrees();
-        } else if (!Config.TELEOPIMU){
+        } else if (!Config.teleOpIMU){
             driveEasy();
-        } else if (Config.TELEOPIMU){
+        } else if (Config.teleOpIMU){
             driveFieldCentric();
         }
         //to90degrees();

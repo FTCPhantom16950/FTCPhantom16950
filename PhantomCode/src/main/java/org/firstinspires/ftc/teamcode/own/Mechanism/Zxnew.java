@@ -6,7 +6,6 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startL
 import static org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider.startRightPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.KLESH_OTPUSK_POWER;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.klesh;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.kleshPower;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.verx_color;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider.vrash;
 
@@ -95,21 +94,21 @@ public class Zxnew{
         }
     }
     public void play() {
-        if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo && !Config.ACTIONINWORK) {
+        if (krutpos == ZxPos.KRUT.ZAXVAT && krutgo && !Config.actionInWork) {
             brat.setPower(PhMath.fromDegreesToPower(brat_ZX, 270));
             brat2.setPower(PhMath.fromDegreesToPower(brat2_ZX, 270));
             zxpos = ZxPos.ZX.OTPUSK;
             zxgo = true;
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo && !Config.ACTIONINWORK) {
+        } else if (krutpos == ZxPos.KRUT.PEREDACHA && krutgo && !Config.actionInWork) {
             peredacha();
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo && !Config.ACTIONINWORK) {
+        } else if (krutpos == ZxPos.KRUT.POXOD && krutgo && !Config.actionInWork) {
             brat.setPower(KRUT_START_POWER);
             brat2.setPower(KRUT_2_START_POWER);
             zxpower = 0.5;
             krutgo = false;
-        } else if (krutpos == ZxPos.KRUT.Sputnik && krutgo && !Config.ACTIONINWORK) {
+        } else if (krutpos == ZxPos.KRUT.Sputnik && krutgo && !Config.actionInWork) {
             brat.setPower(PhMath.fromDegreesToPower(80,270));
             brat2.setPower(KRUT_2_START_POWER);
             zxgo = true;

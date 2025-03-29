@@ -17,31 +17,34 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
-public class VerticalSlider{
+public class VerticalSlider {
     ElapsedTime timer = new ElapsedTime();
     public static RevColorSensorV3 verx_color;
     boolean once;
     static LinearOpMode opMode;
     public static Rev2mDistanceSensor ds;
-    public boolean colorState = false , previousColorState = colorState;
-    double  output = 0, targetPos = 0;
+    public boolean colorState = false, previousColorState = colorState;
+    double output = 0, targetPos = 0;
     // creation of the PID object
     HardwareMap hw;
-    public VerticalSlider(LinearOpMode opMode){
+
+    public VerticalSlider(LinearOpMode opMode) {
         this.opMode = opMode;
     }
+
     public static CRServo vrash, klesh, sample;
     public static DcMotorEx pod;
     public static final double KLESH_OTPUSK_POWER = PhMath.fromDegreesToPower(115, 270);
-    public static double podPower= 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
+    public static double podPower = 0, vrashPower = -0.5, kleshPower = -0.35, vidvig = -0.6;
     public static boolean kleshgo = false, captured = false;
     public static VerticalPOS.KLESHPOS verticalPOS;
-    static VerticalPOS.KLESHPOS prevPos ;
+    static VerticalPOS.KLESHPOS prevPos;
     boolean pressed = false;
-    public void init(){
+
+    public void init() {
         hw = opMode.hardwareMap;
         verx_color = opMode.hardwareMap.get(RevColorSensorV3.class, "color_verx");
-        pod = opMode.hardwareMap.get(DcMotorEx.class,"pod");
+        pod = opMode.hardwareMap.get(DcMotorEx.class, "pod");
         klesh = opMode.hardwareMap.get(CRServo.class, "klesh");
         vrash = opMode.hardwareMap.get(CRServo.class, "vrash");
         sample = opMode.hardwareMap.get(CRServo.class, "sample");
@@ -56,59 +59,50 @@ public class VerticalSlider{
         ds = hw.get(Rev2mDistanceSensor.class, "ds");
     }
 
-   public void play(){
-            if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT&& !Config.ACTIONINWORK){
-                klesh.setPower(-0.35);
-                kleshgo = false;
-            } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK&& !Config.ACTIONINWORK) {
-                klesh.setPower(KLESH_OTPUSK_POWER);
-                kleshgo = false;}
-//            } else if (verx_color.getDistance(DistanceUnit.MM) <= 40 && klesh.getPower() != -0.35 && timer.milliseconds() <= 20){
-//                kleshPower = -0.35;
-//                klesh.setPower(kleshPower);
-//                captured = true;
-//            }
-
-//            if (verx_color.getDistance(DistanceUnit.MM) <= 28 && once){
-//                timer.startTime();
-//                once = false;
-//            } else if (verx_color.getDistance(DistanceUnit.MM) >= 45){
-//                timer.reset();
-//                once = true;
-//            }
-       if (opMode.gamepad1.a){
-                sample.setPower(-0.85);
-            }else if (opMode.gamepad1.y){
-                sample.setPower(0.71);
-            }
+    public void play() {
+        if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.ZAXVAT && !Config.actionInWork) {
+            klesh.setPower(-0.35);
+            kleshgo = false;
+        } else if (kleshgo && verticalPOS == VerticalPOS.KLESHPOS.OTPUSK && !Config.actionInWork) {
+            klesh.setPower(KLESH_OTPUSK_POWER);
+            kleshgo = false;
+        }
+        if (opMode.gamepad1.a) {
+            sample.setPower(-0.85);
+        } else if (opMode.gamepad1.y) {
+            sample.setPower(0.71);
+        }
     }
 
-    public void run(){
+    public void run() {
         play();
 
     }
-    public static void podvesSpiecMan(){
+
+    public static void podvesSpiecMan() {
         sample.setPower(-0.85);
         vrash.setPower(vidvig);
-        Config.ACTIONINWORK = true;
+        Config.actionInWork = true;
         pod.setPower(0.9);
         opMode.sleep(700);
         pod.setPower(0.15);
         opMode.sleep(200);
-        Config.ACTIONINWORK = false;
+        Config.actionInWork = false;
     }
-    public static void spuskSpiceman(){
+
+    public static void spuskSpiceman() {
         sample.setPower(0.71);
         vrash.setPower(vidvig);
-        Config.ACTIONINWORK = true;
+        Config.actionInWork = true;
         pod.setPower(-0.9);
         opMode.sleep(650);
         pod.setPower(0.15);
         opMode.sleep(200);
-        Config.ACTIONINWORK = false;
+        Config.actionInWork = false;
     }
-    public void podvesSample(){
-        Config.ACTIONINWORK = true;
+
+    public void podvesSample() {
+        Config.actionInWork = true;
         HorizontSlider.vidvigAuto();
         vrash.setPower(1);
         opMode.sleep(700);
@@ -117,18 +111,20 @@ public class VerticalSlider{
         vrash.setPower(PhMath.fromDegreesToPower(60, 270));
         opMode.sleep(400);
 
-        Config.ACTIONINWORK = false;
+        Config.actionInWork = false;
     }
-    public static void perviPodem(){
+
+    public static void perviPodem() {
         vrash.setPower(vidvig);
-        Config.ACTIONINWORK = true;
+        Config.actionInWork = true;
         pod.setPower(1.0);
         opMode.sleep(300);
         pod.setPower(0.13);
-        Config.ACTIONINWORK = false;
+        Config.actionInWork = false;
     }
-    public void spuskPosleBucket(){
-        Config.ACTIONINWORK = true;
+
+    public void spuskPosleBucket() {
+        Config.actionInWork = true;
         vrash.setPower(PhMath.fromDegreesToPower(60, 270));
         opMode.sleep(200);
         pod.setPower(-1);
@@ -136,7 +132,7 @@ public class VerticalSlider{
         pod.setPower(0.15);
         Zxnew.brat.setPower(KRUT_START_POWER);
         Zxnew.brat2.setPower(KRUT_2_START_POWER);
-        Config.ACTIONINWORK = false;
+        Config.actionInWork = false;
     }
 
 

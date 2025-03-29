@@ -52,14 +52,14 @@ public class HorizontSlider {
     public void play(){
         switch(horPos) {
             case SLOZ:
-                if(horGO && !Config.ACTIONINWORK){
+                if(horGO && !Config.actionInWork){
                     sL.setPower(startLeftPower);
                     sR.setPower(startRightPower);
                     horGO = false;
                 }
                 break;
             case VIDVIG:
-                if(horGO && !Config.ACTIONINWORK){
+                if(horGO && !Config.actionInWork){
                     sL.setPower(0.48 - 0.05);
                     sR.setPower(-0.48);
                     horGO = false;
