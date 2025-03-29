@@ -1,29 +1,24 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.FORTEST.CustomException;
 
-import org.firstinspires.ftc.teamcode.FORTEST.CustomExcpection;
-
-public class PhMath extends Thread {
-    @Override
-    public synchronized void start() {
-        super.start();
-    }
-
-    public static double fromDegreesToPower(double power, double max) {
-        if (power > max || power < 0) {
-            throw new CustomExcpection("Значение угла сервы: " + power + "больше чем максимальный угол: " + max);
+public class PhMath{
+    static double resultPower;
+    private static final double EPSILON = 1e-10;
+    /**
+     * @param targetAngle целевое значение угла поворота сервомотора в градусах
+     * @param maxAngle максимальный угол сервомотора
+     * @return возвращает уровень мощности для сервомотора в диапазоне [-1; 1], которая позволяет
+     * повернуться сервомотору на нужный угол, где -1 это 0 градусов, а 1 - максимальный угол
+     */
+    public static double fromDegreesToPower(double targetAngle, double maxAngle) {
+        if(maxAngle <= EPSILON) {
+            throw new CustomException("Максимальное должно быть больше 0");
         }
-        double resultPower = 0;
-        if (power / (max / 2) == 0) {
-            resultPower = -1;
-        } else if (power / (max / 2) == 1) {
-            resultPower = 0;
-        } else if (power / (max / 2) == 2) {
-            resultPower = 1;
-        } else {
-            resultPower = Range.clip(power / (max / 2) - 1, -1, 1);
+        if (targetAngle > maxAngle || targetAngle < 0) {
+            throw new CustomException(String.format("Угол %.2f вне диапазона [0, %.2f]", targetAngle, maxAngle));
         }
+        resultPower = targetAngle / (maxAngle / 2) - 1;
         return resultPower;
     }
 }
