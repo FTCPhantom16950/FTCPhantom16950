@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
-import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -9,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
-import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 
 public class Podves {
@@ -39,12 +37,7 @@ public class Podves {
         right.setPower(-0.5);
         inited = true;
     }
-    public TeleOpActions teleOpActions = new TeleOpActions() {
-        @Override
-        public void play() {
-            Podves.this.run();
-        }
-    };
+
     public void run(){
         if (opMode.gamepad2.left_stick_y >= 0.1 && Math.abs(left.getPower()) > 0.65){
             podv1.setPower(Math.pow(opMode.gamepad2.left_stick_y, 3));

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.ColorSensorClass;
 import org.firstinspires.ftc.teamcode.own.Mechanism.LedControl;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 @Config
 @TeleOp

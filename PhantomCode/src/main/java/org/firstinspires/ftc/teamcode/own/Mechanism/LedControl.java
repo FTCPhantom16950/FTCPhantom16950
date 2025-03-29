@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
-
 import java.util.Objects;
 
 public class LedControl extends Thread {
@@ -22,12 +20,7 @@ public class LedControl extends Thread {
         blue.setMode(DigitalChannel.Mode.OUTPUT);
         blue.setState(false);
     }
-    public TeleOpActions teleOpActions = new TeleOpActions() {
-        @Override
-        public void play() {
-            LedControl.this.play();
-        }
-    };
+
     public void play(){
         if(ColorSensorClass.initZX && Objects.equals(ColorSensorClass.colorZX, "BLUE")){
             blue.setState(true);

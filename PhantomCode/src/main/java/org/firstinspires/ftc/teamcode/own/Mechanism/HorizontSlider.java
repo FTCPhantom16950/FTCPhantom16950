@@ -9,7 +9,6 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.brat3_Hor;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.krutpos;
-import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.peredacha;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxgo;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew.zxpos;
 import static org.firstinspires.ftc.teamcode.own.positions.HorSliderPos.HorPos.SLOZ;
@@ -20,7 +19,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
-import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
 @com.acmerobotics.dashboard.config.Config
@@ -70,12 +68,7 @@ public class HorizontSlider {
         }
     }
 
-    public TeleOpActions teleOpActions = new TeleOpActions() {
-        @Override
-        public void play() {
-            moving();
-        }
-    };
+
     public void moving(){
         play();
 

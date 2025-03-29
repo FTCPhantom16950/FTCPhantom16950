@@ -13,12 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.own.Utils.AutoActions;
 import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
-import org.firstinspires.ftc.teamcode.own.Utils.TeleOpActions;
-import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.VerticalPOS;
 
 public class VerticalSlider{
@@ -86,12 +82,7 @@ public class VerticalSlider{
                 sample.setPower(0.71);
             }
     }
-    public TeleOpActions teleOpActions = new TeleOpActions() {
-        @Override
-        public void play() {
-        VerticalSlider.this.run();
-        }
-    };
+
     public void run(){
         play();
 
@@ -147,45 +138,6 @@ public class VerticalSlider{
         Zxnew.brat2.setPower(KRUT_2_START_POWER);
         Config.ACTIONINWORK = false;
     }
-    public static class SetAutoAction extends AutoActions {
-        /**
-         * Creating an action for an autonomous
-         *
-         * @param pathNumber with which pathchain will be used your action
-         */
-        public SetAutoAction(int pathNumber) {
-            super(pathNumber);
-        }
 
-        @Override
-        public void parallelAction() {
-            perviPodem();
-        }
 
-        @Override
-        public void linearAction() {
-            podvesSpiecMan();
-        }
-    }
-    public static class SlozAutoAction extends AutoActions {
-
-        /**
-         * Creating an action for an autonomous
-         *
-         * @param pathNumber with which pathchain will be used your action
-         */
-        public SlozAutoAction(int pathNumber) {
-            super(pathNumber);
-        }
-
-        @Override
-        public void parallelAction() {
-            spuskSpiceman();
-        }
-
-        @Override
-        public void linearAction() {
-
-        }
-    }
 }

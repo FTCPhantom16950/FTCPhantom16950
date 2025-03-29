@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.tolerance;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.to1SpicemanPC;
-import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toBucket;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toCapture1SpicemanPC;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toGetSpiceman;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toGetSpicemanPC;
@@ -14,7 +13,6 @@ import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSetSpiceman
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSetSpiceman2_5PC;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSetSpicemanPC;
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSpiceman1;
-import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSpiceman1Control1;
 
 
 import static org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO.toSpiceman1Stop;
@@ -33,13 +31,11 @@ import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.HorizontSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.VerticalSlider;
 import org.firstinspires.ftc.teamcode.own.Mechanism.Zxnew;
 import org.firstinspires.ftc.teamcode.own.Utils.POINTSPEDRO;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
