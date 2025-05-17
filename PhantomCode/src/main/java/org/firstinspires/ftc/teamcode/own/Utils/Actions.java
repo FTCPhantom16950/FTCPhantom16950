@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-public interface Actions {
+public abstract class Actions {
+    public abstract void play();
 
-    void play();
 }
