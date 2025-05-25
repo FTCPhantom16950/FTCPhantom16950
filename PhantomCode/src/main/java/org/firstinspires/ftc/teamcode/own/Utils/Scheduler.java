@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Scheduler {
     private Set<Mechanism> mechanisms;
     private List<Actions> actions;
 
     public static class Builder {
-        private Set<Mechanism> mechanisms;
-        private List<Actions> actions;
+        private Set<Mechanism> mechanisms = new LinkedHashSet<Mechanism>();
+        private List<Actions> actions = new ArrayList<Actions>();
 
         public Builder addMechanisms(Mechanism... mechanisms) {
             this.mechanisms.addAll(Set.of(mechanisms));

@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParallelGroup extends Actions{
-    private List<Actions> actions;
-    private List<Thread> threads;
+    private List<Actions> actions = new ArrayList<Actions>();
+    private List<Thread> threads = new ArrayList<Thread>();
 
     public ParallelGroup(Actions... actions) {
         this.actions.addAll(List.of(actions));
