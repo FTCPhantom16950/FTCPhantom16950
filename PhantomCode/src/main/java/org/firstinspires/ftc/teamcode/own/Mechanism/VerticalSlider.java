@@ -76,7 +76,6 @@ public class VerticalSlider {
 
     public void run() {
         play();
-
     }
 
     public static void podvesSpiecMan() {
