@@ -1,36 +1,44 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Scheduler {
     private Set<Mechanism> mechanisms;
-    private List<Actions> actions;
+    private Actions actions;
 
     public static class Builder {
         private Set<Mechanism> mechanisms = new LinkedHashSet<Mechanism>();
-        private List<Actions> actions = new ArrayList<Actions>();
+        private Actions actions;
 
-        public Builder addMechanisms(Mechanism... mechanisms) {
-            this.mechanisms.addAll(Set.of(mechanisms));
+        public Builder addMechanisms(Set<Mechanism> mechanisms) {
+            this.mechanisms.addAll(mechanisms);
             return this;
         }
 
-        public Builder addActions(Actions... actions) {
-            this.actions.addAll(List.of(actions));
+        public Builder setAction(Actions action) {
+            actions = action;
             return this;
         }
-        public Scheduler build(){
+
+        public Scheduler build() {
             return new Scheduler(this);
         }
     }
 
-    private Scheduler(Builder builder){
+    private Scheduler(Builder builder) {
         mechanisms = builder.mechanisms;
         actions = builder.actions;
     }
 
+    public void initMechanism() {
+        for (Mechanism mechanism :
+                mechanisms) {
+            mechanism.init();
+        }
+    }
+    public void run(){
+        actions.startAndPlay();
+    }
 }

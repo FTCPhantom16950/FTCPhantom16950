@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class Actions {
-    public abstract void play();
+    public Set<Mechanism> necessaryMechanisms = new HashSet<>();
+    public abstract void startAndPlay();
 
     public boolean sleep(long ms) {
         try {
