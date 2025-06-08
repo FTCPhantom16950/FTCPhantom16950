@@ -23,6 +23,10 @@ public abstract class PhantomOpMode extends OpMode {
     public Action action;
     /// Планировщик задач
     private Scheduler scheduler;
+    /// Выполняется ли OpMode
+    private boolean opModeIsActive = false;
+    /// Инициализируется ли OpMode
+    private boolean opModeInInit = false;
 
     ///  Получить имя
     public String getName() {
@@ -42,6 +46,7 @@ public abstract class PhantomOpMode extends OpMode {
     /// Инициализация всех механизмов, а также планировщика
     @Override
     public void init() {
+        opModeInInit = true;
         scheduler = new Scheduler.Builder()
                 .setAction(action)
                 .addMechanisms(
@@ -51,9 +56,22 @@ public abstract class PhantomOpMode extends OpMode {
         scheduler.initMechanism();
     }
 
+    @Override
+    public void init_loop() {
+        super.init_loop();
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        opModeIsActive = false;
+    }
+
     /// Старт OpMode
     @Override
     public void start() {
+        opModeInInit = false;
+        opModeIsActive = true;
         super.start();
         scheduler.run();
     }
@@ -70,5 +88,21 @@ public abstract class PhantomOpMode extends OpMode {
     /// Поиск необходимых механизмов
     private Set<Mechanism> findNecessaryMechanisms(Action actionAll) {
         return new HashSet<>(actionAll.getNecessaryMechanisms());
+    }
+
+    public boolean opModeIsActive() {
+        return opModeIsActive;
+    }
+
+    public void setOpModeIsActive(boolean opModeIsActive) {
+        this.opModeIsActive = opModeIsActive;
+    }
+
+    public boolean opModeInInit() {
+        return opModeInInit;
+    }
+
+    public void setOpModeInInit(boolean opModeInInit) {
+        this.opModeInInit = opModeInInit;
     }
 }
