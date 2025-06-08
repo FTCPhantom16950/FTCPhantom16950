@@ -16,10 +16,20 @@ public class PIDRegulator extends Thread {
 
     ElapsedTime timer;
     private int target = 0, measured = 0, error = 0, lastError = 0;
-    private double kP, kI, kD, P = 0, I = 0, D = 0, iSum, out = 0, minPower, maxPower;
+    private double kP;
+    private double kI;
+    private double kD;
+    private double iSum;
+    private double out = 0;
+    private double minPower;
+    private double maxPower;
     private PIDCofficients pidCofficients;
-    private PhantomOpMode phantomOpMode;
+    private final PhantomOpMode phantomOpMode;
     private DcMotorEx dcMotorEx;
+
+    public double out() {
+        return out;
+    }
 
     public int target() {
         return target;
@@ -89,9 +99,9 @@ public class PIDRegulator extends Thread {
     /// расчет вывода
     public void calculate(int target, int measured) {
         // расчет D
-        D = kD * ((error - lastError) / timer.seconds());
+        double d = kD * ((error - lastError) / timer.seconds());
         // расчет P
-        P = error * kP;
+        double p = error * kP;
         // расчет iSum
         iSum = iSum + (error * timer.seconds());
         // если iSum превышает лимит то устанавливаем предел
@@ -101,9 +111,9 @@ public class PIDRegulator extends Thread {
             iSum = -100;
         }
         // расчет I
-        I = iSum * kI;
+        double i = iSum * kI;
         // расчет выхода
-        out = Range.clip(P + I + D, minPower, maxPower);
+        out = Range.clip(p + i + d, minPower, maxPower);
 
     }
 
