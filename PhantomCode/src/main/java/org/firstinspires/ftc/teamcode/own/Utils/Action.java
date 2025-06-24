@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,13 +30,12 @@ public abstract class Action {
     public abstract void execute();
     /// Метод для ожидания
     public boolean sleep(long ms) {
-        try {
-            wait(ms);
-            return true;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new CustomException("stopped while sleep", e);
+        ElapsedTime time = new ElapsedTime();
+        time.startTime();
+        while (time.milliseconds() < ms){
         }
+        time.reset();
+        return true;
 
     }
 

@@ -16,7 +16,7 @@ public class TestMechanism implements Mechanism {
 
     @Override
     public boolean init() {
-        pod = hw.get(DcMotorEx.class, "pod");
+        pod = hw.get(DcMotorEx.class, "rf");
         return true;
     }
 }

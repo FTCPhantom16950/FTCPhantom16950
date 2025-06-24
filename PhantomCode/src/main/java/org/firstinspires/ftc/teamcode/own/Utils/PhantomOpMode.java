@@ -46,6 +46,7 @@ public abstract class PhantomOpMode extends OpMode {
     /// Инициализация всех механизмов, а также планировщика
     @Override
     public void init() {
+        runOpMode();
         opModeInInit = true;
         scheduler = new Scheduler.Builder()
                 .setAction(action)
