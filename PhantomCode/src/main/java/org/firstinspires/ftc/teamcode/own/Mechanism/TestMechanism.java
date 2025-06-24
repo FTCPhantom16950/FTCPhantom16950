@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
 public class TestMechanism implements Mechanism {
-    private DcMotorEx pod;
+    public static DcMotorEx pod;
     HardwareMap hw;
 
     public TestMechanism(HardwareMap hw) {
