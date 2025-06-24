@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
-
+import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
 
 /**
  * Класс для конфигурации
@@ -11,5 +11,5 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 @com.acmerobotics.dashboard.config.Config
 public class Config {
     /// Список необходимых OpMode
-    public static PhantomOpMode[] opModes = new PhantomOpMode[]{};
+    public static PhantomOpMode[] opModes = new PhantomOpMode[]{new GameBased().runOpMode()};
 }

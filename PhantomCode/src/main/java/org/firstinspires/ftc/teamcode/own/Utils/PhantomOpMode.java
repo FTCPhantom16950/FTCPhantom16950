@@ -64,8 +64,8 @@ public abstract class PhantomOpMode extends OpMode {
 
     @Override
     public void stop() {
-        super.stop();
         opModeIsActive = false;
+        super.stop();
     }
 
     /// Старт OpMode
