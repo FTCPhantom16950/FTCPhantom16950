@@ -12,13 +12,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Utils.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 
 public class DriveAction extends Action {
     PhantomOpMode opMode;
-    public DriveAction(PhantomOpMode OpMode) {
-        addNecessaryMechanism(new WheelBase(OpMode.hardwareMap));
+    public DriveAction(PhantomOpMode OpMode, Mechanism mechanism) {
+        super(mechanism);
         this.opMode = OpMode;
     }
 

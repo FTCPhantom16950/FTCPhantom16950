@@ -13,6 +13,10 @@ public abstract class InterruptibleAction extends Action {
     ///  Выполняются ли условия для действия
     private volatile boolean requirementsToRun = false;
 
+    public InterruptibleAction(Mechanism mechanism) {
+        super(mechanism);
+    }
+
     /// Прерывание действий
     public void interrupt() {
         isInterrupted = true;

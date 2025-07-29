@@ -28,6 +28,11 @@ public abstract class Action {
     }
     /// Метод для реализации выполнения действия
     public abstract void execute();
+
+    public Action(Mechanism mechanism) {
+        addNecessaryMechanism(mechanism);
+    }
+
     /// Метод для ожидания
     public boolean sleep(long ms) {
         ElapsedTime time = new ElapsedTime();
