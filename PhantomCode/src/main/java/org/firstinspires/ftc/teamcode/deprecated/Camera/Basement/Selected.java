@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Camera.Basement;
+package org.firstinspires.ftc.teamcode.deprecated.Camera.Basement;
 /// Список возможных состояний камеры
 public enum Selected{
     //ничего не удовлетворяет условия

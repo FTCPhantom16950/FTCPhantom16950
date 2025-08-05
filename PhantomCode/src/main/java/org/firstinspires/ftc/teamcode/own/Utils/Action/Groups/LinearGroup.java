@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
+
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,16 +12,10 @@ import java.util.Set;
 /// Класс для добавления последовательных действий
 /// Made by Hkial(Gleb)
 /// Last Updated: 08.06.25 02:40
-public class LinearGroup extends Action {
+public class LinearGroup extends Group {
     /// список добавляемых действий
     private List<Action> actions = new ArrayList<Action>();
     private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
-
-    /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanism(Mechanism mechanism) {
-        necessaryMechanisms.add(mechanism);
-    }
-
     /// Метод добавления необходимых механизмов
     public void addNecessaryMechanisms(Set<Mechanism> mechanisms) {
         necessaryMechanisms.addAll(mechanisms);

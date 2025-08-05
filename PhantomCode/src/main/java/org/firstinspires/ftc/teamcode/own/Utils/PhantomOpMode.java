@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,7 @@ public abstract class PhantomOpMode extends OpMode {
     private boolean opModeIsActive = false;
     /// Инициализируется ли OpMode
     private boolean opModeInInit = false;
+
 
     ///  Получить имя
     public String getName() {

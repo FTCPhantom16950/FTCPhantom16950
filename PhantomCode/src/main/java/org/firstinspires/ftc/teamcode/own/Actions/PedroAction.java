@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.Actions;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Utils.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-
-import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.*;
 
 
 public class PedroAction extends Action {

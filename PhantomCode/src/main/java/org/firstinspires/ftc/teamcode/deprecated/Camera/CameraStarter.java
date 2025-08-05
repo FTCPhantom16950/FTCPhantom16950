@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Camera;
+package org.firstinspires.ftc.teamcode.deprecated.Camera;
 
 import android.graphics.Color;
 import android.util.Size;

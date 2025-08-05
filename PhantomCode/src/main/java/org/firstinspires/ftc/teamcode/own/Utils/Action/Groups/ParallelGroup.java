@@ -1,5 +1,9 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
 
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 /// Класс для добавления параллельных действий
 /// Made by Hkial(Gleb)
 /// Last Updated: 08.06.25 02:40
-public class ParallelGroup extends Action {
+public class ParallelGroup extends Group {
     /// список добавляемых действий
     private List<Action> actions = new ArrayList<Action>();
     /// список для работающих потоков
@@ -34,6 +38,7 @@ public class ParallelGroup extends Action {
             necessaryMechanisms.addAll(action.getNecessaryMechanisms());
         }
     }
+
     /**
      * Класс для добавления параллельных групп
      * @param actions действия которые будут выполняться параллельно

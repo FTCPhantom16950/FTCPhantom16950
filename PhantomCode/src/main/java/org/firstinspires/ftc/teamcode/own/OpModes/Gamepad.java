@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.own.Utils.LinearGroup;
-
 public class Gamepad extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
