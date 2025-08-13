@@ -11,5 +11,5 @@ import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
 @com.acmerobotics.dashboard.config.Config
 public class Config {
     /// Список необходимых OpMode
-    public static PhantomOpMode[] opModes = new PhantomOpMode[]{new GameBased().runOpMode()};
+    public static PhantomOpMode[] opModes = new PhantomOpMode[]{new GameBased().customOpModeSettings()};
 }

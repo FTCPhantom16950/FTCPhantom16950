@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 public class GameBased extends PhantomOpMode {
     @Override
-    public PhantomOpMode runOpMode() {
+    public PhantomOpMode customOpModeSettings() {
         name = "GamepadBased";
         group = "";
         action = new DriveAction(this, new WheelBase(this.hardwareMap));
