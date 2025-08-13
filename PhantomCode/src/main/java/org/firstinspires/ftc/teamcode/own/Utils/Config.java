@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
  */
 @com.acmerobotics.dashboard.config.Config
 public class Config {
-    /// Список необходимых OpMode
-
+    private Config() {
+        throw new CustomException("НЕЛЬЗЯ СОЗДАВАТЬ ОБЪЕКТ CONFIG ИЛИ НАСЛЕДОВАТЬСЯ ОТ НЕГО.", new RuntimeException());
+    }
 }

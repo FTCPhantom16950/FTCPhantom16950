@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.Actions;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
-import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.FollowerMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
@@ -30,14 +27,14 @@ public class PedroAction extends Action {
         this.opMode = OpMode;
         this.line = line;
     }
-    private static Follower follower = FollowerMechanism.follower;
+    private static final Follower FOLLOWER = FollowerMechanism.follower;
     @Override
     public void execute() {
-        if (!follower.isBusy() && opMode.opModeIsActive()) {
-            follower.followPath(line, holdEnd);
+        if (!FOLLOWER.isBusy() && opMode.opModeIsActive()) {
+            FOLLOWER.followPath(line, holdEnd);
         }
-        while (opMode.opModeIsActive() && !follower.atPose(line.endPose(), 0.5, 0.5,0.5)){
-            follower.update();
+        while (opMode.opModeIsActive() && !FOLLOWER.atPose(line.endPose(), 0.5, 0.5,0.5)){
+            FOLLOWER.update();
         }
 
     }
