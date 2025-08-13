@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class OpModeManager {
     /// Список PhantomOpMode для добавления в их в список Driver Hub
-    private static List<PhantomOpMode> opModes = Arrays.asList(Config.opModes);
+
 
     /**
      * Менеджер для создания OpMode и добавления их в список
@@ -32,7 +32,7 @@ public class OpModeManager {
     }
     /// добавление OpMode в менеджер
     @OpModeRegistrar
-    public static void addOpmode(com.qualcomm.robotcore.eventloop.opmode.OpModeManager manager) {
+    public static void addOpmode(com.qualcomm.robotcore.eventloop.opmode.OpModeManager manager, PhantomOpMode... opModes) {
         for (PhantomOpMode opMode : opModes) {
             manager.register(addOpmodeDescription(opMode.getFlavor(), opMode.getGroup(), opMode.getName()), opMode);
         }
