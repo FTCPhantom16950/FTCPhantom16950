@@ -14,12 +14,8 @@ import java.util.Set;
 /// Last Updated: 08.06.25 02:40
 public class LinearGroup extends Group {
     /// список добавляемых действий
-    private List<Action> actions = new ArrayList<Action>();
+    private final List<Action> actions = new ArrayList<Action>();
     private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
-    /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanisms(Set<Mechanism> mechanisms) {
-        necessaryMechanisms.addAll(mechanisms);
-    }
 
     /// Метод получения необходимых механизмов
     public Set<Mechanism> getNecessaryMechanisms() {
@@ -32,9 +28,8 @@ public class LinearGroup extends Group {
      */
     public LinearGroup(Action... actions) {
         this.actions.addAll(List.of(actions));
-        for (Action a :
-                this.actions) {
-            necessaryMechanisms.addAll(a.getNecessaryMechanisms());
+        for (Action action : this.actions) {
+            necessaryMechanisms.addAll(action.getNecessaryMechanisms());
         }
     }
     /// Метод выполнения действий последовательно

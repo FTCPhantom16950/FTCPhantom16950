@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 /// Last Updated: 08.06.25 02:40
 public class ParallelGroup extends Group {
     /// список добавляемых действий
-    private List<Action> actions = new ArrayList<Action>();
+    private final List<Action> actions = new ArrayList<Action>();
     /// список для работающих потоков
     private final ExecutorService executorService;
     /// Сет необходимых механизмов

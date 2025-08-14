@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils.Action;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
@@ -18,14 +19,7 @@ public abstract class Action extends Group {
     private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
 
     /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanism(Mechanism mechanism) {
-        necessaryMechanisms.add(mechanism);
-    }
 
-    /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanisms(Set<Mechanism> mechanisms) {
-        necessaryMechanisms.addAll(mechanisms);
-    }
 
     /// Метод получения необходимых механизмов
     public Set<Mechanism> getNecessaryMechanisms() {
@@ -34,20 +28,24 @@ public abstract class Action extends Group {
 
     /// Метод для реализации выполнения действия
     public abstract void execute();
+
     public Action(Mechanism mechanism) {
         addNecessaryMechanism(mechanism);
     }
-    public Action(Set<Mechanism> mechanisms) {addNecessaryMechanisms(mechanisms); }
+
+    public Action(Set<Mechanism> mechanisms) {
+        addNecessaryMechanisms(mechanisms);
+    }
 
     /// Метод для ожидания
     public boolean sleep(long ms) {
-        ElapsedTime time = new ElapsedTime();
-        time.startTime();
-        while (time.milliseconds() < ms) {
+        try {
+            Thread.sleep(ms);
+            return true;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
         }
-        time.reset();
-        return true;
-
     }
 
 }

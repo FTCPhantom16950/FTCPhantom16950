@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 
 import java.util.HashSet;
@@ -25,40 +27,67 @@ public class Scheduler {
         private final Set<Mechanism> mechanisms = new HashSet<>();
         /// Выполняемое действие
         private Action action;
+
         /// Метод добавления механизмов в необходимые
         public Builder addMechanisms(Set<Mechanism> mechanisms) {
             this.mechanisms.addAll(mechanisms);
             return this;
         }
+
         /// Метод добавления механизма в необходимые
         public Builder addMechanism(Mechanism mechanism) {
             this.mechanisms.add(mechanism);
             return this;
         }
+
         /// Метод добавления действия
         public Builder setAction(Action action) {
             this.action = action;
             return this;
         }
+
         /// Метод для сборки класса Scheduler
         public Scheduler build() {
+            if (action == null) {
+                throw new IllegalStateException("Action is required");
+            }
             return new Scheduler(this);
         }
     }
+
     /// Внутренний конструктор необходимый для Builder
     private Scheduler(Builder builder) {
-        mechanisms = builder.mechanisms;
+        mechanisms = Set.copyOf(builder.mechanisms);
         action = builder.action;
     }
+
     /// Метод для инициализации механизмов
     public void initMechanism() {
-        for (Mechanism mechanism :
-                mechanisms) {
-            mechanism.init();
+        if (mechanisms.isEmpty()) {
+            throw new IllegalStateException("Mechanisms is null");
+        }
+        for (Mechanism mechanism : mechanisms) {
+            try {
+                mechanism.init();
+            } catch (Exception e) {
+                multipleTelemetry.addLine("Mechanism init failed: " + mechanism.getClass().getSimpleName());
+                throw e;
+            }
         }
     }
+
+    private boolean isRunning = false;
+
     /// Запуск действий
     public void run() {
+        if (isRunning) {
+            throw new IllegalStateException("Scheduler already running");
+        }
+        isRunning = true;
+
+        if (action == null) {
+            throw new NullPointerException("Action is null");
+        }
         action.execute();
     }
 }

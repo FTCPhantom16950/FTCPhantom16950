@@ -8,6 +8,8 @@ import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
+import java.util.function.Supplier;
+
 
 public class PedroAction extends Action {
     PhantomOpMode opMode;

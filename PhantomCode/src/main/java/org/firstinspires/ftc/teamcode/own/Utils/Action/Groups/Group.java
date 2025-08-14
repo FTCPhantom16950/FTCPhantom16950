@@ -11,12 +11,12 @@ public abstract class Group {
     private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
 
     /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanism(Mechanism mechanism) {
+    public final void addNecessaryMechanism(Mechanism mechanism) {
         necessaryMechanisms.add(mechanism);
     }
 
     /// Метод добавления необходимых механизмов
-    public void addNecessaryMechanisms(Set<Mechanism> mechanisms) {
+    public final void addNecessaryMechanisms(Set<Mechanism> mechanisms) {
         necessaryMechanisms.addAll(mechanisms);
     }
 

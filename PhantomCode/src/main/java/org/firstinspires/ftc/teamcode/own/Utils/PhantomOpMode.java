@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
+import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,21 +12,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Класс для работы с OpMode
+ * <p>Класс для работы с OpMode</p>
+ * <p>Создан для работы с {@link Scheduler}</p>
  * Made by Hkial(Gleb)
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
     /// Имя необходимое для указания в runOpMode, должно быть уникальным
-    public String name = "Default";
+    private String name = "Default";
     /// Тип необходимый для указания в runOpMode
-    public OpModeMeta.Flavor flavor = OpModeMeta.Flavor.TELEOP;
+    private OpModeMeta.Flavor flavor = OpModeMeta.Flavor.TELEOP;
     /// Группа необходимая для указания в runOpMode
-    public String group = "default";
+    private String group = "default";
     /// Действие запускаемое в начале OpMode
     public Action action;
     /// Планировщик задач
     private Scheduler scheduler;
+
     ///  Получить имя
     public String getName() {
         return name;
@@ -40,54 +43,72 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public String getGroup() {
         return group;
     }
-    MultipleTelemetry multipleTelemetry;
+
+
+
     @Override
-    public void runOpMode() throws InterruptedException {
-        // инициализация настроек опмода
-        customOpModeSettings();
-        // Проверка наличия FtcDashboard
-        if (FtcDashboard.getInstance() != null){
-            // создание объекта для вывода информации в FtcDashboard и на контроллер
-            multipleTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+    public void runOpMode(){
+        try {
+            // инициализация настроек опмода
+            customOpModeSettings();
+            // инициализация телеметрии
+            initTelemetry();
+            // инициализация Планировщик задач
+            initScheduler();
+            // ожидания нажатия на кнопку старт
+            waitForStart();
+            // запуск планировщика
+            runScheduler();
+        } finally {
+            finishOpMode();
         }
-        else {
-            multipleTelemetry = new MultipleTelemetry(telemetry);
-        }
-        // Планировщик задач
-        scheduler = new Scheduler.Builder()
-                // добавление действий
-                .setAction(action)
-                // добавление механизмов
-                .addMechanisms(
-                        findNecessaryMechanisms(action)
-                )
-                .build();
-        // инициализация механизмов
-        scheduler.initMechanism();
-        //вывод инициализации телеметрии
-        multipleTelemetry.addData("Status", "Initialized");
-        multipleTelemetry.update();
-        // ожидания нажатия на кнопку старт
-        waitForStart();
-        // запуск планировщика
-        scheduler.run();
-        // опмод выполняется
-        while (this.opModeIsActive()){
-            multipleTelemetry.addData("Status", "Initialized");
-            multipleTelemetry.update();
-            // Происходит в течении OpMode
-        }
-        // Опмод завершается
-        multipleTelemetry.addData("Status", "Finished");
-        multipleTelemetry.update();
+
     }
 
     /// класс для указания имени, типа и группы OpMode
-    public abstract PhantomOpMode customOpModeSettings();
+    public abstract void customOpModeSettings();
 
     /// Поиск необходимых механизмов
-    private Set<Mechanism> findNecessaryMechanisms(Action actionAll) {
-        return new HashSet<>(actionAll.getNecessaryMechanisms());
+    private Set<Mechanism> findNecessaryMechanisms(Action action) {
+        return new HashSet<>(action.getNecessaryMechanisms());
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public void setFlavor(OpModeMeta.Flavor flavor) {
+        this.flavor = flavor;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private void initTelemetry() {
+        UnitedTelemetry.init();
+    }
+    private void initScheduler() {
+        scheduler = new Scheduler.Builder()
+                .setAction(action)
+                .addMechanisms(findNecessaryMechanisms(action))
+                .build();
+
+        scheduler.initMechanism();
+        multipleTelemetry.addData("Status", "Initialized");
+        multipleTelemetry.update();
+    }
+    private void runScheduler() {
+        multipleTelemetry.addData("Status", "Running");
+        multipleTelemetry.update();
+
+        if (opModeIsActive()) {
+            scheduler.run();
+        }
+    }
+    private void finishOpMode(){
+        multipleTelemetry.addData("Status", "Finished");
+        multipleTelemetry.update();
     }
 
 }

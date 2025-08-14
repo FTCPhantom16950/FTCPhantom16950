@@ -8,10 +8,8 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 @TeleOp(name = "GamepadBased", group = "")
 public class GameBased extends PhantomOpMode {
     @Override
-    public PhantomOpMode customOpModeSettings() {
-        name = "GamepadBased";
-        group = "";
+    public void customOpModeSettings() {
+        setName("GamepadBased");
         action = new DriveAction(this, new WheelBase(this.hardwareMap));
-        return this;
     }
 }
