@@ -18,6 +18,7 @@ import java.util.Set;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
+    Thread telemetryExecutor;
     /// Имя необходимое для указания в runOpMode, должно быть уникальным
     private String name = "Default";
     /// Тип необходимый для указания в runOpMode
@@ -70,6 +71,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     /// Поиск необходимых механизмов
     private Set<Mechanism> findNecessaryMechanisms(Action action) {
+        if (action == null) throw new IllegalStateException("Action in OpMode mustn't be null");
         return new HashSet<>(action.getNecessaryMechanisms());
     }
 
@@ -104,6 +106,18 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
         if (opModeIsActive()) {
             scheduler.run();
+        }
+        if (!telemetryExecutor.isAlive()){
+            telemetryExecutor = new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    while (opModeIsActive()){
+                        multipleTelemetry.update();
+                    }
+                }
+            };
+            telemetryExecutor.start();
         }
     }
     private void finishOpMode(){

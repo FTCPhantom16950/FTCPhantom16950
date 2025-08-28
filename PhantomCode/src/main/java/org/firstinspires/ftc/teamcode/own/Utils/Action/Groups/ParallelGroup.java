@@ -43,7 +43,7 @@ public class ParallelGroup extends Group {
      * @param actions действия которые будут выполняться параллельно
      */
     public ParallelGroup(Action... actions) {
-        this.actions.addAll(List.of(actions));
+        this.actions.addAll(Collections.unmodifiableList(List.of(actions)));
         this.executorService = Executors.newFixedThreadPool(actions.length);
         collectNecessaryMechanisms();
     }

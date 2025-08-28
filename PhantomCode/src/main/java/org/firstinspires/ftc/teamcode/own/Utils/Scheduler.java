@@ -30,18 +30,21 @@ public class Scheduler {
 
         /// Метод добавления механизмов в необходимые
         public Builder addMechanisms(Set<Mechanism> mechanisms) {
+            if (mechanisms == null) throw new IllegalStateException("Mechanisms in scheduler mustn't be null");
             this.mechanisms.addAll(mechanisms);
             return this;
         }
 
         /// Метод добавления механизма в необходимые
         public Builder addMechanism(Mechanism mechanism) {
+            if (mechanism == null) throw new IllegalStateException("Mechanism in scheduler mustn't be null");
             this.mechanisms.add(mechanism);
             return this;
         }
 
         /// Метод добавления действия
         public Builder setAction(Action action) {
+            if (action == null) throw new IllegalStateException("Action in scheduler mustn't be null");
             this.action = action;
             return this;
         }
