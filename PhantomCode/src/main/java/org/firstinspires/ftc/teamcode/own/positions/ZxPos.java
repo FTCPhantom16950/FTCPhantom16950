@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.own.positions;
 
 public class ZxPos {
-    public static enum ZX{
+    public enum ZX {
         /// Позиция для захвата нижней клешней
         ZAXVAT,
         /// Позиция для открытия нижней клешни
         OTPUSK,
 
     }
-    public  enum KRUT{
+
+    public enum KRUT {
         /// Позиция для захвата нижним захватом
         ZAXVAT,
         /// Позиция для передачи нижним захватом
@@ -20,7 +21,8 @@ public class ZxPos {
         DEFAULT,
         Sputnik
     }
-    public  enum POVOROT{
+
+    public enum POVOROT {
         Horizont,
         Vertical
     }

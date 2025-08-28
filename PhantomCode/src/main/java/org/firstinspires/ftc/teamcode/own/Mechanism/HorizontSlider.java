@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Config;
 import org.firstinspires.ftc.teamcode.own.Utils.PhMath;
 import org.firstinspires.ftc.teamcode.own.positions.HorSliderPos;
 import org.firstinspires.ftc.teamcode.own.positions.ZxPos;
+
 @com.acmerobotics.dashboard.config.Config
 public class HorizontSlider {
     static LinearOpMode opMode;
@@ -28,12 +29,14 @@ public class HorizontSlider {
     HardwareMap hw;
     public boolean inited = false;
     public static HorSliderPos.HorPos horPos;
+
     public HorizontSlider(LinearOpMode opMode) {
-        this.opMode = opMode;
+        HorizontSlider.opMode = opMode;
         // this.setDaemon(true);
     }
+
     Thread thr = new Thread(() -> {
-        while (opMode.opModeInInit()){
+        while (opMode.opModeInInit()) {
             sL.setPower(startLeftPower);
             sR.setPower(startRightPower);
         }
@@ -41,6 +44,7 @@ public class HorizontSlider {
     public static final double startLeftPower = -0.062, startRightPower = 0;
 
     public static boolean horGO = false;
+
     public void init() {
         hw = opMode.hardwareMap;
         sL = opMode.hardwareMap.get(CRServo.class, "horL");
@@ -49,17 +53,18 @@ public class HorizontSlider {
         horPos = SLOZ;
         thr.start();
     }
-    public void play(){
-        switch(horPos) {
+
+    public void play() {
+        switch (horPos) {
             case SLOZ:
-                if(horGO && !Config.actionInWork){
+                if (horGO && !Config.actionInWork) {
                     sL.setPower(startLeftPower);
                     sR.setPower(startRightPower);
                     horGO = false;
                 }
                 break;
             case VIDVIG:
-                if(horGO && !Config.actionInWork){
+                if (horGO && !Config.actionInWork) {
                     sL.setPower(0.48 - 0.05);
                     sR.setPower(-0.48);
                     horGO = false;
@@ -69,9 +74,8 @@ public class HorizontSlider {
     }
 
 
-    public void moving(){
+    public void moving() {
         play();
-
     }
 
     public static void vidvig() {
@@ -84,29 +88,32 @@ public class HorizontSlider {
         zxpos = ZxPos.ZX.OTPUSK;
         zxgo = true;
     }
-    public static void vidvigAuto(){
+
+    public static void vidvigAuto() {
         sL.setPower(0.3);
         sR.setPower(-0.3);
     }
-    public static void nepolniVidvig(){
+
+    public static void nepolniVidvig() {
         sL.setPower(0.32);
         sR.setPower(-sL.getPower());
-}
-    public static void sloz(){
+    }
+
+    public static void sloz() {
         sL.setPower(0);
         sR.setPower(0);
     }
 
-    public static void  zaxvat(){
+    public static void zaxvat() {
         brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
         opMode.sleep(100);
         Zxnew.zx.setPower(ZX_START_POWER);
         opMode.sleep(300);
-            brat.setPower(PhMath.fromDegreesToPower(80,270));
-            brat2.setPower(KRUT_2_START_POWER);
-            sL.setPower(0 - 0.05);
-            sR.setPower(0);
-            opMode.sleep(500);
+        brat.setPower(PhMath.fromDegreesToPower(80, 270));
+        brat2.setPower(KRUT_2_START_POWER);
+        sL.setPower(0 - 0.05);
+        sR.setPower(0);
+        opMode.sleep(500);
         krutgo = false;
     }
 

@@ -35,62 +35,61 @@ import org.firstinspires.ftc.teamcode.own.Utils.GamepadControl;
 
 
 @TeleOp
-
 /***
  * Главный телеоп для матчей
  */
 public class Main_Teleop_Java extends LinearOpMode {
-
     Color color = new Color();
     ElapsedTime timer = new ElapsedTime();
     HorizontSlider horizontSlider = new HorizontSlider(this);
     LynxModule lynxModule = new LynxModule(this);
-    VerticalSlider verticalSlider  = new VerticalSlider(this);
+    VerticalSlider verticalSlider = new VerticalSlider(this);
     Zxnew zx = new Zxnew(this);
     WheelBase wheelBase = new WheelBase(this);
     Podves podves = new Podves(this);
     CameraStarter cameraStarter = new CameraStarter(this);
     GamepadControl gamepadControl = new GamepadControl(this);
 
-    Thread camera = new Thread(()->{
-        while(opModeIsActive()){
+    Thread camera = new Thread(() -> {
+        while (opModeIsActive()) {
             cameraStarter.play();
         }
     });
     // создаём поток для управления горизонтальным слайдером
     Thread horSlider = new Thread(() -> {
-        while (opModeIsActive()){
-                horizontSlider.moving();
+        while (opModeIsActive()) {
+            horizontSlider.moving();
         }
     });
     // создаем поток для управления вертикальным слайдером
     Thread verticSlider = new Thread(() -> {
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             verticalSlider.run();
         }
     });
     // создаём поток для управления нижним захвватом
     Thread zX = new Thread(() -> {
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             zx.run();
         }
     });
     // создаём поток для управления колесами
     Thread wheelBasethr = new Thread(() -> {
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             wheelBase.start();
         }
     });
     Thread podvThr = new Thread(() -> {
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             podves.run();
         }
     });
+
     @Override
     public void runOpMode() throws InterruptedException {
         // инициализируем все устройства
         wheelBase.initWheelBase(hardwareMap);
-       // lynxModule.init_Lynx();
+        // lynxModule.init_Lynx();
         horizontSlider.init();
         verticalSlider.init();
         zx.init();
@@ -110,7 +109,7 @@ public class Main_Teleop_Java extends LinearOpMode {
         while (opModeIsActive()) {
 //            verticalSlider.preSet2();
 
-           // zx.autoKrut();
+            // zx.autoKrut();
             // вывод телеметрии
 //            telemetry.addData("VerxDS", verticalSlider.verx_color.getDistance(DistanceUnit.MM));
 //            telemetry.addData("RED", Zx.colorSensor.getNormalizedColors().red );

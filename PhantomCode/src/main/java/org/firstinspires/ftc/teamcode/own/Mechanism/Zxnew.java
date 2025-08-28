@@ -82,11 +82,11 @@ public class Zxnew{
     public void play2(){
         if(povGo) {
             switch (povorot) {
-                case ZxPos.POVOROT.Horizont:
+                case Horizont:
                     brat3.setPower(PhMath.fromDegreesToPower(brat3_Hor, 270));
                     povGo = false;
                     break;
-                case ZxPos.POVOROT.Vertical:
+                case Vertical:
                     brat3.setPower(PhMath.fromDegreesToPower(brat3_Vert, 270));
                     povGo = false;
                     break;
