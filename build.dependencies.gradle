@@ -12,16 +12,13 @@ dependencies {
     implementation 'org.firstinspires.ftc:Hardware:10.3.0'
     implementation 'org.firstinspires.ftc:FtcCommon:10.3.0'
     implementation 'org.firstinspires.ftc:Vision:10.3.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
 
+    implementation 'com.pedropathing:ftc:2.0.0'
+    implementation 'com.pedropathing:telemetry:0.0.6'
+
+    implementation 'com.bylazar:fullpanels:1.0.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation('com.acmerobotics.dashboard:dashboard:0.4.17') {
         exclude group: 'org.firstinspires.ftc'
     }
-
-    implementation('com.pedropathing:ftc:1.1.0-SNAPSHOT') {
-        changing = true
-    }
-
-    implementation 'com.pedropathing:telemetry:0.0.6'
-    implementation 'com.bylazar:fullpanels:0.0.30'
 }

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.deprecated.Camera;
 import android.graphics.Color;
 import android.util.Size;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -21,7 +20,7 @@ import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.opencv.core.RotatedRect;
 
 import java.util.List;
-@Config
+
 public class CameraStarter {
     public static double left = 0,
     right = 1,
