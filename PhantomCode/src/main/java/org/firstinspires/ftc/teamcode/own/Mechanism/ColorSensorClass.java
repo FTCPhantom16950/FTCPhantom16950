@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Color;
 
 public class ColorSensorClass {
     LinearOpMode opMode;
-    Color color  = new Color();
+    Color color = new Color();
     public static RevColorSensorV3 color_zx;
     public static int colorZX;
     public static boolean initZX = false;
