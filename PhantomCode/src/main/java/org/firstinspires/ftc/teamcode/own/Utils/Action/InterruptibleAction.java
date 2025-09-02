@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
  */
 public abstract class InterruptibleAction extends Action {
     /// Прервано ли действие
-    protected volatile boolean isInterrupted = false;
+    protected static volatile boolean isInterrupted = false;
     /// Выполняется ли действие
     protected volatile boolean isRunning = false;
     ///  Выполняются ли условия для действия
@@ -20,7 +20,7 @@ public abstract class InterruptibleAction extends Action {
     }
 
     /// Прерывание действий
-    public void interrupt() {
+    public static void interrupt() {
         isInterrupted = true;
     }
 

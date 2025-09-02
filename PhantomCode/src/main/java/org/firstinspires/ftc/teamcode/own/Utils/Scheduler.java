@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class Scheduler {
     /// сет с необходимыми механизмами
     private final Set<Mechanism> mechanisms;
     /// Выполняемое действие
-    private final Action action;
+    private final Group action;
 
     /**
      * Билдер для класса Scheduler, позволяет его настраивать
@@ -26,7 +27,7 @@ public class Scheduler {
         /// сет с необходимыми механизмами
         private final Set<Mechanism> mechanisms = new HashSet<>();
         /// Выполняемое действие
-        private Action action;
+        private Group action;
 
         /// Метод добавления механизмов в необходимые
         public Builder addMechanisms(Set<Mechanism> mechanisms) {
@@ -43,7 +44,7 @@ public class Scheduler {
         }
 
         /// Метод добавления действия
-        public Builder setAction(Action action) {
+        public Builder setAction(Group action) {
             if (action == null) throw new IllegalStateException("Action in scheduler mustn't be null");
             this.action = action;
             return this;

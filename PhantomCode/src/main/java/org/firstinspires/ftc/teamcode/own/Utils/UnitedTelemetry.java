@@ -12,7 +12,7 @@ public class UnitedTelemetry {
         return opMode;
     }
 
-    public void setOpMode(PhantomOpMode opMode) {
+    public static void setOpMode(PhantomOpMode opMode) {
         UnitedTelemetry.opMode = opMode;
     }
 

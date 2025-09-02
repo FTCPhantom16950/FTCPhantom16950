@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
+import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.setOpMode;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +29,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
     /// Группа необходимая для указания в runOpMode
     private String group = "default";
     /// Действие запускаемое в начале OpMode
-    public Action action;
+    public Group action;
+    public Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
 
@@ -49,20 +53,18 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        try {
-            // инициализация настроек опмода
-            customOpModeSettings();
+        setOpMode(this);
             // инициализация телеметрии
             initTelemetry();
+            // инициализация настроек опмода
+            customOpModeSettings();
             // инициализация Планировщик задач
             initScheduler();
             // ожидания нажатия на кнопку старт
             waitForStart();
             // запуск планировщика
             runScheduler();
-        } finally {
-            finishOpMode();
-        }
+
 
     }
 
@@ -70,7 +72,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public abstract void customOpModeSettings();
 
     /// Поиск необходимых механизмов
-    private Set<Mechanism> findNecessaryMechanisms(Action action) {
+    private Set<Mechanism> findNecessaryMechanisms(Group action) {
         if (action == null) throw new IllegalStateException("Action in OpMode mustn't be null");
         return new HashSet<>(action.getNecessaryMechanisms());
     }
@@ -93,7 +95,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private void initScheduler() {
         scheduler = new Scheduler.Builder()
                 .setAction(action)
-                .addMechanisms(findNecessaryMechanisms(action))
+                .addMechanisms(mechanism)
                 .build();
 
         scheduler.initMechanism();
