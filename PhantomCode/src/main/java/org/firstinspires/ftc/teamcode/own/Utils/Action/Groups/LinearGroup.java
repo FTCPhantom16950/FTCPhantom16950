@@ -15,12 +15,8 @@ import java.util.Set;
 public class LinearGroup extends Group {
     /// список добавляемых действий
     private final List<Action> actions = new ArrayList<Action>();
-    private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
 
-    /// Метод получения необходимых механизмов
-    public Set<Mechanism> getNecessaryMechanisms() {
-        return Collections.unmodifiableSet(necessaryMechanisms);
-    }
+
 
     /**
      * Класс для добавления последовательных групп
@@ -28,9 +24,6 @@ public class LinearGroup extends Group {
      */
     public LinearGroup(Action... actions) {
         this.actions.addAll(List.of(actions));
-        for (Action action : this.actions) {
-            necessaryMechanisms.addAll(action.getNecessaryMechanisms());
-        }
     }
     /// Метод выполнения действий последовательно
     @Override

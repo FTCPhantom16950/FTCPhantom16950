@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import static org.firstinspires.ftc.teamcode.own.Utils.Config.*;
 import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,8 +21,8 @@ public class Servos implements Mechanism {
     public boolean init() {
         sample = opMode.hardwareMap.get(CRServo.class, "sample");
         krut = opMode.hardwareMap.get(CRServo.class, "vrash");
-        sample.setPower(-1);
-
+        sample.setPower(SAMPLE_START_POWER);
+        krut.setPower(KRUT_START_POWER);
         return true;
     }
 }

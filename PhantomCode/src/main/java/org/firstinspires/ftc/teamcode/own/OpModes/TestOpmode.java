@@ -17,8 +17,8 @@ public class TestOpmode extends PhantomOpMode {
     public void customOpModeSettings() {
         Servos servos = new Servos(this);
         mechanism.add(servos);
-        action = new ParallelGroup(new Test(servos, this),
-                new Test1(servos, this),
-                new Test2(this,servos));
+        action = new ParallelGroup(new Test(this),
+                new Test1(this),
+                new Test2(this));
     }
 }

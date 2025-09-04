@@ -10,6 +10,11 @@ import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
  */
 @com.acmerobotics.dashboard.config.Config
 public class Config {
+
+    public static final double
+            SAMPLE_START_POWER = -1,
+            KRUT_START_POWER = 0
+    ;
     private Config() {
         throw new CustomException("НЕЛЬЗЯ СОЗДАВАТЬ ОБЪЕКТ CONFIG ИЛИ НАСЛЕДОВАТЬСЯ ОТ НЕГО.", new RuntimeException());
     }

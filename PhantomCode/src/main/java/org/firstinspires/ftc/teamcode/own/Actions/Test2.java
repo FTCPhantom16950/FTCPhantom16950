@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 public class Test2 extends Action {
     PhantomOpMode opMode;
 
-    public Test2(PhantomOpMode opMode, Mechanism mechanism) {
-        super(mechanism);
+    public Test2(PhantomOpMode opMode) {
+        super();
         this.opMode = opMode;
     }
 

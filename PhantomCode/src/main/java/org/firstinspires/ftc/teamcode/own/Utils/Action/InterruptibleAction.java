@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils.Action;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
 /**
@@ -8,56 +10,43 @@ import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
  * Last Updated: 08.06.25 04:00
  */
 public abstract class InterruptibleAction extends Action {
-    /// Прервано ли действие
-    protected static volatile boolean isInterrupted = false;
-    /// Выполняется ли действие
-    protected volatile boolean isRunning = false;
-    ///  Выполняются ли условия для действия
-    private volatile boolean requirementsToRun = false;
 
-    public InterruptibleAction(Mechanism mechanism) {
-        super(mechanism);
+    LinearOpMode opMode;
+    private boolean isInterrupted = false;
+
+    public boolean isRunningOnce() {
+        return isRunningOnce;
     }
 
-    /// Прерывание действий
-    public static void interrupt() {
-        isInterrupted = true;
+    public void setRunningOnce(boolean runningOnce) {
+        isRunningOnce = runningOnce;
     }
 
-    /// Сброс
-    public void reset() {
-        isInterrupted = false;
-        isRunning = false;
+    private boolean isRunningOnce = false;
+
+    public boolean isInterrupted() {
+        return isInterrupted;
     }
 
-    /// Метод для реализации выполнения действия
-    public abstract void run();
-
-    /// Меетод для получения значения выполняются ли условия для действия
-    public boolean isRequirementsToRun() {
-        return requirementsToRun;
+    public void setInterrupted(boolean interrupted) {
+        isInterrupted = interrupted;
     }
 
-    /// Меетод для установки значения выполняются ли условия для действия
-    public void setRequirementsToRun(boolean requirementsToRun) {
-        this.requirementsToRun = requirementsToRun;
-    }
-
-    /// Метод для выполнения прерывающегося действия
     @Override
     public void execute() {
-        // для себя в будущем, нажал на кнопку геймпада = true и ждём выполнения действия потом false
-        // выполняется пока не остановлено или выполняются действия
-        while (!isInterrupted && requirementsToRun) {
-            isRunning = true;
+        if (isRunningOnce && !isInterrupted && opMode.opModeIsActive()) {
             run();
         }
-        // действие в случае остановки
-        if (isInterrupted) {
-            handleInterruption();
+        while (!isRunningOnce && !isInterrupted && opMode.opModeIsActive()) {
+           run();
+        }
+        if (isInterrupted && opMode.opModeIsActive()){
+            handleInterrupt();
         }
     }
-    /// Метод для реализации случая остановки
-    public abstract void handleInterruption();
-
+    public abstract void run();
+    public abstract void handleInterrupt();
+    public InterruptibleAction(LinearOpMode opMode) {
+        this.opMode = opMode;
+    }
 }

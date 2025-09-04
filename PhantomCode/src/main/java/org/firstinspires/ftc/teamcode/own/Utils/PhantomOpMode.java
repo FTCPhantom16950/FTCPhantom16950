@@ -8,6 +8,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.own.OpModes.Gamepad;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
@@ -70,10 +71,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
-    /// Поиск необходимых механизмов
-    private Set<Mechanism> findNecessaryMechanisms(Group action) {
-        if (action == null) throw new IllegalStateException("Action in OpMode mustn't be null");
-        return new HashSet<>(action.getNecessaryMechanisms());
+    public void gamepadControlInit(){
+        GamepadControl gamepadControl = new GamepadControl(this);
+        gamepadControl.init();
     }
 
     public void setGroup(String group) {
