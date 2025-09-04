@@ -105,10 +105,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private void runScheduler() {
         multipleTelemetry.addData("Status", "Running");
         multipleTelemetry.update();
-
-        if (opModeIsActive()) {
-            scheduler.run();
-        }
         if (!telemetryExecutor.isAlive()){
             telemetryExecutor = new Thread(){
                 @Override
@@ -121,6 +117,10 @@ public abstract class PhantomOpMode extends LinearOpMode {
             };
             telemetryExecutor.start();
         }
+        if (opModeIsActive()) {
+            scheduler.run();
+        }
+
     }
     private void finishOpMode(){
         multipleTelemetry.addData("Status", "Finished");
