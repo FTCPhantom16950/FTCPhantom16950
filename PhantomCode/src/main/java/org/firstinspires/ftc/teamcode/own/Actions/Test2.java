@@ -16,8 +16,6 @@ public class Test2 extends Action {
     public void execute() {
         while (opMode.opModeIsActive()){
             if (opMode.gamepad1.x){
-                Test1.interruptTest1();
-                Test.interruptTest();
             }
         }
     }

@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleT
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
  */
 public class Scheduler {
     /// сет с необходимыми механизмами
-    private final Set<Mechanism> mechanisms;
+    private static Set<Mechanism> mechanisms = new HashSet<>();
     /// Выполняемое действие
     private final Group action;
 
@@ -25,21 +26,23 @@ public class Scheduler {
      */
     public static class Builder {
         /// сет с необходимыми механизмами
-        private final Set<Mechanism> mechanisms = new HashSet<>();
+        private static final Set<Mechanism> mechanisms = new HashSet<>();
         /// Выполняемое действие
         private Group action;
 
         /// Метод добавления механизмов в необходимые
         public Builder addMechanisms(Set<Mechanism> mechanisms) {
             if (mechanisms == null) throw new IllegalStateException("Mechanisms in scheduler mustn't be null");
-            this.mechanisms.addAll(mechanisms);
+            Builder.mechanisms.addAll(mechanisms);
+            multipleTelemetry.addData("numer of", mechanisms.size());
+            multipleTelemetry.update();
             return this;
         }
 
         /// Метод добавления механизма в необходимые
         public Builder addMechanism(Mechanism mechanism) {
             if (mechanism == null) throw new IllegalStateException("Mechanism in scheduler mustn't be null");
-            this.mechanisms.add(mechanism);
+            mechanisms.add(mechanism);
             return this;
         }
 
@@ -61,22 +64,14 @@ public class Scheduler {
 
     /// Внутренний конструктор необходимый для Builder
     private Scheduler(Builder builder) {
-        mechanisms = Set.copyOf(builder.mechanisms);
+        mechanisms = Builder.mechanisms;
         action = builder.action;
     }
 
     /// Метод для инициализации механизмов
     public void initMechanism() {
-        if (mechanisms.isEmpty()) {
-            throw new IllegalStateException("Mechanisms is null");
-        }
         for (Mechanism mechanism : mechanisms) {
-            try {
-                mechanism.init();
-            } catch (Exception e) {
-                multipleTelemetry.addLine("Mechanism init failed: " + mechanism.getClass().getSimpleName());
-                throw e;
-            }
+            mechanism.init();
         }
     }
 

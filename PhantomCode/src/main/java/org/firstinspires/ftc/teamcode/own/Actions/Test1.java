@@ -2,17 +2,15 @@ package org.firstinspires.ftc.teamcode.own.Actions;
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Servos.krut;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.Servos.sample;
+import static org.firstinspires.ftc.teamcode.own.Utils.Action.InterruptibleAction.interrupt;
 
+import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.InterruptibleAction;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
-public class Test1 extends InterruptibleAction {
+public class Test1 extends Action {
     PhantomOpMode opMode;
-
-    public static void interruptTest1(){
-        interrupt();
-    }
 
     public Test1(Mechanism mechanism, PhantomOpMode opMode) {
         super(mechanism);
@@ -20,14 +18,9 @@ public class Test1 extends InterruptibleAction {
     }
 
     @Override
-    public void run() {
+    public void execute() {
         krut.setPower(0);
         opMode.sleep(2000);
         krut.setPower(-1);
-    }
-
-    @Override
-    public void handleInterruption() {
-        krut.setPower(-0.5);
     }
 }

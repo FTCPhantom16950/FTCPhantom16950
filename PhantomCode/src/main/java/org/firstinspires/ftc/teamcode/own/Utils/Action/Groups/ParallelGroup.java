@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
 
+import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
@@ -16,11 +18,11 @@ import java.util.concurrent.TimeUnit;
 /// Класс для добавления параллельных действий
 /// Made by Hkial(Gleb)
 /// Last Updated: 08.06.25 02:40
-public class ParallelGroup extends Group
-{
+public class ParallelGroup extends Group {
     /// список добавляемых действий
     private final List<Action> actions = new ArrayList<Action>();
     private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
+    private final List<Thread> threads = new ArrayList<>();
 
     /// Метод получения необходимых механизмов
     public Set<Mechanism> getNecessaryMechanisms() {
@@ -29,6 +31,7 @@ public class ParallelGroup extends Group
 
     /**
      * Класс для добавления последовательных групп
+     *
      * @param actions действия которые будут выполняться последовательно
      */
     public ParallelGroup(Action... actions) {
@@ -37,19 +40,29 @@ public class ParallelGroup extends Group
             necessaryMechanisms.addAll(action.getNecessaryMechanisms());
         }
     }
+
     /// Метод выполнения действий последовательно
     @Override
     public void execute() {
         for (Action a :
                 actions) {
-            Thread thread = new Thread(){
+            Thread thread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
                     a.execute();
                 }
             };
+            threads.add(thread);
             thread.start();
+        }
+        int i = 0;
+        for (Thread t :
+                threads) {
+            i++;
+            while (t.isAlive()) {
+                multipleTelemetry.addData("Running Threads", i);
+            }
         }
     }
 }

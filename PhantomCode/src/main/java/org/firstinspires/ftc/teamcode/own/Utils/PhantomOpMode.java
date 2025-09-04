@@ -50,20 +50,19 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
 
-
     @Override
-    public void runOpMode(){
-        setOpMode(this);
-            // инициализация телеметрии
-            initTelemetry();
-            // инициализация настроек опмода
-            customOpModeSettings();
-            // инициализация Планировщик задач
-            initScheduler();
-            // ожидания нажатия на кнопку старт
-            waitForStart();
-            // запуск планировщика
-            runScheduler();
+    public void runOpMode() {
+
+        // инициализация телеметрии
+        initTelemetry();
+        // инициализация настроек опмода
+        customOpModeSettings();
+        // инициализация Планировщик задач
+        initScheduler();
+        // ожидания нажатия на кнопку старт
+        waitForStart();
+        // запуск планировщика
+        runScheduler();
 
 
     }
@@ -90,27 +89,34 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void initTelemetry() {
+        setOpMode(this);
         UnitedTelemetry.init();
+//        multipleTelemetry.addLine("telemetry inited");
+//        multipleTelemetry.update();
     }
+
     private void initScheduler() {
+//        multipleTelemetry.addLine("init");
         scheduler = new Scheduler.Builder()
                 .setAction(action)
                 .addMechanisms(mechanism)
                 .build();
 
         scheduler.initMechanism();
-        multipleTelemetry.addData("Status", "Initialized");
-        multipleTelemetry.update();
+        telemetryExecutor = new Thread() {
+        };
+
     }
+
     private void runScheduler() {
         multipleTelemetry.addData("Status", "Running");
         multipleTelemetry.update();
-        if (!telemetryExecutor.isAlive()){
-            telemetryExecutor = new Thread(){
+        if (!telemetryExecutor.isAlive()) {
+            telemetryExecutor = new Thread() {
                 @Override
                 public void run() {
                     super.run();
-                    while (opModeIsActive()){
+                    while (opModeIsActive()) {
                         multipleTelemetry.update();
                     }
                 }
@@ -122,7 +128,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
         }
 
     }
-    private void finishOpMode(){
+
+    private void finishOpMode() {
         multipleTelemetry.addData("Status", "Finished");
         multipleTelemetry.update();
     }

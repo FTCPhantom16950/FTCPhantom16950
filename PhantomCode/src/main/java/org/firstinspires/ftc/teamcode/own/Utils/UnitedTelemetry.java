@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
+import java.util.logging.Logger;
+
 public class UnitedTelemetry {
     private static long memo = 0;
     public static MultipleTelemetry multipleTelemetry;
@@ -17,9 +19,7 @@ public class UnitedTelemetry {
     }
 
     public static boolean init() {
-        multipleTelemetry = (FtcDashboard.getInstance() != null)
-                ? new MultipleTelemetry(opMode.telemetry, FtcDashboard.getInstance().getTelemetry())
-                : new MultipleTelemetry(opMode.telemetry);
+        multipleTelemetry = new  MultipleTelemetry(opMode.telemetry);
         return true;
     }
     public static boolean execute(){
