@@ -16,10 +16,12 @@ public class TestOpmode extends PhantomOpMode {
     @Override
     public void customOpModeSettings() {
         Servos servos = new Servos(this);
+        Test test = new Test(this);
+        Test1 test1 = new Test1(this);
         mechanism.add(servos);
         action = new ParallelGroup(this,
-                new Test(this),
-                new Test1(this),
-                new Test2(this));
+                test,
+                test1,
+                new Test2(this, test, test1));
     }
 }

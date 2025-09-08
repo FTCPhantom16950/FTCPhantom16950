@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 public abstract class InterruptibleAction extends Action {
 
     LinearOpMode opMode;
-    private boolean isInterrupted = false;
+    public boolean isInterrupted = false;
 
     public boolean isRunningOnce() {
         return isRunningOnce;
