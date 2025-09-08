@@ -37,6 +37,13 @@ dependencies {
     implementation project(':FtcRobotController')
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
+    implementation 'com.pedropathing:ftc:2.0.0'
+    implementation 'com.pedropathing:telemetry:0.0.6'
+
+    implementation 'com.bylazar:fullpanels:1.0.3'
+    implementation('com.acmerobotics.dashboard:dashboard:0.4.17') {
+        exclude group: 'org.firstinspires.ftc'
+    }
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.0.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
