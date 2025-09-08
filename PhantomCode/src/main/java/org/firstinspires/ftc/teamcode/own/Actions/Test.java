@@ -12,17 +12,12 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 public class Test extends Action {
     PhantomOpMode opMode;
-    public Test(PhantomOpMode opMode) {
-        this.opMode = opMode;
-    }
-
     @Override
     public void execute() {
-        while (opMode.opModeIsActive()){
-            sample.setPower(0);
-            opMode.sleep(1000);
-            sample.setPower(-1);
-            opMode.sleep(1000);
-        }
+
+    }
+    public Test(PhantomOpMode opMode) {
+        super(opMode);
+        this.opMode = opMode;
     }
 }

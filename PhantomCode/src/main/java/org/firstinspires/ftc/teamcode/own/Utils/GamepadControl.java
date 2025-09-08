@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class GamepadControl implements Mechanism{
+public class GamepadControl implements Mechanism {
     public static Gamepad gamepadDriver, gamepadOperator;
-    private LinearOpMode opMode;
+    private final LinearOpMode opMode;
 
     public GamepadControl(LinearOpMode opMode) {
         this.opMode = opMode;

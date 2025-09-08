@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleT
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,24 +22,16 @@ import java.util.concurrent.TimeUnit;
 public class ParallelGroup extends Group {
     /// список добавляемых действий
     private final List<Action> actions = new ArrayList<Action>();
-    private final Set<Mechanism> necessaryMechanisms = new HashSet<>();
     private final List<Thread> threads = new ArrayList<>();
-
-    /// Метод получения необходимых механизмов
-    public Set<Mechanism> getNecessaryMechanisms() {
-        return Collections.unmodifiableSet(necessaryMechanisms);
-    }
 
     /**
      * Класс для добавления последовательных групп
      *
      * @param actions действия которые будут выполняться последовательно
      */
-    public ParallelGroup(Action... actions) {
+    public ParallelGroup(PhantomOpMode phantomOpMode, Action... actions) {
+        super(phantomOpMode);
         this.actions.addAll(List.of(actions));
-        for (Action action : this.actions) {
-            necessaryMechanisms.addAll(action.getNecessaryMechanisms());
-        }
     }
 
     /// Метод выполнения действий последовательно
@@ -60,7 +53,7 @@ public class ParallelGroup extends Group {
         for (Thread t :
                 threads) {
             i++;
-            while (t.isAlive()) {
+            while (t.isAlive() && opMode.opModeIsActive()) {
                 multipleTelemetry.addData("Running Threads", i);
             }
         }

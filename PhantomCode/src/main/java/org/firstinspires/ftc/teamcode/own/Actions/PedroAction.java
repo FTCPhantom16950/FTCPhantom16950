@@ -25,17 +25,19 @@ public class PedroAction extends Action {
     }
 
     public PedroAction(PhantomOpMode OpMode, Mechanism mechanism, PathChain line) {
-        super(mechanism);
+        super(OpMode);
         this.opMode = OpMode;
         this.line = line;
     }
+
     private static final Follower FOLLOWER = FollowerMechanism.follower;
+
     @Override
     public void execute() {
         if (!FOLLOWER.isBusy() && opMode.opModeIsActive()) {
             FOLLOWER.followPath(line, holdEnd);
         }
-        while (opMode.opModeIsActive() && !FOLLOWER.atPose(line.endPose(), 0.5, 0.5,0.5)){
+        while (opMode.opModeIsActive() && !FOLLOWER.atPose(line.endPose(), 0.5, 0.5, 0.5)) {
             FOLLOWER.update();
         }
 

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -16,15 +19,16 @@ public class LinearGroup extends Group {
     /// список добавляемых действий
     private final List<Action> actions = new ArrayList<Action>();
 
-
-
     /**
      * Класс для добавления последовательных групп
+     *
      * @param actions действия которые будут выполняться последовательно
      */
-    public LinearGroup(Action... actions) {
-        this.actions.addAll(List.of(actions));
+    public LinearGroup(LinearOpMode opMode, Action... actions) {
+        super(opMode);
+        this.actions.addAll(Arrays.asList(actions));
     }
+
     /// Метод выполнения действий последовательно
     @Override
     public void execute() {

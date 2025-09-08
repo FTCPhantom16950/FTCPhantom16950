@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 public class DriveAction extends Action {
     PhantomOpMode opMode;
     public DriveAction(PhantomOpMode OpMode, Mechanism mechanism) {
-        super(mechanism);
+        super(OpMode);
         this.opMode = OpMode;
     }
 

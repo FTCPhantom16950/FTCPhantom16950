@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Utils.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 /**
  * Класс создания прерываемых действий
@@ -46,7 +47,8 @@ public abstract class InterruptibleAction extends Action {
     }
     public abstract void run();
     public abstract void handleInterrupt();
-    public InterruptibleAction(LinearOpMode opMode) {
+    public InterruptibleAction(PhantomOpMode opMode) {
+        super(opMode);
         this.opMode = opMode;
     }
 }

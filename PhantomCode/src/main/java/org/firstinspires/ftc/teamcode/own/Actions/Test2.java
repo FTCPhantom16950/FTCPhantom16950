@@ -8,7 +8,7 @@ public class Test2 extends Action {
     PhantomOpMode opMode;
 
     public Test2(PhantomOpMode opMode) {
-        super();
+        super(opMode);
         this.opMode = opMode;
     }
 
