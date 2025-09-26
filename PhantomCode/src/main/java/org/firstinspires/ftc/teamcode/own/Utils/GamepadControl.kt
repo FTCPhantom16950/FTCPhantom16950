@@ -1,21 +1,21 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.own.Utils
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.Gamepad
 
-public class GamepadControl implements Mechanism {
-    public static Gamepad gamepadDriver, gamepadOperator;
-    private final LinearOpMode opMode;
+class GamepadControl() {
 
-    public GamepadControl(LinearOpMode opMode) {
-        this.opMode = opMode;
-    }
+    companion object {
+        lateinit var opMode: LinearOpMode
+        lateinit var gamepadDriver: Gamepad
+        lateinit var gamepadOperator: Gamepad
 
-    @Override
-    public boolean init() {
-        gamepadDriver = opMode.gamepad1;
-        gamepadOperator = opMode.gamepad2;
 
-        return true;
+        fun init(): Boolean {
+            gamepadDriver = opMode.gamepad1
+            gamepadOperator = opMode.gamepad2
+
+            return true
+        }
     }
 }

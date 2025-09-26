@@ -54,7 +54,6 @@ public class ParallelGroup extends Group {
                 threads) {
             i++;
             while (t.isAlive() && opMode.opModeIsActive()) {
-                multipleTelemetry.addData("Running Threads", i);
             }
         }
     }

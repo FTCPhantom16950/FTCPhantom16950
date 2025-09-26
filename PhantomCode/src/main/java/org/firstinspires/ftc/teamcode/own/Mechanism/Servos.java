@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Config.*;
-import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 public class Servos implements Mechanism {
     public static CRServo sample, krut;

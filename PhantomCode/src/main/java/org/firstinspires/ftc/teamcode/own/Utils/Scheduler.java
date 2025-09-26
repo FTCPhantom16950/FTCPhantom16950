@@ -34,8 +34,6 @@ public class Scheduler {
         public Builder addMechanisms(Set<Mechanism> mechanisms) {
             if (mechanisms == null) throw new IllegalStateException("Mechanisms in scheduler mustn't be null");
             Builder.mechanisms.addAll(mechanisms);
-            multipleTelemetry.addData("numer of", mechanisms.size());
-            multipleTelemetry.update();
             return this;
         }
 

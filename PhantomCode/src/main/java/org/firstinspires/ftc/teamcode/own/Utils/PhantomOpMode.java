@@ -72,8 +72,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public abstract void customOpModeSettings();
 
     public void gamepadControlInit(){
-        GamepadControl gamepadControl = new GamepadControl(this);
-        gamepadControl.init();
+        GamepadControl.Companion.setOpMode(this);
+        GamepadControl.Companion.init();
     }
 
     public void setGroup(String group) {
@@ -117,7 +117,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 public void run() {
                     super.run();
                     while (opModeIsActive()) {
-                        multipleTelemetry.update();
+                        UnitedTelemetry.execute();
                     }
                 }
             };

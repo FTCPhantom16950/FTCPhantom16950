@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.opencv.core.Mat;
 
 public class PIDRegulator extends Thread {
 
@@ -21,14 +22,23 @@ public class PIDRegulator extends Thread {
     private double kD;
     private double iSum;
     private double out = 0;
-    private double minPower;
-    private double maxPower;
+    private double minPower = -1;
+    private double maxPower = 1;
     private PIDCofficients pidCofficients;
     private final PhantomOpMode phantomOpMode;
     private DcMotorEx dcMotorEx;
+    private static boolean hold = false;
 
     public double out() {
         return out;
+    }
+
+    public int getError() {
+        return error;
+    }
+
+    public int getMeasured() {
+        return measured;
     }
 
     public int target() {
@@ -79,7 +89,13 @@ public class PIDRegulator extends Thread {
             kD = pidCofficients.kD();
             kP = pidCofficients.kP();
             calcError();
-            calculate(target, measured);
+            calculate();
+//            if (!hold) {
+//                if (Math.abs(target - measured) >= 10){
+//                    out = 0;
+//                    stopCalc();
+//                }
+//            }
             timer.reset();
         }
     }
@@ -97,7 +113,7 @@ public class PIDRegulator extends Thread {
     }
 
     /// расчет вывода
-    public void calculate(int target, int measured) {
+    public void calculate() {
         // расчет D
         double d = kD * ((error - lastError) / timer.seconds());
         // расчет P
