@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 
 import org.firstinspires.ftc.teamcode.own.Actions.PidAction;
 import org.firstinspires.ftc.teamcode.own.Mechanism.PidMororTest;
@@ -22,7 +24,7 @@ public class UnitedTelemetry {
     }
 
     public static boolean init() {
-        multipleTelemetry = new MultipleTelemetry(opMode.telemetry);
+        multipleTelemetry = new MultipleTelemetry(opMode.telemetry, PanelsTelemetry.INSTANCE.getFtcTelemetry(), FtcDashboard.getInstance().getTelemetry());
         return true;
     }
 
@@ -30,10 +32,10 @@ public class UnitedTelemetry {
         memo = Runtime.getRuntime().totalMemory();
         if (multipleTelemetry != null) {
             multipleTelemetry.addData("Ram Usage", memo);
-            multipleTelemetry.addData("Motor Pos", PidMororTest.motorPid.getCurrentPosition());
-            multipleTelemetry.addData("Measure", PidAction.Companion.getMeasured());
-            multipleTelemetry.addData("Error", PidAction.Companion.getError());
-            multipleTelemetry.addData("Out", PidAction.Companion.getOut());
+//            multipleTelemetry.addData("Motor Pos", PidMororTest.motorPid.getCurrentPosition());
+//            multipleTelemetry.addData("Measure", PidAction.Companion.getMeasured());
+//            multipleTelemetry.addData("Error", PidAction.Companion.getError());
+//            multipleTelemetry.addData("Out", PidAction.Companion.getOut());
             multipleTelemetry.update();
         }
         return true;

@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
 import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.setOpMode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
@@ -89,6 +88,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void initTelemetry() {
+
         setOpMode(this);
         UnitedTelemetry.init();
 //        multipleTelemetry.addLine("telemetry inited");

@@ -1,33 +1,26 @@
 package org.firstinspires.ftc.teamcode.own.Test;
 
+import com.bylazar.panels.Panels;
+import com.bylazar.panels.json.PanelsWidget;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamClient;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
 import org.firstinspires.ftc.robotcore.internal.hardware.android.FakeAndroidBoard;
+import org.firstinspires.ftc.vision.VisionPortal;
+
 @Autonomous
 public class TestLightOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        DigitalChannel digit = hardwareMap.get(DigitalChannel.class, "light");
-        DigitalChannel digit1 = hardwareMap.get(DigitalChannel.class, "light1");
-        digit.setMode(DigitalChannel.Mode.OUTPUT);
-        digit1.setMode(DigitalChannel.Mode.OUTPUT);
-       while (opModeInInit()){
-           digit.setState(true);
-           digit1.setState(true);
-           telemetry.addLine("on");
-           telemetry.update();
-           sleep(2000);
-           digit.setState(false);
-           digit1.setState(false);
-           telemetry.addLine("off");
-           telemetry.update();
-           sleep(2000);
-       }
-
-
+        telemetry.addLine(Integer.toString(Panels.INSTANCE.getServer().getListeningPort()));
+        telemetry.update();
         waitForStart();
     }
 }

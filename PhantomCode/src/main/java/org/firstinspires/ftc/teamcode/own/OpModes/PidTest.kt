@@ -13,5 +13,4 @@ class PidTest: PhantomOpMode() {
         mechanism.add(PidMororTest(this))
         action = ParallelGroup(this, PidAction(this))
     }
-
 }

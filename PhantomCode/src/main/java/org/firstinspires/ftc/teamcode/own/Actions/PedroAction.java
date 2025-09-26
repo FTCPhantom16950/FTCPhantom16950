@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.own.Actions;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.FollowerMechanism;
@@ -34,10 +36,10 @@ public class PedroAction extends Action {
 
     @Override
     public void execute() {
-        if (!FOLLOWER.isBusy() && opMode.opModeIsActive()) {
+        if (opMode.opModeIsActive()) {
             FOLLOWER.followPath(line, holdEnd);
         }
-        while (opMode.opModeIsActive() && !FOLLOWER.atPose(line.endPose(), 0.5, 0.5, 0.5)) {
+        while (opMode.opModeIsActive() && (!FOLLOWER.atPose(line.endPose(), 0.5, 0.5, 0.5) || FOLLOWER.isBusy()) && !FOLLOWER.isRobotStuck()) {
             FOLLOWER.update();
         }
 
