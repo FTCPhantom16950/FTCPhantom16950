@@ -53,7 +53,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        gamepadControlInit();
         // инициализация телеметрии
         initTelemetry();
         // инициализация настроек опмода
