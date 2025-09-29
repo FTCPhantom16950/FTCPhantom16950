@@ -27,7 +27,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     /// Группа необходимая для указания в runOpMode
     private String group = "default";
     /// Действие запускаемое в начале OpMode
-    public Group action;
+    public Group actions;
     public Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
@@ -59,6 +59,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         initScheduler();
         // ожидания нажатия на кнопку старт
         waitForStart();
+        onStart();
         // запуск планировщика
         runScheduler();
         Logger.end();
@@ -93,7 +94,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private void initScheduler() {
         PhantomLogger.addData("Inited", true);
         scheduler = new Scheduler.Builder()
-                .setAction(action)
+                .setAction(actions)
                 .addMechanisms(mechanism)
                 .build();
 
@@ -106,6 +107,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
         }
 
     }
+    public void onStart(){
 
+    }
 
 }

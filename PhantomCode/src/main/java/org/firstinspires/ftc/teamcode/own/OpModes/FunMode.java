@@ -13,6 +13,6 @@ public class FunMode extends PhantomOpMode {
         PidKal fun = new PidKal(this);
         FunAction funAction = new FunAction(this);
         mechanism.add(fun);
-        action = new LinearGroup(this, funAction);
+        actions = new LinearGroup(this, funAction);
     }
 }

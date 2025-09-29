@@ -10,6 +10,6 @@ public class GameBased extends PhantomOpMode {
     @Override
     public void customOpModeSettings() {
         setName("GamepadBased");
-        action = new DriveAction(this, new WheelBase(this.hardwareMap));
+        actions = new DriveAction(this, new WheelBase(this.hardwareMap));
     }
 }
