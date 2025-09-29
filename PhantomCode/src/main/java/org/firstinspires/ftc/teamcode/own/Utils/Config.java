@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
-import com.bylazar.configurables.annotations.Configurable;
+
 
 import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
 
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
  * Made by Hkial(Gleb)
  * Last Updated: 08.06.25 02:40
  */
-@Configurable
+
 public class Config {
     public static final double
             SAMPLE_START_POWER = -1,

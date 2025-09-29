@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.own.Test;
 
 import com.bylazar.panels.Panels;
 import com.bylazar.panels.json.PanelsWidget;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;

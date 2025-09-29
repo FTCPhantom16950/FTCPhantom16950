@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.multipleTelemetry;
-import static org.firstinspires.ftc.teamcode.own.Utils.UnitedTelemetry.setOpMode;
-
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.own.OpModes.Gamepad;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
+import org.psilynx.psikit.core.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +17,8 @@ import java.util.Set;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
+    PhantomLogger phantomLogger;
+    private PhantomOpMode opMode = this;
     Thread telemetryExecutor;
     /// Имя необходимое для указания в runOpMode, должно быть уникальным
     private String name = "Default";
@@ -63,14 +61,14 @@ public abstract class PhantomOpMode extends LinearOpMode {
         waitForStart();
         // запуск планировщика
         runScheduler();
-
-
+        Logger.end();
+        sleep(500);
     }
 
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
-    public void gamepadControlInit(){
+    public void gamepadControlInit() {
         GamepadControl.Companion.setOpMode(this);
         GamepadControl.Companion.init();
     }
@@ -88,50 +86,26 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void initTelemetry() {
-
-        setOpMode(this);
-        UnitedTelemetry.init();
-//        multipleTelemetry.addLine("telemetry inited");
-//        multipleTelemetry.update();
+        phantomLogger = new PhantomLogger(this);
+        phantomLogger.start();
     }
 
     private void initScheduler() {
-//        multipleTelemetry.addLine("init");
+        PhantomLogger.addData("Inited", true);
         scheduler = new Scheduler.Builder()
                 .setAction(action)
                 .addMechanisms(mechanism)
                 .build();
 
         scheduler.initMechanism();
-        telemetryExecutor = new Thread() {
-        };
-
     }
 
     private void runScheduler() {
-        multipleTelemetry.addData("Status", "Running");
-        multipleTelemetry.update();
-        if (!telemetryExecutor.isAlive()) {
-            telemetryExecutor = new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    while (opModeIsActive()) {
-                        UnitedTelemetry.execute();
-                    }
-                }
-            };
-            telemetryExecutor.start();
-        }
         if (opModeIsActive()) {
             scheduler.run();
         }
 
     }
 
-    private void finishOpMode() {
-        multipleTelemetry.addData("Status", "Finished");
-        multipleTelemetry.update();
-    }
 
 }

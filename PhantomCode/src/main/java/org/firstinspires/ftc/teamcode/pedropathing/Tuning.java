@@ -1,17 +1,11 @@
 package org.firstinspires.ftc.teamcode.pedropathing;
 
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.changes;
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.drawCurrent;
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.drawCurrentAndHistory;
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.follower;
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.stopRobot;
-import static org.firstinspires.ftc.teamcode.pedropathing.Tuning.telemetryM;
-
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.canvas.Canvas;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.changes;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.drawCurrent;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.drawCurrentAndHistory;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.follower;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.stopRobot;
+import static org.firstinspires.ftc.teamcode.pedropathing.OwnTuning.telemetryM;
 
 import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
@@ -1204,6 +1198,7 @@ class Drawing {
      * This prepares Panels Field for using Pedro Offsets
      */
     public static void init() {
+
         panelsField.setOffsets(PanelsField.INSTANCE.getPresets().getPEDRO_PATHING());
     }
 

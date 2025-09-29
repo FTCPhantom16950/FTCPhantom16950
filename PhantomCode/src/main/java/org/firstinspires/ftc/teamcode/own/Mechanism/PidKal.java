@@ -15,7 +15,7 @@ public class PidKal implements Mechanism {
     public boolean init() {
         xyn = opMode.hardwareMap.get(DcMotorEx.class, "motorPid");
         xyn.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        xyn.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        xyn.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         return true;
     }
     public static DcMotorEx xyn;
