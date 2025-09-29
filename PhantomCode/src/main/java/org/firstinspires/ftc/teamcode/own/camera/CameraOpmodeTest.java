@@ -14,7 +14,6 @@ public class CameraOpmodeTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "C:/Users/glebe/OneDrive/Desktop/ftc test/PXL_20250913_144831667.jpg"))
-                .addProcessor(new TestProcessor(this.telemetry))
                 .setCameraResolution(new Size(640, 480))
 
                 .build();
