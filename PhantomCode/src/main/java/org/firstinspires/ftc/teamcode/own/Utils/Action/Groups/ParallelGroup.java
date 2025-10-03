@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 /// Last Updated: 08.06.25 02:40
 public class ParallelGroup extends Group {
     /// список добавляемых действий
-    private final List<Action> actions = new ArrayList<Action>();
+    private final List<Group> actions = new ArrayList<Group>();
     private final List<Thread> threads = new ArrayList<>();
 
     /**
@@ -28,7 +28,7 @@ public class ParallelGroup extends Group {
      *
      * @param actions действия которые будут выполняться последовательно
      */
-    public ParallelGroup(PhantomOpMode phantomOpMode, Action... actions) {
+    public ParallelGroup(PhantomOpMode phantomOpMode, Group... actions) {
         super(phantomOpMode);
         this.actions.addAll(List.of(actions));
     }
@@ -36,7 +36,7 @@ public class ParallelGroup extends Group {
     /// Метод выполнения действий последовательно
     @Override
     public void execute() {
-        for (Action a :
+        for (Group a :
                 actions) {
             Thread thread = new Thread() {
                 @Override

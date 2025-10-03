@@ -26,7 +26,7 @@ public class PedroAction extends Action {
         this.holdEnd = holdEnd;
     }
 
-    public PedroAction(PhantomOpMode OpMode, Mechanism mechanism, PathChain line) {
+    public PedroAction(PhantomOpMode OpMode, PathChain line) {
         super(OpMode);
         this.opMode = OpMode;
         this.line = line;
