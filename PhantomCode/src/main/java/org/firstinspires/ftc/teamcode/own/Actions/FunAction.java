@@ -13,16 +13,16 @@ import org.firstinspires.ftc.teamcode.own.Utils.GamepadControl;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 @Config
 public class FunAction extends InterruptibleAction {
-    public static double i = 0;
+    public static double i = 1;
     public static int a = 1;
     @Override
     public void run() {
         if (gamepadDriver.left_bumper){
-            i = Range.clip(i+0.001,-1,1);
+            i = 1;
             opMode.sleep(500);
         }
         if(gamepadDriver.right_bumper) {
-            i = Range.clip(i-0.001, -1, 1);
+            i = -1;
             opMode.sleep(500);
         }
         xyn.setPower(i);

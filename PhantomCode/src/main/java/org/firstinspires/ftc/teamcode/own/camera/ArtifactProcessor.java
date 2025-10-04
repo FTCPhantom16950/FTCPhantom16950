@@ -8,11 +8,13 @@ import com.acmerobotics.dashboard.config.Config;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -20,60 +22,59 @@ import java.util.List;
 
 @Config
 public class ArtifactProcessor implements VisionProcessor {
-    Telemetry telemetry;
-    Mat hierachy, output;
-    public static double trashold1 = 0,
-    trashhold2 = 0;
     List<MatOfPoint> contours = new ArrayList<>();
-    MatOfPoint2f[] contoursPoly;
-    Rect[] boundRect;
-    List<MatOfPoint> contoursPolyList;
-    Scalar color = new Scalar(100,100,100);
-    public ArtifactProcessor(Telemetry telemetry) {
-        this.telemetry = telemetry;
-    }
-
-
+    Mat hierarchy = new Mat();
+    Mat blurredImage = new Mat();
+    Mat hsvImage = new Mat();
+    Mat mask = new Mat();
+    Mat morphOutput = new Mat();
+    Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(dilateElementWidth, dilateElementHeight));
+    Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(erodeElementWidth, erodeElementHeight));
+    public static int hLow = 170,sLow = 50,vLow = 50,
+    hHigh = 180, sHigh = 110, vHigh = 200,
+    widthBlur = 1, heightBlur = 1, dilateElementWidth = 30, dilateElementHeight = 30,
+            erodeElementWidth = 20,erodeElementHeight = 20;
+    Scalar minValues = new Scalar(hLow, sLow, vLow);
+    Scalar maxValues  = new Scalar(hHigh, sHigh,vHigh);
+    Mat output;
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-    hierachy = new Mat();
-    output = new Mat();
+
     }
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-        output = frame.clone();
-        Imgproc.cvtColor(frame, output, Imgproc.COLOR_RGB2GRAY);
-        Imgproc.Canny(output,output, trashold1, trashhold2);
-        Imgproc.findContours(output, contours, hierachy, Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
-        contoursPoly = new MatOfPoint2f[contours.size()];
-        boundRect = new Rect[contours.size()];
-        contoursPolyList = new ArrayList<>(contoursPoly.length);
-        for (MatOfPoint2f poly: contoursPoly){
-            if (poly!= null){
-                contoursPolyList.add(new MatOfPoint(poly.toArray()));
-            }
 
+        Imgproc.blur(frame, blurredImage, new Size(widthBlur, heightBlur));
+        Imgproc.cvtColor(blurredImage, hsvImage, Imgproc.COLOR_BGR2HSV);
+        Core.inRange(hsvImage, minValues, maxValues, mask);
+
+        Imgproc.erode(mask, morphOutput, erodeElement);
+        Imgproc.erode(mask, morphOutput, erodeElement);
+
+        Imgproc.dilate(mask, morphOutput, dilateElement);
+        Imgproc.dilate(mask, morphOutput, dilateElement);
+        Imgproc.findContours(morphOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+        if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
+        {
+            // for each contour, display it in blue
+            for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
+            {
+                Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
+            }
         }
-        for(int i =0; i < contours.size();i++){
-            Imgproc.drawContours(frame, contoursPolyList, i, color);
-            Imgproc.rectangle(frame,boundRect[i].tl(), boundRect[i].br(),color,2);
-        }
-        return frame;
+        contours.clear();
+        hierarchy.empty();
+        morphOutput.empty();
+        mask.empty();
+//        morphOutput = frame;
+        return null;
     }
 
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-        if (boundRect != null && contoursPoly != null) {
-            for(int i = 0; i < contours.size(); i++){
-                contoursPoly[i] = new MatOfPoint2f();
-                Imgproc.approxPolyDP(new MatOfPoint2f(
-                        contours.get(i).toArray()
-                ), contoursPoly[i], 3, true);
-                boundRect[i] = Imgproc.boundingRect(new MatOfPoint(contoursPoly[i].toArray()));
-            }
-        }
+
     }
 }

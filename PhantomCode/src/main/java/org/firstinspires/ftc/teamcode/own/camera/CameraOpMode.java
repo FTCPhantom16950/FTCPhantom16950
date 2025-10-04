@@ -14,7 +14,7 @@ public class CameraOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        ArtifactProcessor artifactProcessor = new ArtifactProcessor(this.telemetry);
+        ArtifactProcessor artifactProcessor = new ArtifactProcessor();
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessors(artifactProcessor)
