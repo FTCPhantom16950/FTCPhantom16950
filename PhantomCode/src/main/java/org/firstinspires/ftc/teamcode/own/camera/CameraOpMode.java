@@ -14,10 +14,10 @@ public class CameraOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        ArtifactProcessor artifactProcessor = new ArtifactProcessor();
+        ArtifactProcessor artifactProcessor1 = new ArtifactProcessor(this.telemetry);
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .addProcessors(artifactProcessor)
+                .addProcessors(artifactProcessor1)
                 .build();
         FtcDashboard.getInstance().startCameraStream(visionPortal,0);
         waitForStart();

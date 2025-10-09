@@ -30,14 +30,21 @@ public class ArtifactProcessor implements VisionProcessor {
     Mat morphOutput = new Mat();
     Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(dilateElementWidth, dilateElementHeight));
     Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(erodeElementWidth, erodeElementHeight));
-    public static int hLow = 170,sLow = 50,vLow = 50,
-    hHigh = 180, sHigh = 110, vHigh = 200,
-    widthBlur = 1, heightBlur = 1, dilateElementWidth = 30, dilateElementHeight = 30,
-            erodeElementWidth = 20,erodeElementHeight = 20;
+    public static int hLow = 7,sLow = 80,vLow = 80,
+    hHigh = 10, sHigh = 255, vHigh = 255,
+    widthBlur = 1, heightBlur = 1, dilateElementWidth = 50, dilateElementHeight = 50,
+            erodeElementWidth = 30,erodeElementHeight = 30;
     Scalar minValues = new Scalar(hLow, sLow, vLow);
     Scalar maxValues  = new Scalar(hHigh, sHigh,vHigh);
     Mat output;
-
+    MatOfPoint2f[] contoursPoly;
+    Telemetry telemetry;
+    Rect[] rects;
+    float scale, bnmToPx;
+    public static int minSquare = 0;
+    public ArtifactProcessor(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
 
@@ -45,7 +52,6 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-
         Imgproc.blur(frame, blurredImage, new Size(widthBlur, heightBlur));
         Imgproc.cvtColor(blurredImage, hsvImage, Imgproc.COLOR_BGR2HSV);
         Core.inRange(hsvImage, minValues, maxValues, mask);
@@ -56,18 +62,39 @@ public class ArtifactProcessor implements VisionProcessor {
         Imgproc.dilate(mask, morphOutput, dilateElement);
         Imgproc.dilate(mask, morphOutput, dilateElement);
         Imgproc.findContours(morphOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-        if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
-        {
+//        morphOutput = frame;
+        contoursPoly = new MatOfPoint2f[contours.size()];
+        rects = new Rect[contours.size()];
+        if (hierarchy.size().height > 0 && hierarchy.size().width > 0) {
             // for each contour, display it in blue
-            for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
-            {
-                Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
+            for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
+                Imgproc.drawContours(output, contours, idx, new Scalar(250, 0, 0));
             }
         }
+        for (int idx = 0; idx < contours.size(); idx++){
+            if (contours.get(idx).toArray() != null){
+                contoursPoly[idx] = new MatOfPoint2f();
+                Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(idx).toArray()), contoursPoly[idx], 3, true);
+                rects[idx] = Imgproc.boundingRect(new MatOfPoint(contoursPoly[idx].toArray()));
+
+                double a = rects[idx].tl().x -  rects[idx].br().x,
+                        b = rects[idx].tl().y -  rects[idx].br().y;
+                telemetry.addData("a", a);
+                telemetry.addData("b", b);
+                double otn = a/b;
+                double square = a * b * scale * scale;
+                telemetry.addData("square", square);
+                if (square * scale * scale >= minSquare && (otn < 1.2) && (otn > 0.8)){
+                    Imgproc.rectangle(output, rects[idx].tl(), rects[idx].br(), new Scalar(255,0,0),2);
+                }
+            }
+        }
+        telemetry.update();
         contours.clear();
         hierarchy.empty();
         morphOutput.empty();
         mask.empty();
+        output = frame;
 //        morphOutput = frame;
         return null;
     }
@@ -75,6 +102,10 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-
+    scale = scaleCanvasDensity;
+    bnmToPx = scaleBmpPxToCanvasPx;
+    telemetry.addData("scale",scale);
+    telemetry.addData("bnmToPx",bnmToPx );
     }
+
 }
