@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.own.camera;
 
 import static org.opencv.core.CvType.CV_64F;
 
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
@@ -28,17 +29,51 @@ import java.util.List;
 
 @Config
 public class ArtifactProcessor implements VisionProcessor {
-    float centerOfSquare = 0;
-    double a, b;
-    float x = 0f, y = 0f, z = 0f;
-    double otn;
-    float rectSizeOnCamera;
-    double square;
-    float c = (float) Math.sqrt(Math.pow(3.58, 2) + Math.pow(2.02, 2));
-    float razmer = 49f;
-    float f = 4f;
-    float convers = c / 960;
-    float h;
+    private int minSquare = 0;
+    private ArtifactProcessor(){}
+    public static Builder newBuilder() {
+        return new ArtifactProcessor().newBuilder();
+    }
+    public class Builder {
+        private Builder() {
+        }
+
+        public Builder addTelemetry(Telemetry telemetry) {
+            ArtifactProcessor.this.telemetry = telemetry;
+            return this;
+        }
+
+        public ArtifactProcessor createWithDefaults() {
+            ArtifactProcessor.this.cameraPos[0] = 0;
+            ArtifactProcessor.this.cameraPos[1] = 0;
+            ArtifactProcessor.this.cameraPos[2] = 0;
+            ArtifactProcessor.this.cameraRot[0] = 0;
+            ArtifactProcessor.this.cameraRot[1] = 0;
+            ArtifactProcessor.this.cameraRot[2] = 0;
+            ArtifactProcessor.this.cameraMatrixX = 3.58F;
+            ArtifactProcessor.this.cameraMatrixY = 2.02F;
+            ArtifactProcessor.this.razmer = 49f;
+            ArtifactProcessor.this.f = 4f;
+            ArtifactProcessor.this.pixelCameraHeight = 960;
+            ArtifactProcessor.this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
+            ArtifactProcessor.this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(20, 20));
+            ArtifactProcessor.this.minValues = new Scalar(7, 70, 60);
+            ArtifactProcessor.this.maxValues = new Scalar(40, 255, 255);
+            ArtifactProcessor.this.blurSize = new Size(1, 1);
+            return ArtifactProcessor.this;
+        }
+
+        public ArtifactProcessor build() {
+            return ArtifactProcessor.this;
+        }
+    }
+
+    private float maxDist, minDist;
+    private float[] cameraPos = new float[]{0, 0, 0}, cameraRot = new float[]{0, 0, 0};
+    private float minOtn, maxOtn, h, centerOfSquare, x, y, z, rectSizeOnCamera, cameraMatrixX, cameraMatrixY, razmer, f, pixelCameraHeight, c, convers;
+    private double a, b, square, otn;
+    private boolean usingOtn, usingSquare, usingDist;
+    float squareOnScreen, minSquareOnScreen, maxSquareOnScreen;
     Mat K = new Mat(3, 3, CV_64F);
     List<MatOfPoint> contours = new ArrayList<>();
     Mat openingImage = new Mat();
@@ -48,25 +83,19 @@ public class ArtifactProcessor implements VisionProcessor {
     Mat hsvImage = new Mat();
     Mat mask = new Mat();
     Mat morphOutput = new Mat();
-    Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(dilateElementWidth, dilateElementHeight));
-    Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(erodeElementWidth, erodeElementHeight));
-    public static int hLow = 7, sLow = 70, vLow = 60,
-            hHigh = 40, sHigh = 255, vHigh = 255,
-            widthBlur = 1, heightBlur = 1, dilateElementWidth = 50, dilateElementHeight = 50,
-            erodeElementWidth = 30, erodeElementHeight = 30;
-    Scalar minValues = new Scalar(hLow, sLow, vLow);
-    Scalar maxValues = new Scalar(hHigh, sHigh, vHigh);
+    Mat dilateElement;
+    Mat erodeElement;
+    Scalar minValues;
+    Scalar maxValues;
     MatOfPoint2f[] contoursPoly;
     Telemetry telemetry;
     Rect[] rects;
-    public static int minSquare = 0;
-
-    public ArtifactProcessor(Telemetry telemetry) {
-        this.telemetry = telemetry;
-    }
+    Size blurSize;
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
+        telemetry.addData("hui v rot", f);
+        telemetry.update();
         K.put(0, 0, calibration.focalLengthX);
         K.put(0, 1, 0);
         K.put(0, 2, calibration.principalPointX);
@@ -80,7 +109,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-        Imgproc.blur(frame, blurredImage, new Size(widthBlur, heightBlur));
+        Imgproc.blur(frame, blurredImage, blurSize);
         Imgproc.cvtColor(blurredImage, hsvImage, Imgproc.COLOR_BGR2HSV);
         Core.inRange(hsvImage, minValues, maxValues, mask);
 
@@ -103,8 +132,9 @@ public class ArtifactProcessor implements VisionProcessor {
                 otn = a / b;
                 h = (float) (a * convers);
                 rectSizeOnCamera = ((f * razmer) / h);
+                squareOnScreen = (float) (a * a);
                 square = (h * h) * Math.pow(rectSizeOnCamera, 2);
-                if (square >= minSquare && (otn < 1.1) && (otn > 0.95) && rectSizeOnCamera <= 3600) {
+                if (square >= minSquare && (otn >= minOtn && otn <= maxOtn) && (rectSizeOnCamera <= maxDist && rectSizeOnCamera >= minDist)) {
                     centerOfSquare = (float) (a / 2);
                     telemetry.addData("h", h);
                     telemetry.addData("rectSizeOnCamera", rectSizeOnCamera);
@@ -115,16 +145,21 @@ public class ArtifactProcessor implements VisionProcessor {
                     telemetry.addData("a", a);
                     telemetry.addData("b", b);
                     Imgproc.rectangle(frame, rects[idx].tl(), rects[idx].br(), new Scalar(255, 0, 0), 2);
-                    x = (float) (rectSizeOnCamera
-                            * Math.cos(calculateAngle((float) (rects[idx].tl().x + centerOfSquare), (float) (rects[idx].tl().y + centerOfSquare))[0])
-                            * Math.cos(calculateAngle((float) (rects[idx].tl().x + centerOfSquare), (float) (rects[idx].tl().y + centerOfSquare))[1]));
-                    y = (float) (rectSizeOnCamera
-                            * Math.cos(calculateAngle((float) (rects[idx].tl().x + centerOfSquare), (float) (rects[idx].tl().y + centerOfSquare))[0])
-                            * Math.sin(calculateAngle((float) (rects[idx].tl().x + centerOfSquare), (float) (rects[idx].tl().y + centerOfSquare))[1]));
-                    z = (float) (rectSizeOnCamera
-                            * Math.sin(calculateAngle((float) (rects[idx].tl().x + centerOfSquare), (float) (rects[idx].tl().y + centerOfSquare))[0]));
+                    Point centerPoint = new Point(rects[idx].tl().x + centerOfSquare, rects[idx].tl().y + centerOfSquare);
+                    float[] angles = calculateAngle((float) centerPoint.x, (float) centerPoint.y);
+                    float D = rectSizeOnCamera;
+                    float phi = angles[1];
+                    float theta = angles[0];
+                    float xc = (float) (D * Math.cos(theta) * Math.cos(phi));
+                    float yc = (float) (D * Math.cos(theta) * Math.sin(phi));
+                    float zc = (float) (D * Math.sin(theta));
+                    float[] Pc_coords = {xc, yc, zc};
+                    Pc_coords = convertCameraToRobot(cameraPos, cameraRot, Pc_coords);
+                    x = Pc_coords[0];
+                    y = Pc_coords[1];
+                    z = Pc_coords[2];
                     @SuppressLint("DefaultLocale")
-                    String text = String.format("dist: %.1f, x: %.1f, y: %.1f, z: %.1f", rectSizeOnCamera, x, y, z);
+                    String text = String.format("dist: %.1f, x: %.1f, y: %.1f, z: %.1f", D, x, y, z);
                     Imgproc.putText(frame, text, rects[idx].tl(), 1, 1, new Scalar(255, 255, 0));
                     Imgproc.drawMarker(frame, new Point(rects[idx].tl().x + centerOfSquare, rects[idx].tl().y + centerOfSquare), new Scalar(255, 0, 0));
                 }
@@ -144,6 +179,57 @@ public class ArtifactProcessor implements VisionProcessor {
         return null;
     }
 
+    private float[] convertCameraToRobot(float[] cameraCord, float[] angeles, float[] objectPos) {
+        Mat T = new Mat(3, 1, CV_64F);
+        T.put(0, 0, cameraCord[0]);
+        T.put(1, 0, cameraCord[1]);
+        T.put(2, 0, cameraCord[2]);
+        Mat Pc = new Mat(3, 1, CV_64F);
+        Pc.put(0, 0, objectPos[0]);
+        Pc.put(1, 0, objectPos[1]);
+        Pc.put(2, 0, objectPos[2]);
+        angeles[0] = (float) Math.toRadians(angeles[0]);
+        angeles[1] = (float) Math.toRadians(angeles[1]);
+        angeles[2] = (float) Math.toRadians(angeles[2]);
+        Mat Rx = Mat.eye(3, 3, CV_64F);
+        Rx.put(1, 1, Math.cos(angeles[0]));
+        Rx.put(1, 2, -Math.sin(angeles[0]));
+        Rx.put(2, 2, Math.cos(angeles[0]));
+        Mat Ry = Mat.eye(3, 3, CV_64F);
+        Ry.put(1, 1, Math.cos(angeles[1]));
+        Ry.put(1, 2, Math.sin(angeles[1]));
+        Ry.put(2, 2, Math.cos(angeles[1]));
+        Mat Rz = Mat.eye(3, 3, CV_64F);
+        Rz.put(1, 1, Math.cos(angeles[2]));
+        Rz.put(1, 2, -Math.sin(angeles[2]));
+        Rz.put(2, 2, Math.cos(angeles[2]));
+
+        Mat R_temp = new Mat();
+        Core.gemm(Rz, Ry, 1.0, new Mat(), 0.0, R_temp);
+        Mat R_c_to_r = new Mat();
+        Core.gemm(R_temp, Rx, 1.0, new Mat(), 0.0, R_c_to_r);
+
+        Mat RPc = new Mat();
+        Core.gemm(R_c_to_r, Pc, 1.0, new Mat(), 0.0, RPc);
+
+        Mat Pr = new Mat();
+        Core.add(RPc, T, Pr);
+
+        float x_r = (float) Pr.get(0, 0)[0];
+        float y_r = (float) Pr.get(1, 0)[0];
+        float z_r = (float) Pr.get(2, 0)[0];
+        T.release();
+        Pc.release();
+        Rx.release();
+        Ry.release();
+        Rz.release();
+        R_temp.release();
+        R_c_to_r.release();
+        RPc.release();
+        Pr.release();
+        return new float[]{x_r, y_r, z_r};
+    }
+
     private float[] calculateAngle(float x, float y) {
         double fx = K.get(0, 0)[0];
         double fy = K.get(1, 1)[0];
@@ -157,10 +243,6 @@ public class ArtifactProcessor implements VisionProcessor {
     }
 
     @Override
-    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-//        telemetry.addData("bnmToPx", pxToMM);
-
-
-    }
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {    }
 
 }
