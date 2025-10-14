@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathBuilder;
 import com.pedropathing.paths.PathChain;
 
-public class Point {
+public class Points {
     static PathBuilder pathBuilder;
 
-    public Point(PathBuilder pathBuilder) {
+    public Points(PathBuilder pathBuilder) {
         this.pathBuilder = pathBuilder;
     }
     public static PathChain start = pathBuilder

@@ -2,14 +2,11 @@ package org.firstinspires.ftc.teamcode.own.camera;
 
 import static org.opencv.core.CvType.CV_64F;
 
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoImpl;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -27,53 +24,175 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс для обнаружеия элементов сезона 2025-2026, артифактов
+ * Наследуется от интерфейса {@link VisionProcessor}
+ */
 @Config
 public class ArtifactProcessor implements VisionProcessor {
-    private int minSquare = 0;
-    private ArtifactProcessor(){}
+    /// Внутренний конструктор класса, чтобы случайно не создать неиспользуемый класс
+    private ArtifactProcessor() {}
+
+    /**
+     * Метод для создания нового экземпляра класса @link ArtifactProcessor
+     * @return новый экземпляр {@link ArtifactProcessor}
+     */
     public static Builder newBuilder() {
-        return new ArtifactProcessor().newBuilder();
+        new ArtifactProcessor();
+        return newBuilder();
     }
-    public class Builder {
+
+    /**
+     * Класс для создания нового экземпляра класса {@link ArtifactProcessor}
+     */
+    public static class Builder {
+        /// Экземпляр класса {@link ArtifactProcessor}
+        private final ArtifactProcessor processor;
+        /// Внутренний конструктор класса, чтобы случайно не создать неиспользуемый класс
         private Builder() {
+            processor = new ArtifactProcessor();
         }
 
-        public Builder addTelemetry(Telemetry telemetry) {
-            ArtifactProcessor.this.telemetry = telemetry;
+        /**
+         * Установка размера матрицы в пикселях
+         * @param pixelCameraHeight размер матрицы в пикселях
+         * @return сборщик
+         */
+        public Builder setPixelCameraHeight(int pixelCameraHeight) {
+            processor.pixelCameraHeight = pixelCameraHeight;
+            return this;
+        }
+
+        /**
+         * Установка параметров камеры
+         * @param x смещение от центра робота в мм по координате x
+         * @param y смещение от центра робота в мм по координате y
+         * @param z смещение от центра робота в мм по координате z
+         * @return сборщик
+         */
+        public Builder setCameraPos(float x, float y, float z) {
+            processor.cameraPos[0] = x;
+            processor.cameraPos[1] = y;
+            processor.cameraPos[2] = z;
+            return this;
+        }
+
+        /**
+         * Установка вращения камеры
+         * @param yaw угол поворота вокруг камерв вокруг оси z
+         * @param pitch угол поворота вокруг камерв вокруг оси x
+         * @param roll угол поворота вокруг камерв вокруг оси y
+         * @return
+         */
+        public Builder setCameraRot(float pitch, float roll, float yaw) {
+            processor.cameraRot[0] = pitch;
+            processor.cameraRot[1] = roll;
+            processor.cameraRot[2] = yaw;
+            return this;
+        }
+
+        /**
+         * Установка параметров матрицы камеры
+         * @param x размер камеры в мм по x
+         * @param y размер камеры в мм по y
+         * @return сборщик
+         */
+        public Builder setCameraMatrix(float x, float y) {
+            processor.c = (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+            return this;
+        }
+
+        public Builder setRazmer(float razmer) {
+            processor.razmer = razmer;
+            return this;
+        }
+
+        public Builder setF(float f) {
+            processor.f = f;
+            return this;
+        }
+
+        public Builder setDistProperties(boolean usingDist, float minDist, float maxDist) {
+            processor.usingDist = usingDist;
+            processor.minDist = minDist;
+            processor.maxDist = maxDist;
+            return this;
+        }
+
+        public Builder setOtnProperties(boolean usingOtn, float minOtn, float maxOtn) {
+            processor.usingOtn = usingOtn;
+            processor.minOtn = minOtn;
+            processor.maxOtn = maxOtn;
+            return this;
+        }
+
+        public Builder setSquareProperties(boolean usingSquare, float minSquare, float maxSquare) {
+            processor.usingSquare = usingSquare;
+            processor.minSquareOnScreen = minSquare;
+            processor.maxSquareOnScreen = maxSquare;
+            return this;
+        }
+
+        public Builder addTelemetry(boolean usingTelemetry, Telemetry telemetry) {
+            processor.usingTelemetry = usingTelemetry;
+            processor.telemetry = telemetry;
             return this;
         }
 
         public ArtifactProcessor createWithDefaults() {
-            ArtifactProcessor.this.cameraPos[0] = 0;
-            ArtifactProcessor.this.cameraPos[1] = 0;
-            ArtifactProcessor.this.cameraPos[2] = 0;
-            ArtifactProcessor.this.cameraRot[0] = 0;
-            ArtifactProcessor.this.cameraRot[1] = 0;
-            ArtifactProcessor.this.cameraRot[2] = 0;
-            ArtifactProcessor.this.cameraMatrixX = 3.58F;
-            ArtifactProcessor.this.cameraMatrixY = 2.02F;
-            ArtifactProcessor.this.razmer = 49f;
-            ArtifactProcessor.this.f = 4f;
-            ArtifactProcessor.this.pixelCameraHeight = 960;
-            ArtifactProcessor.this.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
-            ArtifactProcessor.this.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(20, 20));
-            ArtifactProcessor.this.minValues = new Scalar(7, 70, 60);
-            ArtifactProcessor.this.maxValues = new Scalar(40, 255, 255);
-            ArtifactProcessor.this.blurSize = new Size(1, 1);
-            return ArtifactProcessor.this;
+            processor.usingSquare = true;
+            processor.usingTelemetry = true;
+            processor.cameraPos[0] = 0;
+            processor.cameraPos[1] = 0;
+            processor.cameraPos[2] = 0;
+            processor.cameraRot[0] = 0;
+            processor.cameraRot[1] = 0;
+            processor.cameraRot[2] = 0;
+            processor.c = (float) Math.sqrt(Math.pow(3.58F, 2) + Math.pow(2.02F, 2));
+            processor.razmer = 49f;
+            processor.f = 4f;
+            processor.pixelCameraHeight = 960;
+            processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
+            processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(20, 20));
+            processor.minValues = new Scalar(7, 70, 60);
+            processor.maxValues = new Scalar(40, 255, 255);
+            processor.blurSize = new Size(1, 1);
+            return processor;
         }
 
         public ArtifactProcessor build() {
-            return ArtifactProcessor.this;
+            return processor;
         }
     }
 
-    private float maxDist, minDist;
-    private float[] cameraPos = new float[]{0, 0, 0}, cameraRot = new float[]{0, 0, 0};
-    private float minOtn, maxOtn, h, centerOfSquare, x, y, z, rectSizeOnCamera, cameraMatrixX, cameraMatrixY, razmer, f, pixelCameraHeight, c, convers;
-    private double a, b, square, otn;
-    private boolean usingOtn, usingSquare, usingDist;
-    float squareOnScreen, minSquareOnScreen, maxSquareOnScreen;
+    private float maxDist,
+            minDist,
+            minOtn,
+            maxOtn,
+            razmer,
+            f,
+            pixelCameraHeight,
+            c;
+    private float[] cameraPos = new float[]{0, 0, 0},
+            cameraRot = new float[]{0, 0, 0};
+    private float h,
+            centerOfSquare,
+            x,
+            y,
+            z,
+            rectSizeOnCamera,
+            convers,
+            a,
+            b,
+            square,
+            otn;
+    private boolean usingOtn,
+            usingSquare,
+            usingDist,
+            usingTelemetry;
+    private float squareOnScreen,
+            minSquareOnScreen,
+            maxSquareOnScreen;
     Mat K = new Mat(3, 3, CV_64F);
     List<MatOfPoint> contours = new ArrayList<>();
     Mat openingImage = new Mat();
@@ -94,8 +213,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-        telemetry.addData("hui v rot", f);
-        telemetry.update();
+        convers = (float) (pixelCameraHeight / c);
         K.put(0, 0, calibration.focalLengthX);
         K.put(0, 1, 0);
         K.put(0, 2, calibration.principalPointX);
@@ -127,14 +245,17 @@ public class ArtifactProcessor implements VisionProcessor {
                 contoursPoly[idx] = new MatOfPoint2f();
                 Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(idx).toArray()), contoursPoly[idx], 3, true);
                 rects[idx] = Imgproc.boundingRect(new MatOfPoint(contoursPoly[idx].toArray()));
-                a = (-rects[idx].tl().x + rects[idx].br().x);
-                b = (-rects[idx].tl().y + rects[idx].br().y);
+                a = (float) (-rects[idx].tl().x + rects[idx].br().x);
+                b = (float) (-rects[idx].tl().y + rects[idx].br().y);
                 otn = a / b;
                 h = (float) (a * convers);
                 rectSizeOnCamera = ((f * razmer) / h);
                 squareOnScreen = (float) (a * a);
-                square = (h * h) * Math.pow(rectSizeOnCamera, 2);
-                if (square >= minSquare && (otn >= minOtn && otn <= maxOtn) && (rectSizeOnCamera <= maxDist && rectSizeOnCamera >= minDist)) {
+                square = (float) ((h * h) * Math.pow(rectSizeOnCamera, 2));
+                boolean screenProperty = !usingSquare || (squareOnScreen >= minSquareOnScreen && squareOnScreen <= maxSquareOnScreen),
+                        distProperty = !usingDist || (rectSizeOnCamera >= minDist && rectSizeOnCamera <= maxDist),
+                        otnProperty = !usingOtn || (otn >= minOtn && otn <= maxOtn);
+                if (screenProperty && otnProperty && distProperty) {
                     centerOfSquare = (float) (a / 2);
                     telemetry.addData("h", h);
                     telemetry.addData("rectSizeOnCamera", rectSizeOnCamera);
@@ -167,18 +288,20 @@ public class ArtifactProcessor implements VisionProcessor {
             contoursPoly[idx].release();
         }
         Imgproc.drawMarker(frame, new Point(K.get(0, 2)[0], K.get(1, 2)[0]), new Scalar(255, 0, 255));
-//        morphOutput = frame;
-        telemetry.update();
+        if (usingTelemetry && telemetry != null) {
+            telemetry.update();
+        }
         blurredImage.release();
         hsvImage.release();
         mask.release();
-        erodeElement.release();
-        dilateElement.release();
         contours.clear();
         hierarchy.release();
-        return null;
+        return new float[]{x, y, z};
     }
 
+    @Override
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+    }
     private float[] convertCameraToRobot(float[] cameraCord, float[] angeles, float[] objectPos) {
         Mat T = new Mat(3, 1, CV_64F);
         T.put(0, 0, cameraCord[0]);
@@ -229,7 +352,6 @@ public class ArtifactProcessor implements VisionProcessor {
         Pr.release();
         return new float[]{x_r, y_r, z_r};
     }
-
     private float[] calculateAngle(float x, float y) {
         double fx = K.get(0, 0)[0];
         double fy = K.get(1, 1)[0];
@@ -242,7 +364,28 @@ public class ArtifactProcessor implements VisionProcessor {
         return new float[]{(float) theta_rad, (float) phi_rad};
     }
 
-    @Override
-    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {    }
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+    }
 
 }

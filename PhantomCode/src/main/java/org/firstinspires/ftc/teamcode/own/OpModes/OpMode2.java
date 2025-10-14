@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.OpModes;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.endToThird;
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.firstToStart;
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.secondToEnd;
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.start;
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.startToSecond;
-import static org.firstinspires.ftc.teamcode.own.Utils.Point.thirdToEnd;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.endToThird;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.firstToStart;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.secondToEnd;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.start;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.startToSecond;
+import static org.firstinspires.ftc.teamcode.own.Utils.Points.thirdToEnd;
 
 import org.firstinspires.ftc.teamcode.own.Actions.PedroAction;
 import org.firstinspires.ftc.teamcode.own.Mechanism.FollowerMechanism;
