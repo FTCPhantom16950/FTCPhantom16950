@@ -28,18 +28,19 @@ import java.util.List;
  * Класс для обнаружеия элементов сезона 2025-2026, артифактов
  * Наследуется от интерфейса {@link VisionProcessor}
  */
-@Config
 public class ArtifactProcessor implements VisionProcessor {
     /// Внутренний конструктор класса, чтобы случайно не создать неиспользуемый класс
-    private ArtifactProcessor() {}
+    private ArtifactProcessor() {
+    }
 
     /**
      * Метод для создания нового экземпляра класса @link ArtifactProcessor
+     *
      * @return новый экземпляр {@link ArtifactProcessor}
      */
     public static Builder newBuilder() {
         new ArtifactProcessor();
-        return newBuilder();
+        return new Builder();
     }
 
     /**
@@ -48,6 +49,7 @@ public class ArtifactProcessor implements VisionProcessor {
     public static class Builder {
         /// Экземпляр класса {@link ArtifactProcessor}
         private final ArtifactProcessor processor;
+
         /// Внутренний конструктор класса, чтобы случайно не создать неиспользуемый класс
         private Builder() {
             processor = new ArtifactProcessor();
@@ -55,6 +57,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
         /**
          * Установка размера матрицы в пикселях
+         *
          * @param pixelCameraHeight размер матрицы в пикселях
          * @return сборщик
          */
@@ -65,6 +68,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
         /**
          * Установка параметров камеры
+         *
          * @param x смещение от центра робота в мм по координате x
          * @param y смещение от центра робота в мм по координате y
          * @param z смещение от центра робота в мм по координате z
@@ -79,9 +83,10 @@ public class ArtifactProcessor implements VisionProcessor {
 
         /**
          * Установка вращения камеры
-         * @param yaw угол поворота вокруг камерв вокруг оси z
+         *
+         * @param yaw   угол поворота вокруг камерв вокруг оси z
          * @param pitch угол поворота вокруг камерв вокруг оси x
-         * @param roll угол поворота вокруг камерв вокруг оси y
+         * @param roll  угол поворота вокруг камерв вокруг оси y
          * @return
          */
         public Builder setCameraRot(float pitch, float roll, float yaw) {
@@ -93,6 +98,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
         /**
          * Установка параметров матрицы камеры
+         *
          * @param x размер камеры в мм по x
          * @param y размер камеры в мм по y
          * @return сборщик
@@ -138,10 +144,51 @@ public class ArtifactProcessor implements VisionProcessor {
             processor.telemetry = telemetry;
             return this;
         }
-
+        public Builder setDilateElement(Mat dilateElement) {
+            processor.dilateElement = dilateElement;
+            return this;
+        }
+        public Builder setDilateElement(int dilateHeight, int dilateWidth) {
+            processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(dilateWidth, dilateHeight));
+            return this;
+        }
+        public Builder setErodeElement(Mat erodeElement) {
+            processor.erodeElement = erodeElement;
+            return this;
+        }
+        public Builder setErodeElement(int erodeHeight, int erodeWidth) {
+            processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(erodeWidth, erodeHeight));
+            return this;
+        }
+        public Builder setBlurSize(Size blurSize) {
+            processor.blurSize = blurSize;
+            return this;
+        }
+        public Builder setBlurSize(int blurHeight, int blurWidth) {
+            processor.blurSize = new Size(blurWidth, blurHeight);
+            return this;
+        }
+        public Builder setMinValues(Scalar minValues) {
+            processor.minValues = minValues;
+            return this;
+        }
+        public Builder setMaxValues(Scalar maxValues) {
+            processor.maxValues = maxValues;
+            return this;
+        }
+        public Builder setMinValues(int r, int g, int b) {
+            processor.minValues = new Scalar(r,g,b);
+            return this;
+        }
+        public Builder setMaxValues(int r, int g, int b) {
+            processor.maxValues = new Scalar(r,g,b);
+            return this;
+        }
         public ArtifactProcessor createWithDefaults() {
+            processor.usingOtn = true;
+            processor.usingDist = true;
             processor.usingSquare = true;
-            processor.usingTelemetry = true;
+            processor.usingTelemetry = false;
             processor.cameraPos[0] = 0;
             processor.cameraPos[1] = 0;
             processor.cameraPos[2] = 0;
@@ -152,15 +199,52 @@ public class ArtifactProcessor implements VisionProcessor {
             processor.razmer = 49f;
             processor.f = 4f;
             processor.pixelCameraHeight = 960;
-            processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
-            processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(20, 20));
-            processor.minValues = new Scalar(7, 70, 60);
-            processor.maxValues = new Scalar(40, 255, 255);
-            processor.blurSize = new Size(1, 1);
+            processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(50, 50));
+            processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
+            processor.minValues = new Scalar(7, 60, 60);
+            processor.maxValues = new Scalar(15, 255, 255);
+            processor.blurSize = new Size(3, 3);
             return processor;
         }
 
         public ArtifactProcessor build() {
+            if (Float.isNaN(processor.razmer)){
+                throw new IllegalArgumentException("Object height is not set");
+            }
+            if (Float.isNaN(processor.c)){
+                throw new IllegalArgumentException("Camera diagonal is not set");
+            }
+            if (Float.isNaN(processor.f)){
+                throw new IllegalArgumentException("Focal length is not set");
+            }
+            if (Float.isNaN(processor.pixelCameraHeight)) {
+                throw new IllegalArgumentException("Pixel camera height is not set");
+            }
+            if (processor.dilateElement == null) {
+                processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(50, 50));
+            }
+            if (processor.erodeElement == null) {
+                processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
+            }
+            if (processor.minValues == null) {
+                processor.minValues = new Scalar(7, 60, 60);
+            }
+            if (processor.maxValues == null) {
+                processor.maxValues = new Scalar(15, 255, 255);
+            }
+            if (processor.blurSize == null) {
+                processor.blurSize = new Size(3, 3);
+            }
+            if (Float.isNaN(processor.cameraPos[0])){
+                processor.cameraPos[0] = 0;
+                processor.cameraPos[1] = 0;
+                processor.cameraPos[2] = 0;
+            }
+            if (Float.isNaN(processor.cameraRot[0])){
+                processor.cameraRot[0] = 0;
+                processor.cameraRot[1] = 0;
+                processor.cameraRot[2] = 0;
+            }
             return processor;
         }
     }
@@ -184,7 +268,6 @@ public class ArtifactProcessor implements VisionProcessor {
             convers,
             a,
             b,
-            square,
             otn;
     private boolean usingOtn,
             usingSquare,
@@ -213,7 +296,7 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-        convers = (float) (pixelCameraHeight / c);
+        convers = (c / pixelCameraHeight);
         K.put(0, 0, calibration.focalLengthX);
         K.put(0, 1, 0);
         K.put(0, 2, calibration.principalPointX);
@@ -248,23 +331,14 @@ public class ArtifactProcessor implements VisionProcessor {
                 a = (float) (-rects[idx].tl().x + rects[idx].br().x);
                 b = (float) (-rects[idx].tl().y + rects[idx].br().y);
                 otn = a / b;
-                h = (float) (a * convers);
+                h = (a * convers);
                 rectSizeOnCamera = ((f * razmer) / h);
-                squareOnScreen = (float) (a * a);
-                square = (float) ((h * h) * Math.pow(rectSizeOnCamera, 2));
+                squareOnScreen = (a * a);
                 boolean screenProperty = !usingSquare || (squareOnScreen >= minSquareOnScreen && squareOnScreen <= maxSquareOnScreen),
                         distProperty = !usingDist || (rectSizeOnCamera >= minDist && rectSizeOnCamera <= maxDist),
                         otnProperty = !usingOtn || (otn >= minOtn && otn <= maxOtn);
                 if (screenProperty && otnProperty && distProperty) {
-                    centerOfSquare = (float) (a / 2);
-                    telemetry.addData("h", h);
-                    telemetry.addData("rectSizeOnCamera", rectSizeOnCamera);
-                    telemetry.addData("otn", otn);
-                    telemetry.addData("square", square);
-                    telemetry.addData("focal", f);
-                    telemetry.addData("size on camera", convers);
-                    telemetry.addData("a", a);
-                    telemetry.addData("b", b);
+                    centerOfSquare = (a / 2);
                     Imgproc.rectangle(frame, rects[idx].tl(), rects[idx].br(), new Scalar(255, 0, 0), 2);
                     Point centerPoint = new Point(rects[idx].tl().x + centerOfSquare, rects[idx].tl().y + centerOfSquare);
                     float[] angles = calculateAngle((float) centerPoint.x, (float) centerPoint.y);
@@ -287,6 +361,7 @@ public class ArtifactProcessor implements VisionProcessor {
             }
             contoursPoly[idx].release();
         }
+//        morphOutput = frame;
         Imgproc.drawMarker(frame, new Point(K.get(0, 2)[0], K.get(1, 2)[0]), new Scalar(255, 0, 255));
         if (usingTelemetry && telemetry != null) {
             telemetry.update();
@@ -294,14 +369,18 @@ public class ArtifactProcessor implements VisionProcessor {
         blurredImage.release();
         hsvImage.release();
         mask.release();
+        openingImage.release();
+        closingOutput.release();
         contours.clear();
         hierarchy.release();
+        contours.clear();
         return new float[]{x, y, z};
     }
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
     }
+
     private float[] convertCameraToRobot(float[] cameraCord, float[] angeles, float[] objectPos) {
         Mat T = new Mat(3, 1, CV_64F);
         T.put(0, 0, cameraCord[0]);
@@ -352,6 +431,7 @@ public class ArtifactProcessor implements VisionProcessor {
         Pr.release();
         return new float[]{x_r, y_r, z_r};
     }
+
     private float[] calculateAngle(float x, float y) {
         double fx = K.get(0, 0)[0];
         double fy = K.get(1, 1)[0];

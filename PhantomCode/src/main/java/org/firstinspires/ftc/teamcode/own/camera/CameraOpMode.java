@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.opencv.core.Size;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvWebcam;
 
@@ -13,8 +14,13 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class CameraOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-
-        ArtifactProcessor artifactProcessor1 = ArtifactProcessor.newBuilder().createWithDefaults();
+        ArtifactProcessor artifactProcessor1 = ArtifactProcessor.newBuilder()
+                .setCameraMatrix(3.58F, 2.02F)
+                .setRazmer(49f)
+                .setF(4f)
+                .setBlurSize(new Size(3,3))
+                .setPixelCameraHeight(960)
+                .build();
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessors(artifactProcessor1)
