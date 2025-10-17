@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.FTCPhantom16950:PhantomLib:0.0.1'
+    implementation 'com.github.FTCPhantom16950:PhantomLib:1.0.0'
     implementation 'org.firstinspires.ftc:Inspection:11.0.0'
     implementation 'org.firstinspires.ftc:Blocks:11.0.0'
     //noinspection Aligned16KB
