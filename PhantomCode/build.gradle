@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.FTCPhantom16950:PhantomLib:0.0.4'
     implementation project(':FtcRobotController')
     implementation 'androidx.core:core-ktx:1.15.0'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')

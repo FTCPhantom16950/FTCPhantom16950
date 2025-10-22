@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
-
-
-import org.firstinspires.ftc.teamcode.own.OpModes.GameBased;
-
 /**
  * Класс для конфигурации
  * Made by Hkial(Gleb)
