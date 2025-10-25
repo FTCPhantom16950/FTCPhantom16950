@@ -34,7 +34,7 @@ public class OpModeManager {
     @OpModeRegistrar
     public static void addOpmode(com.qualcomm.robotcore.eventloop.opmode.OpModeManager manager, PhantomOpMode... opModes) {
         for (PhantomOpMode opMode : opModes) {
-            manager.register(addOpmodeDescription(opMode.getFlavor(), opMode.getGroup(), opMode.getName()), opMode);
+//            manager.register(addOpmodeDescription(opMode.getFlavor(), opMode.getGroup(), opMode.getName()), opMode);
         }
     }
 

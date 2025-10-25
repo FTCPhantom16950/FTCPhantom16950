@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
-import org.psilynx.psikit.core.Logger;
+//import org.psilynx.psikit.core.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Set;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
-    PhantomLogger phantomLogger;
+//    PhantomLogger phantomLogger;
     private PhantomOpMode opMode = this;
     Thread telemetryExecutor;
     /// Имя необходимое для указания в runOpMode, должно быть уникальным
@@ -52,7 +52,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public void runOpMode() {
         gamepadControlInit();
         // инициализация телеметрии
-        initTelemetry();
+//        initTelemetry();
         // инициализация настроек опмода
         customOpModeSettings();
         // инициализация Планировщик задач
@@ -62,7 +62,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         onStart();
         // запуск планировщика
         runScheduler();
-        Logger.end();
+//        Logger.end();
         sleep(500);
     }
 
@@ -86,13 +86,13 @@ public abstract class PhantomOpMode extends LinearOpMode {
         this.name = name;
     }
 
-    private void initTelemetry() {
-        phantomLogger = new PhantomLogger(this);
-        phantomLogger.start();
-    }
+//    private void initTelemetry() {
+//        phantomLogger = new PhantomLogger(this);
+//        phantomLogger.start();
+//    }
 
     private void initScheduler() {
-        PhantomLogger.addData("Inited", true);
+//        PhantomLogger.addData("Inited", true);
         scheduler = new Scheduler.Builder()
                 .setAction(actions)
                 .addMechanisms(mechanism)

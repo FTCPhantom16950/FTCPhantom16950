@@ -4,8 +4,9 @@ import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.lb;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.lf;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rb;
 import static org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase.rf;
+import static org.firstinspires.ftc.teamcode.own.Utils.GamepadControl.gamepadDriver;
 
-import static io.github.ftcphantom16950.phantomlib.utils.GamepadControl.gamepadDriver;
+
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
@@ -13,10 +14,10 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 
-public class DriveAction extends io.github.ftcphantom16950.phantomlib.utils.Action.Action {
-    io.github.ftcphantom16950.phantomlib.utils.PhantomOpMode opMode;
+public class DriveAction extends Action {
+    PhantomOpMode opMode;
 
-    public DriveAction(io.github.ftcphantom16950.phantomlib.utils.PhantomOpMode OpMode) {
+    public DriveAction(PhantomOpMode OpMode) {
         super(OpMode);
         this.opMode = OpMode;
     }

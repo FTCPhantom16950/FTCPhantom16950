@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
-public class WheelBase implements  io.github.ftcphantom16950.phantomlib.utils.Mechanism {
+public class WheelBase implements  Mechanism {
     public static DcMotorEx rf, rb, lf, lb;
     private HardwareMap hw;
 
