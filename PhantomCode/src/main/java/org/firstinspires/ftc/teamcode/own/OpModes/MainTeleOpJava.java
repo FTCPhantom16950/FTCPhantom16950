@@ -14,7 +14,7 @@ public class MainTeleOpJava extends PhantomOpMode {
     public void customOpModeSettings() {
         WheelBase wheelBase = new WheelBase(this.hardwareMap);
         mechanism.add(wheelBase);
-        actions = new LinearGroup(this,
+        actions = new LinearGroup(
                 new DriveAction(this));
     }
 }

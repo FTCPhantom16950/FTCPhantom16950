@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
+
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
@@ -17,8 +22,9 @@ import java.util.Set;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
+
+    public long delayOperator = 300, delayDriver = 500;
 //    PhantomLogger phantomLogger;
-    private PhantomOpMode opMode = this;
     Thread telemetryExecutor;
     /// Имя необходимое для указания в runOpMode, должно быть уникальным
     private String name = "Default";
@@ -50,6 +56,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        Robot.opMode = this;
+        hw = hardwareMap;
+        Robot.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         gamepadControlInit();
         // инициализация телеметрии
 //        initTelemetry();
@@ -63,13 +72,14 @@ public abstract class PhantomOpMode extends LinearOpMode {
         // запуск планировщика
         runScheduler();
 //        Logger.end();
-        sleep(500);
+
     }
 
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
     public void gamepadControlInit() {
+        gamepad1.setTimestamp(delayDriver);
         GamepadControl.Companion.setOpMode(this);
         GamepadControl.Companion.init();
     }

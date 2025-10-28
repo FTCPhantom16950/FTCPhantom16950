@@ -25,8 +25,8 @@ public class LinearGroup extends Group {
      *
      * @param actions действия которые будут выполняться последовательно
      */
-    public LinearGroup(PhantomOpMode opMode, Group... actions) {
-        super(opMode);
+    public LinearGroup(Group... actions) {
+
         this.actions.addAll(Arrays.asList(actions));
     }
 

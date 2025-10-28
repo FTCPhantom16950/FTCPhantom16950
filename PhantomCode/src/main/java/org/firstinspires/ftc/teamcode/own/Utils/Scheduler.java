@@ -68,6 +68,7 @@ public class Scheduler {
 
     /// Метод для инициализации механизмов
     public void initMechanism() {
+
         for (Mechanism mechanism : mechanisms) {
             mechanism.init();
         }

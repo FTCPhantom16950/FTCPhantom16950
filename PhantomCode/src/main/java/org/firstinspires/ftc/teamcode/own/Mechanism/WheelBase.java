@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.own.Mechanism;
 
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lb;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lf;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 
 public class WheelBase implements  Mechanism {
-    public static DcMotorEx rf, rb, lf, lb;
+
     private HardwareMap hw;
 
     public WheelBase(HardwareMap hw) {

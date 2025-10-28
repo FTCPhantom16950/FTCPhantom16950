@@ -28,8 +28,7 @@ public class ParallelGroup extends Group {
      *
      * @param actions действия которые будут выполняться последовательно
      */
-    public ParallelGroup(PhantomOpMode phantomOpMode, Group... actions) {
-        super(phantomOpMode);
+    public ParallelGroup(Group... actions) {
         this.actions.addAll(List.of(actions));
     }
 

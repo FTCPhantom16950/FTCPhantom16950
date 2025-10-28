@@ -2,16 +2,12 @@ package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 public abstract class Group {
     LinearOpMode opMode;
-    public Group(LinearOpMode opMode) {
-        this.opMode = opMode;
+    public Group() {
+        this.opMode = Robot.opMode;
     }
 
     /// Метод для реализации выполнения действия

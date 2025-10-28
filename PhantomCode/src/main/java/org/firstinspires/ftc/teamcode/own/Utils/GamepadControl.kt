@@ -3,18 +3,16 @@ package org.firstinspires.ftc.teamcode.own.Utils
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.Gamepad
 
-class GamepadControl() {
+class GamepadControl {
+
     companion object {
         lateinit var opMode: LinearOpMode
         lateinit var gamepadDriver: Gamepad
         lateinit var gamepadOperator: Gamepad
 
-
-        fun init(): Boolean {
+        fun init() {
             gamepadDriver = opMode.gamepad1
             gamepadOperator = opMode.gamepad2
-
-            return true
         }
     }
 }
