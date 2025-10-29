@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.Actions;
 
-
-import static org.firstinspires.ftc.teamcode.own.Utils.GamepadControl.gamepadDriver;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 import static org.firstinspires.ftc.teamcode.own.Utils.PhantomMath.makeLinearToCubic;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lb;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lf;
@@ -11,17 +10,13 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rf;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomLogger;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 
 public class DriveAction extends Action {
-    PhantomOpMode opMode;
-
-    public DriveAction(PhantomOpMode OpMode) {
-        this.opMode = OpMode;
-    }
-
+    public DriveAction() {}
     double backRightPower, frontRightPower, backLeftPower, frontLeftPower, denominator;
     private static double x, y, rot;
     Thread thread = new Thread(() -> {
@@ -56,7 +51,14 @@ public class DriveAction extends Action {
             lb.setPower(makeLinearToCubic(backLeftPower));
         }
     });
-
+    Thread encoders = new Thread(()->{
+        while (opMode.opModeIsActive()){
+            PhantomLogger.addData("rf", rf.getCurrentPosition());
+            PhantomLogger.addData("rb", rb.getCurrentPosition());
+            PhantomLogger.addData("lf", lf.getCurrentPosition());
+            PhantomLogger.addData("lb", lb.getCurrentPosition());
+        }
+    });
     @Override
     public void execute() {
         while (opMode.opModeIsActive()) {
@@ -70,6 +72,9 @@ public class DriveAction extends Action {
             backRightPower = (y + x - rot) / denominator;
             if (!motorPower.isAlive()) {
                 motorPower.start();
+            }
+            if (!encoders.isAlive()) {
+                encoders.start();
             }
         }
     }

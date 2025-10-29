@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
-import static org.firstinspires.ftc.teamcode.own.Utils.GamepadControl.gamepadDriver;
 
 import android.annotation.SuppressLint;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
 import org.psilynx.psikit.core.Logger;
@@ -27,14 +27,13 @@ public class PhantomLogger extends Thread{
     public static boolean clearDataOnStart = true;
     @Override
     public void run() {
-
         super.run();
         long time = System.currentTimeMillis();
         @SuppressLint("DefaultLocale") String name = String.format("Unilogs %d.rlog", time);
         RLOGServer rlogServer = new RLOGServer();
         RLOGWriter rlogWriter = new RLOGWriter("storage/emulated/0/test", name);
         if (opMode.opModeInInit()){
-            multipleTelemetry = new MultipleTelemetry(opMode.telemetry);
+            multipleTelemetry = new MultipleTelemetry(opMode.telemetry, FtcDashboard.getInstance().getTelemetry());
             rlogServer.start();
             rlogWriter.start();
             org.psilynx.psikit.core.Logger.addDataReceiver(rlogServer);

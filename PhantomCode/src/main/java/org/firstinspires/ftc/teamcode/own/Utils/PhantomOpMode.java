@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.gamepadOperator;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
 
 
@@ -59,7 +60,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
         Robot.opMode = this;
         hw = hardwareMap;
         Robot.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        gamepadControlInit();
+        Robot.gamepadDriver = gamepad1;
+        Robot.gamepadOperator = gamepad2;
+//        gamepadControlInit();
         // инициализация телеметрии
 //        initTelemetry();
         // инициализация настроек опмода
@@ -78,11 +81,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
-    public void gamepadControlInit() {
-        gamepad1.setTimestamp(delayDriver);
-        GamepadControl.Companion.setOpMode(this);
-        GamepadControl.Companion.init();
-    }
+//    public void gamepadControlInit() {
+//        gamepad1.setTimestamp(delayDriver);
+//        GamepadControl.Companion.setOpMode(this);
+//        GamepadControl.Companion.init();
+//    }
 
     public void setGroup(String group) {
         this.group = group;

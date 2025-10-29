@@ -3,7 +3,7 @@ import static org.firstinspires.ftc.teamcode.own.Utils.PhantomMath.*;
 
 import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.GamepadControl;
+
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
@@ -22,17 +22,17 @@ public class CameraAction extends Action {
         verticalCameraServo = Robot.get("vcs", CRServo.class);
         horizontalCameraServo = Robot.get("hcs", CRServo.class);
         while (opMode.opModeIsActive()){
-            if (GamepadControl.Companion.getGamepadDriver().a){
+            if (gamepadDriver.a){
                 i = i + 10;
                 opMode.sleep(500);
-            } else if(GamepadControl.Companion.getGamepadDriver().y){
+            } else if(gamepadDriver.y){
                 i = i - 10;
                 opMode.sleep(500);
             }
-            if (GamepadControl.Companion.getGamepadDriver().x) {
+            if (gamepadDriver.x) {
                 j = j + 10;
                 opMode.sleep(500);
-            } else if (GamepadControl.Companion.getGamepadDriver().b) {
+            } else if (gamepadDriver.b) {
                 j -= 10;
                 opMode.sleep(500);
             }
