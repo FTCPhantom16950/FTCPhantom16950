@@ -5,6 +5,8 @@ import static org.opencv.core.CvType.CV_64F;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -21,13 +23,16 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Config
 /**
  * Класс для обнаружения элементов сезона 2025-2026, артефактов
  * Наследуется от интерфейса {@link VisionProcessor}
  */
 public class ArtifactProcessor implements VisionProcessor {
-
+    public static double lowRGreen = 0, lowGGreen = 0, lowBGreen = 0,
+            highRGreen = 255, highGGreen = 255, highBGreen = 255,
+            lowRPurple = 0, lowGPurple = 0, lowBPurple = 0,
+            highRPurple = 255, highGPurple = 255, highBPurple = 255;
     /**
      * Класс для хранения координат обнаруженного артефакта.
      */
@@ -434,11 +439,11 @@ public class ArtifactProcessor implements VisionProcessor {
             processor.pixelCameraHeight = 960;
             processor.dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(50, 50));
             processor.erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(30, 30));
-            processor.minValuesGreen = new Scalar(7, 60, 60);
-            processor.maxValuesGreen = new Scalar(15, 255, 255);
+            processor.minValuesGreen = new Scalar(0, 0, 0);
+            processor.maxValuesGreen = new Scalar(255, 255, 255);
             processor.blurSize = new Size(3, 3);
             processor.minValuesPurple = new Scalar(0, 0, 0);
-            processor.maxValuePurple = new Scalar(0, 0, 0);
+            processor.maxValuePurple = new Scalar(255, 255, 255);
             return processor;
         }
 
@@ -617,114 +622,118 @@ public class ArtifactProcessor implements VisionProcessor {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-        detectedArtifacts.clear();
+//        detectedArtifacts.clear();
         // блюрим изображение
         Imgproc.blur(frame, blurredImage, blurSize);
         // преобразуем к HSV формату
         Imgproc.cvtColor(blurredImage, hsvImage, Imgproc.COLOR_BGR2HSV);
         // фильтруем изображение по зеленому цвету
-        Core.inRange(hsvImage, minValuesGreen, maxValuesGreen, green);
-        // фильтруем изображение по фиолетовому цвету
+//        green = hsvImage.clone();
+        Core.inRange(hsvImage, minValuesGreen,maxValuesGreen, green);
+//        green = frame;
+//        // фильтруем изображение по фиолетовому цвету
         Core.inRange(hsvImage, minValuesPurple, maxValuePurple, purple);
         // совмещаем изображения
-        Core.add(green, purple, mask);
-        // применяем фильтр открытия
+        Core.bitwise_and(green, purple, mask);
+//         применяем фильтр открытия
         Imgproc.erode(mask, openingImage, erodeElement);
         Imgproc.dilate(openingImage, morfOutput, dilateElement);
         // применяем фильтр закрытия
         Imgproc.dilate(mask, closingOutput, dilateElement);
         Imgproc.erode(closingOutput, morfOutput, erodeElement);
         // ищем контуры изображения
-        Imgproc.findContours(morfOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-        // создаём объекты полигонов контуров
-        contoursPoly = new MatOfPoint2f[contours.size()];
-        // создаём объекты прямоугольников
-        contourRects = new Rect[contours.size()];
-        // отрисовка и создание прямоугольников
-        for (int idx = 0; idx < contours.size(); idx++) {
-            // если контур не пустой
-            if (contours.get(idx).toArray() != null) {
-                // создаем полигон для данного контура
-                contoursPoly[idx] = new MatOfPoint2f();
-                // аппроксимируем контур
-                Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(idx).toArray()), contoursPoly[idx], 3, true);
-                // создаём прямоугольник
-                contourRects[idx] = Imgproc.boundingRect(new MatOfPoint(contoursPoly[idx].toArray()));
-                // ищем стороны прямоугольника на изображении
-                a = (float) (-contourRects[idx].tl().x + contourRects[idx].br().x);
-                b = (float) (-contourRects[idx].tl().y + contourRects[idx].br().y);
-                // ищем отношение сторон
-                otn = a / b;
-                // высота объекта на сенсоре
-                h = (a * mmPerPixel);
-                // расчет дистанции до объекта
-                distanceToTarget = ((f * size) / h);
-                // площадь на изображении
-                squareOnScreen = (a * a);
-                // проверка параметров
-                boolean screenProperty = !usingSquare || (squareOnScreen >= minSquareOnScreen && squareOnScreen <= maxSquareOnScreen),
-                        distProperty = !usingDist || (distanceToTarget >= minDist && distanceToTarget <= maxDist),
-                        otnProperty = !usingOtn || (otn >= minOtn && otn <= maxOtn);
-                // проверка условий и отрисовка итоговых изображений
-                if (screenProperty && otnProperty && distProperty) {
-
-                    // центр диагонали центра прямоугольника
-                    centerOfSquare = (a / 2);
-                    // отрисовка прямоугольника
-                    Imgproc.rectangle(frame, contourRects[idx].tl(), contourRects[idx].br(), new Scalar(255, 0, 0), 2);
-                    // точка центра
-                    Point centerPoint = new Point(contourRects[idx].tl().x + centerOfSquare, contourRects[idx].tl().y + centerOfSquare);
-                    /// Массив с углами, хранит 2 значения: горизонтальный(1) и вертикальный(0)
-                    float[] angles = calculateAngle((float) centerPoint.x, (float) centerPoint.y);
-                    /// Координата x в системе камеры
-                    float xc = (float) (distanceToTarget * Math.cos(angles[0]) * Math.cos(angles[1]));
-                    /// Координата y в системе камеры
-                    float yc = (float) (distanceToTarget * Math.cos(angles[0]) * Math.sin(angles[1]));
-                    /// Координата z в системе камеры
-                    float zc = (float) (distanceToTarget * Math.sin(angles[0]));
-                    /// Массив координат камеры
-                    float[] cameraCoordinates = {xc, yc, zc};
-                    // перевод координат камеры в координаты робота
-                    cameraCoordinates = convertCameraToRobot(cameraPos, cameraRot, cameraCoordinates);
-                    x = cameraCoordinates[0];
-                    y = cameraCoordinates[1];
-                    z = cameraCoordinates[2];
-
-                    // логика для добавления уникальных объектов
-                    Artifact newArtifact = new Artifact(x, y, z);
-                    boolean isNew = true;
-                    for (Artifact existingArtifact : detectedArtifacts) {
-                        if (newArtifact.distanceTo(existingArtifact) < 100) {
-                            isNew = false;
-                            break;
-                        }
-                    }
-                    if (isNew) {
-                        detectedArtifacts.add(newArtifact);
-                    }
-
-                    // вывод координат на изображение
-                    @SuppressLint("DefaultLocale")
-                    String text = String.format("dist: %.1f, x: %.1f, y: %.1f, z: %.1f", distanceToTarget, x, y, z);
-                    Imgproc.putText(frame, text, contourRects[idx].tl(), 1, 1, new Scalar(255, 255, 0));
-                    // отрисовка центра прямоугольника
-                    Imgproc.drawMarker(frame, new Point(contourRects[idx].tl().x + centerOfSquare, contourRects[idx].tl().y + centerOfSquare), new Scalar(255, 0, 0));
-                }
-            }
-            // освобождение полигона
-            contoursPoly[idx].release();
-        }
+//        Imgproc.findContours(morfOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+//        // создаём объекты полигонов контуров
+//        contoursPoly = new MatOfPoint2f[contours.size()];
+//        // создаём объекты прямоугольников
+//        contourRects = new Rect[contours.size()];
+//        // отрисовка и создание прямоугольников
+//        for (int idx = 0; idx < contours.size(); idx++) {
+//            // если контур не пустой
+//            if (contours.get(idx).toArray() != null) {
+//                // создаем полигон для данного контура
+//                contoursPoly[idx] = new MatOfPoint2f();
+//                // аппроксимируем контур
+//                Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(idx).toArray()), contoursPoly[idx], 3, true);
+//                // создаём прямоугольник
+//                contourRects[idx] = Imgproc.boundingRect(new MatOfPoint(contoursPoly[idx].toArray()));
+//                // ищем стороны прямоугольника на изображении
+//                a = (float) (-contourRects[idx].tl().x + contourRects[idx].br().x);
+//                b = (float) (-contourRects[idx].tl().y + contourRects[idx].br().y);
+//                // ищем отношение сторон
+//                otn = a / b;
+//                // высота объекта на сенсоре
+//                h = (a * mmPerPixel);
+//                // расчет дистанции до объекта
+//                distanceToTarget = ((f * size) / h);
+//                // площадь на изображении
+//                squareOnScreen = (a * a);
+//                // проверка параметров
+//                boolean screenProperty = !usingSquare || (squareOnScreen >= minSquareOnScreen && squareOnScreen <= maxSquareOnScreen),
+//                        distProperty = !usingDist || (distanceToTarget >= minDist && distanceToTarget <= maxDist),
+//                        otnProperty = !usingOtn || (otn >= minOtn && otn <= maxOtn);
+//                // проверка условий и отрисовка итоговых изображений
+//                if (screenProperty && otnProperty && distProperty) {
+//
+//                    // центр диагонали центра прямоугольника
+//                    centerOfSquare = (a / 2);
+//                    // отрисовка прямоугольника
+//                    Imgproc.rectangle(frame, contourRects[idx].tl(), contourRects[idx].br(), new Scalar(255, 0, 0), 2);
+//                    // точка центра
+//                    Point centerPoint = new Point(contourRects[idx].tl().x + centerOfSquare, contourRects[idx].tl().y + centerOfSquare);
+//                    /// Массив с углами, хранит 2 значения: горизонтальный(1) и вертикальный(0)
+//                    float[] angles = calculateAngle((float) centerPoint.x, (float) centerPoint.y);
+//                    /// Координата x в системе камеры
+//                    float xc = (float) (distanceToTarget * Math.cos(angles[0]) * Math.cos(angles[1]));
+//                    /// Координата y в системе камеры
+//                    float yc = (float) (distanceToTarget * Math.cos(angles[0]) * Math.sin(angles[1]));
+//                    /// Координата z в системе камеры
+//                    float zc = (float) (distanceToTarget * Math.sin(angles[0]));
+//                    /// Массив координат камеры
+//                    float[] cameraCoordinates = {xc, yc, zc};
+//                    // перевод координат камеры в координаты робота
+//                    cameraCoordinates = convertCameraToRobot(cameraPos, cameraRot, cameraCoordinates);
+//                    x = cameraCoordinates[0];
+//                    y = cameraCoordinates[1];
+//                    z = cameraCoordinates[2];
+//
+//                    // логика для добавления уникальных объектов
+//                    Artifact newArtifact = new Artifact(x, y, z);
+//                    boolean isNew = true;
+//                    for (Artifact existingArtifact : detectedArtifacts) {
+//                        if (newArtifact.distanceTo(existingArtifact) < 100) {
+//                            isNew = false;
+//                            break;
+//                        }
+//                    }
+//                    if (isNew) {
+//                        detectedArtifacts.add(newArtifact);
+//                    }
+//
+//                    // вывод координат на изображение
+//                    @SuppressLint("DefaultLocale")
+//                    String text = String.format("dist: %.1f, x: %.1f, y: %.1f, z: %.1f", distanceToTarget, x, y, z);
+//                    Imgproc.putText(frame, text, contourRects[idx].tl(), 1, 1, new Scalar(255, 255, 0));
+//                    // отрисовка центра прямоугольника
+//                    Imgproc.drawMarker(frame, new Point(contourRects[idx].tl().x + centerOfSquare, contourRects[idx].tl().y + centerOfSquare), new Scalar(255, 0, 0));
+//                }
+//            }
+//            // освобождение полигона
+//            contoursPoly[idx].release();
+//        }
+            morfOutput = frame;
         // отрисовка центра камеры
-        Imgproc.drawMarker(frame, new Point(K.get(0, 2)[0], K.get(1, 2)[0]), new Scalar(255, 0, 255));
+//        Imgproc.drawMarker(frame, new Point(K.get(0, 2)[0], K.get(1, 2)[0]), new Scalar(255, 0, 255));
+//        green = frame;
         // освобождение памяти
-        blurredImage.release();
-        hsvImage.release();
-        mask.release();
-        openingImage.release();
-        closingOutput.release();
-        contours.clear();
-        hierarchy.release();
-        contours.clear();
+//        blurredImage.release();
+//        hsvImage.release();
+//        mask.release();
+//        openingImage.release();
+//        closingOutput.release();
+//        contours.clear();
+//        hierarchy.release();
+//        contours.clear();
 
 
         return null;

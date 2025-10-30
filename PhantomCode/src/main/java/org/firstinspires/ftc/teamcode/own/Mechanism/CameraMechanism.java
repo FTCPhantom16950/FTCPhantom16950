@@ -40,7 +40,7 @@ public class CameraMechanism implements Mechanism {
         }
         Robot.addOrUpdate("vcs",verticalCameraServo);
         Robot.addOrUpdate("hcs",horizontalCameraServo);
-        FtcDashboard.getInstance().startCameraStream(visionPortal, 0);
+//        FtcDashboard.getInstance().startCameraStream(visionPortal, 0);
         return true;
     }
 }

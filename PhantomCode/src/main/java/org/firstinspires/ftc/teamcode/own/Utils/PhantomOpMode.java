@@ -82,7 +82,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             runScheduler();
 //        Logger.end();
         } catch (Exception e) {
-            int soundID = myApp.getResources().getIdentifier("otkaz_system_smotri_ekran", "raw", myApp.getPackageName());
+            int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
             SoundPlayer.getInstance().startPlaying(myApp, soundID);
             throw new RuntimeException(e);
         } finally {
