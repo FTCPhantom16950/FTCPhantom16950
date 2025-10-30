@@ -9,10 +9,6 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rf;
 
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomLogger;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 
 public class DriveAction extends Action {
@@ -53,10 +49,7 @@ public class DriveAction extends Action {
     });
     Thread encoders = new Thread(()->{
         while (opMode.opModeIsActive()){
-            PhantomLogger.addData("rf", rf.getCurrentPosition());
-            PhantomLogger.addData("rb", rb.getCurrentPosition());
-            PhantomLogger.addData("lf", lf.getCurrentPosition());
-            PhantomLogger.addData("lb", lb.getCurrentPosition());
+
         }
     });
     @Override

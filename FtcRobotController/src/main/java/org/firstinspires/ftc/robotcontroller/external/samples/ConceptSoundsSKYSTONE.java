@@ -48,13 +48,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name="SKYSTONE Sounds", group="Concept")
-@Disabled
 public class ConceptSoundsSKYSTONE extends LinearOpMode {
 
     // List of available sound resources
-    String  sounds[] =  {"ss_alarm", "ss_bb8_down", "ss_bb8_up", "ss_darth_vader", "ss_fly_by",
-            "ss_mf_fail", "ss_laser", "ss_laser_burst", "ss_light_saber", "ss_light_saber_long", "ss_light_saber_short",
-            "ss_light_speed", "ss_mine", "ss_power_up", "ss_r2d2_up", "ss_roger_roger", "ss_siren", "ss_wookie" };
+    String  sounds[] =  {"otkazavtopilota", "otkaz_system_smotri_ekran", "pozar_dvigat",
+            "predel_ugl_dlin", "predelataki", "pusk_razresh", "rubezvozvrata", "skorost_predel",
+        "vipusti_shasi"};
     boolean soundPlaying = false;
 
     @Override

@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 import org.firstinspires.ftc.teamcode.own.camera.ArtifactProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class CameraMechanism implements Mechanism {
     private static CRServo verticalCameraServo, horizontalCameraServo;
     private static ArtifactProcessor artifactProcessor;
-
+    private static AprilTagProcessor aprilTagProcessor;
     public static ArtifactProcessor getArtifactProcessor() {
         return artifactProcessor;
     }
@@ -23,6 +24,7 @@ public class CameraMechanism implements Mechanism {
 
     @Override
     public boolean init() {
+        aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
         verticalCameraServo = hw.get(CRServo.class, "vcs");
         horizontalCameraServo = hw.get(CRServo.class, "hcs");
         horizontalCameraServo.setPower(-0.3);
@@ -31,7 +33,7 @@ public class CameraMechanism implements Mechanism {
         if (visionPortal == null) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(hw.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(artifactProcessor)
+                    .addProcessors(artifactProcessor, aprilTagProcessor)
                     .build();
         }else{
             visionPortal.resumeLiveView();

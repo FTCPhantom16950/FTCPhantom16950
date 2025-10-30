@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
+import android.content.Context;
+
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,13 +18,15 @@ import java.util.Map;
  * Класс хранящий основные переменные OpMode, хранящиеся статично
  */
 public class Robot {
+    /// Используемый Telemetry
+    public static MultipleTelemetry multipleTelemetry;
+    public static SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
+    public static Context myApp;
     public static DcMotorEx lf, rb, lb, rf;
     /// Используемый {@link PhantomOpMode }
     public static PhantomOpMode opMode;
     /// Используемый HardwareMap
     public static HardwareMap hw;
-    /// Используемый Telemetry
-    public static Telemetry telemetry;
     /// Используемый геймпад(gamepad1)
     public static Gamepad gamepadDriver,
     /// Используемый геймпад (gamepad2)
