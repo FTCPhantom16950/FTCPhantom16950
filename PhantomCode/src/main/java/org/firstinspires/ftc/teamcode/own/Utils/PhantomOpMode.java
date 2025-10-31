@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.gamepadOperator;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.imu;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.multipleTelemetry;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.myApp;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.params;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rot;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.soundPlaying;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.voltageSensor;
 
 
 import android.annotation.SuppressLint;
@@ -21,6 +24,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
 //import org.psilynx.psikit.core.Logger;
@@ -45,12 +49,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
-    private VoltageSensor voltageSensor;
+
     Thread telemetryExecutor = new Thread(() -> {
         while (!isStopRequested()) {
             if (voltageSensor.getVoltage() <= 9.5 && !soundPlaying) {
                 int soundID = myApp.getResources().getIdentifier("rubezvozvrata", "raw", myApp.getPackageName());
-                PhantomOpMode.addData("playing", soundID);
+                multipleTelemetry.addData("playing", soundID);
                 soundPlaying = true;
                 SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
                         new Runnable() {
@@ -59,7 +63,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
                             }
                         });
             }
+
             multipleTelemetry.addData("voltage", voltageSensor.getVoltage());
+            multipleTelemetry.addData("heading (deg)", rot);
             for (String s : data.keySet()) {
                 multipleTelemetry.addData(s, data.get(s));
             }
@@ -84,6 +90,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             hw = hardwareMap;
             Robot.gamepadDriver = gamepad1;
             Robot.gamepadOperator = gamepad2;
+            mechanism.add(new GyroScope());
             // инициализация телеметрии
             initTelemetry();
             // инициализация настроек опмода
@@ -130,6 +137,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 .build();
 
         scheduler.initMechanism();
+        rot = imu.getRobotYawPitchRollAngles().getYaw();
     }
 
     private void runScheduler() {

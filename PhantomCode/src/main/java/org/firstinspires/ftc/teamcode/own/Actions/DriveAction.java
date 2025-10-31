@@ -39,7 +39,7 @@ public class DriveAction extends Action {
             PhantomOpMode.addData("x,y, rot", Arrays.toString(new double[]{2,1,imu.getRobotYawPitchRollAngles().getYaw()}));
             PhantomOpMode.addData("heading y", 1);
             PhantomOpMode.addData("heading x", 2);
-            PhantomOpMode.addData("heading (deg)", imu.getRobotYawPitchRollAngles().getYaw());
+
 //            PhantomOpMode.packet.put("Pose heading (deg)", imu.getRobotYawPitchRollAngles().getYaw());
 //            PhantomOpMode.addData("x",x);
 //            PhantomOpMode.addData("y",y);

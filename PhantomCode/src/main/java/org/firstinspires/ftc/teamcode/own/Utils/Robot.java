@@ -8,35 +8,42 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Класс хранящий основные переменные OpMode, хранящиеся статично
  */
 public class Robot {
+    public static volatile double x = 0,y = 0,rot = 0, vx,vy,vRot;
+    public static IMU imu;
+    public static volatile VoltageSensor voltageSensor;
     public static boolean soundPlaying = false;
     /// Используемый Telemetry
-    public static MultipleTelemetry multipleTelemetry;
+    public static volatile MultipleTelemetry multipleTelemetry;
     public static SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
-    public static Context myApp;
-    public static DcMotorEx lf, rb, lb, rf;
+    public static volatile Context myApp;
+    public static volatile DcMotorEx lf, rb, lb, rf;
     /// Используемый {@link PhantomOpMode }
-    public static PhantomOpMode opMode;
+    public static volatile PhantomOpMode opMode;
     /// Используемый HardwareMap
-    public static HardwareMap hw;
+    public static volatile HardwareMap hw;
     /// Используемый геймпад(gamepad1)
-    public static Gamepad gamepadDriver,
+    public static volatile Gamepad gamepadDriver,
     /// Используемый геймпад (gamepad2)
     gamepadOperator;
 
-    private static final Map<String, Object> customObjects = new HashMap<>();
+    private static final Map<String, Object> customObjects = new ConcurrentHashMap<>();
 
     /**
      * Добавляет или обновляет кастомный объект в статичном хранилище
+     *
      * @param key    ключ для доступа к объекту
      * @param object объект для хранения
      */

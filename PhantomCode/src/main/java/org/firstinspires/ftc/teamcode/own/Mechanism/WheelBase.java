@@ -16,8 +16,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 public class WheelBase implements Mechanism {
-    private static IMU imu;
-    private HardwareMap hw;
+    HardwareMap hw;
 
     public WheelBase(HardwareMap hw) {
         this.hw = hw;
@@ -25,14 +24,6 @@ public class WheelBase implements Mechanism {
 
     @Override
     public boolean init() {
-        imu = hw.get(IMU.class, "imu");
-        imu.initialize(
-                new IMU.Parameters(
-                        new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP
-                                ,RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)
-                )
-        );
-        imu.resetYaw();
 
         rb = hw.get(DcMotorEx.class, "rb");
         rf = hw.get(DcMotorEx.class, "rf");
@@ -48,7 +39,7 @@ public class WheelBase implements Mechanism {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        Robot.addOrUpdate("imu", imu);
+
         return true;
     }
 }
