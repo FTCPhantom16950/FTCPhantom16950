@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.multipleTelemetry;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.myApp;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.params;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.soundPlaying;
 
 
 import android.annotation.SuppressLint;
@@ -13,21 +14,22 @@ import android.util.Log;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
-import org.psilynx.psikit.core.Logger;
-import org.psilynx.psikit.core.rlog.RLOGServer;
-import org.psilynx.psikit.core.rlog.RLOGWriter;
+
 //import org.psilynx.psikit.core.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>Класс для работы с OpMode</p>
@@ -36,35 +38,48 @@ import java.util.Set;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
-    long currTime = System.currentTimeMillis();
-    @SuppressLint("DefaultLocale") String name = String.format("Unilogs %d.rlog", currTime);
-    ElapsedTime timer;
+    private static final Map<String, Object> data = new ConcurrentHashMap<>();
+    public static volatile TelemetryPacket packet;
     /// Действие запускаемое в начале OpMode
     public Group actions;
     public Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
-    RLOGServer rlogServer;
-    RLOGWriter rlogWriter;
+    private VoltageSensor voltageSensor;
     Thread telemetryExecutor = new Thread(() -> {
-        timer = new ElapsedTime();
-        timer.reset();
-        while (opModeIsActive() || opModeInInit()){
-            Logger.periodicBeforeUser();
-            multipleTelemetry.update();
-            Logger.periodicAfterUser(0, timer.time());
+        while (!isStopRequested()) {
+            if (voltageSensor.getVoltage() <= 9.5 && !soundPlaying) {
+                int soundID = myApp.getResources().getIdentifier("rubezvozvrata", "raw", myApp.getPackageName());
+                PhantomOpMode.addData("playing", soundID);
+                soundPlaying = true;
+                SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
+                        new Runnable() {
+                            public void run() {
+                                soundPlaying = false;
+                            }
+                        });
+            }
+            multipleTelemetry.addData("voltage", voltageSensor.getVoltage());
+            for (String s : data.keySet()) {
+                multipleTelemetry.addData(s, data.get(s));
+            }
+            if (!isStopRequested()){
+                FtcDashboard.getInstance().sendTelemetryPacket(packet);
+                multipleTelemetry.update();
+            }
+
         }
     });
 
 
     @Override
     public void runOpMode() {
-        rlogServer = new RLOGServer();
-        rlogWriter  = new RLOGWriter("storage/emulated/0/test", name);
-        myApp = hardwareMap.appContext;
-        params.loopControl = 0;
-        params.waitForNonLoopingSoundsToFinish = true;
         try {
+            packet = new TelemetryPacket();
+            voltageSensor = hardwareMap.voltageSensor.iterator().next();
+            myApp = hardwareMap.appContext;
+            params.loopControl = 0;
+            params.waitForNonLoopingSoundsToFinish = true;
             Robot.opMode = this;
             hw = hardwareMap;
             Robot.gamepadDriver = gamepad1;
@@ -80,37 +95,32 @@ public abstract class PhantomOpMode extends LinearOpMode {
             onStart();
             // запуск планировщика
             runScheduler();
-//        Logger.end();
+
         } catch (Exception e) {
-            int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
-            SoundPlayer.getInstance().startPlaying(myApp, soundID);
+            playDead();
             throw new RuntimeException(e);
-        } finally {
-            Logger.end();
-            rlogServer.end();
-            rlogWriter.end();
         }
 
 
     }
-
+    public static void playDead(){
+        int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
+        SoundPlayer.getInstance().startPlaying(myApp, soundID);
+    }
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
 
     private void initTelemetry() {
         multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        rlogServer.start();
-        rlogWriter.start();
-        Logger.addDataReceiver(rlogServer);
-        Logger.addDataReceiver(rlogWriter);
-        Logger.start();
-        Logger.periodicBeforeUser();
         multipleTelemetry.addData("Нижняя подсветка", true);
         multipleTelemetry.update();
-        Logger.recordOutput("Нижняя подсветка", true);
-        Logger.periodicAfterUser(0, 0);
-        telemetryExecutor.start();
+        try {
+            telemetryExecutor.start();
+        } catch (Exception e) {
+            playDead();
+            throw new RuntimeException(e);
+        }
     }
 
     private void initScheduler() {
@@ -126,9 +136,17 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (opModeIsActive()) {
             scheduler.run();
         }
-
+        if (isStopRequested()){
+            SoundPlayer.getInstance().stopPlayingAll();
+            data.clear();
+        }
     }
 
-    public void onStart() {}
+    public void onStart() {
+    }
+
+    public static void addData(String s, Object data) {
+        PhantomOpMode.data.put(s, data);
+    }
 
 }

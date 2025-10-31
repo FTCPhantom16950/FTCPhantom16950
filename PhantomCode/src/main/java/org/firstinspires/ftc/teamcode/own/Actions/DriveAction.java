@@ -8,37 +8,24 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rb;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rf;
 
 
+import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+
+import java.util.Arrays;
 
 
 public class DriveAction extends Action {
+
+    private static IMU imu;
     public DriveAction() {}
     double backRightPower, frontRightPower, backLeftPower, frontLeftPower, denominator;
     private static double x, y, rot;
-    Thread thread = new Thread(() -> {
-        while (opMode.opModeIsActive()) {
-            x = 1.1 * gamepadDriver.left_stick_x + 1.1 * 0.6 * gamepadDriver.right_stick_x;
-            y = -gamepadDriver.left_stick_y - 0.6 * gamepadDriver.right_stick_y;
-            rot = gamepadDriver.left_trigger - gamepadDriver.right_trigger;
-            x = makeLinearToCubic(x);
-            y = makeLinearToCubic(y);
-            rot = makeLinearToCubic(rot);
-            if (-0.1 < x && x < 0.1) {
-                x = 0;
-            }
-            if (-0.1 < y && y < 0.1) {
-                x = 0;
-            }
-            if (-0.1 < rot && rot < 0.1) {
-                x = 0;
-            }
-            if (gamepadDriver.right_bumper) {
-                rot = -0.3;
-            } else if (gamepadDriver.left_bumper) {
-                rot = -0.3;
-            }
-        }
-    });
+
     Thread motorPower = new Thread(() -> {
         while (opMode.opModeIsActive()) {
             lf.setPower(makeLinearToCubic(frontLeftPower));
@@ -49,14 +36,30 @@ public class DriveAction extends Action {
     });
     Thread encoders = new Thread(()->{
         while (opMode.opModeIsActive()){
-
+            PhantomOpMode.addData("x,y, rot", Arrays.toString(new double[]{2,1,imu.getRobotYawPitchRollAngles().getYaw()}));
+            PhantomOpMode.addData("heading y", 1);
+            PhantomOpMode.addData("heading x", 2);
+            PhantomOpMode.addData("heading (deg)", imu.getRobotYawPitchRollAngles().getYaw());
+//            PhantomOpMode.packet.put("Pose heading (deg)", imu.getRobotYawPitchRollAngles().getYaw());
+//            PhantomOpMode.addData("x",x);
+//            PhantomOpMode.addData("y",y);
+            PhantomOpMode.addData("rot",rot);
         }
     });
     @Override
     public void execute() {
+        imu = Robot.get("imu", IMU.class);
         while (opMode.opModeIsActive()) {
-            if (!thread.isAlive()) {
-                thread.start();
+            x = 1.1 * gamepadDriver.left_stick_x + 1.1 * 0.8 * gamepadDriver.right_stick_x;
+            y = -gamepadDriver.left_stick_y - 0.8 * gamepadDriver.right_stick_y;
+            rot = gamepadDriver.left_trigger - gamepadDriver.right_trigger;
+            x = makeLinearToCubic(x);
+            y = makeLinearToCubic(y);
+            rot = makeLinearToCubic(rot);
+            if (gamepadDriver.right_bumper) {
+                rot = 0.8;
+            } else if (gamepadDriver.left_bumper) {
+                rot = -0.8;
             }
             denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rot), 1);
             frontLeftPower = (y + x + rot) / denominator;

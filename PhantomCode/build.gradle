@@ -50,14 +50,14 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.15.0'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
-    implementation 'com.pedropathing:ftc:2.0.2'
+    implementation 'com.pedropathing:ftc:2.0.3'
     implementation 'com.pedropathing:telemetry:1.0.0'
 
     implementation "com.bylazar:panels:1.0.3"
     implementation "com.bylazar:configurables:1.0.3"
     implementation "com.bylazar:field:1.0.3"
     implementation "com.bylazar:telemetry:1.0.3"
-    implementation('com.acmerobotics.dashboard:dashboard:0.4.17') {
+    implementation('com.acmerobotics.dashboard:dashboard:0.5.0') {
         exclude group: 'org.firstinspires.ftc'
     }
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'

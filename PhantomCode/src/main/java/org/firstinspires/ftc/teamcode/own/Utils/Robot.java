@@ -18,6 +18,7 @@ import java.util.Map;
  * Класс хранящий основные переменные OpMode, хранящиеся статично
  */
 public class Robot {
+    public static boolean soundPlaying = false;
     /// Используемый Telemetry
     public static MultipleTelemetry multipleTelemetry;
     public static SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();

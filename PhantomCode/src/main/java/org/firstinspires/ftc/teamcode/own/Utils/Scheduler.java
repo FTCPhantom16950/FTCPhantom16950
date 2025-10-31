@@ -86,6 +86,12 @@ public class Scheduler {
         if (action == null) {
             throw new NullPointerException("Action is null");
         }
-        action.execute();
+        try {
+            action.execute();
+        } catch (RuntimeException e) {
+            PhantomOpMode.playDead();
+            throw new RuntimeException(e);
+        }
+
     }
 }

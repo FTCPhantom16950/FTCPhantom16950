@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.LinearGroup;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.psilynx.psikit.core.Logger;
+
 
 
 @TeleOp
@@ -21,18 +21,16 @@ public class MainTeleOpJava extends PhantomOpMode {
         WheelBase wheelBase = new WheelBase(this.hardwareMap);
         ParkovkaMechanism parkovkaMechanism = new ParkovkaMechanism();
         mechanism.add(wheelBase);
-//        mechanism.add(parkovkaMechanism);
+        mechanism.add(parkovkaMechanism);
         actions = new ParallelGroup(
                 new DriveAction()
-//                ,new PodemAction()
-                ,new AYLOKAction()
+                ,new PodemAction()
+//                ,new AYLOKAction()
         );
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        multipleTelemetry.addData("abc", "abc");
-        Logger.recordOutput("abc", "abc");
     }
 }
