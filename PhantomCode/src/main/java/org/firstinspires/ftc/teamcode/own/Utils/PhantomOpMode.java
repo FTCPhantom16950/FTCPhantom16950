@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
@@ -46,7 +47,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public static volatile TelemetryPacket packet;
     /// Действие запускаемое в начале OpMode
     public Group actions;
-    public Set<Mechanism> mechanism = new HashSet<Mechanism>();
+    public static volatile Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
 
@@ -104,6 +105,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
             runScheduler();
 
         } catch (Exception e) {
+            if (CameraMechanism.visionPortal != null){
+                CameraMechanism.visionPortal.close();
+            }
+            CameraMechanism.visionPortal = null;
+            data.clear();
+            mechanism = new HashSet<>();
             playDead();
             throw new RuntimeException(e);
         }
@@ -147,6 +154,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (isStopRequested()){
             SoundPlayer.getInstance().stopPlayingAll();
             data.clear();
+            mechanism = new HashSet<>();
+            if (CameraMechanism.visionPortal != null){
+                CameraMechanism.visionPortal.close();
+            }
+            CameraMechanism.visionPortal = null;
         }
     }
 

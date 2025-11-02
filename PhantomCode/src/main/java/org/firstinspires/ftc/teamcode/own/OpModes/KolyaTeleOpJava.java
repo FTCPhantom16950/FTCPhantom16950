@@ -1,22 +1,18 @@
 package org.firstinspires.ftc.teamcode.own.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 
 import org.firstinspires.ftc.teamcode.own.Actions.AYLOKAction;
 import org.firstinspires.ftc.teamcode.own.Actions.DriveAction;
 import org.firstinspires.ftc.teamcode.own.Actions.PodemAction;
-import org.firstinspires.ftc.teamcode.own.Actions.ShutkaAction;
 import org.firstinspires.ftc.teamcode.own.Mechanism.ParkovkaMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.LinearGroup;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 
 
-
 @TeleOp
-public class MainTeleOpJava extends PhantomOpMode {
+public class KolyaTeleOpJava extends PhantomOpMode {
     @Override
     public void customOpModeSettings() {
         WheelBase wheelBase = new WheelBase(this.hardwareMap);
@@ -26,8 +22,7 @@ public class MainTeleOpJava extends PhantomOpMode {
         actions = new ParallelGroup(
                 new DriveAction()
                 ,new PodemAction()
-//                ,new AYLOKAction()
-                ,new ShutkaAction()
+                ,new AYLOKAction()
         );
     }
 

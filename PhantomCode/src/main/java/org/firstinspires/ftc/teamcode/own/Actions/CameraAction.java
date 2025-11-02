@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.opencv.android.CameraRenderer;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 
@@ -47,6 +48,8 @@ public class CameraAction extends Action {
             opMode.telemetry.addData("hsc", horizontalCameraServo.getPower());
             opMode.telemetry.update();
         }
-
+        if (opMode.isStopRequested()){
+            CameraMechanism.visionPortal = null;
+        }
     }
 }

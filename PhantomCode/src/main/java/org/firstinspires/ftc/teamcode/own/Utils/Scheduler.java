@@ -68,9 +68,19 @@ public class Scheduler {
 
     /// Метод для инициализации механизмов
     public void initMechanism() {
-
         for (Mechanism mechanism : mechanisms) {
-            mechanism.init();
+            try{
+                PhantomOpMode.addData(mechanism.getClass().getSimpleName(), true);
+                mechanism.init();
+                mechanism = null;
+            } catch (Exception e) {
+                PhantomOpMode.addData(mechanism.getClass().getSimpleName(), false);
+                Robot.multipleTelemetry.update();
+                mechanism = null;
+                throw new RuntimeException(e);
+            } finally {
+                mechanism = null;
+            }
         }
     }
 

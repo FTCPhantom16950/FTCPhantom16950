@@ -20,7 +20,7 @@ public class CameraMechanism implements Mechanism {
         return artifactProcessor;
     }
 
-    private VisionPortal visionPortal;
+    public static volatile VisionPortal visionPortal;
 
     @Override
     public boolean init() {

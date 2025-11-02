@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class DriveAction extends Action {
 
-    private static IMU imu;
+
     public DriveAction() {}
     double backRightPower, frontRightPower, backLeftPower, frontLeftPower, denominator;
     private static double x, y, rot;
@@ -36,14 +36,14 @@ public class DriveAction extends Action {
     });
     Thread encoders = new Thread(()->{
         while (opMode.opModeIsActive()){
-            PhantomOpMode.addData("x,y, rot", Arrays.toString(new double[]{2,1,imu.getRobotYawPitchRollAngles().getYaw()}));
-            PhantomOpMode.addData("heading y", 1);
-            PhantomOpMode.addData("heading x", 2);
+//            PhantomOpMode.addData("x,y, rot", Arrays.toString(new double[]{2,1,imu.getRobotYawPitchRollAngles().getYaw()}));
+//            PhantomOpMode.addData("heading y", 1);
+//            PhantomOpMode.addData("heading x", 2);
 
 //            PhantomOpMode.packet.put("Pose heading (deg)", imu.getRobotYawPitchRollAngles().getYaw());
 //            PhantomOpMode.addData("x",x);
 //            PhantomOpMode.addData("y",y);
-            PhantomOpMode.addData("rot",rot);
+//            PhantomOpMode.addData("rot",rot);
         }
     });
     @Override

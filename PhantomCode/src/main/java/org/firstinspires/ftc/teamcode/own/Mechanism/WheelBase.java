@@ -29,8 +29,8 @@ public class WheelBase implements Mechanism {
         rf = hw.get(DcMotorEx.class, "rf");
         lf = hw.get(DcMotorEx.class, "lf");
         lb = hw.get(DcMotorEx.class, "lb");
-        lb.setDirection(DcMotorSimple.Direction.REVERSE);
-        lf.setDirection(DcMotorSimple.Direction.REVERSE);
+        rf.setDirection(DcMotorSimple.Direction.REVERSE);
+        rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

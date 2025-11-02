@@ -10,15 +10,20 @@ public class AutoAction extends Action {
     @Override
     public void execute() {
         if (opMode.opModeIsActive()){
-            rb.setPower(1);
-            rf.setPower(1);
-            lf.setPower(1);
-            lb.setPower(1);
+            rb.setPower(0.5);
+            rf.setPower(0.5);
+            lf.setPower(0.5);
+            lb.setPower(0.5);
             opMode.sleep(500);
-            rb.setPower(0);
-            rf.setPower(0);
-            lf.setPower(0);
-            lb.setPower(0);
+            rb.setPower(-0.5);
+            rf.setPower(-0.5);
+            lf.setPower(-0.5);
+            lb.setPower(-0.5);
+            opMode.sleep(50);
+            rb.setPower(0.001);
+            rf.setPower(0.001);
+            lf.setPower(0.001);
+            lb.setPower(0.001);
         }
     }
 }
