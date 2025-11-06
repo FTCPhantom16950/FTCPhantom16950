@@ -17,14 +17,19 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 public class WheelBase implements Mechanism {
     HardwareMap hw;
-
+    private static DcMotorEx leftOdo, rightOdo;
     public WheelBase(HardwareMap hw) {
         this.hw = hw;
     }
 
     @Override
     public boolean init() {
-
+        leftOdo = hw.get(DcMotorEx.class,"mkL");
+        leftOdo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftOdo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightOdo = hw.get(DcMotorEx.class,"mkL");
+        rightOdo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightOdo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb = hw.get(DcMotorEx.class, "rb");
         rf = hw.get(DcMotorEx.class, "rf");
         lf = hw.get(DcMotorEx.class, "lf");
@@ -39,7 +44,8 @@ public class WheelBase implements Mechanism {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        Robot.addOrUpdate("mkL", leftOdo);
+        Robot.addOrUpdate("mkR", rightOdo);
         return true;
     }
 }

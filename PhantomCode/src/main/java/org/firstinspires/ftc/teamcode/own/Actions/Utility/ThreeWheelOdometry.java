@@ -13,31 +13,32 @@ public class ThreeWheelOdometry extends Action {
     public static DcMotorEx leftOdo, rightOdo, sideOdo;
     double currLeft, currRight, currSide, prevLeft, prevRight, prevSide;
     double wheelRadius = 48.0; //mm
-    double yParallel = 1,
-    xSide = 1;
+    double yParallel = 170,
+            xSide = 1;
     ElapsedTime timer = new ElapsedTime();
     double prevTime;
-    double dx,dy, dRot;
-    double ticksPerResolution  = 2000;
+    double dx, dy = 0, dRot;
+    double ticksPerResolution = 2000;
+
     @Override
     public void execute() {
-        leftOdo = Robot.get("lf", DcMotorEx.class);
-        rightOdo = Robot.get("lb", DcMotorEx.class);
-        sideOdo = Robot.get("rf", DcMotorEx.class);
+        leftOdo = Robot.get("mkL", DcMotorEx.class);
+        rightOdo = Robot.get("mkR", DcMotorEx.class);
+//        sideOdo = Robot.get("rf", DcMotorEx.class);
         timer.reset();
         prevLeft = leftOdo.getCurrentPosition();
         prevRight = rightOdo.getCurrentPosition();
-        prevSide = sideOdo.getCurrentPosition();
+//        prevSide = sideOdo.getCurrentPosition();
         prevTime = timer.seconds();
         while (opMode.opModeIsActive()) {
             currLeft = leftOdo.getCurrentPosition() * 2.0 * Math.PI / ticksPerResolution;
             currRight = rightOdo.getCurrentPosition() * 2.0 * Math.PI / ticksPerResolution;
-            currSide = sideOdo.getCurrentPosition()* 2.0* Math.PI / ticksPerResolution;
+//            currSide = sideOdo.getCurrentPosition()* 2.0* Math.PI / ticksPerResolution;
             double dLeft = currLeft - prevLeft,
-            dRight = currRight - prevRight,
-            dSide = currSide -prevSide;
-            dx = (wheelRadius / 2.0) * (dLeft + dRight);
-            dy = wheelRadius * ((xSide /  (2 * yParallel))* (dLeft-dRight) + dSide);
+                    dRight = currRight - prevRight,
+//            dSide = currSide -prevSide;
+                    dx = (wheelRadius / 2.0) * (dLeft + dRight);
+//            dy = wheelRadius * ((xSide /  (2 * yParallel))* (dLeft-dRight) + dSide);
             dRot = (wheelRadius / (2 * yParallel)) * (dRight - dLeft);
             double time = timer.seconds();
             double dt = time - prevTime;
@@ -45,7 +46,7 @@ public class ThreeWheelOdometry extends Action {
             prevRight = currRight;
             prevSide = currSide;
             prevTime = time;
-            if (dt <=0){
+            if (dt <= 0) {
                 continue;
             }
             vx = dx / dt;
