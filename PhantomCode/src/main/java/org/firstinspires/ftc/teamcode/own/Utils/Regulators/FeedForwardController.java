@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 
 import com.qualcomm.robotcore.util.Range;
 
-public class FeedForfardController {
+public class FeedForwardController {
     private double kV = 0.0;
     private double kA = 0.0;
     private double kS = 0.0;

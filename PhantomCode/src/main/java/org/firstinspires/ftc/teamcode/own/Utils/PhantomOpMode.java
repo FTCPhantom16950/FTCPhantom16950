@@ -10,6 +10,8 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.params;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rot;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.soundPlaying;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.voltageSensor;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.x;
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.y;
 
 
 import android.annotation.SuppressLint;
@@ -27,14 +29,19 @@ import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
+import org.psilynx.psikit.core.Logger;
+import org.psilynx.psikit.core.rlog.RLOGServer;
+import org.psilynx.psikit.core.rlog.RLOGWriter;
 
 //import org.psilynx.psikit.core.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * <p>Класс для работы с OpMode</p>
@@ -44,7 +51,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class PhantomOpMode extends LinearOpMode {
     private static final Map<String, Object> data = new ConcurrentHashMap<>();
-    public static volatile TelemetryPacket packet;
     /// Действие запускаемое в начале OpMode
     public Group actions;
     public static volatile Set<Mechanism> mechanism = new HashSet<Mechanism>();
@@ -53,7 +59,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     Thread telemetryExecutor = new Thread(() -> {
         while (!isStopRequested()) {
+            Logger.periodicBeforeUser();
             if (voltageSensor.getVoltage() <= 9.5 && !soundPlaying) {
+
                 int soundID = myApp.getResources().getIdentifier("rubezvozvrata", "raw", myApp.getPackageName());
                 multipleTelemetry.addData("playing", soundID);
                 soundPlaying = true;
@@ -64,14 +72,13 @@ public abstract class PhantomOpMode extends LinearOpMode {
                             }
                         });
             }
-
             multipleTelemetry.addData("voltage", voltageSensor.getVoltage());
             multipleTelemetry.addData("heading (deg)", rot);
             for (String s : data.keySet()) {
                 multipleTelemetry.addData(s, data.get(s));
             }
+            Logger.periodicAfterUser(0,0);
             if (!isStopRequested()){
-                FtcDashboard.getInstance().sendTelemetryPacket(packet);
                 multipleTelemetry.update();
             }
 
@@ -81,8 +88,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        mechanism.clear();
         try {
-            packet = new TelemetryPacket();
             voltageSensor = hardwareMap.voltageSensor.iterator().next();
             myApp = hardwareMap.appContext;
             params.loopControl = 0;
@@ -92,6 +99,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             Robot.gamepadDriver = gamepad1;
             Robot.gamepadOperator = gamepad2;
             mechanism.add(new GyroScope());
+
             // инициализация телеметрии
             initTelemetry();
             // инициализация настроек опмода
@@ -110,12 +118,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
             }
             CameraMechanism.visionPortal = null;
             data.clear();
-            mechanism = new HashSet<>();
             playDead();
             throw new RuntimeException(e);
         }
-
-
     }
     public static void playDead(){
         int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
@@ -126,6 +131,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
 
     private void initTelemetry() {
+        Logger.addDataReceiver(new RLOGServer());
+        Logger.addDataReceiver(new RLOGWriter("storage/emulated/0/test"));
+        Logger.start();
         multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         multipleTelemetry.addData("Нижняя подсветка", true);
         multipleTelemetry.update();

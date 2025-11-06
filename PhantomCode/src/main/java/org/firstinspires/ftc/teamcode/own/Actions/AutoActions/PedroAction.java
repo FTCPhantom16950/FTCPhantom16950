@@ -1,20 +1,13 @@
-package org.firstinspires.ftc.teamcode.own.Actions;
+package org.firstinspires.ftc.teamcode.own.Actions.AutoActions;
 
 
 
 import static org.firstinspires.ftc.teamcode.own.Mechanism.FollowerMechanism.follower;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
-import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathChain;
 
-import org.firstinspires.ftc.teamcode.own.Mechanism.FollowerMechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-
-import java.util.function.Supplier;
 
 
 public class PedroAction extends Action {

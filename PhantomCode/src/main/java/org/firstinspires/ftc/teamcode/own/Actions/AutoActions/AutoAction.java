@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.own.Actions;
+package org.firstinspires.ftc.teamcode.own.Actions.AutoActions;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class AutoAction extends Action {
 
