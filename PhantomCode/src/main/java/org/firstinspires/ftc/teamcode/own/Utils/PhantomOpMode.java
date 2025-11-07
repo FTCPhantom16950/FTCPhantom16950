@@ -56,9 +56,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public static volatile Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
-
+    TelemetryPacket packet = new TelemetryPacket();
     Thread telemetryExecutor = new Thread(() -> {
+
         while (!isStopRequested()) {
+            packet = new TelemetryPacket();
             Logger.periodicBeforeUser();
             if (voltageSensor.getVoltage() <= 9.5 && !soundPlaying) {
 
@@ -72,14 +74,17 @@ public abstract class PhantomOpMode extends LinearOpMode {
                             }
                         });
             }
-            multipleTelemetry.addData("voltage", voltageSensor.getVoltage());
-            multipleTelemetry.addData("heading (deg)", rot);
+            packet.put("voltage", voltageSensor.getVoltage());
+            packet.put("Pose heading x", x / 25.4);
+            packet.put("Pose heading y", y / 25.4);
+            packet.put("Pose heading", rot);
             for (String s : data.keySet()) {
                 multipleTelemetry.addData(s, data.get(s));
             }
-            Logger.periodicAfterUser(0,0);
-            if (!isStopRequested()){
+            Logger.periodicAfterUser(0, 0);
+            if (!isStopRequested()) {
                 multipleTelemetry.update();
+                FtcDashboard.getInstance().sendTelemetryPacket(packet);
             }
 
         }
@@ -113,7 +118,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             runScheduler();
 
         } catch (Exception e) {
-            if (CameraMechanism.visionPortal != null){
+            if (CameraMechanism.visionPortal != null) {
                 CameraMechanism.visionPortal.close();
             }
             CameraMechanism.visionPortal = null;
@@ -122,10 +127,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
             throw new RuntimeException(e);
         }
     }
-    public static void playDead(){
+
+    public static void playDead() {
         int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
         SoundPlayer.getInstance().startPlaying(myApp, soundID);
     }
+
     /// класс для указания имени, типа и группы OpMode
     public abstract void customOpModeSettings();
 
@@ -159,11 +166,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (opModeIsActive()) {
             scheduler.run();
         }
-        if (isStopRequested()){
+        if (isStopRequested()) {
             SoundPlayer.getInstance().stopPlayingAll();
             data.clear();
             mechanism = new HashSet<>();
-            if (CameraMechanism.visionPortal != null){
+            if (CameraMechanism.visionPortal != null) {
                 CameraMechanism.visionPortal.close();
             }
             CameraMechanism.visionPortal = null;

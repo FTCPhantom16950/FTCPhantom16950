@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 // all numbers in mm or radians
@@ -49,9 +50,13 @@ public class ThreeWheelOdometry extends Action {
             if (dt <= 0) {
                 continue;
             }
+            rot = dRot + imu.getRobotYawPitchRollAngles().getYaw() / 2;
+            x += dx * Math.cos(rot) - dy * Math.sin(rot);
+            y += dx * Math.sin(rot) + dy * Math.cos(rot);
             vx = dx / dt;
             vy = dy / dt;
             vRot = dRot / dt;
+            PhantomOpMode.addData("vx", vx / 100);
         }
     }
 

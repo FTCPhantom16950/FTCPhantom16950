@@ -20,13 +20,8 @@ public class ForTestAction extends Action {
     @Override
     public void execute() {
         while (!opMode.isStopRequested()){
-
             rot = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             TelemetryPacket packet = new TelemetryPacket();
-            int[] pose = new int[]{0,0,0,0,0};
-            packet.put("Pose 2d", pose);
-
-            Logger.recordOutput("Pose", new Pose2d(0,0,new Rotation2d(rot)));
             FtcDashboard.getInstance().sendTelemetryPacket(packet);
         }
     }
