@@ -163,6 +163,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void runScheduler() throws InterruptedException {
+        data.clear();
         if (opModeIsActive()) {
             scheduler.run();
         }

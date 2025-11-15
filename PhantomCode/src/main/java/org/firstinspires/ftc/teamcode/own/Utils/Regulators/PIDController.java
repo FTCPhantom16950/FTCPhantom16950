@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.Utils.Regulators;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.opMode;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.voltageSensor;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -21,6 +22,24 @@ public class PIDController extends Thread {
 
     public void setMaxPower(double maxPower) {
         this.maxPower = maxPower;
+    }
+    DcMotorEx dcMotorEx;
+
+    public DcMotorEx getDcMotorEx() {
+        return dcMotorEx;
+    }
+
+    public void setDcMotorEx(DcMotorEx dcMotorEx) {
+        this.dcMotorEx = dcMotorEx;
+    }
+    private double target = 0;
+
+    public double getTarget() {
+        return target;
+    }
+
+    public void setTarget(double target) {
+        this.target = target;
     }
 
     private PIDCofficients pidCofficients;
@@ -46,14 +65,15 @@ public class PIDController extends Thread {
         this.currentError = currentError;
     }
 
-    public double update() {
+    public double update(){
         kP = pidCofficients.getkP();
         kI = pidCofficients.getkI();
         kD = pidCofficients.getkD();
         double time = timer.seconds();
         double P, I, D;
-        double dE = (currentError - previousError);
         double dT;
+        currentError = target - dcMotorEx.getVelocity();
+        double dE = (currentError - previousError);
         if (previousTime == 0) {
             dT = 0;
             previousTime = time;
@@ -73,7 +93,12 @@ public class PIDController extends Thread {
         previousError = currentError;
         previousTime = time;
         timer.reset();
-        return Range.clip(P + I + D, -1, 1);
+        PhantomOpMode.addData("P", P);
+        PhantomOpMode.addData("D", D);
+        output = Range.clip(P + I + D, 0, 1);
+        PhantomOpMode.addData("time", dT);
+        PhantomOpMode.addData("error", currentError);
+        return output;
 
     }
 
@@ -89,7 +114,7 @@ public class PIDController extends Thread {
     public void run() {
         super.run();
         while (!opMode.isStopRequested()) {
-            output = update();
+            update();
             PhantomOpMode.addData("output", output);
         }
     }

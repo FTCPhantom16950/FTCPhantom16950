@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 @Config
 public class ShootAction extends Action {
     // 5200
-    public static double kp = 0.0001, kd = 0.0001, target = 1000;
+    public static double kp = 0.001, kd = 0, target = 100;
     PIDCofficients pidCofficients = new PIDCofficients(kp, kd);
     private final PIDController pidController = new PIDController(pidCofficients);
 
@@ -26,24 +26,15 @@ public class ShootAction extends Action {
         double spin = 135;
         DcMotorEx shootMotor = Robot.get("shoot", DcMotorEx.class);
         CRServo vrash = Robot.get("vrash", CRServo.class);
-        pidController.setMaxPower(5200);
+        pidController.setTarget(target);
+        pidController.setDcMotorEx(shootMotor);
         pidController.start();
         while (Robot.opMode.opModeIsActive()) {
-//            if (target - shootMotor.getVelocity() != 0){
-//                synchronized (pidController){
-//                    pidController.wait();
-//                }
-//            }else {
-//                synchronized (pidController){
-//                    pidController.notify();
-//                }
-//            }
+            pidController.setTarget(target);
+
             pidCofficients.setkD(kd);
             pidCofficients.setkP(kp);
             pidController.setPidCofficients(pidCofficients);
-
-            pidController.setCurrentError(target - shootMotor.getVelocity());
-
 
             if (Robot.gamepadDriver.y) {
                 target += 1000;
@@ -61,9 +52,9 @@ public class ShootAction extends Action {
                 Robot.opMode.sleep(300);
             }
             spin = Range.clip(spin, 0, 270);
-
+            double output = pidController.getOutput();
             vrash.setPower(PhantomMath.servoCRPowerToDegrees(spin, 270));
-            shootMotor.setPower(pidController.getOutput());
+            shootMotor.setPower(output);
 
             PhantomOpMode.addData("shootPower", shootMotor.getPower());
             PhantomOpMode.addData("shootSpeed", shootMotor.getVelocity() / 28 * 60);
