@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-public class ControllerPid extends Thread {
+public class PidController extends Thread {
     private PIDCofficients pidCofficients;
     ElapsedTime timer;
 
-    public ControllerPid(PIDCofficients pidCofficients) {
+    public PidController(PIDCofficients pidCofficients) {
         this.pidCofficients = pidCofficients;
     }
     private double P, I, integralSum, D, error, output, lastError, target;

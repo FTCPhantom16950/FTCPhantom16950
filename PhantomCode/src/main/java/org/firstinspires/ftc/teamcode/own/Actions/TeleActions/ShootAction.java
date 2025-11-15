@@ -9,20 +9,20 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.ControllerPid;
+import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PidController;
 import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDCofficients;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 @Configurable
 @Config
 public class ShootAction extends Action {
-    public static double kP = 0.01, kI = 0, kD = 0, targetVelocity = 2300;
+    public static double kP = 0.01, kI = 0, kD = 0, targetVelocity = 2300, spin = 135;
     PIDCofficients pidCofficients = new PIDCofficients(kP,kI,kD);
-    ControllerPid pidController = new ControllerPid(pidCofficients);
+    PidController pidController = new PidController(pidCofficients);
 
     @Override
     public void execute() throws InterruptedException {
-        double spin = 135;
+
         DcMotorEx shootMotor = Robot.get("shoot", DcMotorEx.class);
         CRServo vrash = Robot.get("vrash", CRServo.class);
         pidController.setTarget(targetVelocity);
