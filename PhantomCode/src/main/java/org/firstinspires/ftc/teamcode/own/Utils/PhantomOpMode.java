@@ -137,13 +137,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public abstract void customOpModeSettings();
 
 
-    private void initTelemetry() {
+    private void initTelemetry() throws InterruptedException {
         Logger.addDataReceiver(new RLOGServer());
         Logger.addDataReceiver(new RLOGWriter("storage/emulated/0/test"));
         Logger.start();
         multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        multipleTelemetry.addData("Нижняя подсветка", true);
-        multipleTelemetry.update();
+        PhantomOpMode.addData("Нижняя подсветка", true);
         try {
             telemetryExecutor.start();
         } catch (Exception e) {
@@ -163,7 +162,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void runScheduler() throws InterruptedException {
-        data.clear();
         if (opModeIsActive()) {
             scheduler.run();
         }
@@ -179,6 +177,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     public void onStart() {
+        data.clear();
     }
 
     public static void addData(String s, Object data) {
