@@ -52,7 +52,7 @@ public class Robot {
     }
 
 
-    public static <T> T get(String name, Class<T> type) {
+    public static <T> T get(String name, Class<? extends T> type) {
         return type.cast(customObjects.get(name));
     }
 

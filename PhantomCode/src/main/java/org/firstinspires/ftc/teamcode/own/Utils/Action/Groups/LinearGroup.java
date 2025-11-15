@@ -32,7 +32,7 @@ public class LinearGroup extends Group {
 
     /// Метод выполнения действий последовательно
     @Override
-    public void execute() {
+    public void execute() throws InterruptedException {
         for (Group a : actions) {
             a.execute();
         }

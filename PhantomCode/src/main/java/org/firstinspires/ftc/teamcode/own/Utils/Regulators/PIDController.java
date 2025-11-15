@@ -6,9 +6,21 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.voltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+
 public class PIDController extends Thread {
     public PIDController(PIDCofficients pidCofficients) {
         this.pidCofficients = pidCofficients;
+    }
+
+    private double maxPower;
+
+    public double getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(double maxPower) {
+        this.maxPower = maxPower;
     }
 
     private PIDCofficients pidCofficients;
@@ -17,6 +29,7 @@ public class PIDController extends Thread {
     ElapsedTime timer = new ElapsedTime();
     private double previousError = 0, previousTime = 0, integralSum = 0;
     private double output = 0;
+
     public PIDCofficients getPidCofficients() {
         return pidCofficients;
     }
@@ -39,7 +52,7 @@ public class PIDController extends Thread {
         kD = pidCofficients.getkD();
         double time = timer.seconds();
         double P, I, D;
-        double dE = currentError - previousError;
+        double dE = (currentError - previousError);
         double dT;
         if (previousTime == 0) {
             dT = 0;
@@ -61,6 +74,7 @@ public class PIDController extends Thread {
         previousTime = time;
         timer.reset();
         return Range.clip(P + I + D, -1, 1);
+
     }
 
     public double getOutput() {
@@ -74,8 +88,9 @@ public class PIDController extends Thread {
     @Override
     public void run() {
         super.run();
-        while (!opMode.isStopRequested()){
+        while (!opMode.isStopRequested()) {
             output = update();
+            PhantomOpMode.addData("output", output);
         }
     }
 }

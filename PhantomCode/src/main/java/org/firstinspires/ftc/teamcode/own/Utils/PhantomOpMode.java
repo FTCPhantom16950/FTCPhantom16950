@@ -162,7 +162,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         rot = imu.getRobotYawPitchRollAngles().getYaw();
     }
 
-    private void runScheduler() {
+    private void runScheduler() throws InterruptedException {
         if (opModeIsActive()) {
             scheduler.run();
         }

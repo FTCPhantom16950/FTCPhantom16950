@@ -3,5 +3,5 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 /// Made by Hkial(Gleb)
 /// Last Updated: 08.06.25 02:40
 public interface Mechanism {
-    boolean init();
+    boolean init() throws InterruptedException;
 }

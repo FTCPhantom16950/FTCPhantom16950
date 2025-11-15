@@ -34,14 +34,18 @@ public class ParallelGroup extends Group {
 
     /// Метод выполнения действий последовательно
     @Override
-    public void execute() {
+    public void execute() throws InterruptedException {
         for (Group a :
                 actions) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
-                    a.execute();
+                    try {
+                        a.execute();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             };
             threads.add(thread);

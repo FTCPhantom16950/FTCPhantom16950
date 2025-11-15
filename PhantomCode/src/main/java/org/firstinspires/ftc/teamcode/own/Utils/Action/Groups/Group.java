@@ -11,6 +11,6 @@ public abstract class Group {
     }
 
     /// Метод для реализации выполнения действия
-    public abstract void execute();
+    public abstract void execute() throws InterruptedException;
 
 }
