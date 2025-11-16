@@ -29,11 +29,8 @@ import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
-import org.psilynx.psikit.core.Logger;
-import org.psilynx.psikit.core.rlog.RLOGServer;
-import org.psilynx.psikit.core.rlog.RLOGWriter;
 
-//import org.psilynx.psikit.core.Logger;
+
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,8 +58,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
         while (!isStopRequested()) {
             packet = new TelemetryPacket();
-            Logger.periodicBeforeUser();
-            if (voltageSensor.getVoltage() <= 9.5 && !soundPlaying) {
+            if (voltageSensor.getVoltage() <= 11 && !soundPlaying) {
 
                 int soundID = myApp.getResources().getIdentifier("rubezvozvrata", "raw", myApp.getPackageName());
                 multipleTelemetry.addData("playing", soundID);
@@ -81,7 +77,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
             for (String s : data.keySet()) {
                 multipleTelemetry.addData(s, data.get(s));
             }
-            Logger.periodicAfterUser(0, 0);
             if (!isStopRequested()) {
                 multipleTelemetry.update();
                 FtcDashboard.getInstance().sendTelemetryPacket(packet);
@@ -138,9 +133,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
 
     private void initTelemetry() throws InterruptedException {
-        Logger.addDataReceiver(new RLOGServer());
-        Logger.addDataReceiver(new RLOGWriter("storage/emulated/0/test"));
-        Logger.start();
         multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         PhantomOpMode.addData("Нижняя подсветка", true);
         try {

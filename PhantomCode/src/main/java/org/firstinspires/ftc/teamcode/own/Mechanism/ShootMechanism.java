@@ -13,8 +13,8 @@ public class ShootMechanism implements Mechanism {
 
         DcMotorEx shootMotor = Robot.hw.get(DcMotorEx.class, "shoot");
         shootMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        shootMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shootMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootMotor.setPower(0);
         Robot.addOrUpdate("shoot", shootMotor);
 

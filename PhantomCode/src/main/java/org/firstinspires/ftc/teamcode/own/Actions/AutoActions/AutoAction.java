@@ -12,7 +12,7 @@ public class AutoAction extends Action {
             rf.setPower(0.5);
             lf.setPower(0.5);
             lb.setPower(0.5);
-            opMode.sleep(500);
+            opMode.sleep(900);
             rb.setPower(-0.5);
             rf.setPower(-0.5);
             lf.setPower(-0.5);

@@ -45,9 +45,9 @@ public class DriveAction extends Action {
     public void execute() {
         imu = Robot.get("imu", IMU.class);
         while (opMode.opModeIsActive()) {
-            x = 1.1 * gamepadDriver.left_stick_x + 1.1 * 0.8 * gamepadDriver.right_stick_x;
-            y = -gamepadDriver.left_stick_y - 0.8 * gamepadDriver.right_stick_y;
-            rot = gamepadDriver.left_trigger - gamepadDriver.right_trigger;
+            x = - 1.1 * gamepadDriver.left_stick_x - 1.1 * 0.9 * gamepadDriver.right_stick_x;
+            y = -gamepadDriver.left_stick_y - 0.9 * gamepadDriver.right_stick_y;
+            rot = - gamepadDriver.left_trigger + gamepadDriver.right_trigger;
             x = makeLinearToCubic(x);
             y = makeLinearToCubic(y);
             rot = makeLinearToCubic(rot);
@@ -57,9 +57,9 @@ public class DriveAction extends Action {
                 rot = -0.8;
             }
             denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rot), 1);
-            frontLeftPower = (y + x + rot) / denominator;
-            backLeftPower = (y - x + rot) / denominator;
-            frontRightPower = (y - x - rot) / denominator;
+            frontLeftPower = ((y + x + rot) / denominator);
+            backLeftPower = ((y - x + rot) / denominator);
+            frontRightPower = ((y - x - rot) / denominator);
             backRightPower = (y + x - rot) / denominator;
             if (!motorPower.isAlive()) {
                 motorPower.start();
