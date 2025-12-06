@@ -20,9 +20,10 @@ public class ShootAction extends Action {
     PIDCofficients pidCofficients = new PIDCofficients(kP, kI, kD);
     PidController pidController = new PidController(pidCofficients);
     double output, prevOutput;
-
+    boolean makeShoot = false;
     @Override
     public void execute() throws InterruptedException {
+        boolean shootState = false;
         DcMotorEx shootMotor = Robot.get("shoot", DcMotorEx.class);
         CRServo vrash = Robot.get("vrash", CRServo.class);
         pidController.setTarget(targetVelocity);
@@ -33,24 +34,35 @@ public class ShootAction extends Action {
             pidCofficients.setkD(kD);
             pidCofficients.setkP(kP);
             pidController.setPidCofficients(pidCofficients);
-            if (Robot.gamepadDriver.b){
+            if (Robot.gamepadOperator.b){
+                makeShoot = !makeShoot;
+                Robot.opMode.sleep(300);
+            }
+            if (makeShoot){
                 output = 1;
             }
-            else if (!Robot.gamepadDriver.y) {
-                targetVelocity = 0;
+            else {
                 output = 0;
-            } else if (Robot.gamepadDriver.a){
-                targetVelocity = -500;
-                output = pidController.getOutput();
-            }else {
-                targetVelocity = 5200;
-                output = pidController.getOutput();
             }
+//            else if (!Robot.gamepadDriver.y) {
+//                targetVelocity = 0;
+//                output = 0;
+//            } else if (Robot.gamepadDriver.a){
+//                targetVelocity = -500;
+//                output = pidController.getOutput();
+//            }else {
+//                targetVelocity = 5200;
+//                output = pidController.getOutput();
+//            }
             shootMotor.setPower(output);
-            if (Robot.gamepadDriver.x) {
-                spin -= 10;
-            } else if (Robot.gamepadDriver.left_stick_button){
-                spin += 10;
+            if (Robot.gamepadOperator.left_stick_button){
+                shootState = !shootState;
+            }
+            if (shootState){
+                spin = 145;
+            }
+            else{
+                spin = 110;
             }
             spin = Range.clip(spin, 0, 270);
             vrash.setPower(PhantomMath.servoCRPowerToDegrees(spin, 270));

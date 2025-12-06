@@ -10,24 +10,18 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 @Configurable
 @Config
 public class PodxodAction extends Action {
-    public static double leftPower = 0, rightPower = 0, shootLeftPower = 0.8;
+    public static double leftPower = -0.3, rightPower = 0, shootLeftPower = 0.8;
 
     @Override
     public void execute() throws InterruptedException {
         CRServo left = Robot.get("left", CRServo.class), right = Robot.get("right", CRServo.class);
         while (Robot.opMode.opModeIsActive()) {
-            if (Robot.gamepadDriver.dpad_right) {
+            if (Robot.gamepadOperator.dpad_right) {
                 leftPower = shootLeftPower;
             } else {
-                leftPower = 0;
-            }
-            if (Robot.gamepadDriver.dpad_left) {
-                rightPower = -shootLeftPower;
-            } else {
-                rightPower = 0;
+                leftPower = -0.35;
             }
             left.setPower(leftPower);
-            right.setPower(rightPower);
         }
     }
 }
