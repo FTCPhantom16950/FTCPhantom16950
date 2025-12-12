@@ -39,7 +39,7 @@ public class Robot {
     /// Используемый геймпад (gamepad2)
     gamepadOperator;
 
-    private static final Map<String, Object> customObjects = new ConcurrentHashMap<>();
+    public static final Map<String, Object> customObjects = new ConcurrentHashMap<>();
 
     /**
      * Добавляет или обновляет кастомный объект в статичном хранилище

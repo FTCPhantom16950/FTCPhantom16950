@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.Utils;
 
 
+import static org.firstinspires.ftc.teamcode.own.Utils.Robot.customObjects;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.gamepadOperator;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.imu;
@@ -89,6 +90,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         mechanism.clear();
+        customObjects.clear();
+        data.clear();
         try {
             voltageSensor = hardwareMap.voltageSensor.iterator().next();
             myApp = hardwareMap.appContext;
@@ -99,7 +102,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
             Robot.gamepadDriver = gamepad1;
             Robot.gamepadOperator = gamepad2;
             mechanism.add(new GyroScope());
-
             // инициализация телеметрии
             initTelemetry();
             // инициализация настроек опмода

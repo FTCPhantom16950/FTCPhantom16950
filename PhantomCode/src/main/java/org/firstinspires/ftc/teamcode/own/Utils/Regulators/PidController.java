@@ -14,36 +14,48 @@ public class PidController extends Thread {
         this.pidCofficients = pidCofficients;
     }
     private double P, I, integralSum, D, error, output, lastError, target;
+    long timeDelta, prevTime;
     private double kP, kI, kD;
     DcMotorEx dcMotorEx;
+
+    public double getError() {
+        return error;
+    }
+
+    public void setError(double error) {
+        this.error = error;
+    }
 
     @Override
     public void run() {
         super.run();
         timer = new ElapsedTime();
+        prevTime = System.nanoTime();
         while (!opMode.isStopRequested()) {
             kP = pidCofficients.getkP();
             kI = pidCofficients.getkI();
             kD = pidCofficients.getkD();
-
+            timeDelta = System.nanoTime() - prevTime;
             error = target - dcMotorEx.getVelocity();
+//            if (target + 150 >= dcMotorEx.getVelocity() && target - 150 <= dcMotorEx.getVelocity()){
 
-            P = kP * error;
-
-            integralSum = integralSum + error * timer.seconds();
-            if (integralSum > 100) {
-                integralSum = 100;
-            } else if (integralSum < -100) {
-                integralSum = -100;
-            }
-            I = kI * integralSum;
-
-            D = kD * (error - lastError) / timer.seconds();
-            lastError = error;
-
-            output = P + I + D;
-            output = Range.clip(output, -1, 1);
-            timer.reset();
+                if (Math.abs(error) >= 350){
+                    P = kP * error;
+                    integralSum = integralSum + error * timeDelta;
+                    if (integralSum > 100) {
+                        integralSum = 100;
+                    } else if (integralSum < -100) {
+                        integralSum = -100;
+                    }
+                    I = kI * integralSum;
+                    D = kD * (error - lastError) / timeDelta;
+                    lastError = error;
+                    prevTime = System.nanoTime();
+                    output = P + I + D;
+                    output = Range.clip(output, -1, 1);
+                    timer.reset();
+                }
+//            }
         }
     }
     public PIDCofficients getPidCofficients() {

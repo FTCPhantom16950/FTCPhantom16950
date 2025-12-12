@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.own.Actions.Test;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -10,17 +13,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDCofficients;
+import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PidController;
+import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
-
-
+@Config
+@Configurable
 public class ForTestAction extends Action {
-
+    public static double kp = 0, kd = 0, target = 0;
+    PIDCofficients pidCofficients = new PIDCofficients(kp,kd);
+    PidController pidController = new PidController(pidCofficients);
     @Override
     public void execute() {
+        DcMotorEx dcMotorEx = Robot.get("test", DcMotorEx.class);
+        pidController.setTarget(target);
+        pidController.setDcMotorEx(dcMotorEx);
+        pidController.start();
         while (!opMode.isStopRequested()){
-            rot = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-            TelemetryPacket packet = new TelemetryPacket();
-            FtcDashboard.getInstance().sendTelemetryPacket(packet);
+            pidController.setTarget(target);
+            pidCofficients.setkP(kp);
+            pidCofficients.setkD(kd);
+            pidController.setPidCofficients(pidCofficients);
+            double output = pidController.getOutput();
+            PhantomOpMode.addData("motor Power", output);
+            PhantomOpMode.addData("motor Power vel", dcMotorEx.getVelocity());
+            PhantomOpMode.addData("error", pidController.getError());
+            dcMotorEx.setPower(output);
         }
     }
 }
