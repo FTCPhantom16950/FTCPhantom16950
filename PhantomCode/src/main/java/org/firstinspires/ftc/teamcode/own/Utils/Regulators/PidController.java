@@ -52,7 +52,7 @@ public class PidController extends Thread {
                     lastError = error;
                     prevTime = System.nanoTime();
                     output = P + I + D;
-                    output = Range.clip(output, -1, 1);
+//                    output = Range.clip(output, -1, 1);
                     timer.reset();
                 }
 //            }

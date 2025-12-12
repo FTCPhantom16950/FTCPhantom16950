@@ -38,7 +38,7 @@ public class ForTestAction extends Action {
             PhantomOpMode.addData("motor Power", output);
             PhantomOpMode.addData("motor Power vel", dcMotorEx.getVelocity());
             PhantomOpMode.addData("error", pidController.getError());
-            dcMotorEx.setPower(output);
+            dcMotorEx.setPower(0.7);
         }
     }
 }
