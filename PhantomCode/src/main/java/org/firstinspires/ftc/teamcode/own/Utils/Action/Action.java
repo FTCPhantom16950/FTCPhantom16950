@@ -10,10 +10,5 @@ import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 public abstract class Action extends Group {
     /// Метод для реализации выполнения действия
     public abstract void execute() throws InterruptedException ;
-
-    public Action() {
-
-
-    }
-
+    public Action() {}
 }

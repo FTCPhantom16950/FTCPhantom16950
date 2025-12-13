@@ -56,8 +56,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private Scheduler scheduler;
     TelemetryPacket packet = new TelemetryPacket();
     Thread telemetryExecutor = new Thread(() -> {
-
         while (!isStopRequested()) {
+            Robot.voltageCompenser = voltageSensor.getVoltage() / 12;
             packet = new TelemetryPacket();
             if (voltageSensor.getVoltage() <= 11 && !soundPlaying) {
 
@@ -146,6 +146,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     private void initScheduler() {
+        Robot.voltageCompenser = voltageSensor.getVoltage() / 12;
         scheduler = new Scheduler.Builder()
                 .setAction(actions)
                 .addMechanisms(mechanism)

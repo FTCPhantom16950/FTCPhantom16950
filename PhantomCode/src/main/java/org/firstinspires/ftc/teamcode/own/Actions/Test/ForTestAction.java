@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 @Config
 @Configurable
 public class ForTestAction extends Action {
-    public static double kp = 0, kd = 0, target = 0;
+    public static double kp = 0.00005, kd = 0.0008, kS = 0.04, target = 0, motorPower = 0, output = 0;
     PIDCofficients pidCofficients = new PIDCofficients(kp,kd);
     PidController pidController = new PidController(pidCofficients);
     @Override
@@ -28,17 +28,19 @@ public class ForTestAction extends Action {
         DcMotorEx dcMotorEx = Robot.get("test", DcMotorEx.class);
         pidController.setTarget(target);
         pidController.setDcMotorEx(dcMotorEx);
+        pidController.setA(0.1);
         pidController.start();
         while (!opMode.isStopRequested()){
             pidController.setTarget(target);
             pidCofficients.setkP(kp);
             pidCofficients.setkD(kd);
+            pidController.setkS(kS);
             pidController.setPidCofficients(pidCofficients);
-            double output = pidController.getOutput();
+            output = pidController.getOutput();
             PhantomOpMode.addData("motor Power", output);
             PhantomOpMode.addData("motor Power vel", dcMotorEx.getVelocity());
             PhantomOpMode.addData("error", pidController.getError());
-            dcMotorEx.setPower(1);
+            dcMotorEx.setPower(output);
         }
     }
 }

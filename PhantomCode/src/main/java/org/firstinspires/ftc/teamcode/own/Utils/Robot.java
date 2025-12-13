@@ -38,6 +38,7 @@ public class Robot {
     public static volatile Gamepad gamepadDriver,
     /// Используемый геймпад (gamepad2)
     gamepadOperator;
+    public static volatile double voltageCompenser;
 
     public static final Map<String, Object> customObjects = new ConcurrentHashMap<>();
 
