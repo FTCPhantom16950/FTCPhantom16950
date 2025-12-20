@@ -96,7 +96,7 @@ public class PidController extends Thread {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ignored) {}
-        }
+            }
     }
 
     // --- setters / getters ---

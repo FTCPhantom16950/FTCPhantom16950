@@ -19,6 +19,10 @@ public class SosaloAction extends Action {
             if (state){
                 zasos.setPower(1);
             }
+            else if (Robot.gamepadOperator.y){
+              zasos.setPower(-1);
+              Robot.opMode.sleep(300);
+            }
             else{
                 zasos.setPower(0);
             }
