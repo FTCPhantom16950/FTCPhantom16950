@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleActions;
+package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
 import static org.firstinspires.ftc.teamcode.own.Utils.PhantomMath.makeLinearToCubic;

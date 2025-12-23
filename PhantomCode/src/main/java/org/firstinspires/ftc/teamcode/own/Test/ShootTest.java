@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.own.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.own.Actions.TeleActions.PodxodAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleActions.ShootAction;
+import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.PodxodAction;
+import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.ShootAction;
 import org.firstinspires.ftc.teamcode.own.Mechanism.PodxodMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.ShootMechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleActions;
+package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
@@ -10,11 +10,11 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 @Configurable
 @Config
 public class PodxodAction extends Action {
-    public static double leftPower = -0.3, rightPower = 0, shootLeftPower = 0.8;
+    public static double leftPower = -0.3, shootLeftPower = 0.9;
 
     @Override
     public void execute() throws InterruptedException {
-        CRServo left = Robot.get("left", CRServo.class), right = Robot.get("right", CRServo.class);
+        CRServo left = Robot.get("left", CRServo.class);
         while (Robot.opMode.opModeIsActive()) {
             if (Robot.gamepadOperator.dpad_right) {
                 leftPower = shootLeftPower;

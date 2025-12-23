@@ -26,4 +26,7 @@ public class PhantomMath {
     public static double yPedroToFtcY(double y){
         return y - 72;
     }
+    public static double convertToRPM(double info, int encoderTicks){
+        return info / encoderTicks * 60;
+    }
 }

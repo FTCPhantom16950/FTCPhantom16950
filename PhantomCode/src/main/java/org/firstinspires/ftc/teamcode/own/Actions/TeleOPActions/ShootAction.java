@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleActions;
+package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
@@ -68,7 +68,7 @@ public class ShootAction extends Action {
             vrash.setPower(PhantomMath.servoCRPowerToDegrees(spin, 270));
 
             PhantomOpMode.addData("shootPower", shootMotor.getPower());
-            PhantomOpMode.addData("shootSpeed", shootMotor.getVelocity() / 28 * 60);
+            PhantomOpMode.addData("shootSpeed", PhantomMath.convertToRPM(shootMotor.getVelocity(), 28));
             PhantomOpMode.addData("servoPower", vrash.getPower());
             PhantomOpMode.addData("degree", spin);
             prevOutput = output;

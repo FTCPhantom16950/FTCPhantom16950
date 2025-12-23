@@ -18,12 +18,13 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 public class WheelBase implements Mechanism {
     HardwareMap hw;
     private static DcMotorEx leftOdo, rightOdo;
-    public WheelBase(HardwareMap hw) {
-        this.hw = hw;
+    public WheelBase() {
+
     }
 
     @Override
     public boolean init() {
+        hw = Robot.hw;
 //        leftOdo = hw.get(DcMotorEx.class,"mkL");
 //        leftOdo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        leftOdo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
