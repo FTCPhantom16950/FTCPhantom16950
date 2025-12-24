@@ -9,16 +9,12 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PidController;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDCofficients;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 @Configurable
 @Config
 public class ShootAction extends Action {
     public static double kP = 0.01, kI = 0, kD = 0.01, targetVelocity = 0, spin = 115;
-    PIDCofficients pidCofficients = new PIDCofficients(kP, kI, kD);
-    PidController pidController = new PidController(pidCofficients);
     double output, prevOutput;
     boolean makeShoot = false;
     @Override
@@ -26,14 +22,8 @@ public class ShootAction extends Action {
         boolean shootState = false;
         DcMotorEx shootMotor = Robot.get("shoot", DcMotorEx.class);
         CRServo vrash = Robot.get("vrash", CRServo.class);
-        pidController.setTarget(targetVelocity);
-        pidController.setDcMotorEx(shootMotor);
-        pidController.start();
         while (Robot.opMode.opModeIsActive()) {
-            pidController.setTarget(targetVelocity);
-            pidCofficients.setkD(kD);
-            pidCofficients.setkP(kP);
-            pidController.setPidCofficients(pidCofficients);
+
             if (Robot.gamepadOperator.b){
                 makeShoot = !makeShoot;
                 Robot.opMode.sleep(300);

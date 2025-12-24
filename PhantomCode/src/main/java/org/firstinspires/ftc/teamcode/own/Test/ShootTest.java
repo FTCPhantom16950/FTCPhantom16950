@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.PodxodAction;
 import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.ShootAction;
+import org.firstinspires.ftc.teamcode.own.Actions.Test.ControllerTestAction;
 import org.firstinspires.ftc.teamcode.own.Mechanism.PodxodMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.ShootMechanism;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
@@ -17,7 +18,7 @@ public class ShootTest extends PhantomOpMode {
         mechanism.add(shootMechanism);
         mechanism.add(podxodMechanism);
         actions = new ParallelGroup(
-                new ShootAction(),
+                new ControllerTestAction(),
                 new PodxodAction()
         );
     }
