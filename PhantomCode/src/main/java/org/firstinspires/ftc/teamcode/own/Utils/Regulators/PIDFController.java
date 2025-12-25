@@ -85,7 +85,7 @@ public class PIDFController {
         derivative = derivativeFilter * previousError + (1- derivativeFilter) * currentError;
         D = derivative * kD;
         output = P + I + D + F;
-        output = output * Robot.voltageCompenser;
+
         previousError = currentError;
         return output;
     }

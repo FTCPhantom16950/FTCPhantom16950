@@ -10,12 +10,13 @@ import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.Utils.Regulators.FeedForwardController;
 import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDFController;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.psilynx.psikit.core.Logger;
 
 @Configurable
 @Config
 public class ControllerTestAction extends Action {
-    public static int MODE = 0;
-    public static double kp=0,ki=0,kd=0,ks=0,kv=0,kf=0, derivativeFilter = 0.5, target, output = 0;
+    public static int MODE = 3;
+    public static double kp=0,ki=0.02,kd=0.0000001,ks=0.211,kv=1/6000.0,kf=0, derivativeFilter = 0.65, target= 500, output = 0;
     private final PIDFController pidfController = new PIDFController(kf,ki,kd,kp);
     private FeedForwardController feedForwardController = new FeedForwardController(kv,ks);
     @Override
@@ -55,7 +56,13 @@ public class ControllerTestAction extends Action {
 
                     break;
             }
+            output = output * Robot.voltageCompenser;
             shoot.setPower(output);
+            Logger.recordOutput("motor Velocity", PhantomMath.convertToRPM(shoot.getVelocity(), 28));
+            PhantomOpMode.addData("motor Speed", shoot.getVelocity());
+            Logger.recordOutput("motor Power", shoot.getPower());
+            PhantomOpMode.addData("motor Power", shoot.getPower());
+            PhantomOpMode.addData("motor Velocity", PhantomMath.convertToRPM(shoot.getVelocity(), 28));
         }
     }
 }
