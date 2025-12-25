@@ -5,7 +5,6 @@ import static org.opencv.core.CvType.CV_64F;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
-import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -23,7 +22,7 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
-@Config
+
 /**
  * Класс для обнаружения элементов сезона 2025-2026, артефактов
  * Наследуется от интерфейса {@link VisionProcessor}
