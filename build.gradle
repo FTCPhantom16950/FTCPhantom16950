@@ -7,11 +7,12 @@
 buildscript {
 
     ext {
-        kotlin_version = '2.1.0'
+        kotlin_version = '1.9.0'
     }
     repositories {
         mavenCentral()
         google()
+        maven { url 'https://repo.dairy.foundation/releases' }
     }
     dependencies {
         // Note for FTC Teams: Do not modify this yourself.

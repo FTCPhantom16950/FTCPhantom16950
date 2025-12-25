@@ -31,8 +31,7 @@ public class FeedForwardController {
     }
 
     public double calculate(){
-        output = kV + target + kA;
-        output = output * Robot.voltageCompenser;
+        output = kV * target + kA;
         return output;
     }
 }
