@@ -9,13 +9,17 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.own.Utils.Regulators.FeedForwardController;
+import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDFController;
 import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 
 @Configurable
 @Config
 public class ShootAction extends Action {
-    public static double kP = 0.01, kI = 0, kD = 0.01, targetVelocity = 0, spin = 115;
-    double output, prevOutput;
+    public static double kp=0.0025,ki=0,kd=0.0001,ks=0.18,kv=1/6200.0,kf=0, derivativeFilter = 0.65, target=0, output = 0;
+    private final PIDFController pidfController = new PIDFController(kf,ki,kd,kp);
+    private FeedForwardController feedForwardController = new FeedForwardController(kv,ks);
+    public static double spin = 115;
     boolean makeShoot = false;
     @Override
     public void execute() throws InterruptedException {
@@ -23,28 +27,27 @@ public class ShootAction extends Action {
         DcMotorEx shootMotor = Robot.get("shoot", DcMotorEx.class);
         CRServo vrash = Robot.get("vrash", CRServo.class);
         while (Robot.opMode.opModeIsActive()) {
-
             if (Robot.gamepadOperator.b){
                 makeShoot = !makeShoot;
                 Robot.opMode.sleep(300);
             }
             if (makeShoot){
-                output = 1;
+                target = 3700;
             }
             else {
-                output = 0;
+                target = 0;
             }
-//            else if (!Robot.gamepadDriver.y) {
-//                targetVelocity = 0;
-//                output = 0;
-//            } else if (Robot.gamepadDriver.a){
-//                targetVelocity = -500;
-//                output = pidController.getOutput();
-//            }else {
-//                targetVelocity = 5200;
-//                output = pidController.getOutput();
-//            }
-            shootMotor.setPower(output);
+            pidfController.setkP(kp);
+            pidfController.setkF(kf);
+            pidfController.setkD(kd);
+            pidfController.setkI(ki);
+            pidfController.setTarget(target);
+            pidfController.setMotorVelocity(PhantomMath.convertToRPM(shootMotor.getVelocity(), 28));
+            pidfController.setDerivativeFilter(derivativeFilter);
+            feedForwardController.setTarget(target);
+            feedForwardController.setkA(ks);
+            feedForwardController.setkV(kv);
+            output = feedForwardController.calculate() + pidfController.calculate();
             if (Robot.gamepadOperator.left_stick_button){
                 shootState = !shootState;
             }
@@ -54,14 +57,14 @@ public class ShootAction extends Action {
             else{
                 spin = 110;
             }
+            shootMotor.setPower(output);
             spin = Range.clip(spin, 0, 270);
             vrash.setPower(PhantomMath.servoCRPowerToDegrees(spin, 270));
-
-            PhantomOpMode.addData("shootPower", shootMotor.getPower());
+            PhantomOpMode.addData("shootPower", output);
+            PhantomOpMode.addData("target", target);
             PhantomOpMode.addData("shootSpeed", PhantomMath.convertToRPM(shootMotor.getVelocity(), 28));
             PhantomOpMode.addData("servoPower", vrash.getPower());
             PhantomOpMode.addData("degree", spin);
-            prevOutput = output;
         }
 
     }
