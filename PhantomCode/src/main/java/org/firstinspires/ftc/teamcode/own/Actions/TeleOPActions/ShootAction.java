@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.own.Utils.Robot;
 @Configurable
 @Config
 public class ShootAction extends Action {
-    public static double kp=0.0025,ki=0,kd=0.0001,ks=0.18,kv=1/6200.0,kf=0, derivativeFilter = 0.65, target=0, output = 0;
+    public static double kp=0.0025,ki=0,kd=0.0001,ks=0.2,kv=1/6200.0,kf=0, derivativeFilter = 0.65, target=0, output = 0;
     private final PIDFController pidfController = new PIDFController(kf,ki,kd,kp);
     private FeedForwardController feedForwardController = new FeedForwardController(kv,ks);
     public static double spin = 115;
