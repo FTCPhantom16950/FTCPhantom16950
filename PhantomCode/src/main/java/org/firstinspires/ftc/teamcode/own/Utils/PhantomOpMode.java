@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
 
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,7 +51,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private static final Map<String, Object> data = new ConcurrentHashMap<>();
     /// Действие запускаемое в начале OpMode
     public Group actions;
-    public static volatile Set<Mechanism> mechanism = new HashSet<Mechanism>();
+    public static Set<Mechanism> mechanism = new HashSet<Mechanism>();
     /// Планировщик задач
     private Scheduler scheduler;
     TelemetryPacket packet = new TelemetryPacket();
@@ -93,6 +93,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         customObjects.clear();
         data.clear();
         try {
+            mechanism.clear();
             voltageSensor = hardwareMap.voltageSensor.iterator().next();
             myApp = hardwareMap.appContext;
             params.loopControl = 0;
@@ -113,6 +114,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             onStart();
             // запуск планировщика
             runScheduler();
+            mechanism.clear();
 
         } catch (Exception e) {
             if (CameraMechanism.visionPortal != null) {
@@ -126,6 +128,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     public static void playDead() {
+        mechanism.clear();
         int soundID = myApp.getResources().getIdentifier("kolya_pridi", "raw", myApp.getPackageName());
         SoundPlayer.getInstance().startPlaying(myApp, soundID);
     }
@@ -140,6 +143,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
         try {
             telemetryExecutor.start();
         } catch (Exception e) {
+
             playDead();
             throw new RuntimeException(e);
         }
