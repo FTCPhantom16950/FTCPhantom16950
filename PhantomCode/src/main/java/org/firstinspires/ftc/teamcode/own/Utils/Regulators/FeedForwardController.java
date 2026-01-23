@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.own.Utils.Regulators;
+package org.firstinspires.ftc.teamcode.Own.Utils.Regulators;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class FeedForwardController {
     private double kV, kA, output, target;

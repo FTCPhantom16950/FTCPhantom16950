@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.own.Actions.SoundActions;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+package org.firstinspires.ftc.teamcode.Own.Actions.SoundActions;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 
 public class ShutkaAction extends Action {
     ElapsedTime timer;

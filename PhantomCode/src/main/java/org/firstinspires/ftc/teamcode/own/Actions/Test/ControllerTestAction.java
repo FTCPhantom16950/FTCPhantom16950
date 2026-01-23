@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.own.Actions.Test;
+package org.firstinspires.ftc.teamcode.Own.Actions.Test;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.FeedForwardController;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDFController;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomMath;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Regulators.FeedForwardController;
+import org.firstinspires.ftc.teamcode.Own.Utils.Regulators.PIDFController;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 import org.psilynx.psikit.core.Logger;
 
 @Configurable

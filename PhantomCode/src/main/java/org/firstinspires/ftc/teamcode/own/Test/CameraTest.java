@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.own.Test;
+package org.firstinspires.ftc.teamcode.Own.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.Actions.Utility.CameraAction;
-import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Actions.Utility.CameraAction;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.CameraMechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 @TeleOp
 public class CameraTest extends PhantomOpMode {
     @Override

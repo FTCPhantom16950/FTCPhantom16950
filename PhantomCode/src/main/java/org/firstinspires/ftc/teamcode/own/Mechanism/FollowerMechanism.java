@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
@@ -9,7 +9,7 @@ import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Const;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
 import org.firstinspires.ftc.teamcode.pedropathing.Constants;
 
 public class FollowerMechanism implements Mechanism {

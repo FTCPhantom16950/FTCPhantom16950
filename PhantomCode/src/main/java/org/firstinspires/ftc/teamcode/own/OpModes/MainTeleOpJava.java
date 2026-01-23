@@ -1,20 +1,20 @@
-package org.firstinspires.ftc.teamcode.own.OpModes;
+package org.firstinspires.ftc.teamcode.Own.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.DriveAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.PodemAction;
-import org.firstinspires.ftc.teamcode.own.Actions.SoundActions.ShutkaAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.PodxodAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.ShootAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.SosaloAction;
-import org.firstinspires.ftc.teamcode.own.Mechanism.ParkovkaMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.PodxodMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.SOSaloMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.ShootMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.DriveAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.PodemAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.SoundActions.ShutkaAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.PodxodAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.ShootAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.SosaloAction;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.ParkovkaMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.PodxodMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.SOSaloMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.ShootMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.WheelBase;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.ParallelGroup;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 
 
 

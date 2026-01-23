@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.own.OpModes;
+package org.firstinspires.ftc.teamcode.Own.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.own.Actions.AutoActions.MoveAction;
-import org.firstinspires.ftc.teamcode.own.Actions.AutoActions.PulaloAction;
-import org.firstinspires.ftc.teamcode.own.Mechanism.PodxodMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.ShootMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.WheelBase;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.LinearGroup;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Actions.AutoActions.MoveAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.AutoActions.PulaloAction;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.PodxodMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.ShootMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.WheelBase;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.LinearGroup;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.ParallelGroup;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 @Autonomous
 public class Auto1Shar extends PhantomOpMode {
     @Override

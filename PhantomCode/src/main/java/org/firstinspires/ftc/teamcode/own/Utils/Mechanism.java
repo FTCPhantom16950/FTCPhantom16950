@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.Own.Utils;
 /// Интерфейс для создания механизмов
 /// Made by Hkial(Gleb)
 /// Last Updated: 08.06.25 02:40

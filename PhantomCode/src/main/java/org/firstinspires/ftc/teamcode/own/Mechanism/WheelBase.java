@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lb;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.lf;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.lb;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.lf;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class WheelBase implements Mechanism {
     HardwareMap hw;

@@ -1,18 +1,18 @@
-package org.firstinspires.ftc.teamcode.own.Utils;
+package org.firstinspires.ftc.teamcode.Own.Utils;
 
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.customObjects;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.gamepadOperator;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.imu;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.multipleTelemetry;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.myApp;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.params;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.rot;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.soundPlaying;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.voltageSensor;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.x;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.y;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.customObjects;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.gamepadOperator;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.hw;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.imu;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.multipleTelemetry;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.myApp;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.params;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.rot;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.soundPlaying;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.voltageSensor;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.x;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.y;
 
 
 import android.annotation.SuppressLint;
@@ -27,9 +27,9 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.CameraMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.GyroScope;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.Group;
 
 
 import java.util.Collections;

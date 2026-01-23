@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.own.Actions.Test;
+package org.firstinspires.ftc.teamcode.Own.Actions.Test;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 import org.psilynx.psikit.core.Logger;
 
 public class LoggerTestAction extends Action {

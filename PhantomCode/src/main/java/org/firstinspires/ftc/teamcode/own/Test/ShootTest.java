@@ -1,17 +1,17 @@
-package org.firstinspires.ftc.teamcode.own.Test;
+package org.firstinspires.ftc.teamcode.Own.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.PodxodAction;
-import org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions.ShootAction;
-import org.firstinspires.ftc.teamcode.own.Actions.Test.ControllerTestAction;
-import org.firstinspires.ftc.teamcode.own.Actions.Test.LoggerTestAction;
-import org.firstinspires.ftc.teamcode.own.Mechanism.LoggerTestMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.PodxodMechanism;
-import org.firstinspires.ftc.teamcode.own.Mechanism.ShootMechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.ParallelGroup;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.PodxodAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions.ShootAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.Test.ControllerTestAction;
+import org.firstinspires.ftc.teamcode.Own.Actions.Test.LoggerTestAction;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.LoggerTestMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.PodxodMechanism;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.ShootMechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.ParallelGroup;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 @TeleOp
 public class ShootTest extends PhantomOpMode {
     @Override

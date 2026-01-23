@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorREV2mDistance;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class TestDSMechanism implements Mechanism {
 

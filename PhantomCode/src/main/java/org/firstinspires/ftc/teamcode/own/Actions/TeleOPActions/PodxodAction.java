@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
+package org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 @Configurable
 @Config

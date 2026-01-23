@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.camera;
+package org.firstinspires.ftc.teamcode.Own.camera;
 
 import static org.opencv.core.CvType.CV_64F;
 

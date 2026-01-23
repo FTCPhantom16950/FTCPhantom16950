@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.own.Actions.AutoActions;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+package org.firstinspires.ftc.teamcode.Own.Actions.AutoActions;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
 
 public class MoveAction extends Action {
     private double x,y,rot,time;

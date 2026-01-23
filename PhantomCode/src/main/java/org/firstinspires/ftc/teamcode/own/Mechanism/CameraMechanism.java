@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
-import org.firstinspires.ftc.teamcode.own.camera.ArtifactProcessor;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.camera.ArtifactProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 

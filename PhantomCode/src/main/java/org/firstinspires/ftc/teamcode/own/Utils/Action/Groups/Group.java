@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
+package org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public abstract class Group {
     LinearOpMode opMode;

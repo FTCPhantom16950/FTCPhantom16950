@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.own.Actions.Utility;
-import static org.firstinspires.ftc.teamcode.own.Utils.PhantomMath.*;
+package org.firstinspires.ftc.teamcode.Own.Actions.Utility;
+import static org.firstinspires.ftc.teamcode.Own.Utils.PhantomMath.*;
 
-import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Mechanism.CameraMechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.Range;

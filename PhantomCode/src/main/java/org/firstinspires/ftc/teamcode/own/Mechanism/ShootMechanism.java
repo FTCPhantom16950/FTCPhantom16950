@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 @Config
 @Configurable
 public class ShootMechanism implements Mechanism {

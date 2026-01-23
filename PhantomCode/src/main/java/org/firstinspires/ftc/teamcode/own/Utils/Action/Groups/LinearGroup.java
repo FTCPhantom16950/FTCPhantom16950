@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.own.Utils.Action.Groups;
+package org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;

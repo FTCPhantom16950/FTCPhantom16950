@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.camera;
+package org.firstinspires.ftc.teamcode.Own.camera;
 
 import static org.opencv.imgproc.Imgproc.CV_SHAPE_RECT;
 import static org.opencv.imgproc.Imgproc.MORPH_CLOSE;

@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+package org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class PodemAction extends Action {
     private static DcMotorEx podem;

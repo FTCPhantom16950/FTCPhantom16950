@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.own.Utils.Regulators;
+package org.firstinspires.ftc.teamcode.Own.Utils.Regulators;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class PIDFController {
     double output = 0;

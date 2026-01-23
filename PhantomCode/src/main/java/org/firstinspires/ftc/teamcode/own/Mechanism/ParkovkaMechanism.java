@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.own.Mechanism;
+package org.firstinspires.ftc.teamcode.Own.Mechanism;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.hw;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Mechanism;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Mechanism;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class ParkovkaMechanism implements Mechanism {
     private static DcMotorEx motorEx;

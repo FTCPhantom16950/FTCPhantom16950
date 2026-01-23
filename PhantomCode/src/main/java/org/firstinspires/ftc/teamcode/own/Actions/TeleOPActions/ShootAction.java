@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
+package org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.myApp;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.params;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.soundPlaying;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.myApp;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.params;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.soundPlaying;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
@@ -11,12 +11,12 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.FeedForwardController;
-import org.firstinspires.ftc.teamcode.own.Utils.Regulators.PIDFController;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomMath;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Regulators.FeedForwardController;
+import org.firstinspires.ftc.teamcode.Own.Utils.Regulators.PIDFController;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 @Configurable
 @Config

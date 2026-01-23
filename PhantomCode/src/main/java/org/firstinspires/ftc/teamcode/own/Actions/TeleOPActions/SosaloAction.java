@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.own.Actions.TeleOPActions;
+package org.firstinspires.ftc.teamcode.Own.Actions.TeleOPActions;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class SosaloAction extends Action {
     @Override

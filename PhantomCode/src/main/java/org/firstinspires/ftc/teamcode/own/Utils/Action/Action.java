@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.own.Utils.Action;
+package org.firstinspires.ftc.teamcode.Own.Utils.Action;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.Group;
 
 /**
  * Класс создания действия

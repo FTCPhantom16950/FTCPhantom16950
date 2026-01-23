@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.own.Actions.AutoActions;
+package org.firstinspires.ftc.teamcode.Own.Actions.AutoActions;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomMath;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomMath;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class PulaloAction extends Action {
     @Override

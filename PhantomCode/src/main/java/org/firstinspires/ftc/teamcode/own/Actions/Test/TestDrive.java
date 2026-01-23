@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.own.Actions.Test;
+package org.firstinspires.ftc.teamcode.Own.Actions.Test;
 
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.*;
+import static org.firstinspires.ftc.teamcode.Own.Utils.Robot.*;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.own.Utils.Action.Action;
-import org.firstinspires.ftc.teamcode.own.Utils.PhantomOpMode;
-import org.firstinspires.ftc.teamcode.own.Utils.Robot;
+import org.firstinspires.ftc.teamcode.Own.Utils.Action.Action;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomOpMode;
+import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 
 public class TestDrive extends Action {
     private static final double MAX_SPEED_FORWARD = 0, MAX_SPEED_SIDE = 0, MAX_SPEED_SPIN = 0,
