@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.own.Utils;
 
 
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.customObjects;
-import static org.firstinspires.ftc.teamcode.own.Utils.Robot.gamepadOperator;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.hw;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.imu;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.multipleTelemetry;
@@ -15,28 +14,21 @@ import static org.firstinspires.ftc.teamcode.own.Utils.Robot.x;
 import static org.firstinspires.ftc.teamcode.own.Utils.Robot.y;
 
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.ftccommon.SoundPlayer;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.own.Mechanism.CameraMechanism;
 import org.firstinspires.ftc.teamcode.own.Mechanism.GyroScope;
 import org.firstinspires.ftc.teamcode.own.Utils.Action.Groups.Group;
 
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -89,6 +81,10 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
         mechanism.clear();
         customObjects.clear();
         data.clear();
@@ -117,10 +113,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
             mechanism.clear();
 
         } catch (Exception e) {
-            if (CameraMechanism.visionPortal != null) {
-                CameraMechanism.visionPortal.close();
-            }
-            CameraMechanism.visionPortal = null;
             data.clear();
             playDead();
             throw new RuntimeException(e);
@@ -138,7 +130,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
 
     private void initTelemetry() throws InterruptedException {
-        multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry(), PanelsTelemetry.INSTANCE.getFtcTelemetry());
         PhantomOpMode.addData("Нижняя подсветка", true);
         try {
             telemetryExecutor.start();
@@ -168,10 +160,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
             SoundPlayer.getInstance().stopPlayingAll();
             data.clear();
             mechanism = new HashSet<>();
-            if (CameraMechanism.visionPortal != null) {
-                CameraMechanism.visionPortal.close();
-            }
-            CameraMechanism.visionPortal = null;
         }
     }
 

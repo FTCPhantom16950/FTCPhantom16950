@@ -28,11 +28,6 @@ public class ShootMechanism implements Mechanism {
         shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootMotor.setPower(0);
         Robot.addOrUpdate("shoot", shootMotor);
-
-//        CRServo vrash = Robot.hw.get(CRServo.class, "vrash");
-//        vrash.setPower(0);
-//        Robot.addOrUpdate("vrash", vrash);
-
         return true;
     }
 }
