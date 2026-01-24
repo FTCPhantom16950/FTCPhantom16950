@@ -29,8 +29,6 @@ public class ParallelGroup implements Action {
             futures.add(threadPool.submit(() -> {
                 try {
                     a.execute();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     Robot.INSTANCE.multipleTelemetry.addData("Parallel Error", e.getMessage());
                 }

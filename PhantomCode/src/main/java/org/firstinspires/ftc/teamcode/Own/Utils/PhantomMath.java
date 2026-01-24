@@ -30,6 +30,6 @@ public class PhantomMath {
         return y - HALF_FIELD;
     }
     public static double convertToRPM(double info, int encoderTicks){
-        return (info / encoderTicks) * 60;
+        return (info * 60) / encoderTicks ;
     }
 }

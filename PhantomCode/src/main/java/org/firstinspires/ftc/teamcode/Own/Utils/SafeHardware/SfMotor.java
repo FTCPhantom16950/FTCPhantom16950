@@ -3,13 +3,17 @@ package org.firstinspires.ftc.teamcode.Own.Utils.SafeHardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Own.Utils.PhantomMath;
+
 public class SfMotor {
     private final DcMotorEx dcMotorEx;
     private final Object lock = new Object();
-    private volatile double lastPower = 0.0;
-
-    public SfMotor(DcMotorEx dcMotorEx) {
+    private volatile double lastPower = 0.0, lastPosition = 0.0;
+    private final int encoderResolution;
+    public SfMotor(DcMotorEx dcMotorEx, int encoderResolution) {
         this.dcMotorEx = dcMotorEx;
+        this.encoderResolution = encoderResolution;
     }
 
     public double getPower() {
@@ -53,7 +57,8 @@ public class SfMotor {
         return dcMotorEx.getCurrentPosition();
     }
     public double getVelocity(){
-        return dcMotorEx.getVelocity();
+
+        return dcMotorEx.getVelocity() * 60 / encoderResolution;
     }
     public void setVelocity(double velocity){
         synchronized (lock){

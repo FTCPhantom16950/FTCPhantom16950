@@ -11,7 +11,7 @@ public class GyroScopeMechanism implements Mechanism {
     @Override
     public void init() throws InterruptedException {
         IMU imu = Robot.INSTANCE.hw.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.DOWN)));
+        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)));
         Robot.INSTANCE.imu = imu;
     }
 

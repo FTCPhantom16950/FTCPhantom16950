@@ -13,6 +13,7 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.onbotjava.handlers.admin.ResetOnBotJava;
 import org.firstinspires.ftc.teamcode.Own.Mechanism.GyroScopeMechanism;
 import org.firstinspires.ftc.teamcode.Own.Mechanism.VolatgeMechanism;
 import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.Action;
@@ -99,10 +100,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
         INSTANCE.allHubs = hardwareMap.getAll(LynxModule.class);
         for (LynxModule module : INSTANCE.allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
+        telemetry.setAutoClear(true);
         mechanism.clear();
         INSTANCE.customObjects.clear();
         telemetryData.clear();
@@ -146,7 +149,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     private void initTelemetry() throws InterruptedException {
         INSTANCE.multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry(), PanelsTelemetry.INSTANCE.getFtcTelemetry());
-        Robot.addData("Нижняя подсветка", true);
+        Robot.addTelemetryData("Нижняя подсветка", true);
+
         try {
             telemetryExecutor.start();
         } catch (Exception e) {
