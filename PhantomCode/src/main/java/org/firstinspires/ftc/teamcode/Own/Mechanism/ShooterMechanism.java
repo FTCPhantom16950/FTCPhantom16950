@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Own.Utils.SafeHardware.SfMotor;
 @Configurable
 public class ShooterMechanism implements Mechanism {
     public static boolean reversed = false;
-    private static SfMotor shooterMotor;
+    private SfMotor shooterMotor;
 
     @Override
     public void init() throws InterruptedException {

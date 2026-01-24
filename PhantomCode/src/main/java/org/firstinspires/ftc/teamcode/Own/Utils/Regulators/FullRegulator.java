@@ -93,12 +93,14 @@ public class FullRegulator {
         this.output = output;
         this.target = target;
         this.motorVelocity = motorVelocity;
+        pidFilteredController = new PIDFilteredController(kI,kD,kP,derivativeFilter);
+        feedForwardController = new FeedForwardController(kV,kA);
     }
 
     private double kI;
 
-    private final PIDFilteredController pidFilteredController = new PIDFilteredController(kI,kD,kP,derivativeFilter);
-    private final FeedForwardController feedForwardController = new FeedForwardController(kV,kA);
+    private final PIDFilteredController pidFilteredController;
+    private final FeedForwardController feedForwardController;
     public double calculate(){
         pidFilteredController.setTarget(target);
         feedForwardController.setTarget(target);

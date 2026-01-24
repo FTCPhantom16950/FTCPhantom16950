@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -32,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class PhantomOpMode extends LinearOpMode {
 
-    public static Set<Mechanism> mechanism = new HashSet<Mechanism>();
+    public static Set<Mechanism> mechanism = new CopyOnWriteArraySet<Mechanism>();
     private final Thread hardwareLoop = new Thread(() -> {
         while (!isStopRequested() && !Thread.currentThread().isInterrupted()) {
             try {
@@ -80,7 +81,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             packet.put("Pose heading", INSTANCE.rot);
             if (!isStopRequested()) {
                 for (String s : telemetryData.keySet()) {
-                    INSTANCE.multipleTelemetry.addData(s, data.get(s));
+                    INSTANCE.multipleTelemetry.addData(s, telemetryData.get(s));
                 }
                 INSTANCE.multipleTelemetry.update();
                 FtcDashboard.getInstance().sendTelemetryPacket(packet);

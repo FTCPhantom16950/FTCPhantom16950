@@ -7,22 +7,24 @@ import org.firstinspires.ftc.teamcode.Own.Utils.Action.Groups.Action;
 import org.firstinspires.ftc.teamcode.Own.Utils.Regulators.FullRegulator;
 import org.firstinspires.ftc.teamcode.Own.Utils.Robot;
 import org.firstinspires.ftc.teamcode.Own.Utils.SafeHardware.SfMotor;
+
 @Configurable
 @Config
 public class ShootAction implements Action {
-    public static double kV = 0, kA = 0, kP = 0 , kD = 0 , kI = 0, derivativeFilter = 0.5, output = 0, target = 0, motorVelocity = 0;
-    private final FullRegulator fullRegulator = new FullRegulator(kV,kA,kP,kD,kI,derivativeFilter,output,target,motorVelocity);
+    public static double kV = 1/6000.0, kA = 0.195, kP = 0.0025, kD = 0.0001, kI = 0, derivativeFilter = 0.5, output = 0, target = 0, motorVelocity = 0;
     private static boolean shooting = false;
+    private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
+
     @Override
     public void execute() throws InterruptedException {
         SfMotor shoot = Robot.INSTANCE.get(SfMotor.class, "shooter");
-        while(Robot.INSTANCE.opMode.opModeIsActive()){
-            if (Robot.INSTANCE.gamepadDriver.b){
+        while (Robot.INSTANCE.opMode.opModeIsActive()) {
+            if (Robot.INSTANCE.gamepadDriver.b) {
                 shooting = !shooting;
             }
-            if (shooting){
+            if (shooting) {
                 target = 3700;
-            } else{
+            } else {
                 target = 0;
             }
             fullRegulator.setkA(kA);
@@ -32,11 +34,17 @@ public class ShootAction implements Action {
             fullRegulator.setkP(kP);
             fullRegulator.setTarget(target);
             fullRegulator.setDerivativeFilter(derivativeFilter);
-            fullRegulator.setMotorVelocity((double) Robot.INSTANCE.getData("Shooter velocity"));
+            if (Robot.INSTANCE.getData("Shooter velocity") != null) {
+                motorVelocity = (double) Robot.INSTANCE.getData("Shooter velocity");
+            } else {
+                motorVelocity = 0;
+            }
+
+            fullRegulator.setMotorVelocity(motorVelocity);
             output = fullRegulator.calculate();
             shoot.setPower(output);
-            Robot.addTelemetryData("Shooter velocity",Robot.INSTANCE.getData("Shooter velocity"));
-            Robot.addTelemetryData("Shooter power",Robot.INSTANCE.getData("Shooter power"));
+            Robot.addTelemetryData("Shooter velocity", Robot.INSTANCE.getData("Shooter velocity"));
+            Robot.addTelemetryData("Shooter power", Robot.INSTANCE.getData("Shooter power"));
         }
     }
 }
