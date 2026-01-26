@@ -58,12 +58,12 @@ public abstract class PhantomOpMode extends LinearOpMode {
     public Action actions;
     private ElapsedTime time;
     /// Планировщик задач
-    private Scheduler scheduler;
+    private org.firstinspires.ftc.teamcode.own.utils.Scheduler scheduler;
     private TelemetryPacket packet = new TelemetryPacket();
     private Thread telemetryExecutor = new Thread(() -> {
         time = new ElapsedTime();
         while (!isStopRequested()) {
-            Robot.INSTANCE.voltageCompenser = INSTANCE.voltage / 12;
+            Robot.INSTANCE.voltageCompenser = INSTANCE.voltage / 12.0;
             packet = new TelemetryPacket();
             if (INSTANCE.voltage <= 11 && !INSTANCE.soundPlaying && !INSTANCE.nearlyPlayed) {
                 int soundID = INSTANCE.getApp().getResources().getIdentifier("rubezvozvrata", "raw", INSTANCE.getApp().getPackageName());

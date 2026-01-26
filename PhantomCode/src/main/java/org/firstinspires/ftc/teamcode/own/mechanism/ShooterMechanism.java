@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.own.mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
+import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfCrServo;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 
 @Config
@@ -15,18 +17,22 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 public class ShooterMechanism implements Mechanism {
     public static boolean reversed = false;
     private SfMotor shooterMotor;
+    private SfCrServo crServo;
 
     @Override
     public void init() throws InterruptedException {
+        crServo = new SfCrServo(Robot.INSTANCE.hw.get(CRServo.class, "servo"));
         shooterMotor = new SfMotor(Robot.INSTANCE.hw.get(DcMotorEx.class, "shoot"),28);
         if (reversed) {
             shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         } else {
             shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         }
+        crServo.setPower(0);
         shooterMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.FLOAT);
         shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Robot.INSTANCE.addOrUpdate(crServo, "servo");
         Robot.INSTANCE.addOrUpdate(shooterMotor, "shooter");
     }
 

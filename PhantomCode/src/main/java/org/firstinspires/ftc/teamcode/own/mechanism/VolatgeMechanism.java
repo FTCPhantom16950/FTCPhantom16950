@@ -17,5 +17,6 @@ public class VolatgeMechanism implements Mechanism {
         Mechanism.super.read();
         Robot.INSTANCE.voltage = Robot.INSTANCE.voltageSensor.getVoltage();
         Robot.addData("voltage", Robot.INSTANCE.voltage);
+        Robot.addData("voltage compenser", Robot.INSTANCE.voltageCompenser);
     }
 }
