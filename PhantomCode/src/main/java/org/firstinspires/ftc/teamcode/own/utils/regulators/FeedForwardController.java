@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.utils.regulators;
 
+import org.firstinspires.ftc.teamcode.own.utils.Robot;
+
 public class FeedForwardController {
     private double kV, kA, output, target;
 
@@ -29,7 +31,7 @@ public class FeedForwardController {
     }
 
     public double calculate(){
-        output = kV * target + kA;
+        output = (kV * target + kA) / Robot.INSTANCE.voltageCompenser;
         return output;
     }
 }

@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.own.utils.safehardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-public class SfMotor {
+public class SfEncoder {
     private final DcMotorEx dcMotorEx;
     private final Object lock = new Object();
     private volatile double lastPower = 0.0, lastPosition = 0.0;
     private final int encoderResolution;
-    public SfMotor(DcMotorEx dcMotorEx, int encoderResolution) {
+    public SfEncoder(DcMotorEx dcMotorEx, int encoderResolution) {
         this.dcMotorEx = dcMotorEx;
         this.encoderResolution = encoderResolution;
     }
@@ -16,24 +16,11 @@ public class SfMotor {
     public double getPower() {
         return lastPower;
     }
-
-    public void setPower(double power) {
-        synchronized (lock) {
-            dcMotorEx.setPower(power);
-            lastPower = power;
-        }
-    }
     public void resetEncoder(){
         var prev = dcMotorEx.getMode();
         dcMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         dcMotorEx.setMode(prev);
     }
-    public void setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
-        synchronized (lock) {
-            dcMotorEx.setZeroPowerBehavior(zeroPowerBehavior);
-        }
-    }
-
     public void setMode(DcMotor.RunMode mode) {
         synchronized (lock) {
             dcMotorEx.setMode(mode);
@@ -46,25 +33,11 @@ public class SfMotor {
         }
     }
 
-    public int getTargetPosition() {
-        return dcMotorEx.getTargetPosition();
-    }
-
-    public void setTargetPosition(int targetPosition) {
-        dcMotorEx.setTargetPosition(targetPosition);
-    }
-
     public int getCurrentPosition() {
         return dcMotorEx.getCurrentPosition();
     }
     public double getVelocity(){
         return dcMotorEx.getVelocity() * 60 / encoderResolution;
     }
-    public void setVelocity(double velocity){
-        synchronized (lock){
-            dcMotorEx.setVelocity(velocity);
-        }
-    }
-
 
 }

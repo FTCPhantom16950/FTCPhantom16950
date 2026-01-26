@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.own.utils;
 import android.content.Context;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -24,6 +25,7 @@ import java.util.concurrent.Executors;
  */
 public enum Robot {
     INSTANCE;
+    public static Follower follower;
     public static final Map<String, Object> telemetryData = new ConcurrentHashMap<>();
     public static final Map<String, Object> data = new ConcurrentHashMap<>();
     public final ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -36,7 +38,6 @@ public enum Robot {
     public volatile MultipleTelemetry multipleTelemetry;
     public SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
     public volatile WeakReference<Context> myAppRef;
-    public volatile DcMotorEx lf, rb, lb, rf;
     /// Используемый {@link PhantomOpMode }
     public volatile PhantomOpMode opMode;
     /// Используемый HardwareMap
@@ -70,7 +71,12 @@ public enum Robot {
     }
 
     public Object getData(String s){
-        return Robot.data.get(s);
+        if (Robot.data.get(s) == null){
+            return Robot.data.get(s);
+        }
+        else{
+            return 0;
+        }
     }
 
     /**

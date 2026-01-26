@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.mechanism;
+package org.firstinspires.ftc.teamcode.own.mechanism.util;
 
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 

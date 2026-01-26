@@ -15,8 +15,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.own.mechanism.GyroScopeMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.VolatgeMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.util.VolatgeMechanism;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -36,10 +37,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private final Thread hardwareLoop = new Thread(() -> {
         while (!isStopRequested() && !Thread.currentThread().isInterrupted()) {
             try {
-                // 1. Очищаем кэш хабов (для режима MANUAL - самый быстрый)
                 Robot.INSTANCE.clearBulkCache();
 
-                // 2. Читаем все механизмы
                 for (Mechanism m : PhantomOpMode.mechanism) {
                     try {
                         m.read();
@@ -187,6 +186,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     public void onStart() {
+        for (Object object : INSTANCE.customObjects.values()){
+            if (object instanceof SfMotor){
+                ((SfMotor) object).resetEncoder();
+            }
+        }
         data.clear();
         telemetryData.clear();
     }
