@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Config
 public class CaptureMechanism implements Mechanism {
     private SfMotor capture;
-    private CRServo servo;
+    private SfCrServo servo;
     public static boolean reversed = false;
     @Override
     public void init() throws InterruptedException {
-        servo = Robot.INSTANCE.hw.get(CRServo.class,"pal");
+        servo = new SfCrServo(Robot.INSTANCE.hw.get(CRServo.class, "pal"));
         servo.setPower(0);
         capture = new SfMotor(Robot.INSTANCE.hw.get(DcMotorEx.class, "capture"), 28);
         if (reversed){
