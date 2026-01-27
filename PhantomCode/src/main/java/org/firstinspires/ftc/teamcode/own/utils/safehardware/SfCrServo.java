@@ -14,10 +14,10 @@ public class SfCrServo {
         return lastPower;
     }
     public void setPower(double power){
-        synchronized (lock){
+//        synchronized (lock){
             crServo.setPower(power);
             lastPower = power;
-        }
+//        }
     }
 
 }

@@ -120,7 +120,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             INSTANCE.params.loopControl = 0;
             INSTANCE.params.waitForNonLoopingSoundsToFinish = true;
             Robot.INSTANCE.opMode = this;
-            INSTANCE.hw = hardwareMap;
+            INSTANCE.hw = this.hardwareMap;
             Robot.INSTANCE.gamepadDriver = gamepad1;
             Robot.INSTANCE.gamepadOperator = gamepad2;
             mechanism.add(new GyroScopeMechanism());
