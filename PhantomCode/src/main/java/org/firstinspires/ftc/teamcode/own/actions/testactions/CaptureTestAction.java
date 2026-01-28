@@ -5,20 +5,23 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+import org.firstinspires.ftc.teamcode.own.utils.regulators.FullRegulator;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfCrServo;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Configurable
 @Config
 public class CaptureTestAction implements Action {
-    public static double power = 1, palPower = 1;
-    private boolean capturing = false;
+    public static double power = 1, palPower = -0.7;
+    public static boolean capturing = false;
+    public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD= 0, df = 0.5, output = 0, motorVelocity = 0, target = 6000;
+    private FullRegulator fullRegulator = new FullRegulator(kV,kA,kP,kD,kI,df,output,target,motorVelocity);
     SfMotor capture;
     @Override
     public void execute() throws InterruptedException {
         SfCrServo pal = Robot.INSTANCE.get(SfCrServo.class, "pal");
         capture = Robot.INSTANCE.get(SfMotor.class, "capture");
         while (Robot.INSTANCE.opMode.opModeIsActive()){
-            if (Robot.INSTANCE.gamepadOperator.left_trigger >= 0.0f){
+            if (Robot.INSTANCE.gamepadOperator.left_trigger >= 0.1f){
                 pal.setPower(palPower);
             } else{
                 pal.setPower(0);
@@ -28,10 +31,19 @@ public class CaptureTestAction implements Action {
                 Robot.INSTANCE.opMode.sleep(300);
             }
             if (capturing){
-                capture.setPower(power);
+                fullRegulator.setTarget(target);
             } else {
-                capture.setPower(0);
+                fullRegulator.setTarget(0);
             }
+            fullRegulator.setkA(kA);
+            fullRegulator.setkV(kV);
+            fullRegulator.setkP(kP);
+            fullRegulator.setkD(kD);
+            fullRegulator.setkI(kI);
+            fullRegulator.setDerivativeFilter(df);
+            fullRegulator.setMotorVelocity(capture.getVelocity());
+            output = fullRegulator.calculate();
+            capture.setPower(output);
         }
     }
 }

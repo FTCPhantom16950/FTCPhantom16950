@@ -50,13 +50,13 @@ public enum Robot {
     public volatile double voltage;
     List<LynxModule> allHubs;
 
-    public static void addData(String s, Object data, boolean flag) {
+    public void addData(String s, Object data, boolean flag) {
         Robot.data.put(s, data);
         if (flag){
             Robot.telemetryData.put(s, data);
         }
     }
-    public static void addData(String s, Object data) {
+    public void addData(String s, Object data) {
         Robot.data.put(s, data);
         Robot.telemetryData.put(s, data);
     }
@@ -70,13 +70,8 @@ public enum Robot {
         Robot.telemetryData.get(s);
     }
 
-    public Object getData(String s){
-        if (Robot.data.get(s) == null){
-            return Robot.data.get(s);
-        }
-        else{
-            return 0;
-        }
+    public <T> T getData(String s){
+        return (T) Robot.data.get(s);
     }
 
     /**

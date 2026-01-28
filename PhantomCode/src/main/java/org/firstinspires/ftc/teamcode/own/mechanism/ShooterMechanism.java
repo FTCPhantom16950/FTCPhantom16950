@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Config
 @Configurable
 public class ShooterMechanism implements Mechanism {
-    public static boolean reversed = false, spinMotorEnabled = false;
+    public static boolean reversed = true, spinMotorEnabled = true;
     public static int startAngelDegree = 135;
     private SfMotor shooterMotor, spinMotor;
     private SfCrServo crServo;
@@ -30,7 +30,7 @@ public class ShooterMechanism implements Mechanism {
             spinMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
             spinMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             spinMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            Robot.INSTANCE.addOrUpdate(servo, "rotation");
+            Robot.INSTANCE.addOrUpdate(spinMotor, "rotation");
         } else {
             servo = new SfCrServo(Robot.INSTANCE.hw.get(CRServo.class, "rot"));
             servo.setPower(0);
@@ -56,10 +56,10 @@ public class ShooterMechanism implements Mechanism {
     @Override
     public void read() {
         Mechanism.super.read();
-        Robot.addData("Shooter power", shooterMotor.getPower(), true);
-        Robot.addData("Shooter velocity", shooterMotor.getVelocity(), true);
-        Robot.addData("Shooter position", shooterMotor.getCurrentPosition(), true);
-        Robot.addData("startAngelDegree", startAngelDegree, false);
-        Robot.addData("spinMotorEnabled", spinMotorEnabled, false);
+        Robot.INSTANCE.addData("Shooter power", shooterMotor.getPower(), true);
+        Robot.INSTANCE.addData("Shooter velocity", shooterMotor.getVelocity(), true);
+        Robot.INSTANCE.addData("Shooter position", shooterMotor.getCurrentPosition(), true);
+        Robot.INSTANCE.addData("startAngelDegree", startAngelDegree, false);
+        Robot.INSTANCE.addData("spinMotorEnabled", spinMotorEnabled);
     }
 }

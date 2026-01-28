@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.own.actions.testactions;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
@@ -10,7 +12,8 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Configurable
 public class WheelBaseTestAction implements Action {
     public static boolean center = false;
-
+    double targetX, targetY, targetRot, denominator,robotAngle,rotX,rotY;
+    double frontLeftPower,backLeftPower,frontRightPower,backRightPower;
     @Override
     public void execute() throws InterruptedException {
         SfMotor rb = Robot.INSTANCE.get(SfMotor.class, "rb");
@@ -18,26 +21,24 @@ public class WheelBaseTestAction implements Action {
         SfMotor rf = Robot.INSTANCE.get(SfMotor.class, "rf");
         SfMotor lf = Robot.INSTANCE.get(SfMotor.class, "lf");
         while (Robot.INSTANCE.opMode.opModeIsActive()){
-            double targetX = (double) Robot.INSTANCE.getData("Gx");
-            double targetY = (double) Robot.INSTANCE.getData("Gy");
-            double targetRot = (double) Robot.INSTANCE.getData("Gr");
-            double denominator;
+            targetX = PhantomMath.makeLinearToCubic(Robot.INSTANCE.gamepadDriver.left_stick_x + Robot.INSTANCE.gamepadDriver.right_stick_x * 0.8);
+            targetY = PhantomMath.makeLinearToCubic(-Robot.INSTANCE.gamepadDriver.left_stick_y - Robot.INSTANCE.gamepadDriver.right_stick_y * 0.8);
+            targetRot = Robot.INSTANCE.gamepadDriver.right_trigger - Robot.INSTANCE.gamepadDriver.left_trigger;
             if (center){
                 if (Robot.INSTANCE.gamepadDriver.options) {
                     Robot.INSTANCE.imu.resetYaw();
                 }
-                double robotAngle = Robot.INSTANCE.rot;
-                double rotX = targetX * Math.cos(-robotAngle) - targetY * Math.sin(-robotAngle);
-                double rotY = targetX * Math.sin(-robotAngle) + targetY * Math.cos(-robotAngle);
-                rotX = rotX * 1.1;
+                robotAngle = Robot.INSTANCE.rot;
+                rotX = targetX * Math.cos(-robotAngle) - targetY * Math.sin(-robotAngle);
+                rotY = targetX * Math.sin(-robotAngle) + targetY * Math.cos(-robotAngle);
                 targetX = rotX;
                 targetY = rotY;
             }
                 denominator = Math.max(Math.abs(targetX) + Math.abs(targetY) + Math.abs(targetRot), 1);
-                double frontLeftPower = (targetY + targetX + targetRot) / denominator;
-                double backLeftPower = (targetY - targetX + targetRot) / denominator;
-                double frontRightPower = (targetY - targetX - targetRot) / denominator;
-                double backRightPower = (targetY + targetX - targetRot) / denominator;
+                frontLeftPower = (targetY + targetX + targetRot) / denominator;
+                backLeftPower = (targetY - targetX + targetRot) / denominator;
+                frontRightPower = (targetY - targetX - targetRot) / denominator;
+                backRightPower = (targetY + targetX - targetRot) / denominator;
                 rb.setPower(backRightPower);
                 lb.setPower(backLeftPower);
                 rf.setPower(frontRightPower);

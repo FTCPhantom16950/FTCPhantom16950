@@ -37,5 +37,8 @@ public class CaptureMechanism implements Mechanism {
     @Override
     public void read() {
         Mechanism.super.read();
+        Robot.INSTANCE.addData("captureVelocity", capture.getVelocity());
+        Robot.INSTANCE.addData("capturePower", capture.getPower());
+
     }
 }

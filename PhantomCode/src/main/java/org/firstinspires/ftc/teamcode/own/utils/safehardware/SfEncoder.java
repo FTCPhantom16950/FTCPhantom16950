@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.own.utils.safehardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class SfEncoder {
     private final DcMotorEx dcMotorEx;
     private final Object lock = new Object();
+    DcMotorSimple.Direction direction = DcMotorSimple.Direction.FORWARD;
     private volatile double lastPower = 0.0, lastPosition = 0.0;
     private final int encoderResolution;
     public SfEncoder(DcMotorEx dcMotorEx, int encoderResolution) {
@@ -29,15 +31,24 @@ public class SfEncoder {
 
     public void setDirection(DcMotor.Direction direction) {
         synchronized (lock) {
-            dcMotorEx.setDirection(direction);
+            this.direction = direction;
         }
     }
 
     public int getCurrentPosition() {
-        return dcMotorEx.getCurrentPosition();
+        if (direction == DcMotorSimple.Direction.FORWARD){
+            return dcMotorEx.getCurrentPosition();
+        } else{
+            return -dcMotorEx.getCurrentPosition();
+        }
     }
     public double getVelocity(){
-        return dcMotorEx.getVelocity() * 60 / encoderResolution;
+        if (direction == DcMotorSimple.Direction.FORWARD){
+            return dcMotorEx.getVelocity() * 60 / encoderResolution;
+        } else {
+            return -dcMotorEx.getVelocity() * 60 / encoderResolution;
+        }
+
     }
 
 }

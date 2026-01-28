@@ -17,13 +17,14 @@ public class SpinMechanism implements Mechanism {
     @Override
     public void read() {
         Mechanism.super.read();
-        Robot.addData("startSpinServoDegree", startDegree);
+        Robot.INSTANCE.addData("startSpinServoDegree", startDegree);
+
     }
 
     @Override
     public void init() throws InterruptedException {
         crServo = new SfCrServo(Robot.INSTANCE.hw.get(CRServo.class, "spin"));
-        crServo.setPower(PhantomMath.servoCRPowerToDegrees(startDegree, 270));
+        crServo.setPower(0);
         Robot.INSTANCE.addOrUpdate(crServo, "spinServo");
     }
 }

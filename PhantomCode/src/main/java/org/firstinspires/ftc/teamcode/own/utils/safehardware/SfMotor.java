@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.own.utils.safehardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class SfMotor {
     private final DcMotorEx dcMotorEx;
     private final Object lock = new Object();
     private volatile double lastPower = 0.0, lastPosition = 0.0;
+    DcMotorSimple.Direction direction = DcMotorSimple.Direction.FORWARD;
     private final int encoderResolution;
     public SfMotor(DcMotorEx dcMotorEx, int encoderResolution) {
         this.dcMotorEx = dcMotorEx;

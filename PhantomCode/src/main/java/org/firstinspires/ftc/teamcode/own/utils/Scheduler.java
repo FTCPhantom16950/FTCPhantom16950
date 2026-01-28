@@ -70,10 +70,10 @@ public class Scheduler {
     public void initMechanism() {
         for (Mechanism mechanism : mechanisms) {
             try{
-                Robot.addData(mechanism.getClass().getSimpleName(), true);
+                Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), true);
                 mechanism.init();
             } catch (Exception e) {
-                Robot.addData(mechanism.getClass().getSimpleName(), false);
+                Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), false);
                 Robot.INSTANCE.multipleTelemetry.update();
                 throw new RuntimeException(e);
             }

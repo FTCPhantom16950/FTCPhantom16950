@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Configurable
 @Config
 public class ShootTestAction implements Action {
-    public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 4000, motorVelocity = 0;
-    public static int servoDegree = 35;
+    public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 5000, motorVelocity = 0;
+    public static int servoDegree = 270;
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
     SfCrServo rot;
     SfMotor rotation;
@@ -25,12 +25,11 @@ public class ShootTestAction implements Action {
     public void execute() throws InterruptedException {
         if ((boolean) Robot.INSTANCE.getData("spinMotorEnabled")) {
             rotation = Robot.INSTANCE.get(SfMotor.class, "rotation");
-
         } else {
             rot = Robot.INSTANCE.get(SfCrServo.class, "rot");
         }
 
-        SfCrServo angel = Robot.INSTANCE.get(SfCrServo.class, "angel");
+        SfCrServo angel = Robot.INSTANCE.get(SfCrServo.class, "angelModify");
         SfMotor shoot = Robot.INSTANCE.get(SfMotor.class, "shooter");
         while (Robot.INSTANCE.opMode.opModeIsActive()) {
             if (Robot.INSTANCE.gamepadOperator.b) {
@@ -52,7 +51,7 @@ public class ShootTestAction implements Action {
             fullRegulator.setkI(kI);
             fullRegulator.setkP(kP);
             fullRegulator.setDerivativeFilter(derivativeFilter);
-            motorVelocity = (double) Robot.INSTANCE.getData("Shooter velocity");
+            motorVelocity = shoot.getVelocity();
 
             fullRegulator.setMotorVelocity(motorVelocity);
             output = fullRegulator.calculate();
@@ -77,13 +76,11 @@ public class ShootTestAction implements Action {
             if (podem) {
                 angel.setPower(PhantomMath.servoCRPowerToDegrees(servoDegree, 270));
             } else {
-                angel.setPower(PhantomMath.servoCRPowerToDegrees((double) Robot.INSTANCE.getData("startAngelDegree"), 270));
+                angel.setPower(0);
             }
-            Robot.addData("target", target);
-            Robot.addData("error", target - motorVelocity);
-            Robot.addData("shootState", shooting);
-            Robot.addData("Shooter velocity", Robot.INSTANCE.getData("Shooter velocity"));
-            Robot.addData("Shooter power", Robot.INSTANCE.getData("Shooter power"));
+            Robot.INSTANCE.addData("shootTarget", target);
+            Robot.INSTANCE.addData("shootError", target - motorVelocity);
+            Robot.INSTANCE.addData("shootState", shooting);
         }
     }
 }

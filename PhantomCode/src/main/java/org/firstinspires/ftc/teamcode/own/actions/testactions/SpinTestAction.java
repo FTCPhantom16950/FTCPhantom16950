@@ -14,10 +14,10 @@ public class SpinTestAction implements Action {
     public static double centerDegree = 135, leftDegree = 270, rightDegree = 0;
     @Override
     public void execute() throws InterruptedException {
-        Robot.addData("positionSpin", position, true);
+        Robot.INSTANCE.addData("positionSpin", position);
         SfCrServo spin = Robot.INSTANCE.get(SfCrServo.class, "spinServo");
         while (Robot.INSTANCE.opMode.opModeIsActive()){
-            position = (Positions) Robot.INSTANCE.getData("positionSpin");
+            position = Robot.INSTANCE.getData("positionSpin");
             switch (position){
                 case LEFT -> {
                     spin.setPower(PhantomMath.servoCRPowerToDegrees(leftDegree, 270));
@@ -35,15 +35,15 @@ public class SpinTestAction implements Action {
             if (Robot.INSTANCE.gamepadOperator.right_bumper){
                 switch (position){
                     case LEFT -> {
-                        Robot.addData("positionSpin", Positions.CENTER, true);
+                        Robot.INSTANCE.addData("positionSpin", Positions.CENTER);
                         break;
                     }
                     case RIGHT ->{
-                        Robot.addData("positionSpin", Positions.LEFT, true);
+                        Robot.INSTANCE.addData("positionSpin", Positions.LEFT);
                         break;
                     }
                     case CENTER -> {
-                        Robot.addData("positionSpin", Positions.RIGHT, true);
+                        Robot.INSTANCE.addData("positionSpin", Positions.RIGHT);
                         break;
                     }
                 }

@@ -8,6 +8,8 @@ import static org.firstinspires.ftc.teamcode.own.utils.Robot.telemetryData;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.bylazar.gamepad.GamepadManager;
+import com.bylazar.gamepad.PanelsGamepad;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -32,13 +34,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * Last Updated: 08.06.25 02:40
  */
 public abstract class PhantomOpMode extends LinearOpMode {
-
+    GamepadManager g1, g2;
     public static Set<Mechanism> mechanism = new CopyOnWriteArraySet<Mechanism>();
     private final Thread hardwareLoop = new Thread(() -> {
-        while (!isStopRequested() && !Thread.currentThread().isInterrupted()) {
+        while ((opModeInInit() || opModeIsActive())) {
             try {
                 Robot.INSTANCE.clearBulkCache();
-
+                INSTANCE.gamepadDriver = g1.asCombinedFTCGamepad(gamepad1);
+                INSTANCE.gamepadOperator = g2.asCombinedFTCGamepad(gamepad2);
                 for (Mechanism m : PhantomOpMode.mechanism) {
                     try {
                         m.read();
@@ -121,6 +124,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
             INSTANCE.params.waitForNonLoopingSoundsToFinish = true;
             Robot.INSTANCE.opMode = this;
             INSTANCE.hw = this.hardwareMap;
+            g1 = PanelsGamepad.INSTANCE.getFirstManager();
+            g2 = PanelsGamepad.INSTANCE.getSecondManager();
             Robot.INSTANCE.gamepadDriver = gamepad1;
             Robot.INSTANCE.gamepadOperator = gamepad2;
             mechanism.add(new GyroScopeMechanism());
@@ -152,7 +157,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     private void initTelemetry() throws InterruptedException {
         INSTANCE.multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry(), PanelsTelemetry.INSTANCE.getFtcTelemetry());
-        Robot.addData("Нижняя подсветка", true);
+        Robot.INSTANCE.addData("Нижняя подсветка", true);
 
         try {
             telemetryExecutor.start();
@@ -191,7 +196,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 ((SfMotor) object).resetEncoder();
             }
         }
-        data.clear();
         telemetryData.clear();
     }
 

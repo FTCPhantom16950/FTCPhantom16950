@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.CaptureTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.ReznaTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.ShootTestAction;
+import org.firstinspires.ftc.teamcode.own.actions.testactions.SpinTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.WheelBaseTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.utilactions.GamepadTrackerAction;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ReznaMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ShooterMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.SpinMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.WheelBaseMechanism;
-import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.ParallelGroup;
@@ -24,13 +24,14 @@ public class MainTeleOp extends PhantomOpMode {
         mechanism.add(new CaptureMechanism());
         mechanism.add(new ShooterMechanism());
         mechanism.add(new WheelBaseMechanism());
+        mechanism.add(new SpinMechanism());
         actions = new ParallelGroup(
                 Robot.INSTANCE.threadPool, this,
-                new GamepadTrackerAction(),
                 new ShootTestAction(),
                 new WheelBaseTestAction(),
                 new ReznaTestAction(),
-                new CaptureTestAction()
+                new CaptureTestAction(),
+                new SpinTestAction()
         );
     }
 }
