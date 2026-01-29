@@ -17,15 +17,9 @@ public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .forwardZeroPowerAcceleration(-24.44)
             .lateralZeroPowerAcceleration(-61.08)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.05, 0.02))
-            .useSecondaryTranslationalPIDF(true)
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.05,0,0.05,0))
-            .headingPIDFCoefficients(new PIDFCoefficients(1.5,0,0.1,0.0))
-            .useSecondaryHeadingPIDF(true)
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(2.3,0,0.4,0))
-            .useSecondaryDrivePIDF(true)
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0,0,0,0.6,0))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0,0,0,0.6,0))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.4,0,0.01,0.01))
+            .headingPIDFCoefficients(new PIDFCoefficients(2,0,0.1,0.05))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.1,0,0,0.6,0.02))
             .mass(15.5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
