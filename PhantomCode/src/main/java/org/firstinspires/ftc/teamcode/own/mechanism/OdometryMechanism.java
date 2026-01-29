@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfEncoder;
 
 public class OdometryMechanism implements Mechanism {
     public static boolean reverseLeftOdo = false,
-            reverseRightOdo = true, reverseBackOdo = true;
+            reverseRightOdo = false, reverseBackOdo = false;
     SfEncoder leftOdo;
     SfEncoder rightOdo;
     SfEncoder backOdo;

@@ -36,14 +36,14 @@ public class SfEncoder {
     }
 
     public int getCurrentPosition() {
-        if (direction == DcMotorSimple.Direction.FORWARD){
+        if (direction != DcMotorSimple.Direction.REVERSE){
             return dcMotorEx.getCurrentPosition();
         } else{
             return -dcMotorEx.getCurrentPosition();
         }
     }
     public double getVelocity(){
-        if (direction == DcMotorSimple.Direction.FORWARD){
+        if (direction != DcMotorSimple.Direction.REVERSE){
             return dcMotorEx.getVelocity() * 60 / encoderResolution;
         } else {
             return -dcMotorEx.getVelocity() * 60 / encoderResolution;

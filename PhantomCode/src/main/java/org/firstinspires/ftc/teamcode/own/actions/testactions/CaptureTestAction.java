@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Config
 public class CaptureTestAction implements Action {
     public static double power = 1, palPower = -0.7;
-    public static boolean capturing = false;
-    public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD= 0, df = 0.5, output = 0, motorVelocity = 0, target = 6000;
+    public static boolean capturing = false, uncapturing = false;
+    public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD= 0, df = 0.5, output = 0, motorVelocity = 0, target = 3000;
     private FullRegulator fullRegulator = new FullRegulator(kV,kA,kP,kD,kI,df,output,target,motorVelocity);
     SfMotor capture;
     @Override
@@ -30,8 +30,14 @@ public class CaptureTestAction implements Action {
                 capturing = !capturing;
                 Robot.INSTANCE.opMode.sleep(300);
             }
+            if (Robot.INSTANCE.gamepadOperator.y){
+                uncapturing = !uncapturing;
+                Robot.INSTANCE.opMode.sleep(300);
+            }
             if (capturing){
                 fullRegulator.setTarget(target);
+            } else if (uncapturing){
+                fullRegulator.setTarget(-target);
             } else {
                 fullRegulator.setTarget(0);
             }

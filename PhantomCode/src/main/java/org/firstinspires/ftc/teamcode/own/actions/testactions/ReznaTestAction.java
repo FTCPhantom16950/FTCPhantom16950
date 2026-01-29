@@ -14,9 +14,9 @@ public class ReznaTestAction implements Action {
     public void execute() throws InterruptedException {
         SfMotor rezna = Robot.INSTANCE.get(SfMotor.class, "rezna");
         while (Robot.INSTANCE.opMode.opModeIsActive()) {
-            if (Robot.INSTANCE.gamepadOperator.y) {
+            if (Robot.INSTANCE.gamepadDriver.y) {
                 rezna.setPower(power);
-            } else if (Robot.INSTANCE.gamepadOperator.a) {
+            } else if (Robot.INSTANCE.gamepadDriver.a) {
                 rezna.setPower(-power);
             } else {
                 rezna.setPower(0);

@@ -35,15 +35,15 @@ public class SpinTestAction implements Action {
             if (Robot.INSTANCE.gamepadOperator.right_bumper){
                 switch (position){
                     case LEFT -> {
-                        Robot.INSTANCE.addData("positionSpin", Positions.CENTER);
+                        Robot.INSTANCE.addData("positionSpin", Positions.RIGHT);
                         break;
                     }
                     case RIGHT ->{
-                        Robot.INSTANCE.addData("positionSpin", Positions.LEFT);
+                        Robot.INSTANCE.addData("positionSpin", Positions.CENTER);
                         break;
                     }
                     case CENTER -> {
-                        Robot.INSTANCE.addData("positionSpin", Positions.RIGHT);
+                        Robot.INSTANCE.addData("positionSpin", Positions.LEFT);
                         break;
                     }
                 }

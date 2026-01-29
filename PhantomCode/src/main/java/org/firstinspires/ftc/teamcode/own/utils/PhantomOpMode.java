@@ -182,12 +182,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
         if (opModeIsActive()) {
             scheduler.run();
         }
-        if (isStopRequested()) {
             SoundPlayer.getInstance().stopPlayingAll();
             data.clear();
             telemetryData.clear();
             mechanism = new HashSet<>();
-        }
+
     }
 
     public void onStart() {
