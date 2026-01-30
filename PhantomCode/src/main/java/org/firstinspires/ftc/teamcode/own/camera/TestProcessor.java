@@ -83,10 +83,10 @@ public class TestProcessor implements VisionProcessor {
         if (Core.countNonZero(both) < 200) return null;
         Imgproc.findContours(both, proccessContours, hierarchy, RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
-//        for (int i = 0; i < proccessContours.size(); i++) {
-//            Imgproc.drawContours(frame, proccessContours, i, lowGreen, 2);
-//        }
-//        both.copyTo(frame);
+        for (int i = 0; i < proccessContours.size(); i++) {
+            Imgproc.drawContours(frame, proccessContours, i, lowGreen, 2);
+        }
+        both.copyTo(frame);
         List<Rect> rects = new ArrayList<>();
         int i = 0;
         for (MatOfPoint countor : proccessContours) {
@@ -112,7 +112,7 @@ public class TestProcessor implements VisionProcessor {
                 objectCoordinatesRobotCentric.put(i, new double[]{xc, yc, degreeBetweenRobotAndObject});
                 objectCoordinatesFieldCentric.put(i, new double[]{x + xrot, y + yrot});
                 i++;
-                Imgproc.putText(frame,Double.toString(area),new Point(rect.x, rect.y),1,1,new Scalar(255,255,0));
+//                Imgproc.putText(frame,Double.toString(area),new Point(rect.x, rect.y),1,1,new Scalar(255,255,0));
             }
 
         }
@@ -131,8 +131,8 @@ public class TestProcessor implements VisionProcessor {
             Rect rect = rectsList.get(i);
             double distance = (length * focalLength) / (rect.width);
             canvas.drawRect(makeGraphicsRect(rect, scaleBmpPxToCanvasPx), rectPaint);
-            canvas.drawText(Double.toString(distance), (float) ((rect.tl().x + 20) * scaleBmpPxToCanvasPx), (float) ((rect.br().y + 1) * scaleBmpPxToCanvasPx), textPaint);
-            canvas.drawText(Integer.toString(i), (float) (rect.tl().x * scaleBmpPxToCanvasPx), (float) ((rect.br().y) * scaleBmpPxToCanvasPx), textPaint);
+//            canvas.drawText(Double.toString(distance), (float) ((rect.tl().x + 20) * scaleBmpPxToCanvasPx), (float) ((rect.br().y + 1) * scaleBmpPxToCanvasPx), textPaint);
+//            canvas.drawText(Integer.toString(i), (float) (rect.tl().x * scaleBmpPxToCanvasPx), (float) ((rect.br().y) * scaleBmpPxToCanvasPx), textPaint);
         }
 
     }
