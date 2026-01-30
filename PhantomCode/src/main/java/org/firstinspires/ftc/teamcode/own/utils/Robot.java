@@ -57,7 +57,7 @@ public enum Robot {
             Robot.telemetryData.put(s, data);
         }
     }
-    public void addData(String s, Object data) {
+    public void addData(String s, Object data) throws InterruptedException {
         Robot.data.put(s, data);
         Robot.telemetryData.put(s, data);
     }
@@ -71,7 +71,7 @@ public enum Robot {
         Robot.telemetryData.get(s);
     }
 
-    public <T> T getData(Class<? extends T> cl,String s){
+    public <T> T getData(Class<? extends T> cl,String s) throws InterruptedException{
         return cl.cast( Robot.data.get(s));
     }
 

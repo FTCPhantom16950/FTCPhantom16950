@@ -57,7 +57,7 @@ public class WheelBaseMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
         Robot.INSTANCE.addData("MAXSIDESPEEDSIDE", MAX_SPEED_SIDE);
         Robot.INSTANCE.addData("MAXSIDESPEEDSPIN", MAX_SPEED_SPIN);

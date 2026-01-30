@@ -16,7 +16,7 @@ public class VolatgeMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
         Robot.INSTANCE.voltage = Robot.INSTANCE.voltageSensor.getVoltage();
         Robot.INSTANCE.addData("voltage", Robot.INSTANCE.voltage);

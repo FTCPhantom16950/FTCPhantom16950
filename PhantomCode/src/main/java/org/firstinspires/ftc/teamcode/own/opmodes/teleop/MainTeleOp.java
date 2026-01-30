@@ -34,11 +34,11 @@ public class MainTeleOp extends PhantomOpMode {
         mechanism.add(new InputSensorsMechanism());
         actions = new ParallelGroup(
                 Robot.INSTANCE.threadPool, this,
+                new SpinTestAction(),
                 new ShootTestAction(),
                 new WheelBaseTestAction(),
                 new ReznaTestAction(),
                 new CaptureTestAction(),
-                new SpinTestAction(),
                 new LightingAction()
         );
     }

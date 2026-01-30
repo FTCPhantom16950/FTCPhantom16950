@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.mechanism;
+package org.firstinspires.ftc.teamcode.own.mechanism.util;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,7 +15,7 @@ public class GyroScopeMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
         Robot.INSTANCE.rot = Robot.INSTANCE.imu.getRobotYawPitchRollAngles().getYaw();
     }

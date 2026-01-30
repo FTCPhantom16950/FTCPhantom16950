@@ -35,10 +35,8 @@ public class CaptureMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
-        Robot.INSTANCE.addData("captureVelocity", capture.getVelocity());
-        Robot.INSTANCE.addData("capturePower", capture.getPower());
 
     }
 }

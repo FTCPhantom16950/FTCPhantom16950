@@ -16,7 +16,7 @@ public class SpinMechanism implements Mechanism {
     SfCrServo crServo;
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
         Robot.INSTANCE.addData("startSpinServoDegree", startDegree);
 

@@ -15,12 +15,12 @@ public class LimelightMechanism implements Mechanism {
     public void init() throws InterruptedException {
         limelight3A = Robot.INSTANCE.hw.get(Limelight3A.class, "LimeLight");
         limelight3A.setPollRateHz(100);
-        limelight3A.start();
-        limelight3A.pipelineSwitch(0);
+//        limelight3A.start();
+//        limelight3A.pipelineSwitch(0);
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
     }
 }

@@ -67,7 +67,7 @@ public class Scheduler {
     }
 
     /// Метод для инициализации механизмов
-    public void initMechanism() {
+    public void initMechanism() throws InterruptedException {
         for (Mechanism mechanism : mechanisms) {
             try{
                 Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), true);

@@ -21,6 +21,7 @@ public class ShooterMechanism implements Mechanism {
     private SfMotor shooterMotor, spinMotor;
     private SfCrServo crServo;
     private SfCrServo servo;
+    private boolean shooting = false;
 
 
     @Override
@@ -54,12 +55,13 @@ public class ShooterMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
         Robot.INSTANCE.addData("Shooter power", shooterMotor.getPower(), true);
         Robot.INSTANCE.addData("Shooter velocity", shooterMotor.getVelocity(), true);
-        Robot.INSTANCE.addData("Shooter position", shooterMotor.getCurrentPosition(), true);
         Robot.INSTANCE.addData("startAngelDegree", startAngelDegree, false);
         Robot.INSTANCE.addData("spinMotorEnabled", spinMotorEnabled);
+        Robot.INSTANCE.addData("spinPos", spinMotor.getCurrentPosition());
+//        Robot.INSTANCE.addData("shooting", shooting);
     }
 }

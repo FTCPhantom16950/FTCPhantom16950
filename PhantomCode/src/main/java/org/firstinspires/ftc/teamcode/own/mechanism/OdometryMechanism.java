@@ -43,13 +43,8 @@ public class OdometryMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
-        Robot.INSTANCE.addData("leftOdo", leftOdo.getCurrentPosition());
-        Robot.INSTANCE.addData("rightOdo", rightOdo.getCurrentPosition());
-        Robot.INSTANCE.addData("backOdo", backOdo.getCurrentPosition());
-        Robot.INSTANCE.addData("leftOdo speed", PhantomMath.convertToRPM(leftOdo.getVelocity(), 2000));
-        Robot.INSTANCE.addData("rightOdo speed", PhantomMath.convertToRPM(rightOdo.getVelocity(), 2000));
-        Robot.INSTANCE.addData("backOdo speed", PhantomMath.convertToRPM(backOdo.getVelocity(), 2000));
+
     }
 }

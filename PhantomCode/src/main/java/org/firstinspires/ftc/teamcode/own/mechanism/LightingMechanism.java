@@ -36,22 +36,7 @@ public class LightingMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
-        if (yellow1 != null){
-            Robot.INSTANCE.addData("yellow 1 state", yellow1.getState());
-        }
-        if (yellow2 != null){
-            Robot.INSTANCE.addData("yellow2 state", yellow2.getState());
-        }
-        if (greenRight != null){
-            Robot.INSTANCE.addData("greenRight state", greenRight.getState());
-        }
-        if (greenLeft != null){
-            Robot.INSTANCE.addData("greenLeft state", greenLeft.getState());
-        }
-        if (blue != null){
-            Robot.INSTANCE.addData("blue state", blue.getState());
-        }
     }
 }

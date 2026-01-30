@@ -30,8 +30,8 @@ public class ReznaMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
-        Robot.INSTANCE.addData("podem pos", podem.getCurrentPosition());
+
     }
 }

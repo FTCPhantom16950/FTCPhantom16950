@@ -9,7 +9,7 @@ public class FollowerMechanism implements Mechanism {
     }
 
     @Override
-    public void read() {
+    public void read() throws InterruptedException {
         Mechanism.super.read();
     }
 }
