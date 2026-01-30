@@ -11,12 +11,10 @@ public class ArtifactTrajectoryMath {
         double[] res = new double[2];
         double dt = 0.01;
         List<double[]> minSpeedX = new ArrayList<>();
-        int step0 = 0;
         for (double speed = speedRange[0]; speed <= speedRange[1]; speed += 100) {
-            int step1 = 0;
             speed = (2 * Math.PI * radius * speed) / 60;
-            double initialBallSpeed = Math.sqrt(massSpin / mass) * speed;
-            for (double angel = angelRange[0]; angel <= angelRange[1]; angel += 5) {
+            double initialBallSpeed = Math.sqrt(0.3 * (massSpin / mass)) * speed;
+            for (double angel = angelRange[0]; angel <= angelRange[1]; angel += 2) {
                 double currentSpeed = initialBallSpeed;
                 double currentAngel = Math.toRadians(angel);
                 double currentSpeedX = currentSpeed * Math.cos(currentAngel), currentSpeedY = currentSpeed * Math.sin(currentAngel);
@@ -46,9 +44,7 @@ public class ArtifactTrajectoryMath {
                     }
                 }
 
-                step1 += 1;
             }
-            step0 += 1;
         }
         double[] minParams = new double[]{0,0,1000000000};
         for (double[] speeds : minSpeedX){
