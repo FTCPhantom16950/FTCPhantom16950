@@ -74,7 +74,7 @@ public class Scheduler {
                 mechanism.init();
             } catch (Exception e) {
                 Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), false);
-                Robot.INSTANCE.multipleTelemetry.update();
+
                 throw new RuntimeException(e);
             }
         }

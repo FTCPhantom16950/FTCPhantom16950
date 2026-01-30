@@ -6,7 +6,7 @@ public class PhantomMath {
     public static final double HALF_FIELD = FIELD_SIZE_INCHES / 2.0; // 72.0
 
     public static final double EPSILON = 0.0f;
-    public static double servoCRPowerToDegrees(double input,double max){
+    public static double servoCRPowerToDegrees(int input,int max){
         double resultPower;
         if (max <= EPSILON) {
             throw new IllegalArgumentException("Максимальное должно быть больше 0");

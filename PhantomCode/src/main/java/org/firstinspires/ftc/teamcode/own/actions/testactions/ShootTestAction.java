@@ -23,7 +23,7 @@ public class ShootTestAction implements Action {
 
     @Override
     public void execute() throws InterruptedException {
-        if ((boolean) Robot.INSTANCE.getData("spinMotorEnabled")) {
+        if (Robot.INSTANCE.getData(Boolean.class,"spinMotorEnabled")) {
             rotation = Robot.INSTANCE.get(SfMotor.class, "rotation");
         } else {
             rot = Robot.INSTANCE.get(SfCrServo.class, "rot");
@@ -34,6 +34,7 @@ public class ShootTestAction implements Action {
         while (Robot.INSTANCE.opMode.opModeIsActive()) {
             if (Robot.INSTANCE.gamepadOperator.b) {
                 shooting = !shooting;
+                Robot.INSTANCE.addData("shooting", shooting);
                 Robot.INSTANCE.opMode.sleep(300);
             }
             if (Robot.INSTANCE.gamepadOperator.dpad_up) {
@@ -56,7 +57,7 @@ public class ShootTestAction implements Action {
             fullRegulator.setMotorVelocity(motorVelocity);
             output = fullRegulator.calculate();
             shoot.setPower(output);
-            if ((boolean) Robot.INSTANCE.getData("spinMotorEnabled")) {
+            if (Robot.INSTANCE.getData(Boolean.class,"spinMotorEnabled")) {
                 if (Robot.INSTANCE.gamepadOperator.dpad_left) {
                     rotation.setPower(1);
                 } else if (Robot.INSTANCE.gamepadOperator.dpad_right) {
@@ -76,11 +77,8 @@ public class ShootTestAction implements Action {
             if (podem) {
                 angel.setPower(PhantomMath.servoCRPowerToDegrees(servoDegree, 270));
             } else {
-                angel.setPower(0);
+                angel.setPower(PhantomMath.servoCRPowerToDegrees( Robot.INSTANCE.getData(Integer.class,"startAngelDegree"),270));
             }
-            Robot.INSTANCE.addData("shootTarget", target);
-            Robot.INSTANCE.addData("shootError", target - motorVelocity);
-            Robot.INSTANCE.addData("shootState", shooting);
         }
     }
 }

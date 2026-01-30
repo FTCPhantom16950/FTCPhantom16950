@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Configurable
 public class ShooterMechanism implements Mechanism {
     public static boolean reversed = true, spinMotorEnabled = true;
-    public static int startAngelDegree = 135;
+    public static int startAngelDegree = 0;
     private SfMotor shooterMotor, spinMotor;
     private SfCrServo crServo;
     private SfCrServo servo;

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.mechanism;
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfCrServo;
 @Config
 @Configurable
 public class SpinMechanism implements Mechanism {
-    public static double startDegree = 135;
+    public static int startDegree = 0;
     SfCrServo crServo;
 
     @Override
@@ -24,7 +25,8 @@ public class SpinMechanism implements Mechanism {
     @Override
     public void init() throws InterruptedException {
         crServo = new SfCrServo(Robot.INSTANCE.hw.get(CRServo.class, "spin"));
-        crServo.setPower(0);
+        crServo.setPower(PhantomMath.servoCRPowerToDegrees(startDegree,270));
+        crServo.setDirection(DcMotorSimple.Direction.REVERSE);
         Robot.INSTANCE.addOrUpdate(crServo, "spinServo");
     }
 }

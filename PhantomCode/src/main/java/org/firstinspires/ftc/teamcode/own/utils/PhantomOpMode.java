@@ -37,14 +37,16 @@ public abstract class PhantomOpMode extends LinearOpMode {
     GamepadManager g1, g2;
     public static Set<Mechanism> mechanism = new CopyOnWriteArraySet<Mechanism>();
     private final Thread hardwareLoop = new Thread(() -> {
-        while ((opModeInInit() || opModeIsActive())) {
+        while (!isStopRequested() && !Thread.currentThread().isInterrupted()) {
             try {
                 Robot.INSTANCE.clearBulkCache();
                 INSTANCE.gamepadDriver = g1.asCombinedFTCGamepad(gamepad1);
                 INSTANCE.gamepadOperator = g2.asCombinedFTCGamepad(gamepad2);
                 for (Mechanism m : PhantomOpMode.mechanism) {
                     try {
-                        m.read();
+                        if (opModeIsActive() && m != null){
+                            m.read();
+                        }
                     } catch (Exception e) {
                         playDead();
                         throw new RuntimeException(e);
@@ -67,27 +69,19 @@ public abstract class PhantomOpMode extends LinearOpMode {
         while (!isStopRequested()) {
             Robot.INSTANCE.voltageCompenser = INSTANCE.voltage / 12.0;
             packet = new TelemetryPacket();
-            if (INSTANCE.voltage <= 11 && !INSTANCE.soundPlaying && !INSTANCE.nearlyPlayed) {
-                int soundID = INSTANCE.getApp().getResources().getIdentifier("rubezvozvrata", "raw", INSTANCE.getApp().getPackageName());
-                INSTANCE.multipleTelemetry.addData("playing", soundID);
-                INSTANCE.soundPlaying = true;
+
+            if (INSTANCE.soundPlaying){
                 INSTANCE.nearlyPlayed = true;
-                SoundPlayer.getInstance().startPlaying(INSTANCE.getApp(), soundID, INSTANCE.params, null,
-                        new Runnable() {
-                            public void run() {
-                                INSTANCE.soundPlaying = false;
-                            }
-                        });
+                time.reset();
             }
-            time.reset();
-            if (time.seconds() > 15) {
+            if (time.seconds() > 15 && INSTANCE.nearlyPlayed) {
                 INSTANCE.nearlyPlayed = false;
             }
             packet.put("voltage", INSTANCE.voltage);
             packet.put("Pose heading x", INSTANCE.x / 25.4);
             packet.put("Pose heading y", INSTANCE.y / 25.4);
             packet.put("Pose heading", INSTANCE.rot);
-            if (!isStopRequested()) {
+            if (opModeIsActive()) {
                 for (String s : telemetryData.keySet()) {
                     INSTANCE.multipleTelemetry.addData(s, telemetryData.get(s));
                 }
@@ -130,21 +124,21 @@ public abstract class PhantomOpMode extends LinearOpMode {
             Robot.INSTANCE.gamepadOperator = gamepad2;
             mechanism.add(new GyroScopeMechanism());
             mechanism.add(new VolatgeMechanism());
-            // инициализация телеметрии
-            initTelemetry();
             // инициализация настроек опмода
             customOpModeSettings();
             // инициализация Планировщик задач
             initScheduler();
-            hardwareLoop.start();
+            // инициализация телеметрии
+            initTelemetry();
             // ожидания нажатия на кнопку старт
             waitForStart();
+            hardwareLoop.start();
             onStart();
             // запуск планировщика
             runScheduler();
             mechanism.clear();
             hardwareLoop.interrupt();
-            telemetryExecutor.interrupt();
+
 
         } catch (Exception e) {
             playDead();

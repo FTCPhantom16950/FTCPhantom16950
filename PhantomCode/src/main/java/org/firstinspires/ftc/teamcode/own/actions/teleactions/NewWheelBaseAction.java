@@ -55,9 +55,9 @@ public class NewWheelBaseAction implements Action {
             side.setMotorVelocity(backOdo.getVelocity());
             spin.setMotorVelocity(Robot.INSTANCE.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
             front.setMotorVelocity((leftOdo.getVelocity() + rightOdo.getVelocity()) / 2);
-            side.setTarget((double) Robot.INSTANCE.getData("MAXSIDESPEEDSIDE") * x);
-            spin.setTarget((double) Robot.INSTANCE.getData("MAXSIDESPEEDSPIN") * rot);
-            front.setTarget((double) Robot.INSTANCE.getData("MAXSIDESPEEDFRONT") * y);
+            side.setTarget(Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDSIDE") * x);
+            spin.setTarget(Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDSPIN") * rot);
+            front.setTarget(Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDFRONT") * y);
 
             outputSide = side.calculate();
             outputFront = front.calculate();

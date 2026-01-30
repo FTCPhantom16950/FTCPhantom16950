@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.utils.safehardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class SfCrServo {
     private final CRServo crServo;
@@ -14,9 +15,13 @@ public class SfCrServo {
         return lastPower;
     }
     public void setPower(double power){
-        synchronized (lock){
             crServo.setPower(power);
             lastPower = power;
+
+    }
+    public void setDirection(DcMotor.Direction direction) {
+        synchronized (lock) {
+            crServo.setDirection(direction);
         }
     }
 

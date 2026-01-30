@@ -25,6 +25,7 @@ import java.util.concurrent.Executors;
  */
 public enum Robot {
     INSTANCE;
+    public final Map<Positions, Colors> balls = new ConcurrentHashMap<>();
     public static Follower follower;
     public static final Map<String, Object> telemetryData = new ConcurrentHashMap<>();
     public static final Map<String, Object> data = new ConcurrentHashMap<>();
@@ -70,8 +71,8 @@ public enum Robot {
         Robot.telemetryData.get(s);
     }
 
-    public <T> T getData(String s){
-        return (T) Robot.data.get(s);
+    public <T> T getData(Class<? extends T> cl,String s){
+        return cl.cast( Robot.data.get(s));
     }
 
     /**
@@ -84,8 +85,8 @@ public enum Robot {
         customObjects.put(key, object);
     }
 
-    public <T> T get(Object type, String name) {
-        return (T) customObjects.get(name);
+    public <T> T get(Class<? extends T> cl,  String name) {
+        return cl.cast(customObjects.get(name));
     }
 
     public Context getApp() {

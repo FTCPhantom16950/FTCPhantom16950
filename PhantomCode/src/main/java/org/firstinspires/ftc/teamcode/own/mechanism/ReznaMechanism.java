@@ -28,4 +28,10 @@ public class ReznaMechanism implements Mechanism {
         }
         Robot.INSTANCE.addOrUpdate(podem, "rezna");
     }
+
+    @Override
+    public void read() {
+        Mechanism.super.read();
+        Robot.INSTANCE.addData("podem pos", podem.getCurrentPosition());
+    }
 }

@@ -30,17 +30,17 @@ public class MaxSpeedGetter implements Action {
                 lb.setPower(1);
                 lf.setPower(1);
                 double speedSpin = Robot.INSTANCE.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-                if (speedSpin > (double) Robot.INSTANCE.getData("MAXSIDESPEEDSPIN")){
+                if (speedSpin >  Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDSPIN")){
                     Robot.INSTANCE.addData("MAXSIDESPEEDSPIN", speedSpin);
                 }
             } else if (side) {
                 double speedSide = backOdo.getVelocity();
-                if (speedSide > (double) Robot.INSTANCE.getData("MAXSIDESPEEDSPIN")){
+                if (speedSide > (double) Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDSPIN")){
                     Robot.INSTANCE.addData("MAXSIDESPEEDSPIN", speedSide);
                 }
             } else if (front){
                 double speedSide = (leftOdo.getVelocity() + rightOdo.getVelocity()) / 2;
-                if (speedSide > (double) Robot.INSTANCE.getData("MAXSIDESPEEDSPIN")){
+                if (speedSide > Robot.INSTANCE.getData(Double.class,"MAXSIDESPEEDSPIN")){
                     Robot.INSTANCE.addData("MAXSIDESPEEDSPIN", speedSide);
                 }
             }
