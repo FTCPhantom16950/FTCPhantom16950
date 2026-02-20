@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 public enum Robot {
     INSTANCE;
     public Motif motif = Motif.SECOND;
-    public final Map<Positions, Colors> balls = new ConcurrentHashMap<>();
+    public final Map<org.firstinspires.ftc.teamcode.own.utils.Positions, Colors> balls = new ConcurrentHashMap<>();
     public Follower follower;
     public static final Map<String, Object> telemetryData = new ConcurrentHashMap<>();
     public static final Map<String, Object> data = new ConcurrentHashMap<>();
