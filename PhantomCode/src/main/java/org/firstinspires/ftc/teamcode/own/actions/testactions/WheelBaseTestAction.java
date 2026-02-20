@@ -21,7 +21,7 @@ public class WheelBaseTestAction implements Action {
         SfMotor rf = Robot.INSTANCE.get(SfMotor.class, "rf");
         SfMotor lf = Robot.INSTANCE.get(SfMotor.class, "lf");
         while (Robot.INSTANCE.opMode.opModeIsActive()){
-            targetX = PhantomMath.makeLinearToCubic(Robot.INSTANCE.gamepadDriver.left_stick_x + Robot.INSTANCE.gamepadDriver.right_stick_x * 0.8);
+            targetX = PhantomMath.makeLinearToCubic(-Robot.INSTANCE.gamepadDriver.left_stick_x - Robot.INSTANCE.gamepadDriver.right_stick_x * 0.8);
             targetY = PhantomMath.makeLinearToCubic(-Robot.INSTANCE.gamepadDriver.left_stick_y - Robot.INSTANCE.gamepadDriver.right_stick_y * 0.8);
             targetRot = Robot.INSTANCE.gamepadDriver.right_trigger - Robot.INSTANCE.gamepadDriver.left_trigger;
             if (center){

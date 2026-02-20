@@ -17,7 +17,7 @@ public class Scheduler {
     /// сет с необходимыми механизмами
     private static Set<Mechanism> mechanisms = new HashSet<>();
     /// Выполняемое действие
-    private final Action action;
+    private Action action;
 
     /**
      * Билдер для класса Scheduler, позволяет его настраивать
@@ -53,9 +53,6 @@ public class Scheduler {
 
         /// Метод для сборки класса Scheduler
         public Scheduler build() {
-            if (action == null) {
-                throw new IllegalStateException("actions is required");
-            }
             return new Scheduler(this);
         }
     }
@@ -65,6 +62,11 @@ public class Scheduler {
         mechanisms = builder.mechanisms;
         action = builder.action;
     }
+
+    public void addAction(Action action){
+        this.action = action;
+    }
+
 
     /// Метод для инициализации механизмов
     public void initMechanism() throws InterruptedException {

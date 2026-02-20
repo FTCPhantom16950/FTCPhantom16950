@@ -13,9 +13,7 @@ import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfMotor;
 @Configurable
 @Config
 public class ShootTestAction implements Action {
-    public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 5000, motorVelocity = 0;
-    public static int servoDegree = 270;
-    private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
+
     SfMotor rotation;
     private boolean shooting = false;
     private boolean podem = false;
@@ -23,9 +21,9 @@ public class ShootTestAction implements Action {
     @Override
     public void execute() throws InterruptedException {
         Robot.INSTANCE.addData("shooting", shooting);
+        Robot.INSTANCE.addData("podem", podem);
         rotation = Robot.INSTANCE.get(SfMotor.class, "rotation");
-        SfCrServo angel = Robot.INSTANCE.get(SfCrServo.class, "angelModify");
-        SfMotor shoot = Robot.INSTANCE.get(SfMotor.class, "shooter");
+
         while (Robot.INSTANCE.opMode.opModeIsActive()) {
             if (Robot.INSTANCE.gamepadOperator.b ) {
                 shooting = !shooting;
@@ -34,24 +32,11 @@ public class ShootTestAction implements Action {
             }
             if (Robot.INSTANCE.gamepadOperator.dpad_up) {
                 podem = !podem;
+                Robot.INSTANCE.addData("podem", podem);
                 Robot.INSTANCE.opMode.sleep(300);
             }
-            if (shooting) {
-                fullRegulator.setTarget(target);
-            } else {
-                fullRegulator.setTarget(0);
-            }
-            fullRegulator.setkA(kA);
-            fullRegulator.setkV(kV);
-            fullRegulator.setkD(kD);
-            fullRegulator.setkI(kI);
-            fullRegulator.setkP(kP);
-            fullRegulator.setDerivativeFilter(derivativeFilter);
-            motorVelocity = shoot.getVelocity();
 
-            fullRegulator.setMotorVelocity(motorVelocity);
-            output = fullRegulator.calculate();
-            shoot.setPower(output);
+
             if (Robot.INSTANCE.gamepadOperator.dpad_left && rotation.getCurrentPosition() >= -1030) {
                 rotation.setPower(1);
             } else if (Robot.INSTANCE.gamepadOperator.dpad_right && rotation.getCurrentPosition() <= 1488) {
@@ -59,11 +44,7 @@ public class ShootTestAction implements Action {
             } else {
                 rotation.setPower(0);
             }
-            if (podem) {
-                angel.setPower(PhantomMath.servoCRPowerToDegrees(servoDegree, 270));
-            } else {
-                angel.setPower(PhantomMath.servoCRPowerToDegrees(Robot.INSTANCE.getData(Integer.class, "startAngelDegree"), 270));
-            }
+
         }
     }
 }

@@ -8,6 +8,10 @@ import org.firstinspires.ftc.teamcode.own.actions.testactions.ReznaTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.ShootTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.SpinTestAction;
 import org.firstinspires.ftc.teamcode.own.actions.testactions.WheelBaseTestAction;
+import org.firstinspires.ftc.teamcode.own.actions.utilactions.CapturePosAction;
+import org.firstinspires.ftc.teamcode.own.actions.utilactions.LimelightAction;
+import org.firstinspires.ftc.teamcode.own.actions.utilactions.ShootPosSet;
+import org.firstinspires.ftc.teamcode.own.actions.utilactions.SpinPosSet;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.InputSensorsMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LightingMechanism;
@@ -34,12 +38,15 @@ public class MainTeleOp extends PhantomOpMode {
         mechanism.add(new InputSensorsMechanism());
         actions = new ParallelGroup(
                 Robot.INSTANCE.threadPool, this,
-                new SpinTestAction(),
                 new ShootTestAction(),
+                new CaptureTestAction(),
+                new SpinTestAction(),
+                new ShootPosSet(),
+                new SpinPosSet(),
                 new WheelBaseTestAction(),
                 new ReznaTestAction(),
-                new CaptureTestAction(),
-                new LightingAction()
+                new LightingAction(),
+                new LimelightAction()
         );
     }
 }

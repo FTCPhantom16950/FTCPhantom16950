@@ -147,7 +147,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     /// класс для указания имени, типа и группы OpMode
-    public abstract void customOpModeSettings();
+    public abstract void customOpModeSettings() throws InterruptedException;
 
     private void initTelemetry() throws InterruptedException {
         INSTANCE.multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry(), PanelsTelemetry.INSTANCE.getFtcTelemetry());
@@ -164,11 +164,10 @@ public abstract class PhantomOpMode extends LinearOpMode {
     private void initScheduler() throws InterruptedException {
         Robot.INSTANCE.voltageCompenser = INSTANCE.voltageSensor.getVoltage() / 12;
         scheduler = new Scheduler.Builder()
-                .setAction(actions)
                 .addMechanisms(mechanism)
                 .build();
-
         scheduler.initMechanism();
+        scheduler.addAction(actions);
         INSTANCE.rot = INSTANCE.imu.getRobotYawPitchRollAngles().getYaw();
     }
 

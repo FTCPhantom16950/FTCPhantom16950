@@ -9,14 +9,14 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfCrServo;
 
 public class LimelightMechanism implements Mechanism {
-    SfCrServo crServo;
     Limelight3A limelight3A;
     @Override
     public void init() throws InterruptedException {
         limelight3A = Robot.INSTANCE.hw.get(Limelight3A.class, "LimeLight");
         limelight3A.setPollRateHz(100);
-//        limelight3A.start();
-//        limelight3A.pipelineSwitch(0);
+        limelight3A.start();
+        limelight3A.pipelineSwitch(0);
+        Robot.INSTANCE.addOrUpdate(limelight3A, "LimeLight");
     }
 
     @Override

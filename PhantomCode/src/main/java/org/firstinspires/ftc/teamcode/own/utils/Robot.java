@@ -25,8 +25,9 @@ import java.util.concurrent.Executors;
  */
 public enum Robot {
     INSTANCE;
+    public Motif motif = Motif.SECOND;
     public final Map<Positions, Colors> balls = new ConcurrentHashMap<>();
-    public static Follower follower;
+    public Follower follower;
     public static final Map<String, Object> telemetryData = new ConcurrentHashMap<>();
     public static final Map<String, Object> data = new ConcurrentHashMap<>();
     public final ExecutorService threadPool = Executors.newCachedThreadPool();

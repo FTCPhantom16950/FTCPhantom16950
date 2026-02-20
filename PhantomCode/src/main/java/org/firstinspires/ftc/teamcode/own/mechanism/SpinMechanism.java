@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
+import org.firstinspires.ftc.teamcode.own.utils.Positions;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.safehardware.SfCrServo;
 @Config
@@ -28,5 +29,6 @@ public class SpinMechanism implements Mechanism {
         crServo.setPower(PhantomMath.servoCRPowerToDegrees(startDegree,270));
         crServo.setDirection(DcMotorSimple.Direction.REVERSE);
         Robot.INSTANCE.addOrUpdate(crServo, "spinServo");
+        Robot.INSTANCE.addData("positionSpin", Positions.CENTER);
     }
 }

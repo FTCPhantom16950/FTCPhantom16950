@@ -52,6 +52,7 @@ public class ShooterMechanism implements Mechanism {
 
         Robot.INSTANCE.addOrUpdate(crServo, "angelModify");
         Robot.INSTANCE.addOrUpdate(shooterMotor, "shooter");
+        Robot.INSTANCE.addData("shooting", shooting);
     }
 
     @Override

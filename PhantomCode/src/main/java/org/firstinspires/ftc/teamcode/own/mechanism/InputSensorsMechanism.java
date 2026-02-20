@@ -20,12 +20,12 @@ public class InputSensorsMechanism implements Mechanism {
         distanceSensor = Robot.INSTANCE.hw.get(Rev2mDistanceSensor.class, "dist");
         distanceSensor.initialize();
         colorSensor.initialize();
+        Robot.INSTANCE.addData("colorDist", 0);
     }
 
     @Override
     public void read() throws InterruptedException {
         Mechanism.super.read();
-
         Robot.INSTANCE.addData("colorDist", colorSensor.getDistance(DistanceUnit.MM));
         Robot.INSTANCE.addData("red", colorSensor.red());
         Robot.INSTANCE.addData("green", colorSensor.green());

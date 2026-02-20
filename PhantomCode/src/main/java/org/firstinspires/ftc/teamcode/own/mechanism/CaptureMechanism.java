@@ -32,6 +32,10 @@ public class CaptureMechanism implements Mechanism {
         capture.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         Robot.INSTANCE.addOrUpdate(capture, "capture");
         Robot.INSTANCE.addOrUpdate(servo,"pal");
+        Robot.INSTANCE.addData("removed", false);
+        Robot.INSTANCE.addData( "shoot", false);
+        Robot.INSTANCE.addData("uncapturing", false);
+        Robot.INSTANCE.addData("capturing", false);
     }
 
     @Override
