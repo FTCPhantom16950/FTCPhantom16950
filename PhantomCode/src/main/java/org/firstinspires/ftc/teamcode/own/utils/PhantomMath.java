@@ -7,15 +7,13 @@ public class PhantomMath {
 
     public static final double EPSILON = 0.0f;
     public static double servoCRPowerToDegrees(int input,int max){
-        double resultPower;
         if (max <= EPSILON) {
             throw new IllegalArgumentException("Максимальное должно быть больше 0");
         }
         if (input > max || input < 0) {
             throw new IllegalArgumentException(String.format("Угол %.2f вне диапазона [0, %.2f]", input, max));
         }
-        resultPower = input / (max / 2.0) - 1;
-        return resultPower;
+        return input / (max / 2.0) - 1;
     }
     public static double makeLinearToCubic(double input){
         return Math.pow(input, 3);

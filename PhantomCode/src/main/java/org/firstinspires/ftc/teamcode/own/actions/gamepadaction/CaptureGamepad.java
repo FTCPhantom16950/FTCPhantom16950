@@ -10,66 +10,72 @@ import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 
 public class CaptureGamepad implements Action {
     Gamepad gamepad1, gamepad2;
+    RevolverStates state;
+    CapturingState capturingState;
+
+    public CaptureGamepad(Gamepad gamepad2, Gamepad gamepad1) {
+        this.gamepad2 = gamepad2;
+        this.gamepad1 = gamepad1;
+    }
+
     @Override
     public void execute() throws InterruptedException {
-        RevolverStates state;
-        CapturingState capturingState;
-        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
-        gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
-        while (Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.ACTIVE) {
+        while (!Thread.currentThread().isInterrupted()) {
             capturingState = Robot.INSTANCE.getRobotData("CapturinState", CapturingState.class);
             state = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
-            switch (capturingState){
+            switch (capturingState) {
                 case STOP -> {
-                    if (gamepad2.x){
+                    if (gamepad2.x) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.CAPTURE);
                         sleep(300);
                     }
-                    if (gamepad2.y){
+                    if (gamepad2.y) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.UNCAPTURE);
                         sleep(300);
                     }
                 }
                 case CAPTURE -> {
-                    if (gamepad2.x){
+                    if (gamepad2.x) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.STOP);
                         sleep(300);
                     }
-                    if (gamepad2.y){
+                    if (gamepad2.y) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.UNCAPTURE);
                         sleep(300);
                     }
                 }
                 case UNCAPTURE -> {
-                    if (gamepad2.x){
+                    if (gamepad2.x) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.CAPTURE);
                         sleep(300);
                     }
-                    if (gamepad2.y){
+                    if (gamepad2.y) {
                         Robot.INSTANCE.addData("CapturinState", CapturingState.STOP);
                         sleep(300);
                     }
                 }
             }
-            switch (state){
+            switch (state) {
                 case RIGHT -> {
-                    if (gamepad2.aWasReleased()){
+                    if (gamepad2.a) {
                         Robot.INSTANCE.addData("RevolverState", RevolverStates.CENTER);
                         sleep(300);
                     }
-                } case CENTER -> {
-                    if (gamepad2.aWasReleased()){
+                }
+                case CENTER -> {
+                    if (gamepad2.a) {
                         Robot.INSTANCE.addData("RevolverState", RevolverStates.LEFT);
                         sleep(300);
                     }
-                } case LEFT -> {
-                    if (gamepad2.aWasReleased()){
+                }
+                case LEFT -> {
+                    if (gamepad2.a) {
                         Robot.INSTANCE.addData("RevolverState", RevolverStates.RIGHT);
                         sleep(300);
                     }
                 }
             }
-
+            sleep(10);
         }
     }
 }

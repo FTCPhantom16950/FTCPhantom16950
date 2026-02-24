@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -31,7 +32,7 @@ public class ParallelGroup implements Action {
     /// Метод выполнения действий последовательно
     @Override
     public void execute() throws InterruptedException {
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(actions.size());
         List<Callable<Void>> tasks = new ArrayList<>();
         List<Future<Void>> futures = new ArrayList<>();
         for (Action a : actions) {
@@ -59,12 +60,14 @@ public class ParallelGroup implements Action {
                 }
             }
         } catch (ExecutionException e) {
-            e.getCause().printStackTrace();
+            Objects.requireNonNull(e.getCause()).printStackTrace();
             throw new RuntimeException("Error in thread: " + e.getCause().getMessage(), e.getCause());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             executorService.shutdownNow();
+            tasks.clear();
+            futures.clear();
         }
     }
 }

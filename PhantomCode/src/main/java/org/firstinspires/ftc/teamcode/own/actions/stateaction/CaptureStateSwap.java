@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Config
@@ -29,13 +30,15 @@ public class CaptureStateSwap implements Action {
 
     public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD = 0, df = 0.5, output = 0, motorVelocity = 0, target = 6000;
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, df, output, target, motorVelocity);
-    ExecutorService executorService;
+    ExecutorService executorService = Executors.newFixedThreadPool(2);
     List<Callable<Void>> tasks = new ArrayList<>();
     List<Future<Void>> futures = new ArrayList<>();
     DcMotorEx capture;
     CRServo revolver;
     WebcamName webcam;
     RevColorSensorV3 colorSensor;
+    RevolverStates revolverStates;
+    CapturingState capturingState;
 
     @Override
     public void execute() throws InterruptedException {
@@ -50,31 +53,33 @@ public class CaptureStateSwap implements Action {
         leftDegree = centerDegree - 135;
 
         tasks.add(() -> {
-            RevolverStates state;
-            while (Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.ACTIVE) {
-                state = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
-                switch (state) {
+            while (!Thread.currentThread().isInterrupted()) {
+                revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
+                switch (revolverStates) {
                     case LEFT -> {
-                        revolver.setPower(leftDegree);
+                        revolver.setPower(PhantomMath.servoCRPowerToDegrees(leftDegree, 270));
                         sleep(500);
                     }
                     case CENTER -> {
-                        revolver.setPower(centerDegree);
+                        revolver.setPower(PhantomMath.servoCRPowerToDegrees(centerDegree, 270));
                         sleep(500);
                     }
                     case RIGHT -> {
-                        revolver.setPower(rightDegree);
+                        revolver.setPower(PhantomMath.servoCRPowerToDegrees(rightDegree, 270));
                         sleep(500);
                     }
                 }
+                if (!Robot.queueCurrent.contains("baraban")) {
+                    Robot.queueCurrent.add("baraban");
+                }
+                sleep(10);
             }
             return null;
         });
         tasks.add(() -> {
-            CapturingState state;
-            while (Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.ACTIVE) {
-                state = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
-                switch (state) {
+            while (!Thread.currentThread().isInterrupted()) {
+                capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
+                switch (capturingState) {
                     case STOP -> {
                         target = 0;
                     }
@@ -93,9 +98,9 @@ public class CaptureStateSwap implements Action {
                 fullRegulator.setDerivativeFilter(df);
                 fullRegulator.setMotorVelocity(PhantomMath.convertToRPM(capture.getVelocity(), 28));
                 fullRegulator.setTarget(target);
-
                 output = fullRegulator.calculate();
                 capture.setPower(output);
+                sleep(10);
             }
             return null;
         });
@@ -113,6 +118,7 @@ public class CaptureStateSwap implements Action {
                     if (Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.STOP) {
                         break;
                     }
+                    sleep(10);
                 }
             } catch (ExecutionException e) {
                 e.getCause().printStackTrace();

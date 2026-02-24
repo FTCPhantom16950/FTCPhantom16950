@@ -15,17 +15,20 @@ import org.firstinspires.ftc.teamcode.own.utils.states.StandingState;
 @Configurable
 public class StandingMechanism implements Mechanism {
     DcMotorEx rezna;
-    RevColorSensorV3 ground;
+//    RevColorSensorV3 ground;
     StandingState standingState;
     HardwareMap hw;
     public static boolean reversed = false;
 
+    public StandingMechanism(HardwareMap hw) {
+        this.hw = hw;
+    }
+
     @Override
     public void init() throws InterruptedException {
-        hw = Robot.INSTANCE.getRobotData("HardwareMap", HardwareMap.class);
 
         rezna = hw.get(DcMotorEx.class, "rezna");
-        ground = hw.get(RevColorSensorV3.class, "colorNiz");
+//        ground = hw.get(RevColorSensorV3.class, "colorNiz");
 
         rezna.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rezna.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -43,7 +46,7 @@ public class StandingMechanism implements Mechanism {
         Robot.INSTANCE.addData("StandingState", standingState);
 
         Robot.INSTANCE.addRobotDevice("rezna", rezna);
-        Robot.INSTANCE.addRobotDevice("ground", ground);
+//        Robot.INSTANCE.addRobotDevice("ground", ground);
 
     }
 }

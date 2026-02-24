@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.states.AngleState;
+import org.firstinspires.ftc.teamcode.own.utils.states.LauncherState;
+import org.firstinspires.ftc.teamcode.own.utils.states.RotateState;
 import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
 @Config
@@ -20,23 +22,27 @@ import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 public class LaunchMechanism implements Mechanism {
     DcMotorEx rotate, launcher;
     CRServo angle, upper;
-    Rev2mDistanceSensor distanceLeft, distanceRight;
+//    Rev2mDistanceSensor distanceLeft, distanceRight;
     HardwareMap hw;
     AngleState angleState;
     UpperState upperState;
     public static boolean reversedLauncher = false, reversedRotate = false;
-    public static int angleStartDegree = 0, upperStartDegree = 0;
+    public static int angleStartDegree = 0, upperStartDegree = 135;
+    RotateState rotateState;
+    LauncherState launcherState;
+    public LaunchMechanism(HardwareMap hw) {
+        this.hw = hw;
+    }
 
     @Override
     public void init() throws InterruptedException {
-        hw = Robot.INSTANCE.getRobotData("HardwareMap", HardwareMap.class);
 
         rotate = hw.get(DcMotorEx.class, "rotate");
         launcher = hw.get(DcMotorEx.class, "shoot");
         angle = hw.get(CRServo.class, "angel");
         upper = hw.get(CRServo.class, "pal");
-        distanceLeft = hw.get(Rev2mDistanceSensor.class, "distanceLeft");
-        distanceRight = hw.get(Rev2mDistanceSensor.class, "distanceRight");
+//        distanceLeft = hw.get(Rev2mDistanceSensor.class, "distanceLeft");
+//        distanceRight = hw.get(Rev2mDistanceSensor.class, "distanceRight");
 
         rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launcher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -44,6 +50,11 @@ public class LaunchMechanism implements Mechanism {
         launcher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        rotate.setPower(0);
+        rotateState = RotateState.STOP;
+        launcher.setPower(0);
+        launcherState = LauncherState.STOP;
 
         angleState = AngleState.DOWN;
         angle.setPower(PhantomMath.servoCRPowerToDegrees(angleStartDegree,270));
@@ -62,6 +73,8 @@ public class LaunchMechanism implements Mechanism {
             rotate.setDirection(DcMotorSimple.Direction.FORWARD);
         }
 
+        Robot.INSTANCE.addData("RotateState", rotateState);
+        Robot.INSTANCE.addData("LauncherState", launcherState);
         Robot.INSTANCE.addData("AngleState", angleState);
         Robot.INSTANCE.addData("UpperState", upperState);
         Robot.INSTANCE.addData("angleStartDegree", angleStartDegree);
@@ -71,8 +84,8 @@ public class LaunchMechanism implements Mechanism {
         Robot.INSTANCE.addRobotDevice("launcher", launcher);
         Robot.INSTANCE.addRobotDevice("angle", angle);
         Robot.INSTANCE.addRobotDevice("upper", upper);
-        Robot.INSTANCE.addRobotDevice("distanceLeft", distanceLeft);
-        Robot.INSTANCE.addRobotDevice("distanceRight", distanceRight);
+//        Robot.INSTANCE.addRobotDevice("distanceLeft", distanceLeft);
+//        Robot.INSTANCE.addRobotDevice("distanceRight", distanceRight);
 
     }
 }

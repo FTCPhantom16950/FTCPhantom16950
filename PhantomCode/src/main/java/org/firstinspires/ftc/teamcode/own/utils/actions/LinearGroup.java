@@ -23,5 +23,6 @@ public class LinearGroup implements Action {
         for (Action a : actions) {
             a.execute();
         }
+        actions.clear();
     }
 }

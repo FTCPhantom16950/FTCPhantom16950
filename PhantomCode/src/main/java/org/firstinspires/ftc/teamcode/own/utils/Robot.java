@@ -6,14 +6,19 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public enum Robot {
+
     INSTANCE;
+    public static final Map<String, Integer> sounds = new ConcurrentHashMap<>();
+    public final static List<String> queueCurrent = new ArrayList<>();
     /// Map for saving {@link HardwareDevice}
     private final Map<String, HardwareDevice> robotDeviceMap = new ConcurrentHashMap<>();
 
