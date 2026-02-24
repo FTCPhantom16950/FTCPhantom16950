@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/// Класс для добавления последовательных действий
-/// Made by Hkial(Gleb)
-/// Last Updated: 08.06.25 02:40
 public class LinearGroup implements Action {
     /// список добавляемых действий
     private final List<Action> actions = new ArrayList<Action>();

@@ -1,58 +1,70 @@
 package org.firstinspires.ftc.teamcode.own.utils.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+
+import org.firstinspires.ftc.teamcode.own.utils.states.OpModeStates;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
+
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class ParallelGroup implements Action {
-    private final LinearOpMode opMode;
-    private final List<Action> actions = new ArrayList<>();
-    private final ExecutorService threadPool;
+    /// список добавляемых действий
+    private final List<Action> actions = new ArrayList<Action>();
 
-    public ParallelGroup(ExecutorService threadPool, LinearOpMode opMode, Action... actions) {
-        this.actions.addAll(List.of(actions));
-        this.opMode = opMode;
-        this.threadPool = threadPool;
+    /**
+     * Класс для добавления последовательных групп
+     *
+     * @param actions действия которые будут выполняться последовательно
+     */
+    public ParallelGroup(Action... actions) {
+        this.actions.addAll(Arrays.asList(actions));
     }
 
+    /// Метод выполнения действий последовательно
     @Override
     public void execute() throws InterruptedException {
-        // CountDownLatch можно использовать вместо join, но join проще для понимания
-        List<java.util.concurrent.Future<?>> futures = new ArrayList<>();
-
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        List<Callable<Void>> tasks = new ArrayList<>();
+        List<Future<Void>> futures = new ArrayList<>();
         for (Action a : actions) {
-            futures.add(threadPool.submit(() -> {
+            tasks.add(() -> {
                 try {
                     a.execute();
-                } catch (Exception e) {
-                    Robot.INSTANCE.multipleTelemetry.addData("Parallel Error", e.getMessage());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            }));
+                return null;
+            });
         }
-
-        // Ждем завершения всех задач
-        boolean allDone = false;
-        while (!allDone && opMode.opModeIsActive() && !Thread.currentThread().isInterrupted()) {
-            allDone = true;
-            for (Future<?> future : futures) {
-                if (!future.isDone()) {
-                    allDone = false;
-                    break; // Если хоть один не готов, выходим из for и ждем дальше
+        for (Callable<Void> task : tasks) {
+            futures.add(executorService.submit(task));
+        }
+        try {
+            while (!(Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.STOP)) {
+                for (Future<Void> future : futures) {
+                    if (future.isDone()) {
+                        future.get();
+                    }
+                }
+                if (Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.STOP) {
+                    break;
                 }
             }
-            // Спим чуть-чуть, чтобы не грузить процессор
-            opMode.sleep(10);
-        }
-
-        // 3. Если OpMode остановлен (кнопка Stop), отменяем задачи, которые еще висят
-        if (!opMode.opModeIsActive()) {
-            for (Future<?> future : futures) {
-                // true означает "прервать жестко", даже если поток работает
-                future.cancel(true);
-            }
+        } catch (ExecutionException e) {
+            e.getCause().printStackTrace();
+            throw new RuntimeException("Error in thread: " + e.getCause().getMessage(), e.getCause());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            executorService.shutdownNow();
         }
     }
 }

@@ -1,102 +1,121 @@
 package org.firstinspires.ftc.teamcode.own.utils;
 
 
-import android.content.Context;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.pedropathing.follower.Follower;
-import com.qualcomm.ftccommon.SoundPlayer;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import java.lang.ref.WeakReference;
-import java.util.List;
+import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-/**
- * Класс хранящий основные переменные OpMode, хранящиеся статично
- */
 public enum Robot {
     INSTANCE;
-    public Motif motif = Motif.SECOND;
-    public final Map<org.firstinspires.ftc.teamcode.own.utils.Positions, Colors> balls = new ConcurrentHashMap<>();
-    public Follower follower;
-    public static final Map<String, Object> telemetryData = new ConcurrentHashMap<>();
-    public static final Map<String, Object> data = new ConcurrentHashMap<>();
-    public final ExecutorService threadPool = Executors.newCachedThreadPool();
-    public final Map<String, Object> customObjects = new ConcurrentHashMap<>();
-    public volatile double x = 0, y = 0, rot = 0;
-    public IMU imu;
-    public volatile VoltageSensor voltageSensor;
-    public boolean soundPlaying = false, nearlyPlayed = false;
-    /// Используемый Telemetry
-    public volatile MultipleTelemetry multipleTelemetry;
-    public SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
-    public volatile WeakReference<Context> myAppRef;
-    /// Используемый {@link PhantomOpMode }
-    public volatile PhantomOpMode opMode;
-    /// Используемый HardwareMap
-    public volatile HardwareMap hw;
-    /// Используемый геймпад(gamepad1)
-    public volatile Gamepad gamepadDriver,
-    /// Используемый геймпад (gamepad2)
-    gamepadOperator;
-    public volatile double voltageCompenser;
-    public volatile double voltage;
-    List<LynxModule> allHubs;
+    /// Map for saving {@link HardwareDevice}
+    private final Map<String, HardwareDevice> robotDeviceMap = new ConcurrentHashMap<>();
 
-    public void addData(String s, Object data, boolean flag) {
-        Robot.data.put(s, data);
-        if (flag){
-            Robot.telemetryData.put(s, data);
+    public Map<String, Object> getTelemetryMap() {
+        return telemetryMap;
+    }
+
+    /// Map for telemetry data
+    private final Map<String, Object> telemetryMap = new ConcurrentHashMap<>();
+    /// Map for inner data of robot
+    private final Map<String, Object> dataMap = new ConcurrentHashMap<>();
+    /// Set of {@link Mechanism}
+    private final Set<Mechanism> mechanismSet = Collections.synchronizedSet(new HashSet<>());
+    /// Action is added to robot by user. See {@link Action}
+    private Action action = null;
+
+    public void clearRobotDevices() {
+        robotDeviceMap.clear();
+    }
+
+    public void clearTelemetry() {
+        telemetryMap.clear();
+    }
+
+    public void clearData() {
+        dataMap.clear();
+    }
+
+    public void clearMechanisms() {
+        mechanismSet.clear();
+    }
+
+    public void clearAction() {
+        action = null;
+    }
+
+    public void addRobotDevice(String name, HardwareDevice device) {
+        robotDeviceMap.put(name, device);
+    }
+
+    public void addTelemetryData(String name, Object data) throws InterruptedException {
+        telemetryMap.put(name, data);
+    }
+
+    public void addData(String name, Object data) {
+        dataMap.put(name, data);
+    }
+
+    public void addMechanism(Mechanism mechanism) {
+        mechanismSet.add(mechanism);
+    }
+
+    public void setStartAction(Action action) {
+        this.action = action;
+    }
+
+    public <T> T getRobotDevice(String name, Class<T> classType) throws InterruptedException {
+        HardwareDevice device = robotDeviceMap.get(name);
+        if (device == null){
+            throw new InterruptedException("Device not found");
+        }
+        else{
+            return classType.cast(device);
         }
     }
-    public void addData(String s, Object data) throws InterruptedException {
-        Robot.data.put(s, data);
-        Robot.telemetryData.put(s, data);
-    }
-    public void removeData(String s){
-        Robot.data.remove(s);
-    }
-    public void removeTelemetryData(String s){
-        Robot.telemetryData.remove(s);
-    }
-    public void getTelemetryData(String s){
-        Robot.telemetryData.get(s);
+
+    public Object getTelemetryData(String name) throws InterruptedException {
+        Object data = telemetryMap.get(name);
+        try {
+            return data;
+        } catch (RuntimeException e){
+            throw new InterruptedException("Data not found");
+        }
     }
 
-    public <T> T getData(Class<? extends T> cl,String s) throws InterruptedException{
-        return cl.cast( Robot.data.get(s));
+    public <T> T getRobotData(String name, Class<T> classType) throws InterruptedException {
+        Object data = dataMap.get(name);
+        if (data == null) {
+            throw new InterruptedException("Data not found");
+        } else if (!classType.isInstance(data)) {
+            throw new InterruptedException("Data type doesn't match");
+        } else {
+            return classType.cast(data);
+        }
+
     }
 
-    /**
-     * Добавляет или обновляет кастомный объект в статичном хранилище
-     *
-     * @param key    ключ для доступа к объекту
-     * @param object объект для хранения
-     */
-    public void addOrUpdate(Object object, String key) {
-        customObjects.put(key, object);
+    public Set<Mechanism> getMechanisms() throws InterruptedException {
+        if (mechanismSet.isEmpty()){
+            throw new InterruptedException("Mechanisms not found");
+        }
+        else{
+            return mechanismSet;
+        }
     }
 
-    public <T> T get(Class<? extends T> cl,  String name) {
-        return cl.cast(customObjects.get(name));
-    }
-
-    public Context getApp() {
-        return myAppRef != null ? myAppRef.get() : null;
-    }
-
-    public void clearBulkCache() {
-        for (LynxModule module : allHubs) {
-            module.clearBulkCache();
+    public Action getAction() throws InterruptedException {
+        if (action == null) {
+            throw new RuntimeException("Action not found");
+        }
+        else{
+            return action;
         }
     }
 }

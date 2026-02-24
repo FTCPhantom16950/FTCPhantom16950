@@ -7,5 +7,13 @@ package org.firstinspires.ftc.teamcode.own.utils.actions;
  */
 public interface Action {
     /// Метод для реализации выполнения действия
-    public abstract void execute() throws InterruptedException ;
+    void execute() throws InterruptedException;
+
+    default void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

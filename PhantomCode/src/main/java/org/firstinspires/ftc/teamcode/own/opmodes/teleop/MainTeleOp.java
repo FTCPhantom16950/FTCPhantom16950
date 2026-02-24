@@ -2,23 +2,11 @@ package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.actions.teleactions.LightingAction;
-import org.firstinspires.ftc.teamcode.own.actions.testactions.CaptureTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.testactions.ReznaTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.testactions.ShootTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.testactions.SpinTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.testactions.WheelBaseTestAction;
-import org.firstinspires.ftc.teamcode.own.actions.utilactions.CapturePosAction;
-import org.firstinspires.ftc.teamcode.own.actions.utilactions.LimelightAction;
-import org.firstinspires.ftc.teamcode.own.actions.utilactions.ShootPosSet;
-import org.firstinspires.ftc.teamcode.own.actions.utilactions.SpinPosSet;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.CaptureGamepad;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.CaptureStateSwap;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.InputSensorsMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.LightingMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.LimelightMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.ReznaMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.ShooterMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.SpinMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.StandingMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.WheelBaseMechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
@@ -27,26 +15,14 @@ import org.firstinspires.ftc.teamcode.own.utils.actions.ParallelGroup;
 @TeleOp
 public class MainTeleOp extends PhantomOpMode {
     @Override
-    public void customOpModeSettings() {
-        mechanism.add(new ReznaMechanism());
-        mechanism.add(new CaptureMechanism());
-        mechanism.add(new ShooterMechanism());
-        mechanism.add(new WheelBaseMechanism());
-        mechanism.add(new SpinMechanism());
-        mechanism.add(new LightingMechanism());
-        mechanism.add(new LimelightMechanism());
-        mechanism.add(new InputSensorsMechanism());
-        actions = new ParallelGroup(
-                Robot.INSTANCE.threadPool, this,
-                new ShootTestAction(),
-                new CaptureTestAction(),
-                new SpinTestAction(),
-                new ShootPosSet(),
-                new SpinPosSet(),
-                new WheelBaseTestAction(),
-                new ReznaTestAction(),
-                new LightingAction(),
-                new LimelightAction()
-        );
+    public void customOpModeSettings() throws InterruptedException {
+        Robot.INSTANCE.addMechanism(new CaptureMechanism());
+        Robot.INSTANCE.addMechanism(new LaunchMechanism());
+        Robot.INSTANCE.addMechanism(new StandingMechanism());
+        Robot.INSTANCE.addMechanism(new WheelBaseMechanism());
+        Robot.INSTANCE.setStartAction(new ParallelGroup(
+                new CaptureGamepad(),
+                new CaptureStateSwap()
+        ));
     }
 }

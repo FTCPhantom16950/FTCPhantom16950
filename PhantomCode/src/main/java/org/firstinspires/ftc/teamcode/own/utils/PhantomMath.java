@@ -14,7 +14,7 @@ public class PhantomMath {
         if (input > max || input < 0) {
             throw new IllegalArgumentException(String.format("Угол %.2f вне диапазона [0, %.2f]", input, max));
         }
-        resultPower = input / (max / 2) - 1;
+        resultPower = input / (max / 2.0) - 1;
         return resultPower;
     }
     public static double makeLinearToCubic(double input){

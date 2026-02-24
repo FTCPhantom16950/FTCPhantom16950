@@ -2,103 +2,88 @@ package org.firstinspires.ftc.teamcode.own.utils;
 
 
 
+
+import org.firstinspires.ftc.teamcode.own.utils.states.OpModeStates;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-/**
- * Класс для подготовки и последовательного выполения действий
- * Class for initialization and running actions
- * Made by Hkial(Gleb)
- * Last Updated: 08.06.25 02:40
- */
 public class Scheduler {
-    /// сет с необходимыми механизмами
-    private static Set<Mechanism> mechanisms = new HashSet<>();
-    /// Выполняемое действие
-    private Action action;
+    private final Set<Mechanism> mechanismSet;
+    private final Action action;
 
-    /**
-     * Билдер для класса Scheduler, позволяет его настраивать
-     */
-    public static class Builder {
-        /// сет с необходимыми механизмами
-        private final Set<Mechanism> mechanisms = new HashSet<>();
-        /// Выполняемое действие
-        private Action action;
-
-        /// Метод добавления механизмов в необходимые
-        public Builder addMechanisms(Set<Mechanism> mechanisms) {
-            if (mechanisms == null) throw new IllegalStateException("Mechanisms in scheduler mustn't be null");
-            this.mechanisms.clear();
-            this.mechanisms.addAll(mechanisms);
-            return this;
-        }
-
-        /// Метод добавления механизма в необходимые
-        public Builder addMechanism(Mechanism mechanism) {
-            if (mechanism == null) throw new IllegalStateException("mechanism in scheduler mustn't be null");
-            this.mechanisms.clear();
-            this.mechanisms.add(mechanism);
-            return this;
-        }
-
-        /// Метод добавления действия
-        public Builder setAction(Action action) {
-            if (action == null) throw new IllegalStateException("actions in scheduler mustn't be null");
-            this.action = action;
-            return this;
-        }
-
-        /// Метод для сборки класса Scheduler
-        public Scheduler build() {
-            return new Scheduler(this);
-        }
-    }
-
-    /// Внутренний конструктор необходимый для Builder
     private Scheduler(Builder builder) {
-        mechanisms = builder.mechanisms;
-        action = builder.action;
+        this.mechanismSet = builder.mechanismSet;
+        this.action = builder.action;
     }
 
-    public void addAction(Action action){
-        this.action = action;
-    }
+    public void initMechanisms() throws InterruptedException {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        List<Callable<Boolean>> tasks = new ArrayList<>();
+        synchronized (mechanismSet) {
+            for (Mechanism mechanism : mechanismSet) {
+                tasks.add(() -> {
+                    mechanism.init();
+                    return true;
+                });
+            }
+        }
 
-
-    /// Метод для инициализации механизмов
-    public void initMechanism() throws InterruptedException {
-        for (Mechanism mechanism : mechanisms) {
-            try{
-                Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), true);
-                mechanism.init();
-            } catch (Exception e) {
-                Robot.INSTANCE.addData(mechanism.getClass().getSimpleName(), false);
-
+        List<Future<Boolean>> futures = executorService.invokeAll(tasks);
+        for (Future<Boolean> future : futures){
+            try {
+                future.get();
+            } catch (ExecutionException e) {
                 throw new RuntimeException(e);
+            }
+        }
+        executorService.shutdown();
+
+    }
+    public void run() throws InterruptedException {
+        if (action != null && Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.ACTIVE){
+            try {
+                action.execute();
+            } catch (InterruptedException e){
+                throw e;
             }
         }
     }
 
-    private boolean isRunning = false;
+    protected static class Builder {
+        private final Set<Mechanism> mechanismSet = Collections.synchronizedSet(new HashSet<>());
+        private Action action;
 
-    /// Запуск действий
-    public void run() throws InterruptedException {
-        if (isRunning) {
-            throw new IllegalStateException("Scheduler already running");
+        public Builder addMechanism(Mechanism mechanism) {
+            mechanismSet.add(mechanism);
+            return this;
         }
-        isRunning = true;
 
-        if (action == null) {
-            throw new NullPointerException("actions is null");
+        public Builder addMechanisms(Set<Mechanism> mechanisms) throws InterruptedException {
+            if (mechanisms.isEmpty()){
+                throw new InterruptedException();
+            }
+            mechanismSet.addAll(mechanisms);
+            return this;
         }
-        try {
-            action.execute();
-        } catch (RuntimeException e) {
-            PhantomOpMode.playDead();
-            throw new RuntimeException(e);
+        public Builder setAction(Action action) throws InterruptedException {
+            if (action == null) throw new InterruptedException();
+            this.action = action;
+            return this;
+        }
+
+
+        public Scheduler build() {
+            return new Scheduler(this);
         }
 
     }
