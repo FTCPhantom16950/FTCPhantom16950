@@ -13,44 +13,42 @@ public class CaptureGamepad implements Action {
     RevolverStates state;
     CapturingState capturingState;
 
-    public CaptureGamepad(Gamepad gamepad2, Gamepad gamepad1) {
-        this.gamepad2 = gamepad2;
-        this.gamepad1 = gamepad1;
-    }
+
 
     @Override
     public void execute() throws InterruptedException {
         while (!Thread.currentThread().isInterrupted()) {
-            capturingState = Robot.INSTANCE.getRobotData("CapturinState", CapturingState.class);
+            gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
+            capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
             state = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
             switch (capturingState) {
                 case STOP -> {
                     if (gamepad2.x) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.CAPTURE);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
                         sleep(300);
                     }
                     if (gamepad2.y) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.UNCAPTURE);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
                         sleep(300);
                     }
                 }
                 case CAPTURE -> {
                     if (gamepad2.x) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.STOP);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                         sleep(300);
                     }
                     if (gamepad2.y) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.UNCAPTURE);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
                         sleep(300);
                     }
                 }
                 case UNCAPTURE -> {
                     if (gamepad2.x) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.CAPTURE);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
                         sleep(300);
                     }
                     if (gamepad2.y) {
-                        Robot.INSTANCE.addData("CapturinState", CapturingState.STOP);
+                        Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                         sleep(300);
                     }
                 }

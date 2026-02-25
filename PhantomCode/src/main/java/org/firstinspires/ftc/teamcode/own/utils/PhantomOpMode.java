@@ -31,6 +31,9 @@ public abstract class PhantomOpMode extends LinearOpMode {
         tasks.add(() -> {
             states = OpModeStates.INIT;
             Robot.INSTANCE.addData("OpModeState", states);
+            Robot.INSTANCE.addData("HardwareMap", this.hardwareMap);
+            Robot.INSTANCE.addData("Gamepad1", this.gamepad1);
+            Robot.INSTANCE.addData("Gamepad2", this.gamepad2);
             waitForStart();
             if (opModeIsActive()) {
                 states = OpModeStates.ACTIVE;
@@ -124,15 +127,6 @@ public abstract class PhantomOpMode extends LinearOpMode {
             throw new RuntimeException("Error in thread: " + e.getCause().getMessage(), e.getCause());
         } finally {
             executorService.shutdownNow();
-            for (Future<Void> future : futures) {
-                if (future.isDone()) {
-                    try {
-                        future.get();
-                    } catch (ExecutionException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
             Robot.INSTANCE.clearAction();
             Robot.INSTANCE.clearData();
             Robot.INSTANCE.clearMechanisms();

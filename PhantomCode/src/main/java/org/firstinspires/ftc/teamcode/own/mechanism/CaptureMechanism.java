@@ -27,12 +27,10 @@ public class CaptureMechanism implements Mechanism {
     public static int centerDegree = 135;
     public static boolean reversed = false;
 
-    public CaptureMechanism(HardwareMap hw) {
-        this.hw = hw;
-    }
 
     @Override
     public void init() throws InterruptedException {
+        hw = Robot.INSTANCE.getRobotData("HardwareMap", HardwareMap.class);
         capture = hw.get(DcMotorEx.class, "capture");
         revolver = hw.get(CRServo.class, "spin");
 //        colorSensor = hw.get(RevColorSensorV3.class, "colorSensor");
