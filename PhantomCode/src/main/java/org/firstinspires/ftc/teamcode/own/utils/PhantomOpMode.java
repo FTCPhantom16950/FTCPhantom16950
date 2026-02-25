@@ -84,12 +84,21 @@ public abstract class PhantomOpMode extends LinearOpMode {
                             .getIdentifier(soundName, "raw", hardwareMap.appContext.getPackageName()));
                 }
             }
+            SoundPlayer.PlaySoundParams paramsForPlayNow = new SoundPlayer.PlaySoundParams();
+            paramsForPlayNow.loopControl = 0;
             AtomicBoolean soundPlaying = new AtomicBoolean(false);
             while (!isStopRequested()) {
                 String nextSound = Robot.INSTANCE.queueCurrent.poll();
                 if (!soundPlaying.get() && nextSound != null) {
                     SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get(nextSound),
-                            new SoundPlayer.PlaySoundParams(), null, () -> soundPlaying.set(true));
+                            paramsForPlayNow, null, () -> soundPlaying.set(false));
+                }
+                if (Robot.INSTANCE.getRobotData("PlayNow", Boolean.class) != null) {
+                    if (Robot.INSTANCE.getRobotData("PlayNow", Boolean.class)) {
+                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, hardwareMap.appContext.getResources()
+                                        .getIdentifier("vacum", "raw", hardwareMap.appContext.getPackageName()),
+                                paramsForPlayNow, null, null);
+                    }
                 }
                 Thread.sleep(10);
             }

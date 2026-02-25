@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.own.actions.stateaction;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -32,8 +33,6 @@ public class CaptureStateSwap implements Action {
     List<Future<Void>> futures = new ArrayList<>();
     DcMotorEx capture;
 
-    WebcamName webcam;
-    RevColorSensorV3 colorSensor;
 
     CapturingState capturingState;
 
@@ -67,6 +66,11 @@ public class CaptureStateSwap implements Action {
             fullRegulator.setTarget(target);
             output = fullRegulator.calculate();
             capture.setPower(output);
+            if (capturingState != CapturingState.STOP){
+                Robot.INSTANCE.addData("PlayNow", true);
+            } else{
+                Robot.INSTANCE.addData("PlayNow", false);
+            }
             sleep(10);
         }
     }
