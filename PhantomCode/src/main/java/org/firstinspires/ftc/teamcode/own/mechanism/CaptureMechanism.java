@@ -46,7 +46,7 @@ public class CaptureMechanism implements Mechanism {
             capture.setDirection(DcMotor.Direction.FORWARD);
         }
 
-        revolver.setPower(PhantomMath.servoCRPowerToDegrees(centerDegree, 270));
+        revolver.setPower(PhantomMath.servoCRPowerToDegrees(centerDegree, 300));
         state = RevolverStates.CENTER;
         capture.setPower(0);
         capturingState = CapturingState.STOP;

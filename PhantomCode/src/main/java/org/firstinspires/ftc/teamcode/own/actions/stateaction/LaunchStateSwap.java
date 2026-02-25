@@ -27,12 +27,12 @@ import java.util.concurrent.Future;
 @Config
 public class LaunchStateSwap implements Action {
     public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 4000, motorVelocity = 0;
-    public static int angleStartDegree, upperStartDegree, angleUpDegree = 270;
+    public static int upperStartDegree;
     public static double upperUpPower = -0.7;
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
     DcMotorEx rotate, launcher;
-    CRServo angle, upper;
-    AngleState angleState;
+    CRServo upper;
+
     LauncherState launcherState;
     RotateState rotateState;
     UpperState upperState;
@@ -42,33 +42,13 @@ public class LaunchStateSwap implements Action {
 
     @Override
     public void execute() throws InterruptedException {
-        angleStartDegree = Robot.INSTANCE.getRobotData("angleStartDegree", Integer.class);
+
         upperStartDegree = Robot.INSTANCE.getRobotData("upperStartDegree", Integer.class);
         rotate = Robot.INSTANCE.getRobotDevice("rotate", DcMotorEx.class);
         launcher = Robot.INSTANCE.getRobotDevice("launcher", DcMotorEx.class);
-        angle = Robot.INSTANCE.getRobotDevice("angle", CRServo.class);
+
         upper = Robot.INSTANCE.getRobotDevice("upper", CRServo.class);
 
-        tasks.add(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                angleState = Robot.INSTANCE.getRobotData("AngleState", AngleState.class);
-                switch (angleState) {
-                    case UP -> {
-                        angle.setPower(PhantomMath.servoCRPowerToDegrees(angleUpDegree, 270));
-                        sleep(300);
-                        if (!Robot.queueCurrent.contains("predel_ugl_dlin")) {
-                            Robot.queueCurrent.add("predel_ugl_dlin");
-                        }
-                    }
-                    case DOWN -> {
-                        angle.setPower(PhantomMath.servoCRPowerToDegrees(angleStartDegree, 270));
-                        sleep(300);
-                    }
-                }
-                sleep(10);
-            }
-            return null;
-        });
 
         tasks.add(() -> {
             while (!Thread.currentThread().isInterrupted()) {
@@ -77,8 +57,8 @@ public class LaunchStateSwap implements Action {
                     case UP -> {
                         upper.setPower(upperUpPower);
                         sleep(300);
-                        if (!Robot.queueCurrent.contains("pusk_raketi")){
-                            Robot.queueCurrent.add("pusk_raketi");
+                        if (!Robot.INSTANCE.queueCurrent.contains("pusk_raketi")){
+                            Robot.INSTANCE.queueCurrent.add("pusk_raketi");
                         }
                     }
                     case DOWN -> {
@@ -112,8 +92,8 @@ public class LaunchStateSwap implements Action {
                 fullRegulator.setTarget(target);
                 output = fullRegulator.calculate();
                 launcher.setPower(output);
-                if (PhantomMath.convertToRPM(launcher.getVelocity(), 28) > 3500 && !Robot.queueCurrent.contains("pusk_raketi")){
-                    Robot.queueCurrent.add("pusk_razresh");
+                if (PhantomMath.convertToRPM(launcher.getVelocity(), 28) > 3500 && !Robot.INSTANCE.queueCurrent.contains("pusk_raketi")){
+                    Robot.INSTANCE.queueCurrent.add("pusk_razresh");
                 }
                 sleep(10);
             }

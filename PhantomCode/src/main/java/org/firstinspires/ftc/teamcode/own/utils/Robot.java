@@ -11,14 +11,16 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public enum Robot {
 
     INSTANCE;
-    public static final Map<String, Integer> sounds = new ConcurrentHashMap<>();
-    public final static List<String> queueCurrent = new ArrayList<>();
+    public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
+    public final Queue<String> queueCurrent = new ConcurrentLinkedQueue<>();
     /// Map for saving {@link HardwareDevice}
     private final Map<String, HardwareDevice> robotDeviceMap = new ConcurrentHashMap<>();
 
@@ -31,7 +33,7 @@ public enum Robot {
     /// Map for inner data of robot
     private final Map<String, Object> dataMap = new ConcurrentHashMap<>();
     /// Set of {@link Mechanism}
-    private final Set<Mechanism> mechanismSet = Collections.synchronizedSet(new HashSet<>());
+    private final Set<Mechanism> mechanismSet = ConcurrentHashMap.newKeySet();
     /// Action is added to robot by user. See {@link Action}
     private Action action = null;
 

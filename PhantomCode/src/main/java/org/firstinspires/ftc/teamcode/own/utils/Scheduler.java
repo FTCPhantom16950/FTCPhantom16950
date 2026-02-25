@@ -18,17 +18,17 @@ public class Scheduler {
     }
 
     public void initMechanisms() throws InterruptedException {
-
         for (Mechanism mechanism : mechanismSet) {
-
-            mechanism.init();
+            try{
+                mechanism.init();
+            } catch (InterruptedException e){
+                throw new InterruptedException();
+            }
         }
-
-
     }
 
     public void run() throws InterruptedException {
-        if (action != null && Robot.INSTANCE.getRobotData("OpModeState", OpModeStates.class) == OpModeStates.ACTIVE) {
+        if (!Thread.currentThread().isInterrupted()) {
             try {
                 action.execute();
             } catch (InterruptedException e) {
