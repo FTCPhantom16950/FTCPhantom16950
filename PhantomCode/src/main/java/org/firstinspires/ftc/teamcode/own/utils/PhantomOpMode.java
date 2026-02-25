@@ -86,9 +86,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
             }
             SoundPlayer.PlaySoundParams paramsForPlayNow = new SoundPlayer.PlaySoundParams();
             paramsForPlayNow.loopControl = 0;
+            paramsForPlayNow.volume = 10f;
             AtomicBoolean soundPlaying = new AtomicBoolean(false);
             while (!isStopRequested()) {
                 String nextSound = Robot.INSTANCE.queueCurrent.poll();
+                SoundPlayer.getInstance().setMasterVolume(1);
                 if (!soundPlaying.get() && nextSound != null) {
                     SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get(nextSound),
                             paramsForPlayNow, null, () -> soundPlaying.set(false));
