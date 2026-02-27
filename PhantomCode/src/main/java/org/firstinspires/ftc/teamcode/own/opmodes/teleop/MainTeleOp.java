@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.CaptureGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.LaunchGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.WheelBaseAction;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.AngleStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.CaptureStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.LaunchStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;
@@ -37,7 +38,8 @@ public class MainTeleOp extends PhantomOpMode {
                 new LaunchStateSwap(),
                 new WheelBaseAction(),
                 new UpperStateSwap(),
-                new RotateStateSwap()
+                new RotateStateSwap(),
+                new AngleStateSwap()
         ));
     }
 }

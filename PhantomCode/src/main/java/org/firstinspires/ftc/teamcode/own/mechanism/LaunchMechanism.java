@@ -26,7 +26,7 @@ public class LaunchMechanism implements Mechanism {
     HardwareMap hw;
     AngleState angleState;
     UpperState upperState;
-    public static boolean reversedLauncher = false, reversedRotate = false;
+    public static boolean reversedLauncher = true, reversedRotate = false;
     public static int angleStartDegree = 0, upperStartDegree = 135;
     RotateState rotateState;
     LauncherState launcherState;
