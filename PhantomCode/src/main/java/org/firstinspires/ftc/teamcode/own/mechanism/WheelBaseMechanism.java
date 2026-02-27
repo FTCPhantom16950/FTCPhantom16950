@@ -15,12 +15,9 @@ public class WheelBaseMechanism implements Mechanism {
     HardwareMap hw;
     DcMotorEx lf,lb,rf,rb;
 
-    public WheelBaseMechanism(HardwareMap hw) {
-        this.hw = hw;
-    }
-
     @Override
     public void init() throws InterruptedException {
+        hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
         lf = hw.get(DcMotorEx.class, "lf");
         lb = hw.get(DcMotorEx.class, "lb");
         rf = hw.get(DcMotorEx.class, "rf");

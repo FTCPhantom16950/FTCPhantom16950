@@ -11,12 +11,9 @@ public class ImuMechanism implements Mechanism {
     HardwareMap hw;
     IMU imu;
 
-    public ImuMechanism(HardwareMap hw) {
-        this.hw = hw;
-    }
-
     @Override
     public void init() throws InterruptedException {
+        hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
         imu = hw.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP)));

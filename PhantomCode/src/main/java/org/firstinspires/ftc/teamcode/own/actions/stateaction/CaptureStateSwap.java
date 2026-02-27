@@ -28,9 +28,6 @@ public class CaptureStateSwap implements Action {
 
     public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD = 0, df = 0.5, output = 0, motorVelocity = 0, target = 6000;
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, df, output, target, motorVelocity);
-    ExecutorService executorService = Executors.newFixedThreadPool(2);
-    List<Callable<Void>> tasks = new ArrayList<>();
-    List<Future<Void>> futures = new ArrayList<>();
     DcMotorEx capture;
 
 
@@ -39,10 +36,6 @@ public class CaptureStateSwap implements Action {
     @Override
     public void execute() throws InterruptedException {
         capture = Robot.INSTANCE.getRobotDevice("capture", DcMotorEx.class);
-
-//        colorSensor = Robot.INSTANCE.getRobotDevice("colorSensor", RevColorSensorV3.class);
-//        webcam = Robot.INSTANCE.getRobotDevice("webcam", WebcamName.class);
-
         while (!Thread.currentThread().isInterrupted()) {
             capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
             switch (capturingState) {
@@ -66,11 +59,7 @@ public class CaptureStateSwap implements Action {
             fullRegulator.setTarget(target);
             output = fullRegulator.calculate();
             capture.setPower(output);
-            if (capturingState != CapturingState.STOP){
-                Robot.INSTANCE.addData("PlayNow", true);
-            } else{
-                Robot.INSTANCE.addData("PlayNow", false);
-            }
+
             sleep(10);
         }
     }

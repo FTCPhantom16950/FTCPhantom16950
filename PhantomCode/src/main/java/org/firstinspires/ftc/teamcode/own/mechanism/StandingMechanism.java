@@ -20,13 +20,9 @@ public class StandingMechanism implements Mechanism {
     HardwareMap hw;
     public static boolean reversed = false;
 
-    public StandingMechanism(HardwareMap hw) {
-        this.hw = hw;
-    }
-
     @Override
     public void init() throws InterruptedException {
-
+        hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
         rezna = hw.get(DcMotorEx.class, "rezna");
 //        ground = hw.get(RevColorSensorV3.class, "colorNiz");
 

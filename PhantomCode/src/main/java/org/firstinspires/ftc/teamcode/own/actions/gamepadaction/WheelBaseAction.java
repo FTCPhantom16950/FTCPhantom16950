@@ -14,22 +14,18 @@ public class WheelBaseAction implements Action {
     IMU imu;
     double x, y, rot;
     double botHeading, rotX, rotY, denominator, frontLeftPower, backLeftPower, frontRightPower, backRightPower;
-    public WheelBaseAction(Gamepad gamepad1, Gamepad gamepad2) {
-        this.gamepad1 = gamepad1;
-        this.gamepad2 = gamepad2;
-    }
 
     @Override
     public void execute() throws InterruptedException {
+        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
+
         lf = Robot.INSTANCE.getRobotDevice("lf", DcMotorEx.class);
         lb = Robot.INSTANCE.getRobotDevice("lb", DcMotorEx.class);
         rf = Robot.INSTANCE.getRobotDevice("rf", DcMotorEx.class);
         rb = Robot.INSTANCE.getRobotDevice("rb", DcMotorEx.class);
+
         imu = Robot.INSTANCE.getRobotDevice("imu", IMU.class);
         while (!Thread.currentThread().isInterrupted()) {
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
             x = Math.pow(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.8, 3);
             y = -Math.pow(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.8, 3);
             rot = gamepad1.right_trigger - gamepad1.left_trigger;

@@ -16,13 +16,10 @@ public class LaunchGamepad implements Action {
     RotateState rotateState;
     UpperState upperState;
 
-    public LaunchGamepad(Gamepad gamepad1, Gamepad gamepad2) {
-        this.gamepad1 = gamepad1;
-        this.gamepad2 = gamepad2;
-    }
-
     @Override
     public void execute() throws InterruptedException {
+        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
+        gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
         while (!Thread.currentThread().isInterrupted()){
             angleState = Robot.INSTANCE.getRobotData("AngleState", AngleState.class);
             launcherState = Robot.INSTANCE.getRobotData("LauncherState", LauncherState.class);
@@ -33,6 +30,9 @@ public class LaunchGamepad implements Action {
                     if (gamepad2.right_bumper){
                         Robot.INSTANCE.addData("AngleState", AngleState.DOWN);
                         sleep(300);
+                        if (!Robot.INSTANCE.queueCurrent.contains("predel_ugl_dlin")) {
+                            Robot.INSTANCE.queueCurrent.add("predel_ugl_dlin");
+                        }
                     }
                 }
                 case DOWN -> {
@@ -52,6 +52,7 @@ public class LaunchGamepad implements Action {
                 case STOP -> {
                     if (gamepad2.b){
                         Robot.INSTANCE.addData("LauncherState", LauncherState.LAUNCH);
+
                         sleep(300);
                     }
                 }
@@ -90,6 +91,9 @@ public class LaunchGamepad implements Action {
                 case DOWN -> {
                     if (gamepad2.left_bumper) {
                         Robot.INSTANCE.addData("UpperState", UpperState.UP);
+                        if (!Robot.INSTANCE.queueCurrent.contains("pusk_raketi")){
+                            Robot.INSTANCE.queueCurrent.add("pusk_raketi");
+                        }
                         sleep(300);
                     }
                 }

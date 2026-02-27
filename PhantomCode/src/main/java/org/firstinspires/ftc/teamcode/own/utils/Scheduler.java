@@ -22,7 +22,7 @@ public class Scheduler {
             try{
                 mechanism.init();
             } catch (InterruptedException e){
-                throw new InterruptedException();
+                throw new InterruptedException(mechanism.getClass().getCanonicalName());
             }
         }
     }

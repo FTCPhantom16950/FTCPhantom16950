@@ -21,9 +21,6 @@ public class AngleStateSwap implements Action {
                 case UP -> {
                     angle.setPower(PhantomMath.servoCRPowerToDegrees(angleUpDegree, 270));
                     sleep(300);
-                    if (!Robot.INSTANCE.queueCurrent.contains("predel_ugl_dlin")) {
-                        Robot.INSTANCE.queueCurrent.add("predel_ugl_dlin");
-                    }
                 }
                 case DOWN -> {
                     angle.setPower(PhantomMath.servoCRPowerToDegrees(angleStartDegree, 270));
