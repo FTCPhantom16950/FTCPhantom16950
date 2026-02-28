@@ -5,9 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.CaptureGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.LaunchGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.WheelBaseAction;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.AngleStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.CaptureStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.LaunchStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.RotateStateSwap;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.UpperStateSwap;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ImuMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
@@ -23,18 +26,20 @@ public class MainTeleOp extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new CaptureMechanism());
-
-//        Robot.INSTANCE.addMechanism(new LaunchMechanism(this.hardwareMap));
-//        Robot.INSTANCE.addMechanism(new StandingMechanism(this.hardwareMap));
-//        Robot.INSTANCE.addMechanism(new WheelBaseMechanism(this.hardwareMap));
-//        Robot.INSTANCE.addMechanism(new ImuMechanism(this.hardwareMap));
+        Robot.INSTANCE.addMechanism(new LaunchMechanism());
+        Robot.INSTANCE.addMechanism(new StandingMechanism());
+        Robot.INSTANCE.addMechanism(new WheelBaseMechanism());
+        Robot.INSTANCE.addMechanism(new ImuMechanism());
         Robot.INSTANCE.setStartAction(new ParallelGroup(
                 new CaptureGamepad(),
                 new RevolverStateSwap(),
-                new CaptureStateSwap()
-//                new LaunchGamepad(this.gamepad1, this.gamepad2),
-//                new LaunchStateSwap(),
-//                new WheelBaseAction(this.gamepad1,this.gamepad2)
+                new CaptureStateSwap(),
+                new LaunchGamepad(),
+                new LaunchStateSwap(),
+                new WheelBaseAction(),
+                new UpperStateSwap(),
+                new RotateStateSwap(),
+                new AngleStateSwap()
         ));
     }
 }

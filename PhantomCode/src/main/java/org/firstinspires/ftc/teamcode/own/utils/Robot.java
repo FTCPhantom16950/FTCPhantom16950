@@ -18,13 +18,14 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public enum Robot {
 
     INSTANCE;
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
-    public final Queue<String> queueCurrent = new ConcurrentLinkedQueue<>();
+    public final List<String> queueCurrent = new CopyOnWriteArrayList<>();
     /// Map for saving {@link HardwareDevice}
     private final Map<String, HardwareDevice> robotDeviceMap = new ConcurrentHashMap<>();
 
@@ -111,7 +112,7 @@ public enum Robot {
     public <T> T getRobotData(String name, Class<T> classType) throws InterruptedException {
         Object data = dataMap.get(name);
         if (data == null) {
-            throw new InterruptedException("Data not found");
+            throw new InterruptedException("Data not found " + name);
         } else if (!classType.isInstance(data)) {
             throw new InterruptedException("Data type doesn't match");
         } else {

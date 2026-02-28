@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 public class RevolverStateSwap implements Action {
     public static int centerDegree, leftDegree, rightDegree;
     CRServo revolver;
-    RevolverStates revolverStates;
+    RevolverStates revolverStates, prevState = RevolverStates.CENTER;
     @Override
     public void execute() throws InterruptedException {
         revolver = Robot.INSTANCE.getRobotDevice("rotator", CRServo.class);
@@ -33,9 +33,8 @@ public class RevolverStateSwap implements Action {
                     sleep(500);
                 }
             }
-            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-                Robot.INSTANCE.queueCurrent.add("baraban");
-            }
+
+            prevState = revolverStates;
             sleep(10);
         }
     }

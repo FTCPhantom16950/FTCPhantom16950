@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class PhantomOpMode extends LinearOpMode {
-    ExecutorService executorService = Executors.newFixedThreadPool(4);
+    ExecutorService executorService = Executors.newFixedThreadPool(5);
     List<Callable<Void>> tasks = new ArrayList<>();
     OpModeStates states;
     List<Future<Void>> futures = new ArrayList<>();
@@ -53,7 +53,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             return null;
         });
         tasks.add(() -> {
-            while (opModeInInit() || opModeIsActive()) {
+            while (!isStopRequested()) {
                 for (LynxModule module : lynxModuleList) {
                     module.clearBulkCache();
                 }
@@ -83,30 +83,23 @@ public abstract class PhantomOpMode extends LinearOpMode {
         tasks.add(() -> {
             String[] soundNames = {"kolya_pridi", "otkaz_system_smotri_ekran", "otkazavtopilota",
                     "pozar_dvigat", "predel_ugl_dlin", "predelataki", "pusk_raketi", "pusk_razresh",
-                    "rubezvozvrata", "skorost_predel", "vipusti_shasi", "baraban"};
+                    "rubezvozvrata", "skorost_predel", "vipusti_shasi", "baraban", "vacum"};
             if (Robot.INSTANCE.sounds.isEmpty()) {
                 for (String soundName : soundNames) {
                     Robot.INSTANCE.sounds.put(soundName, hardwareMap.appContext.getResources()
                             .getIdentifier(soundName, "raw", hardwareMap.appContext.getPackageName()));
                 }
             }
-            SoundPlayer.PlaySoundParams paramsForPlayNow = new SoundPlayer.PlaySoundParams();
-            paramsForPlayNow.loopControl = 0;
-            paramsForPlayNow.volume = 10f;
-            AtomicBoolean soundPlaying = new AtomicBoolean(false);
             while (!isStopRequested()) {
-                String nextSound = Robot.INSTANCE.queueCurrent.poll();
-                SoundPlayer.getInstance().setMasterVolume(1);
-                if (!soundPlaying.get() && nextSound != null) {
-                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get(nextSound),
-                            paramsForPlayNow, null, () -> soundPlaying.set(false));
-                }
-                if (Robot.INSTANCE.getRobotData("PlayNow", Boolean.class) != null) {
-                    if (Robot.INSTANCE.getRobotData("PlayNow", Boolean.class)) {
-                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, hardwareMap.appContext.getResources()
-                                        .getIdentifier("vacum", "raw", hardwareMap.appContext.getPackageName()),
-                                paramsForPlayNow, null, null);
+                if (!Robot.INSTANCE.queueCurrent.isEmpty()) {
+                    String nextSound = Robot.INSTANCE.queueCurrent.get(0);
+                    SoundPlayer.getInstance().setMasterVolume(1);
+                    telemetry.addLine(Robot.INSTANCE.queueCurrent.toString());
+                    telemetry.update();
+                    if (nextSound != null) {
+                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get(nextSound));
                     }
+                    Robot.INSTANCE.queueCurrent.remove(0);
                 }
                 Thread.sleep(10);
             }
@@ -152,8 +145,4 @@ public abstract class PhantomOpMode extends LinearOpMode {
     }
 
     public abstract void customOpModeSettings() throws InterruptedException;
-
-    private void playStop() {
-
-    }
 }

@@ -25,16 +25,15 @@ public class LaunchMechanism implements Mechanism {
     HardwareMap hw;
     AngleState angleState;
     UpperState upperState;
-    public static boolean reversedLauncher = false, reversedRotate = false;
+    public static boolean reversedLauncher = true, reversedRotate = false;
     public static int angleStartDegree = 0, upperStartDegree = 135;
     RotateState rotateState;
     LauncherState launcherState;
-    public LaunchMechanism(HardwareMap hw) {
-        this.hw = hw;
-    }
+
 
     @Override
     public void init() throws InterruptedException {
+        hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
 
         rotate = hw.get(DcMotorEx.class, "rotate");
         launcher = hw.get(DcMotorEx.class, "shoot");
