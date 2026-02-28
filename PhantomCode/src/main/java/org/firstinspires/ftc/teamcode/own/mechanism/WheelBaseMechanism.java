@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 
 @Config
-@Configurable
 public class WheelBaseMechanism implements Mechanism {
     HardwareMap hw;
     DcMotorEx lf,lb,rf,rb;

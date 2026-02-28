@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.states.StandingState;
 
 @Config
-@Configurable
 public class StandingMechanism implements Mechanism {
     DcMotorEx rezna;
 //    RevColorSensorV3 ground;

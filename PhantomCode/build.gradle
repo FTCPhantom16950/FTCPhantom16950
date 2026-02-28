@@ -29,6 +29,9 @@ android {
         minSdk 24
     }
     packagingOptions {
+        pickFirst 'lib/arm64-v8a/libntcore.so'
+        pickFirst 'lib/arm64-v8a/libwpiHal.so'
+        pickFirst 'lib/arm64-v8a/libwpiutil.so'
         jniLibs.useLegacyPackaging true
 
     }
@@ -43,23 +46,27 @@ repositories {
     // IMPORTANT (thanks to dairy for hosting!)
     maven { url 'https://repo.dairy.foundation/releases' }
     // IMPORTANT (thanks to dairy for hosting!)
+    maven {
+        url = uri("https://frcmaven.wpi.edu/artifactory/release")
+    }
 
 }
 dependencies {
+
     implementation project(':FtcRobotController')
     implementation 'androidx.core:core-ktx:1.15.0'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
-    implementation 'com.pedropathing:ftc:2.0.5'
+    implementation 'com.pedropathing:ftc:2.0.6'
     implementation 'com.pedropathing:telemetry:1.0.0'
 
     implementation('com.acmerobotics.dashboard:dashboard:0.5.1') {
         exclude group: 'org.firstinspires.ftc'
     }
-    implementation "com.bylazar:fullpanels:1.0.12"
+//    implementation "com.bylazar:fullpanels:1.0.12"
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     implementation("page.j5155.AdvantageScope:lite:v26.0.0")
-    implementation 'org.psilynx.psikit:core:0.1.0-beta2'
-    implementation 'org.psilynx.psikit:ftc:0.1.0-beta2'
+    implementation 'org.psilynx.psikit:core:0.2.0-beta1'
+    implementation 'org.psilynx.psikit:ftc:0.2.0-beta1'
 }

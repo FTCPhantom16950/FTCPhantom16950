@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.own.utils.states.RotateState;
 import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
 @Config
-@Configurable
 public class LaunchMechanism implements Mechanism {
     DcMotorEx rotate, launcher;
     CRServo angle, upper;

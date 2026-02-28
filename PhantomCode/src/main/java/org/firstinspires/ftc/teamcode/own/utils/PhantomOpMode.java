@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.teamcode.own.utils.states.OpModeStates;
+import org.psilynx.psikit.core.Logger;
+import org.psilynx.psikit.ftc.FtcLoggingSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +24,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
     OpModeStates states;
     List<Future<Void>> futures = new ArrayList<>();
     private Scheduler scheduler;
+    private final FtcLoggingSession psiKit = new FtcLoggingSession();
 
     @Override
     public void runOpMode() throws InterruptedException {
+        psiKit.start(this, 5800);
         List<LynxModule> lynxModuleList = hardwareMap.getAll(LynxModule.class);
         for (LynxModule module : lynxModuleList) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -55,6 +59,8 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 }
                 sleep(10);
                 for (String name : Robot.INSTANCE.getTelemetryMap().keySet()) {
+                    Logger.recordOutput(name, Robot.INSTANCE.getLoggerData(name));
+                    Logger.recordOutput(name, Robot.INSTANCE.getTelemetryData(name).toString());
                     telemetry.addData(name, Robot.INSTANCE.getTelemetryData(name));
                 }
                 telemetry.update();
@@ -141,6 +147,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             Robot.INSTANCE.clearTelemetry();
             Robot.INSTANCE.clearRobotDevices();
             Robot.INSTANCE.queueCurrent.clear();
+            psiKit.end();
         }
     }
 

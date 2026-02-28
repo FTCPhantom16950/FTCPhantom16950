@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+import org.psilynx.psikit.core.wpi.WPISerializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +22,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public enum Robot {
 
     INSTANCE;
+    private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
     public final Queue<String> queueCurrent = new ConcurrentLinkedQueue<>();
     /// Map for saving {@link HardwareDevice}
@@ -30,6 +34,7 @@ public enum Robot {
 
     /// Map for telemetry data
     private final Map<String, Object> telemetryMap = new ConcurrentHashMap<>();
+    private final Map<String,org.psilynx.psikit.core.wpi.WPISerializable> loggerDataMap = new ConcurrentHashMap<>();
     /// Map for inner data of robot
     private final Map<String, Object> dataMap = new ConcurrentHashMap<>();
     /// Set of {@link Mechanism}
@@ -64,7 +69,7 @@ public enum Robot {
     public void addTelemetryData(String name, Object data) throws InterruptedException {
         telemetryMap.put(name, data);
     }
-
+    public void addLoggerData(String name, WPISerializable obj){loggerDataMap.put(name,obj);}
     public void addData(String name, Object data) {
         dataMap.put(name, data);
     }
@@ -86,13 +91,20 @@ public enum Robot {
             return classType.cast(device);
         }
     }
-
+    public WPISerializable getLoggerData(String name)throws InterruptedException{
+        WPISerializable data = loggerDataMap.get(name);
+        try {
+            return data;
+        } catch (RuntimeException e){
+            throw new InterruptedException("Data not found " + name);
+        }
+    }
     public Object getTelemetryData(String name) throws InterruptedException {
         Object data = telemetryMap.get(name);
         try {
             return data;
         } catch (RuntimeException e){
-            throw new InterruptedException("Data not found");
+            throw new InterruptedException("Data not found " + name);
         }
     }
 

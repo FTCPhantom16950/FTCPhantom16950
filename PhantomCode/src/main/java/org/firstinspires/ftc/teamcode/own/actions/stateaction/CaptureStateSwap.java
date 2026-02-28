@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.actions.stateaction;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -23,7 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Config
-@Configurable
 public class CaptureStateSwap implements Action {
 
     public static double kV = 1.0 / 6000, kA = 0.06, kP = 0, kI = 0, kD = 0, df = 0.5, output = 0, motorVelocity = 0, target = 6000;

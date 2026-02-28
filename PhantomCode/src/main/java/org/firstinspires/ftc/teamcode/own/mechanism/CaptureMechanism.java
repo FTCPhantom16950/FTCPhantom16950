@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.own.mechanism;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,7 +14,6 @@ import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 @Config
-@Configurable
 public class CaptureMechanism implements Mechanism {
     DcMotorEx capture;
     CRServo revolver;
