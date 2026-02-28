@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.own.actions.stateaction;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 @Config
-@Configurable
 public class UpperStateSwap implements Action {
     UpperState upperState;
     CRServo upper;
