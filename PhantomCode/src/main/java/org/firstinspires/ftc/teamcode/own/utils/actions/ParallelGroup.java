@@ -35,7 +35,7 @@ public class ParallelGroup implements Action {
             for (Future<Void> future : futures) {
                 future.get();
             }
-        } catch (ExecutionException e) {
+        } catch (ExecutionException | RuntimeException | InterruptedException  e) {
             throw new RuntimeException("Ошибка в параллельной группе: " + e.getCause().getMessage(), e.getCause());
         } finally {
             executorService.shutdownNow();

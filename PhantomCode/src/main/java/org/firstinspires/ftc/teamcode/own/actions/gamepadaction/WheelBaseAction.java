@@ -18,12 +18,10 @@ public class WheelBaseAction implements Action {
     @Override
     public void execute() throws InterruptedException {
         gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
-
         lf = Robot.INSTANCE.getRobotDevice("lf", DcMotorEx.class);
         lb = Robot.INSTANCE.getRobotDevice("lb", DcMotorEx.class);
         rf = Robot.INSTANCE.getRobotDevice("rf", DcMotorEx.class);
         rb = Robot.INSTANCE.getRobotDevice("rb", DcMotorEx.class);
-
         imu = Robot.INSTANCE.getRobotDevice("imu", IMU.class);
         while (!Thread.currentThread().isInterrupted()) {
             x = Math.pow(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.8, 3);

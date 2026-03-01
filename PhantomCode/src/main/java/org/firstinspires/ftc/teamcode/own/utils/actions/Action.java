@@ -9,11 +9,11 @@ public interface Action {
     /// Метод для реализации выполнения действия
     void execute() throws InterruptedException;
 
-    default void sleep(long milliseconds) {
+    default void sleep(long milliseconds) throws InterruptedException {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new InterruptedException();
         }
     }
 }

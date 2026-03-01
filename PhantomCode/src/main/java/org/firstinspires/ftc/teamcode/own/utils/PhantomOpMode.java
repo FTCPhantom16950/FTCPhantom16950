@@ -59,9 +59,11 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 }
                 sleep(10);
                 for (String name : Robot.INSTANCE.getTelemetryMap().keySet()) {
+                    Logger.periodicBeforeUser();
                     Logger.recordOutput(name, Robot.INSTANCE.getLoggerData(name));
                     Logger.recordOutput(name, Robot.INSTANCE.getTelemetryData(name).toString());
                     telemetry.addData(name, Robot.INSTANCE.getTelemetryData(name));
+                    Logger.periodicAfterUser(0.0, 0.0);
                 }
                 telemetry.update();
             }
@@ -122,7 +124,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 }
                 Thread.sleep(10);
             }
-        } catch (ExecutionException e) {
+        } catch (RuntimeException | InterruptedException | ExecutionException e) {
             if (Robot.INSTANCE.sounds.get("kolya_pridi") != null) {
                 SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get("kolya_pridi"));
             }
@@ -132,6 +134,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             telemetry.update();
             requestOpModeStop();
             throw new RuntimeException("Error in thread: " + e.getCause().getMessage(), e.getCause());
+
         } finally {
             executorService.shutdownNow();
             Robot.INSTANCE.clearAction();

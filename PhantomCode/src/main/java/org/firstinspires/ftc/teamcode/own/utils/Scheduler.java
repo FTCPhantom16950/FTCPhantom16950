@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.own.utils;
 
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
-import org.firstinspires.ftc.teamcode.own.utils.states.OpModeStates;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class Scheduler {
     private final Set<Mechanism> mechanismSet;
@@ -19,20 +19,20 @@ public class Scheduler {
 
     public void initMechanisms() throws InterruptedException {
         for (Mechanism mechanism : mechanismSet) {
-            try{
+            try {
                 mechanism.init();
-            } catch (InterruptedException e){
-                throw new InterruptedException(mechanism.getClass().getCanonicalName());
+            } catch (RuntimeException e) {
+                throw new RuntimeException("Error in Mechanism: " + e.getCause().getMessage(), e.getCause());
             }
         }
     }
 
-    public void run() throws InterruptedException {
+    public void run() {
         if (!Thread.currentThread().isInterrupted()) {
             try {
                 action.execute();
-            } catch (InterruptedException e) {
-                throw e;
+            } catch (RuntimeException | InterruptedException e) {
+                throw new RuntimeException("Error in Action: " + e.getCause().getMessage(), e.getCause());
             }
         }
     }
@@ -48,14 +48,14 @@ public class Scheduler {
 
         public Builder addMechanisms(Set<Mechanism> mechanisms) throws InterruptedException {
             if (mechanisms.isEmpty()) {
-                throw new InterruptedException();
+                throw new NullPointerException();
             }
             mechanismSet.addAll(mechanisms);
             return this;
         }
 
         public Builder setAction(Action action) throws InterruptedException {
-            if (action == null) throw new InterruptedException();
+            if (action == null) throw new NullPointerException();
             this.action = action;
             return this;
         }

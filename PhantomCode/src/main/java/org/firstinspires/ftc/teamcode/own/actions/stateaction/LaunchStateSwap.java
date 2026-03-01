@@ -20,16 +20,9 @@ import java.util.concurrent.Future;
 @Config
 public class LaunchStateSwap implements Action {
     public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 4000, motorVelocity = 0;
-
-
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
     DcMotorEx launcher;
     LauncherState launcherState;
-
-    ExecutorService executorService = Executors.newFixedThreadPool(4);
-    List<Callable<Void>> tasks = new ArrayList<>();
-    List<Future<Void>> futures = new ArrayList<>();
-
     @Override
     public void execute() throws InterruptedException {
 

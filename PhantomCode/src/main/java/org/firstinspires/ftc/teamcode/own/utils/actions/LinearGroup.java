@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.utils.actions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LinearGroup implements Action {
     /// список добавляемых действий
@@ -21,7 +22,11 @@ public class LinearGroup implements Action {
     @Override
     public void execute() throws InterruptedException {
         for (Action a : actions) {
-            a.execute();
+            try {
+                a.execute();
+            } catch ( RuntimeException | InterruptedException  e){
+                throw new RuntimeException("Error in Action: " + e.getCause().getMessage(), e.getCause());
+            }
         }
         actions.clear();
     }
