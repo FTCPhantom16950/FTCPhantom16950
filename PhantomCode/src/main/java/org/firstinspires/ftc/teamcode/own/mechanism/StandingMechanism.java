@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.own.utils.states.StandingState;
 @Config
 public class StandingMechanism implements Mechanism {
     DcMotorEx rezna;
-//    RevColorSensorV3 ground;
     StandingState standingState;
     HardwareMap hw;
     public static boolean reversed = false;

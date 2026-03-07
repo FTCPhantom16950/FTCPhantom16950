@@ -17,8 +17,6 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 public class CaptureMechanism implements Mechanism {
     DcMotorEx capture;
     CRServo revolver;
-    WebcamName webcam;
-    RevColorSensorV3 colorSensor;
     HardwareMap hw;
     RevolverStates state;
     CapturingState capturingState;

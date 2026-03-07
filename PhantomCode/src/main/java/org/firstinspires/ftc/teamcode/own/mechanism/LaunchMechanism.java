@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 public class LaunchMechanism implements Mechanism {
     DcMotorEx rotate, launcher;
     CRServo angle, upper;
-//    Rev2mDistanceSensor distanceLeft, distanceRight;
     HardwareMap hw;
     AngleState angleState;
     UpperState upperState;
