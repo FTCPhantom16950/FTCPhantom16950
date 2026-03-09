@@ -25,7 +25,7 @@ public class CameraMechanism implements Mechanism {
                 .setCamera(webcamName)
                 .addProcessor(processor)
                 .enableLiveView(true)
-                .setCameraResolution(new Size(432,240))
+                .setCameraResolution(new Size(320,176))
                 .build();
         Robot.INSTANCE.addData("ColorDetectorProcessor", processor);
 //        FtcDashboard.getInstance().startCameraStream(portal, 30);

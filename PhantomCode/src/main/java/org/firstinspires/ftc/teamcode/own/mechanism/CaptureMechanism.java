@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
+import org.firstinspires.ftc.teamcode.own.utils.states.ArtifactColor;
 import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
 import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
@@ -50,7 +51,6 @@ public class CaptureMechanism implements Mechanism {
         Robot.INSTANCE.addData("centerDegree", centerDegree);
         Robot.INSTANCE.addData("CapturingState", capturingState);
         Robot.INSTANCE.addData("RevolverState", state);
-
 //        Robot.INSTANCE.addRobotDevice("colorSensor", colorSensor);
         Robot.INSTANCE.addRobotDevice("capture", capture);
         Robot.INSTANCE.addRobotDevice("rotator", revolver);

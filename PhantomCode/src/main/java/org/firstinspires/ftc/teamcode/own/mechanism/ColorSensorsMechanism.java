@@ -5,6 +5,7 @@ import com.qualcomm.hardware.broadcom.BroadcomColorSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 @Config
@@ -22,9 +23,7 @@ public class ColorSensorsMechanism implements Mechanism {
         colorSpinner.setGain(gain);
         colorBottom.setGain(gain);
 
-        Robot.INSTANCE.addData("spinnerRed", colorSpinner.getNormalizedColors().red);
-        Robot.INSTANCE.addData("spinnerGreen", colorSpinner.getNormalizedColors().green);
-        Robot.INSTANCE.addData("spinnerBlue", colorSpinner.getNormalizedColors().blue);
+        Robot.INSTANCE.addData("spinnerDistance", colorSpinner.getDistance(DistanceUnit.MM));
 
         Robot.INSTANCE.addData("bottomRed", colorBottom.getNormalizedColors().red);
         Robot.INSTANCE.addData("bottomGreen", colorBottom.getNormalizedColors().green);

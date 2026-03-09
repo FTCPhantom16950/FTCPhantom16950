@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+import org.firstinspires.ftc.teamcode.own.utils.states.ArtifactColor;
+import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.psilynx.psikit.core.wpi.WPISerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public enum Robot {
 
     INSTANCE;
+    public final Map<RevolverStates, ArtifactColor> balls = new ConcurrentHashMap<>();
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
     public final List<String> queueCurrent = new CopyOnWriteArrayList<>();
     /// Map for saving {@link HardwareDevice}

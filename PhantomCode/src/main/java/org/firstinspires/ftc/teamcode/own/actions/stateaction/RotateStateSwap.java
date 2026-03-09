@@ -9,11 +9,14 @@ import org.firstinspires.ftc.teamcode.own.utils.states.RotateState;
 public class RotateStateSwap implements Action {
     DcMotorEx rotate;
     RotateState rotateState;
+
     @Override
     public void execute() throws InterruptedException {
         rotate = Robot.INSTANCE.getRobotDevice("rotate", DcMotorEx.class);
+
         while (!Thread.currentThread().isInterrupted()) {
             rotateState = Robot.INSTANCE.getRobotData("RotateState", RotateState.class);
+
             switch (rotateState) {
                 case LEFT -> {
                     rotate.setPower(1);
