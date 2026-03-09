@@ -28,7 +28,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        psiKit.start(this, 5800);
+        psiKit.startWithConfigure(this, 5802);
         List<LynxModule> lynxModuleList = hardwareMap.getAll(LynxModule.class);
         for (LynxModule module : lynxModuleList) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -58,12 +58,14 @@ public abstract class PhantomOpMode extends LinearOpMode {
                     module.clearBulkCache();
                 }
                 sleep(10);
-                for (String name : Robot.INSTANCE.getTelemetryMap().keySet()) {
-                    Logger.periodicBeforeUser();
+                Logger.periodicBeforeUser();
+                for (String name : Robot.INSTANCE.getLoggerDataMap().keySet()){
                     Logger.recordOutput(name, Robot.INSTANCE.getLoggerData(name));
-                    Logger.recordOutput(name, Robot.INSTANCE.getTelemetryData(name).toString());
+                }
+//                telemetry.addData("usage proc", this.hardwareMap.appContext.get)
+                Logger.periodicAfterUser(0.0, 0.0);
+                for (String name : Robot.INSTANCE.getTelemetryMap().keySet()) {
                     telemetry.addData(name, Robot.INSTANCE.getTelemetryData(name));
-                    Logger.periodicAfterUser(0.0, 0.0);
                 }
                 telemetry.update();
             }
@@ -124,16 +126,13 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 }
                 Thread.sleep(10);
             }
-        } catch (RuntimeException | InterruptedException | ExecutionException e) {
+        } catch (RuntimeException | ExecutionException e) {
             if (Robot.INSTANCE.sounds.get("kolya_pridi") != null) {
                 SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get("kolya_pridi"));
             }
-            e.getCause().printStackTrace();
-            RobotLog.ee("PhantomOpMode", e.getCause(), "Внимание! Фоновый поток упал с ошибкой!");
-            telemetry.addData("!!! CRITICAL ERROR !!!", e.getCause().getMessage());
-            telemetry.update();
             requestOpModeStop();
-            throw new RuntimeException("Error in thread: " + e.getCause().getMessage(), e.getCause());
+            RobotLog.ee("PhantomOpMode", e.getCause(), "Внимание! Фоновый поток упал с ошибкой!");
+            throw new RuntimeException(e.getCause().getMessage());
 
         } finally {
             executorService.shutdownNow();

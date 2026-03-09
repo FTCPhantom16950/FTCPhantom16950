@@ -17,12 +17,12 @@ public class Scheduler {
         this.action = builder.action;
     }
 
-    public void initMechanisms() throws InterruptedException {
+    public void initMechanisms(){
         for (Mechanism mechanism : mechanismSet) {
             try {
                 mechanism.init();
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Error in Mechanism: " + e.getCause().getMessage(), e.getCause());
+            } catch (RuntimeException | InterruptedException e) {
+                throw new RuntimeException("Error in Mechanism: " + e + " " + mechanism.getClass().getSimpleName());
             }
         }
     }
@@ -32,7 +32,7 @@ public class Scheduler {
             try {
                 action.execute();
             } catch (RuntimeException | InterruptedException e) {
-                throw new RuntimeException("Error in Action: " + e.getCause().getMessage(), e.getCause());
+                throw new RuntimeException("Error in Action: " + e + " " + action.getClass().getSimpleName());
             }
         }
     }

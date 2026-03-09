@@ -23,7 +23,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public enum Robot {
 
     INSTANCE;
-    private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
     public final List<String> queueCurrent = new CopyOnWriteArrayList<>();
     /// Map for saving {@link HardwareDevice}
@@ -128,6 +127,9 @@ public enum Robot {
         else{
             return mechanismSet;
         }
+    }
+    public Map<String, WPISerializable> getLoggerDataMap(){
+        return loggerDataMap;
     }
 
     public Action getAction() throws InterruptedException {
