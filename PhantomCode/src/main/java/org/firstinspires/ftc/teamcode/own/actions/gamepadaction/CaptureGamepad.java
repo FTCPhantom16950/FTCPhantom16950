@@ -70,62 +70,35 @@ public class CaptureGamepad implements Action {
             if (upperState != UpperState.UP) {
                 switch (revolverStates) {
                     case RIGHT -> {
-                        if (gamepad2.a) {
-                            Robot.INSTANCE.addData("RevolverState", RevolverStates.CENTER);
-                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-                                Robot.INSTANCE.queueCurrent.add("baraban");
-                                sleep(100);
-                            }
-                            sleep(300);
-                        }
-//                        else if (spinDist <= 25){
-//                            Robot.INSTANCE.addData("RevolverState", RevolverStates.CENTER);
-//                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-//                                Robot.INSTANCE.queueCurrent.add("baraban");
-//                                sleep(100);
-//                            }
-//                            sleep(300);
-//                        }
+                        switchSpindex(RevolverStates.CENTER);
                     }
                     case CENTER -> {
-                        if (gamepad2.a) {
-                            Robot.INSTANCE.addData("RevolverState", RevolverStates.LEFT);
-                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-                                Robot.INSTANCE.queueCurrent.add("baraban");
-                                sleep(100);
-                            }
-                            sleep(300);
-                        }
-//                        else if (spinDist <= 25){
-//                            Robot.INSTANCE.addData("RevolverState", RevolverStates.LEFT);
-//                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-//                                Robot.INSTANCE.queueCurrent.add("baraban");
-//                                sleep(100);
-//                            }
-//                            sleep(300);
-//                        }
+                        switchSpindex(RevolverStates.LEFT);
                     }
                     case LEFT -> {
-                        if (gamepad2.a) {
-                            Robot.INSTANCE.addData("RevolverState", RevolverStates.RIGHT);
-                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-                                Robot.INSTANCE.queueCurrent.add("baraban");
-                                sleep(100);
-                            }
-                            sleep(300);
-                        }
-//                        else if (spinDist <= 25){
-//                            Robot.INSTANCE.addData("RevolverState", RevolverStates.RIGHT);
-//                            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-//                                Robot.INSTANCE.queueCurrent.add("baraban");
-//                                sleep(100);
-//                            }
-//                            sleep(300);
-//                        }
+                        switchSpindex(RevolverStates.RIGHT);
                     }
                 }
             }
             sleep(10);
+        }
+    }
+    public void switchSpindex(RevolverStates revolverStates) throws InterruptedException {
+        if (gamepad2.a) {
+            Robot.INSTANCE.addData("RevolverState", revolverStates);
+            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
+                Robot.INSTANCE.queueCurrent.add("baraban");
+                sleep(100);
+            }
+            sleep(300);
+        }
+        else if (spinDist <= 25){
+            Robot.INSTANCE.addData("RevolverState", revolverStates);
+            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
+                Robot.INSTANCE.queueCurrent.add("baraban");
+                sleep(100);
+            }
+            sleep(300);
         }
     }
 }

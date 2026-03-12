@@ -12,22 +12,27 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(18)
-            ;
-    public static MecanumConstants mecanumConstants = new MecanumConstants()
-            .xVelocity(63.8)
+            .mass(19);
+
+    public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
-            .leftFrontMotorName("lf")
-            .leftRearMotorName("lb")
             .rightFrontMotorName("rf")
             .rightRearMotorName("rb")
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD);
-    public static ThreeWheelConstants localizerConstants = new ThreeWheelConstants()
+            .leftRearMotorName("lb")
+            .leftFrontMotorName("lf")
+            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static ThreeWheelIMUConstants localizerConstants = new ThreeWheelIMUConstants()
             .forwardTicksToInches(0.0029)
             .strafeTicksToInches(0.00293)
             .turnTicksToInches(0.00197)
@@ -37,16 +42,16 @@ public class Constants {
             .leftEncoder_HardwareMapName("lb")
             .rightEncoder_HardwareMapName("rb")
             .strafeEncoder_HardwareMapName("lf")
-            .leftEncoderDirection(Encoder.FORWARD)
-            .rightEncoderDirection(Encoder.REVERSE)
-            .strafeEncoderDirection(Encoder.FORWARD);
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
-
+            .leftEncoderDirection(Encoder.REVERSE)
+            .rightEncoderDirection(Encoder.FORWARD)
+            .strafeEncoderDirection(Encoder.REVERSE)
+            .IMU_HardwareMapName("imu")
+            .IMU_Orientation(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP));
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
                 .pathConstraints(pathConstraints)
-                .mecanumDrivetrain(mecanumConstants)
-                .threeWheelLocalizer(localizerConstants)
+                .mecanumDrivetrain(driveConstants)
+                .threeWheelIMULocalizer(localizerConstants)
                 .build();
     }
 }

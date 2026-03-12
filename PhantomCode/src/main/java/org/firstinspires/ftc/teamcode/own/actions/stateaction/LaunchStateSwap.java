@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.regulators.FullRegulator;
 import org.firstinspires.ftc.teamcode.own.utils.states.LauncherState;
+import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
+import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class LaunchStateSwap implements Action {
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
     DcMotorEx launcher;
     LauncherState launcherState;
+    RevolverStates revolverStates;
     @Override
     public void execute() throws InterruptedException {
 
@@ -30,6 +33,7 @@ public class LaunchStateSwap implements Action {
 
         while (!Thread.currentThread().isInterrupted()) {
             launcherState = Robot.INSTANCE.getRobotData("LauncherState", LauncherState.class);
+
             switch (launcherState) {
                 case STOP -> {
                     target = 0;
@@ -48,9 +52,7 @@ public class LaunchStateSwap implements Action {
             fullRegulator.setTarget(target);
             output = fullRegulator.calculate();
             launcher.setPower(output);
-            if (PhantomMath.convertToRPM(launcher.getVelocity(), 28) > 3500 && !Robot.INSTANCE.queueCurrent.contains("pusk_raketi")) {
-                Robot.INSTANCE.queueCurrent.add("pusk_razresh");
-            }
+
             sleep(10);
         }
     }

@@ -22,7 +22,6 @@ public class LaunchGamepad implements Action {
         gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
         gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
         while (!Thread.currentThread().isInterrupted()) {
-
             angleState = Robot.INSTANCE.getRobotData("AngleState", AngleState.class);
             launcherState = Robot.INSTANCE.getRobotData("LauncherState", LauncherState.class);
             rotateState = Robot.INSTANCE.getRobotData("RotateState", RotateState.class);
@@ -59,31 +58,31 @@ public class LaunchGamepad implements Action {
                 }
             }
 
-                switch (rotateState) {
-                    case LEFT -> {
-                        if (gamepad2.dpad_left) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-                        } else if (gamepad2.dpad_right) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-                        }
+            switch (rotateState) {
+                case LEFT -> {
+                    if (gamepad2.dpad_left) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.STOP);
+                    } else if (gamepad2.dpad_right) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
+                    }
 
 
-                    }
-                    case STOP -> {
-                        if (gamepad2.dpad_left) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-                        } else if (gamepad2.dpad_right) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-                        }
-                    }
-                    case RIGHT -> {
-                        if (gamepad2.dpad_left) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-                        } else if (gamepad2.dpad_right) {
-                            Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-                        }
+                }
+                case STOP -> {
+                    if (gamepad2.dpad_left) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
+                    } else if (gamepad2.dpad_right) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
                     }
                 }
+                case RIGHT -> {
+                    if (gamepad2.dpad_left) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
+                    } else if (gamepad2.dpad_right) {
+                        Robot.INSTANCE.addData("RotateState", RotateState.STOP);
+                    }
+                }
+            }
 
             switch (upperState) {
                 case UP -> {

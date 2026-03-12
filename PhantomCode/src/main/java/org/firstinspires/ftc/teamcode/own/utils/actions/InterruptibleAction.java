@@ -8,21 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Last Updated: 08.06.25 04:00
  */
 public abstract class InterruptibleAction implements Action {
-    private final LinearOpMode opMode;
+
     public boolean isInterrupted = false;
-    private boolean isRunningOnce = false;
-
-    public InterruptibleAction(LinearOpMode opMode) {
-        this.opMode = opMode;
-    }
-
-    public boolean isRunningOnce() {
-        return isRunningOnce;
-    }
-
-    public void setRunningOnce(boolean runningOnce) {
-        isRunningOnce = runningOnce;
-    }
 
     public boolean isInterrupted() {
         return isInterrupted;
@@ -33,19 +20,19 @@ public abstract class InterruptibleAction implements Action {
     }
 
     @Override
-    public void execute() {
-        if (isRunningOnce && !isInterrupted && opMode.opModeIsActive()) {
-            run();
+    public void execute() throws InterruptedException {
+        while (!Thread.currentThread().isInterrupted()){
+            if (!isInterrupted) {
+                run();
+            }
+            if (isInterrupted && !Thread.currentThread().isInterrupted()) {
+                handleInterrupt();
+            }
         }
-        while (!isRunningOnce && !isInterrupted && opMode.opModeIsActive()) {
-            run();
-        }
-        if (isInterrupted && opMode.opModeIsActive()) {
-            handleInterrupt();
-        }
+
     }
 
-    public abstract void run();
+    public abstract void run() throws InterruptedException;
 
-    public abstract void handleInterrupt();
+    public abstract void handleInterrupt() throws InterruptedException;
 }
