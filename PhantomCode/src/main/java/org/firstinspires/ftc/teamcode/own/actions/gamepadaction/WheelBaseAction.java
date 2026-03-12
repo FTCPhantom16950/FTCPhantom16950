@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 
@@ -28,18 +29,22 @@ public class WheelBaseAction implements Action {
             y = -Math.pow(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.8, 3);
             rot = gamepad1.right_trigger - gamepad1.left_trigger;
             botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-            denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rot), 1);
-            frontLeftPower = (rotY + rotX + rot) / denominator;
-            backLeftPower = (rotY - rotX + rot) / denominator;
-            frontRightPower = (rotY - rotX - rot) / denominator;
-            backRightPower = (rotY + rotX - rot) / denominator;
+//            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+//            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+            denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rot), 1);
+            frontLeftPower = (y + x + rot) / denominator;
+            backLeftPower = (y - x + rot) / denominator;
+            frontRightPower = (y - x - rot) / denominator;
+            backRightPower = (y + x - rot) / denominator;
             lf.setPower(frontLeftPower);
             lb.setPower(backLeftPower);
             rf.setPower(frontRightPower);
             rb.setPower(backRightPower);
             sleep(10);
+            Robot.INSTANCE.addTelemetryData("currencylf", lf.getCurrent(CurrentUnit.AMPS));
+            Robot.INSTANCE.addTelemetryData("currencylb", lb.getCurrent(CurrentUnit.AMPS));
+            Robot.INSTANCE.addTelemetryData("currencyrf", rf.getCurrent(CurrentUnit.AMPS));
+            Robot.INSTANCE.addTelemetryData("currencyrb", rb.getCurrent(CurrentUnit.AMPS));
         }
     }
 }

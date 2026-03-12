@@ -487,7 +487,8 @@ class LateralVelocityTuner extends OpMode {
 
         follower.update();
         draw();
-
+        telemetryM.addData("distance", follower.getPose().getY());
+        telemetryM.update();
         if (!end) {
             if (Math.abs(follower.getPose().getY()) > (DISTANCE + 72)) {
                 end = true;
