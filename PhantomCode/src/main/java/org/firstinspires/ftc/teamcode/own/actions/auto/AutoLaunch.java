@@ -27,19 +27,19 @@ public class AutoLaunch extends InterruptibleAction {
             Robot.INSTANCE.addData("UpperState", UpperState.UP);
             sleep(800);
             Robot.INSTANCE.addData("UpperState", UpperState.DOWN);
-            sleep(1000);
+            sleep(1500);
             switch (revolverStates) {
                 case RIGHT -> {
                     Robot.INSTANCE.addData("RevolverState", RevolverStates.CENTER);
-                    sleep(300);
+                    sleep(800);
                 }
                 case CENTER -> {
                     Robot.INSTANCE.addData("RevolverState", RevolverStates.LEFT);
-                    sleep(300);
+                    sleep(800);
                 }
                 case LEFT -> {
                     Robot.INSTANCE.addData("RevolverState", RevolverStates.RIGHT);
-                    sleep(300);
+                    sleep(800);
                 }
             }
 

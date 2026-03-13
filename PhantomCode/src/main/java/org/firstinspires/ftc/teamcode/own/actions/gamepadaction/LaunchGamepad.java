@@ -28,7 +28,7 @@ public class LaunchGamepad implements Action {
             upperState = Robot.INSTANCE.getRobotData("UpperState", UpperState.class);
             switch (angleState) {
                 case UP -> {
-                    if (gamepad2.right_bumper) {
+                    if (gamepad1.right_bumper) {
                         Robot.INSTANCE.addData("AngleState", AngleState.DOWN);
                         sleep(300);
                         if (!Robot.INSTANCE.queueCurrent.contains("predel_ugl_dlin")) {
@@ -37,7 +37,7 @@ public class LaunchGamepad implements Action {
                     }
                 }
                 case DOWN -> {
-                    if (gamepad2.right_bumper) {
+                    if (gamepad1.right_bumper) {
                         Robot.INSTANCE.addData("AngleState", AngleState.UP);
                         sleep(300);
                     }
@@ -45,19 +45,19 @@ public class LaunchGamepad implements Action {
             }
             switch (launcherState) {
                 case LAUNCH -> {
-                    if (gamepad2.b) {
+                    if (gamepad1.b) {
                         Robot.INSTANCE.addData("LauncherState", LauncherState.STOP);
                         sleep(300);
                     }
                 }
                 case STOP -> {
-                    if (gamepad2.b) {
+                    if (gamepad1.b) {
                         Robot.INSTANCE.addData("LauncherState", LauncherState.LAUNCH);
                         sleep(300);
                     }
                 }
             }
-            if (gamepad2.dpad_left) {
+            if (gamepad1.dpad_left) {
                 Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
                 sleep(100);
             } else if (gamepad2.dpad_right) {
@@ -72,13 +72,13 @@ public class LaunchGamepad implements Action {
 
             switch (upperState) {
                 case UP -> {
-                    if (gamepad2.left_bumper) {
+                    if (gamepad1.left_bumper) {
                         Robot.INSTANCE.addData("UpperState", UpperState.DOWN);
                         sleep(300);
                     }
                 }
                 case DOWN -> {
-                    if (gamepad2.left_bumper) {
+                    if (gamepad1.left_bumper) {
                         Robot.INSTANCE.addData("UpperState", UpperState.UP);
                         if (!Robot.INSTANCE.queueCurrent.contains("pusk_raketi")) {
                             Robot.INSTANCE.queueCurrent.add("pusk_raketi");

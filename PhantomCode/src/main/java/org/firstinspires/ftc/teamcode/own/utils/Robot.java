@@ -25,7 +25,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public enum Robot {
 
     INSTANCE;
-    public final Map<RevolverStates, ArtifactColor> balls = new ConcurrentHashMap<>();
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
     public final List<String> queueCurrent = new CopyOnWriteArrayList<>();
     /// Map for saving {@link HardwareDevice}

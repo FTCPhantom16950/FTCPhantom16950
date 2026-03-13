@@ -14,6 +14,10 @@ import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
 import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Config
 public class CaptureMechanism implements Mechanism {
     DcMotorEx capture;
@@ -55,6 +59,8 @@ public class CaptureMechanism implements Mechanism {
         Robot.INSTANCE.addRobotDevice("capture", capture);
         Robot.INSTANCE.addRobotDevice("rotator", revolver);
 //        Robot.INSTANCE.addRobotDevice("webcam", webcam);
+        Map<RevolverStates, ArtifactColor> balls = new ConcurrentHashMap<>();
+        Robot.INSTANCE.addData("balls", balls);
 
 
     }

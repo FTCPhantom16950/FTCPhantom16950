@@ -20,7 +20,6 @@ public class CameraAction implements Action {
             currentColor = processor.getCurrentColor();
             Robot.INSTANCE.addTelemetryData("color", currentColor);
             if (currentColor != ArtifactColor.UNKNOWN){
-                Robot.INSTANCE.balls.put(revolverStates, currentColor);
             }
         }
     }

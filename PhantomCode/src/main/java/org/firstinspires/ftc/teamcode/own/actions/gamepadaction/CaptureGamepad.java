@@ -6,37 +6,46 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
+import org.firstinspires.ftc.teamcode.own.utils.states.ArtifactColor;
 import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
 import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
+import java.util.Map;
+
 public class CaptureGamepad implements Action {
-    Gamepad gamepad2;
+    Gamepad gamepad1;
     RevolverStates revolverStates;
     CapturingState capturingState;
     UpperState upperState;
     double spinDist = 0;
     RevColorSensorV3 colorSpinner;
+    Map<RevolverStates, ArtifactColor> balls;
 
     @Override
     public void execute() throws InterruptedException {
         colorSpinner = Robot.INSTANCE.getRobotDevice("colorSpinner", RevColorSensorV3.class);
-        gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
+        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
         while (!Thread.currentThread().isInterrupted()) {
+
+
+            balls = Robot.INSTANCE.getRobotData("balls", Map.class);
             spinDist = colorSpinner.getDistance(DistanceUnit.MM);
             upperState = Robot.INSTANCE.getRobotData("UpperState", UpperState.class);
             capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
             revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
+
+
             switch (capturingState) {
                 case STOP -> {
-                    if (gamepad2.x) {
+                    if (gamepad1.x) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
                         sleep(300);
                         if (!Robot.INSTANCE.queueCurrent.contains("vacum")) {
                             Robot.INSTANCE.queueCurrent.add("vacum");
                         }
                     }
-                    if (gamepad2.y) {
+                    if (gamepad1.y) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
                         sleep(300);
                         if (!Robot.INSTANCE.queueCurrent.contains("vacum")) {
@@ -45,11 +54,11 @@ public class CaptureGamepad implements Action {
                     }
                 }
                 case CAPTURE -> {
-                    if (gamepad2.x) {
+                    if (gamepad1.x) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                         sleep(300);
                     }
-                    if (gamepad2.y) {
+                    if (gamepad1.y) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
                         sleep(300);
                         if (!Robot.INSTANCE.queueCurrent.contains("vacum")) {
@@ -58,14 +67,14 @@ public class CaptureGamepad implements Action {
                     }
                 }
                 case UNCAPTURE -> {
-                    if (gamepad2.x) {
+                    if (gamepad1.x) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
                         sleep(300);
                         if (!Robot.INSTANCE.queueCurrent.contains("vacum")) {
                             Robot.INSTANCE.queueCurrent.add("vacum");
                         }
                     }
-                    if (gamepad2.y) {
+                    if (gamepad1.y) {
                         Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                         sleep(300);
                     }
@@ -88,21 +97,26 @@ public class CaptureGamepad implements Action {
         }
     }
     public void switchSpindex(RevolverStates revolverStates) throws InterruptedException {
-        if (gamepad2.a) {
+
+        if (gamepad1.a) {
             Robot.INSTANCE.addData("RevolverState", revolverStates);
             if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
                 Robot.INSTANCE.queueCurrent.add("baraban");
                 sleep(100);
             }
+            balls.put(revolverStates, ArtifactColor.UNKNOWN);
             sleep(300);
         }
-        else if (spinDist <= 38){
-            Robot.INSTANCE.addData("RevolverState", revolverStates);
-            if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
-                Robot.INSTANCE.queueCurrent.add("baraban");
-                sleep(100);
+        if (balls.size() <= 3){
+             if (spinDist <= 38){
+                Robot.INSTANCE.addData("RevolverState", revolverStates);
+                if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
+                    Robot.INSTANCE.queueCurrent.add("baraban");
+                    sleep(100);
+                }
+                balls.put(revolverStates, ArtifactColor.UNKNOWN);
+                sleep(300);
             }
-            sleep(300);
         }
     }
 }
