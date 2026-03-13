@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.utils.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
+import org.firstinspires.ftc.teamcode.own.utils.Robot;
 
 /**
  * Класс создания прерываемых действий
@@ -14,6 +17,7 @@ public abstract class InterruptibleAction implements Action {
     public boolean isInterrupted() {
         return isInterrupted;
     }
+    public Gamepad gamepad1;
 
     public void setInterrupted(boolean interrupted) {
         isInterrupted = interrupted;
@@ -21,11 +25,12 @@ public abstract class InterruptibleAction implements Action {
 
     @Override
     public void execute() throws InterruptedException {
+        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
         while (!Thread.currentThread().isInterrupted()){
             if (!isInterrupted) {
                 run();
             }
-            if (isInterrupted && !Thread.currentThread().isInterrupted()) {
+            if (isInterrupted) {
                 handleInterrupt();
             }
         }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.own.actions.auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.CaptureGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.LaunchGamepad;
 import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.WheelBaseAction;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RotateStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.UpperStateSwap;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.ColorSensorsMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ImuMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.StandingMechanism;
@@ -30,6 +32,7 @@ public class MainTeleOp extends PhantomOpMode {
         Robot.INSTANCE.addMechanism(new StandingMechanism());
         Robot.INSTANCE.addMechanism(new WheelBaseMechanism());
         Robot.INSTANCE.addMechanism(new ImuMechanism());
+        Robot.INSTANCE.addMechanism(new ColorSensorsMechanism());
         Robot.INSTANCE.setStartAction(new ParallelGroup(
                 new CaptureGamepad(),
                 new RevolverStateSwap(),
@@ -39,7 +42,8 @@ public class MainTeleOp extends PhantomOpMode {
                 new WheelBaseAction(),
                 new UpperStateSwap(),
                 new RotateStateSwap(),
-                new AngleStateSwap()
-        ));
+                new AngleStateSwap(),
+                new AutoLaunch()
+                ));
     }
 }

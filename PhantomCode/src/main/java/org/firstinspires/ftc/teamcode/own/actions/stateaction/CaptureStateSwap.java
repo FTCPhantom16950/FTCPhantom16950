@@ -1,26 +1,14 @@
 package org.firstinspires.ftc.teamcode.own.actions.stateaction;
 
 import com.acmerobotics.dashboard.config.Config;
-
-import com.qualcomm.ftccommon.SoundPlayer;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.regulators.FullRegulator;
 import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
-import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
 @Config
 public class CaptureStateSwap implements Action {
@@ -31,22 +19,29 @@ public class CaptureStateSwap implements Action {
 
 
     CapturingState capturingState;
+    UpperState upperState;
 
     @Override
     public void execute() throws InterruptedException {
         capture = Robot.INSTANCE.getRobotDevice("capture", DcMotorEx.class);
         while (!Thread.currentThread().isInterrupted()) {
+            upperState = Robot.INSTANCE.getRobotData("UpperState", org.firstinspires.ftc.teamcode.own.utils.states.UpperState.class);
             capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
-            switch (capturingState) {
-                case STOP -> {
-                    target = 0;
+            if (upperState != UpperState.UP) {
+                switch (capturingState) {
+                    case STOP -> {
+                        target = 0;
+                    }
+                    case CAPTURE -> {
+                        target = 6000;
+                    }
+                    case UNCAPTURE -> {
+                        target = -6000;
+                    }
                 }
-                case CAPTURE -> {
-                    target = 6000;
-                }
-                case UNCAPTURE -> {
-                    target = -6000;
-                }
+            }
+            else {
+                target = 0;
             }
             fullRegulator.setkA(kA);
             fullRegulator.setkV(kV);

@@ -182,7 +182,7 @@ class LocalizationTest extends OpMode {
  * @version 1.0, 5/6/2024
  */
 class ForwardTuner extends OpMode {
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 59.45;
 
     @Override
     public void init() {
@@ -230,7 +230,7 @@ class ForwardTuner extends OpMode {
  * @version 2.0, 6/26/2025
  */
 class LateralTuner extends OpMode {
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 59.45;
 
     @Override
     public void init() {
@@ -487,7 +487,7 @@ class LateralVelocityTuner extends OpMode {
 
         follower.update();
         draw();
-        telemetryM.addData("distance", follower.getPose().getY());
+        telemetryM.debug("distance " +  follower.getPose().getY());
         telemetryM.update();
         if (!end) {
             if (Math.abs(follower.getPose().getY()) > (DISTANCE + 72)) {

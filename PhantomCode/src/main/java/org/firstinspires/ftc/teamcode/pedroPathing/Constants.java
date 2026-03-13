@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -19,22 +21,31 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(19);
+            .mass(18.5)
+            .forwardZeroPowerAcceleration(-32)
+            .lateralZeroPowerAcceleration(-72)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.2,0,0.05,0.04))
+            .headingPIDFCoefficients(new PIDFCoefficients(7,0,0,0.02))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.04,0,0.0005,0.5,0.05))
+            .useSecondaryTranslationalPIDF(true)
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.35,0,0,0.03));
 
     public static MecanumConstants driveConstants = new MecanumConstants()
+            .xVelocity(62)
+            .yVelocity(36)
             .maxPower(1)
             .rightFrontMotorName("rf")
             .rightRearMotorName("rb")
             .leftRearMotorName("lb")
             .leftFrontMotorName("lf")
-            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE);
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
     public static ThreeWheelIMUConstants localizerConstants = new ThreeWheelIMUConstants()
-            .forwardTicksToInches(0.0029)
-            .strafeTicksToInches(0.00293)
+            .forwardTicksToInches(0.003)
+            .strafeTicksToInches(-0.003)
             .turnTicksToInches(0.00197)
             .leftPodY(6.56)
             .rightPodY(-6.56)
@@ -42,9 +53,9 @@ public class Constants {
             .leftEncoder_HardwareMapName("lb")
             .rightEncoder_HardwareMapName("rb")
             .strafeEncoder_HardwareMapName("lf")
-            .leftEncoderDirection(Encoder.REVERSE)
-            .rightEncoderDirection(Encoder.FORWARD)
-            .strafeEncoderDirection(Encoder.REVERSE)
+            .leftEncoderDirection(Encoder.FORWARD)
+            .rightEncoderDirection(Encoder.REVERSE)
+            .strafeEncoderDirection(Encoder.FORWARD)
             .IMU_HardwareMapName("imu")
             .IMU_Orientation(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP));
     public static Follower createFollower(HardwareMap hardwareMap) {

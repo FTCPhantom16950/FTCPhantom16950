@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.actions.gamepadaction;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
@@ -14,12 +16,14 @@ public class CaptureGamepad implements Action {
     CapturingState capturingState;
     UpperState upperState;
     double spinDist = 0;
+    RevColorSensorV3 colorSpinner;
 
     @Override
     public void execute() throws InterruptedException {
+        colorSpinner = Robot.INSTANCE.getRobotDevice("colorSpinner", RevColorSensorV3.class);
         gamepad2 = Robot.INSTANCE.getRobotData("Gamepad2", Gamepad.class);
         while (!Thread.currentThread().isInterrupted()) {
-//            spinDist = Robot.INSTANCE.getRobotData("spinnerDistance", Double.class);
+            spinDist = colorSpinner.getDistance(DistanceUnit.MM);
             upperState = Robot.INSTANCE.getRobotData("UpperState", UpperState.class);
             capturingState = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
             revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
@@ -67,7 +71,7 @@ public class CaptureGamepad implements Action {
                     }
                 }
             }
-            if (upperState != UpperState.UP) {
+
                 switch (revolverStates) {
                     case RIGHT -> {
                         switchSpindex(RevolverStates.CENTER);
@@ -79,7 +83,7 @@ public class CaptureGamepad implements Action {
                         switchSpindex(RevolverStates.RIGHT);
                     }
                 }
-            }
+            Robot.INSTANCE.addTelemetryData("spinDist", spinDist);
             sleep(10);
         }
     }
@@ -92,7 +96,7 @@ public class CaptureGamepad implements Action {
             }
             sleep(300);
         }
-        else if (spinDist <= 25){
+        else if (spinDist <= 38){
             Robot.INSTANCE.addData("RevolverState", revolverStates);
             if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
                 Robot.INSTANCE.queueCurrent.add("baraban");

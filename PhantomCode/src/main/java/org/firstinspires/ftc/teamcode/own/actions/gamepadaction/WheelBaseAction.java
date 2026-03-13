@@ -41,10 +41,6 @@ public class WheelBaseAction implements Action {
             rf.setPower(frontRightPower);
             rb.setPower(backRightPower);
             sleep(10);
-            Robot.INSTANCE.addTelemetryData("currencylf", lf.getCurrent(CurrentUnit.AMPS));
-            Robot.INSTANCE.addTelemetryData("currencylb", lb.getCurrent(CurrentUnit.AMPS));
-            Robot.INSTANCE.addTelemetryData("currencyrf", rf.getCurrent(CurrentUnit.AMPS));
-            Robot.INSTANCE.addTelemetryData("currencyrb", rb.getCurrent(CurrentUnit.AMPS));
         }
     }
 }

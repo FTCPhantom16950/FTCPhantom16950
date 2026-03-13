@@ -57,32 +57,18 @@ public class LaunchGamepad implements Action {
                     }
                 }
             }
-
-            switch (rotateState) {
-                case LEFT -> {
-                    if (gamepad2.dpad_left) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-                    } else if (gamepad2.dpad_right) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-                    }
-
-
-                }
-                case STOP -> {
-                    if (gamepad2.dpad_left) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-                    } else if (gamepad2.dpad_right) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-                    }
-                }
-                case RIGHT -> {
-                    if (gamepad2.dpad_left) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-                    } else if (gamepad2.dpad_right) {
-                        Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-                    }
-                }
+            if (gamepad2.dpad_left) {
+                Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
+                sleep(100);
+            } else if (gamepad2.dpad_right) {
+                Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
+                sleep(100);
+            } else {
+                Robot.INSTANCE.addData("RotateState", RotateState.STOP);
+                sleep(100);
             }
+
+
 
             switch (upperState) {
                 case UP -> {

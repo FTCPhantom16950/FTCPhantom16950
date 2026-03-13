@@ -14,12 +14,11 @@ import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 public class AutoLaunch extends InterruptibleAction {
     DcMotorEx launcher;
     RevolverStates revolverStates, previousState;
-
-    Gamepad gamepad1;
     @Override
     public void run() throws InterruptedException {
+        launcher = Robot.INSTANCE.getRobotDevice("launcher", DcMotorEx.class);
+        Robot.INSTANCE.addTelemetryData("velocity", PhantomMath.convertToRPM(launcher.getVelocity(), 28) );
         revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
-        gamepad1 = Robot.INSTANCE.getRobotData("Gamepad1", Gamepad.class);
         if (gamepad1.left_bumper){
             isInterrupted = true;
         }

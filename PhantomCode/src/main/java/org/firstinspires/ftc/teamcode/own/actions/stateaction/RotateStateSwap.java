@@ -32,7 +32,6 @@ public class RotateStateSwap implements Action {
                 }
             }
             sleep(10);
-            Robot.INSTANCE.addTelemetryData("mem", "mem");
         }
     }
 }
