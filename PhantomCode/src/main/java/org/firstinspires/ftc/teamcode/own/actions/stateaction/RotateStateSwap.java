@@ -20,18 +20,14 @@ public class RotateStateSwap implements Action {
             switch (rotateState) {
                 case LEFT -> {
                     rotate.setPower(1);
-                    sleep(300);
                 }
                 case STOP -> {
                     rotate.setPower(0);
-                    sleep(300);
                 }
                 case RIGHT -> {
                     rotate.setPower(-1);
-                    sleep(300);
                 }
             }
-            sleep(10);
         }
     }
 }

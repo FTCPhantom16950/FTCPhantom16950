@@ -25,7 +25,7 @@ public class WheelBaseAction implements Action {
         rb = Robot.INSTANCE.getRobotDevice("rb", DcMotorEx.class);
         imu = Robot.INSTANCE.getRobotDevice("imu", IMU.class);
         while (!Thread.currentThread().isInterrupted()) {
-            x = Math.pow(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.8, 3);
+            x = -Math.pow(gamepad1.left_stick_x + gamepad1.right_stick_x * 0.8, 3);
             y = -Math.pow(gamepad1.left_stick_y + gamepad1.right_stick_y * 0.8, 3);
             rot = gamepad1.right_trigger - gamepad1.left_trigger;
             botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.own.actions.gamepadaction;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.states.AngleState;
@@ -59,33 +60,18 @@ public class LaunchGamepad implements Action {
             }
             if (gamepad1.dpad_left) {
                 Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-                sleep(100);
-            } else if (gamepad2.dpad_right) {
+            } else if (gamepad1.dpad_right) {
                 Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-                sleep(100);
             } else {
                 Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-                sleep(100);
             }
-
-
-
-            switch (upperState) {
-                case UP -> {
-                    if (gamepad1.left_bumper) {
-                        Robot.INSTANCE.addData("UpperState", UpperState.DOWN);
-                        sleep(300);
-                    }
+            if (gamepad1.left_bumper) {
+                if (upperState == UpperState.UP) {
+                    Robot.INSTANCE.addData("UpperState", UpperState.DOWN);
+                } else if (upperState == UpperState.DOWN) {
+                    Robot.INSTANCE.addData("UpperState", UpperState.UP);
                 }
-                case DOWN -> {
-                    if (gamepad1.left_bumper) {
-                        Robot.INSTANCE.addData("UpperState", UpperState.UP);
-                        if (!Robot.INSTANCE.queueCurrent.contains("pusk_raketi")) {
-                            Robot.INSTANCE.queueCurrent.add("pusk_raketi");
-                        }
-                        sleep(300);
-                    }
-                }
+                sleep(300);
             }
         }
 

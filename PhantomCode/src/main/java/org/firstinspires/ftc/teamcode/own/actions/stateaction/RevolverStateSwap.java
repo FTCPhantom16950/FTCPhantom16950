@@ -27,8 +27,6 @@ public class RevolverStateSwap implements Action {
             if (upperState != UpperState.UP ) {
                 switch (revolverStates) {
                     case LEFT -> {
-                        revolver.setPower(PhantomMath.servoCRPowerToDegrees(centerDegree, 300));
-                        sleep(500);
                         revolver.setPower(PhantomMath.servoCRPowerToDegrees(leftDegree, 300));
                         sleep(500);
                     }

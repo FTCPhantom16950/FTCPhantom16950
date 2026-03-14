@@ -32,17 +32,18 @@ public class UpperStateSwap implements Action {
             upperState = Robot.INSTANCE.getRobotData("UpperState", org.firstinspires.ftc.teamcode.own.utils.states.UpperState.class);
             switch (upperState) {
                 case UP -> {
-                    upper.setPower(upperUpPower);
-                    sleep(300);
                     if (balls.containsKey(revolverStates)){
                         balls.remove(revolverStates);
                     }
+                    upper.setPower(upperUpPower);
+                    sleep(300);
                 }
                 case DOWN -> {
                     upper.setPower(PhantomMath.servoCRPowerToDegrees(upperStartDegree, 270));
                     sleep(300);
                 }
             }
+            Robot.INSTANCE.addTelemetryData("telemetryData", upperState);
             sleep(10);
         }
     }

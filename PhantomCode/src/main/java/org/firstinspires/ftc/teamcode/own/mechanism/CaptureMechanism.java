@@ -58,6 +58,7 @@ public class CaptureMechanism implements Mechanism {
 //        Robot.INSTANCE.addRobotDevice("colorSensor", colorSensor);
         Robot.INSTANCE.addRobotDevice("capture", capture);
         Robot.INSTANCE.addRobotDevice("rotator", revolver);
+        Robot.INSTANCE.addTelemetryData("revolverState", state);
 //        Robot.INSTANCE.addRobotDevice("webcam", webcam);
         Map<RevolverStates, ArtifactColor> balls = new ConcurrentHashMap<>();
         Robot.INSTANCE.addData("balls", balls);

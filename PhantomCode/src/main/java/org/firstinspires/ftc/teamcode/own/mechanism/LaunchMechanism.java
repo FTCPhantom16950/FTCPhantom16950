@@ -81,6 +81,7 @@ public class LaunchMechanism implements Mechanism {
         Robot.INSTANCE.addRobotDevice("launcher", launcher);
         Robot.INSTANCE.addRobotDevice("angle", angle);
         Robot.INSTANCE.addRobotDevice("upper", upper);
+        Robot.INSTANCE.addData("AutoLaunch", false);
 //        Robot.INSTANCE.addRobotDevice("distanceLeft", distanceLeft);
 //        Robot.INSTANCE.addRobotDevice("distanceRight", distanceRight);
 
