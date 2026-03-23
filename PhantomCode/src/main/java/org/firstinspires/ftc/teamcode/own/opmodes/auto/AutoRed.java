@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.own.actions.auto.ImuLogAction;
 import org.firstinspires.ftc.teamcode.own.actions.auto.LaunchAutoAction;
-import org.firstinspires.ftc.teamcode.own.actions.auto.MoveForwardAction;
 import org.firstinspires.ftc.teamcode.own.actions.auto.MoveRobotAutoAction;
 import org.firstinspires.ftc.teamcode.own.actions.auto.RazgonAction;
 import org.firstinspires.ftc.teamcode.own.actions.auto.SleepAction;
@@ -24,7 +22,7 @@ import org.firstinspires.ftc.teamcode.own.utils.actions.LinearGroup;
 import org.firstinspires.ftc.teamcode.own.utils.actions.ParallelGroup;
 
 @Autonomous
-public class Auto extends PhantomOpMode {
+public class AutoRed extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new CaptureMechanism());
@@ -44,7 +42,7 @@ public class Auto extends PhantomOpMode {
                                         new MoveRobotAutoAction(0,-0.5,0,300)
                                 )
                         ),
-                        new MoveRobotAutoAction(1,0,0,750)
+                        new MoveRobotAutoAction(-1,0,0,750)
                 ),
                 new LaunchStateSwap(),
                 new AngleStateSwap(),

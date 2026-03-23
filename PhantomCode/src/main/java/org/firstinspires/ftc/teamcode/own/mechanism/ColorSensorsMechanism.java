@@ -18,18 +18,18 @@ public class ColorSensorsMechanism implements Mechanism {
         hw = Robot.INSTANCE.getRobotData("HardwareMap", HardwareMap.class);
 
         colorSpinner = hw.get(RevColorSensorV3.class, "spinner");
-        colorBottom = hw.get(RevColorSensorV3.class, "bottom");
+//        colorBottom = hw.get(RevColorSensorV3.class, "bottom");
 
         colorSpinner.setGain(gain);
-        colorBottom.setGain(gain);
+//        colorBottom.setGain(gain);
 
         Robot.INSTANCE.addData("spinnerDistance", colorSpinner.getDistance(DistanceUnit.MM));
 
-        Robot.INSTANCE.addData("bottomRed", colorBottom.getNormalizedColors().red);
-        Robot.INSTANCE.addData("bottomGreen", colorBottom.getNormalizedColors().green);
-        Robot.INSTANCE.addData("bottomBlue", colorBottom.getNormalizedColors().blue);
+//        Robot.INSTANCE.addData("bottomRed", colorBottom.getNormalizedColors().red);
+//        Robot.INSTANCE.addData("bottomGreen", colorBottom.getNormalizedColors().green);
+//        Robot.INSTANCE.addData("bottomBlue", colorBottom.getNormalizedColors().blue);
 
         Robot.INSTANCE.addRobotDevice("colorSpinner", colorSpinner);
-        Robot.INSTANCE.addRobotDevice("colorBottom", colorBottom);
+//        Robot.INSTANCE.addRobotDevice("colorBottom", colorBottom);
     }
 }

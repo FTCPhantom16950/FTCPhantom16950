@@ -38,6 +38,9 @@ public class CaptureStateSwap implements Action {
                     case UNCAPTURE -> {
                         target = -6000;
                     }
+                    case SLOW -> {
+                        target = 1000;
+                    }
                 }
             }
             else {

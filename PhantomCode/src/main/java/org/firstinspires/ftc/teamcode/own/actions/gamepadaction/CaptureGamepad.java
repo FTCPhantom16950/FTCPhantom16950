@@ -94,6 +94,7 @@ public class CaptureGamepad implements Action {
             Robot.INSTANCE.addTelemetryData("spinDist", spinDist);
             Robot.INSTANCE.addTelemetryData("balls.size()", balls.size());
             sleep(10);
+
             Robot.INSTANCE.addTelemetryData("AutoLaunch", Robot.INSTANCE.getRobotData("AutoLaunch", Boolean.class));
         }
     }
@@ -109,14 +110,16 @@ public class CaptureGamepad implements Action {
                     sleep(100);
                 }
                 balls.put(revolverStates, ArtifactColor.UNKNOWN);
-                Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
+                Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                 sleep(500);
                 Robot.INSTANCE.addData("CapturingState", prev);
                 sleep(300);
             }
             if (balls.size() < 3 && !Robot.INSTANCE.getRobotData("AutoLaunch", Boolean.class)) {
-                if (spinDist <= 37) {
-                    sleep(300);
+                if (spinDist <= 36) {
+                    Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
+                    sleep(100);
+                    Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                     Robot.INSTANCE.addData("RevolverState", revolverStates);
                     if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
                         Robot.INSTANCE.queueCurrent.add("baraban");
@@ -124,7 +127,7 @@ public class CaptureGamepad implements Action {
                     }
                     balls.put(revolverStates, ArtifactColor.UNKNOWN);
                     sleep(300);
-                    Robot.INSTANCE.addData("CapturingState", CapturingState.CAPTURE);
+
                     sleep(500);
                     Robot.INSTANCE.addData("CapturingState", prev);
                 }

@@ -21,7 +21,7 @@ import java.util.concurrent.Future;
 
 @Config
 public class LaunchStateSwap implements Action {
-    public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 4000, motorVelocity = 0;
+    public static double kV = 1 / 6000.0, kA = 0.04, kP = 0.0025, kD = 0, kI = 0, derivativeFilter = 0.5, output = 0, target = 3700, motorVelocity = 0;
     private final FullRegulator fullRegulator = new FullRegulator(kV, kA, kP, kD, kI, derivativeFilter, output, target, motorVelocity);
     DcMotorEx launcher;
     LauncherState launcherState;
@@ -52,6 +52,7 @@ public class LaunchStateSwap implements Action {
             fullRegulator.setTarget(target);
             output = fullRegulator.calculate();
             launcher.setPower(output);
+            Robot.INSTANCE.addTelemetryData("velovity", PhantomMath.convertToRPM(launcher.getVelocity(), 28));
             Robot.INSTANCE.addTelemetryData("velovity", PhantomMath.convertToRPM(launcher.getVelocity(), 28));
             sleep(10);
         }

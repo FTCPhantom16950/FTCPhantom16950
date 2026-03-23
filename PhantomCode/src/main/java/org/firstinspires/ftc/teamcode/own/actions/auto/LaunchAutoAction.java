@@ -2,47 +2,29 @@ package org.firstinspires.ftc.teamcode.own.actions.auto;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.own.utils.PhantomMath;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
-import org.firstinspires.ftc.teamcode.own.utils.actions.InterruptibleAction;
+import org.firstinspires.ftc.teamcode.own.utils.states.AngleState;
 import org.firstinspires.ftc.teamcode.own.utils.states.ArtifactColor;
-import org.firstinspires.ftc.teamcode.own.utils.states.CapturingState;
 import org.firstinspires.ftc.teamcode.own.utils.states.LauncherState;
 import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.firstinspires.ftc.teamcode.own.utils.states.UpperState;
 
 import java.util.Map;
 
-public class AutoLaunch extends InterruptibleAction {
-    DcMotorEx launcher;
+public class LaunchAutoAction implements Action {
     RevolverStates revolverStates, previousState;
-    Map<RevolverStates, ArtifactColor> balls;
-    boolean run_once = false;
     RevColorSensorV3 colorSpinner;
     @Override
-    public void run() throws InterruptedException {
+    public void execute() throws InterruptedException {
         colorSpinner = Robot.INSTANCE.getRobotDevice("colorSpinner", RevColorSensorV3.class);
-        balls = Robot.INSTANCE.getRobotData("balls", Map.class);
-        launcher = Robot.INSTANCE.getRobotDevice("launcher", DcMotorEx.class);
-        Robot.INSTANCE.addTelemetryData("velocity", PhantomMath.convertToRPM(launcher.getVelocity(), 28) );
-        revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
-        if (gamepad1.left_bumper && gamepad1.options){
-            isInterrupted = true;
-        }
-        if (PhantomMath.convertToRPM(launcher.getVelocity(), 28) >= 3000) {
-            sleep(500);
-            Robot.INSTANCE.addData("CapturingState", CapturingState.SLOW);
-            while (!balls.isEmpty()){
+        if (!Thread.currentThread().isInterrupted()){
+            Robot.INSTANCE.addData("AngleState", AngleState.UP);
+            for (int i = 0; i < 3; i++){
                 revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
-                balls = Robot.INSTANCE.getRobotData("balls", Map.class);
-                if (colorSpinner.getDistance(DistanceUnit.MM) >= 39){
-                    if (balls.containsKey(revolverStates)){
-                        balls.remove(revolverStates);
-                    }
+                if (colorSpinner.getDistance(DistanceUnit.MM) >= 40){
                     if (revolverStates == RevolverStates.RIGHT){
                         Robot.INSTANCE.addData("RevolverState", RevolverStates.CENTER);
                         sleep(800);
@@ -77,25 +59,7 @@ public class AutoLaunch extends InterruptibleAction {
                 sleep(300);
                 previousState = revolverStates;
             }
-            Robot.INSTANCE.addData("AutoLaunch", false);
-            Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
-        }
-        Robot.INSTANCE.addTelemetryData("revolverState", revolverStates);
-    }
-
-    @Override
-    public void handleInterrupt() throws InterruptedException {
-        if (!run_once){
-            run_once = true;
-            revolverStates = previousState;
-            Robot.INSTANCE.addData("UpperState", UpperState.UP);
-            sleep(800);
-            Robot.INSTANCE.addData("UpperState", UpperState.DOWN);
-            Robot.INSTANCE.addData("AutoLaunch", false);
-        }
-        if (gamepad1.left_bumper && gamepad1.options){
-            isInterrupted = true;
-            run_once = false;
+            Robot.INSTANCE.addData("LauncherState", LauncherState.STOP);
         }
     }
 }

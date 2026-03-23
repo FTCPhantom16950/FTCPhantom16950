@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.own.utils;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.panels.Panels;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,11 +28,13 @@ public abstract class PhantomOpMode extends LinearOpMode {
     OpModeStates states;
     List<Future<Void>> futures = new ArrayList<>();
     private Scheduler scheduler;
+    MultipleTelemetry multipleTelemetry;
     private final FtcLoggingSession psiKit = new FtcLoggingSession();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        psiKit.startWithConfigure(this, 5802);
+        psiKit.startWithConfigure(this, 5800);
+        multipleTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry(), PanelsTelemetry.INSTANCE.getFtcTelemetry());
         List<LynxModule> lynxModuleList = hardwareMap.getAll(LynxModule.class);
         for (LynxModule module : lynxModuleList) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -65,9 +71,10 @@ public abstract class PhantomOpMode extends LinearOpMode {
 //                telemetry.addData("usage proc", this.hardwareMap.appContext.get)
                 Logger.periodicAfterUser(0.0, 0.0);
                 for (String name : Robot.INSTANCE.getTelemetryMap().keySet()) {
-                    telemetry.addData(name, Robot.INSTANCE.getTelemetryData(name));
+                    Logger.recordOutput(name, Robot.INSTANCE.getTelemetryData(name).toString());
+                    multipleTelemetry.addData(name, Robot.INSTANCE.getTelemetryData(name));
                 }
-                telemetry.update();
+                multipleTelemetry.update();
             }
             return null;
         });
@@ -132,8 +139,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
             }
             requestOpModeStop();
             RobotLog.ee("PhantomOpMode", e.getCause(), "Внимание! Фоновый поток упал с ошибкой!");
-            throw new RuntimeException(e.getCause().getMessage());
-
+            throw new RuntimeException(e);
         } finally {
             executorService.shutdownNow();
             Robot.INSTANCE.clearAction();

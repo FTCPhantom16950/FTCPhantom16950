@@ -21,8 +21,10 @@ public class Scheduler {
         for (Mechanism mechanism : mechanismSet) {
             try {
                 mechanism.init();
-            } catch (RuntimeException | InterruptedException e) {
+            } catch (RuntimeException e) {
                 throw new RuntimeException("Error in Mechanism: " + e + " " + mechanism.getClass().getSimpleName());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -31,8 +33,10 @@ public class Scheduler {
         if (!Thread.currentThread().isInterrupted()) {
             try {
                 action.execute();
-            } catch (RuntimeException | InterruptedException e) {
-                throw new RuntimeException("Error in Action: " + e + " " + action.getClass().getSimpleName());
+            } catch (RuntimeException e) {
+                throw new RuntimeException("Error in Mechanism: " + e + " " + action.getClass().getSimpleName());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
