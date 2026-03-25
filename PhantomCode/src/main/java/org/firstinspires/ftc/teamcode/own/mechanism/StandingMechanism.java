@@ -13,34 +13,24 @@ import org.firstinspires.ftc.teamcode.own.utils.states.StandingState;
 
 @Config
 public class StandingMechanism implements Mechanism {
-    DcMotorEx rezna;
-    StandingState standingState;
+    DcMotorEx motor;
+
     HardwareMap hw;
     public static boolean reversed = false;
 
     @Override
     public void init() throws InterruptedException {
-        hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
-        rezna = hw.get(DcMotorEx.class, "rezna");
-//        ground = hw.get(RevColorSensorV3.class, "colorNiz");
+        hw = Robot.INSTANCE.getRobotData("HardwareMap", HardwareMap.class);
+        motor = hw.get(DcMotorEx.class, "rezna");
 
-        rezna.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rezna.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rezna.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        if (reversed){
-            rezna.setDirection(DcMotor.Direction.REVERSE);
-        } else {
-            rezna.setDirection(DcMotor.Direction.FORWARD);
-        }
+        motor.setPower(0);
 
-        standingState = StandingState.DOWN;
-        rezna.setPower(0);
-
+        StandingState standingState = StandingState.STOP;
         Robot.INSTANCE.addData("StandingState", standingState);
-
-        Robot.INSTANCE.addRobotDevice("rezna", rezna);
-//        Robot.INSTANCE.addRobotDevice("ground", ground);
-
+        Robot.INSTANCE.addTelemetryData("stand", motor);
     }
 }
