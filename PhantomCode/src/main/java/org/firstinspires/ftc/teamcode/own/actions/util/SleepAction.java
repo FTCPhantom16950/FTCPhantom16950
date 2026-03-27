@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.actions.auto;
+package org.firstinspires.ftc.teamcode.own.actions.util;
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 

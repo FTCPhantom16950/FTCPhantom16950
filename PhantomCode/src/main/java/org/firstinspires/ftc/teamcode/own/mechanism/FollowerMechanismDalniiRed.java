@@ -5,16 +5,15 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Config
-public class FollowerMechanismDalnii implements Mechanism {
+public class FollowerMechanismDalniiRed implements Mechanism {
     public static Follower follower;
     HardwareMap hw;
-    Pose start = new Pose(34.991, 135.701, Math.toRadians(90));
+    Pose start = new Pose(109.00934579439252, 135.70093457943926, Math.toRadians(90));
 
     @Override
     public void init() throws InterruptedException {

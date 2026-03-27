@@ -2,12 +2,12 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.own.actions.auto.ImuLogAction;
+
 import org.firstinspires.ftc.teamcode.own.actions.auto.LaunchAutoAction;
-import org.firstinspires.ftc.teamcode.own.actions.auto.MoveForwardAction;
+
 import org.firstinspires.ftc.teamcode.own.actions.auto.MoveRobotAutoAction;
 import org.firstinspires.ftc.teamcode.own.actions.auto.RazgonAction;
-import org.firstinspires.ftc.teamcode.own.actions.auto.SleepAction;
+import org.firstinspires.ftc.teamcode.own.actions.util.SleepAction;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.AngleStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.LaunchStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;

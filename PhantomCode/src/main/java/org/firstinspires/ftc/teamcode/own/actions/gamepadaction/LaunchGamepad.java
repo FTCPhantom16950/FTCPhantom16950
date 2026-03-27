@@ -58,13 +58,6 @@ public class LaunchGamepad implements Action {
                     }
                 }
             }
-            if (gamepad1.dpad_left) {
-                Robot.INSTANCE.addData("RotateState", RotateState.LEFT);
-            } else if (gamepad1.dpad_right) {
-                Robot.INSTANCE.addData("RotateState", RotateState.RIGHT);
-            } else {
-                Robot.INSTANCE.addData("RotateState", RotateState.STOP);
-            }
             if (gamepad1.left_bumper) {
                 if (upperState == UpperState.UP) {
                     Robot.INSTANCE.addData("UpperState", UpperState.DOWN);

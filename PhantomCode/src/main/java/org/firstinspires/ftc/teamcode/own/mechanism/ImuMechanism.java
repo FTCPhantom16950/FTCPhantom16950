@@ -15,6 +15,7 @@ public class ImuMechanism implements Mechanism {
     public void init() throws InterruptedException {
         hw = Robot.INSTANCE.getRobotData("HardwareMap" , HardwareMap.class);
         imu = hw.get(IMU.class, "imu");
+        imu.resetYaw();
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP)));
         Robot.INSTANCE.addRobotDevice("imu", imu);

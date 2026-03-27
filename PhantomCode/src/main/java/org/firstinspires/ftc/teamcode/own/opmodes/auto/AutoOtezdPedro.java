@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.own.actions.auto.PedroAction;
-import org.firstinspires.ftc.teamcode.own.actions.util.LimelightAction;
 import org.firstinspires.ftc.teamcode.own.actions.util.PedroUpdater;
 import org.firstinspires.ftc.teamcode.own.mechanism.FollowerMechanismDalnii;
 import org.firstinspires.ftc.teamcode.own.mechanism.ImuMechanism;
@@ -36,8 +34,7 @@ public class AutoOtezdPedro extends PhantomOpMode {
                         )
                 ),
                 new ParallelGroup(
-                        new PedroUpdater(),
-                        new LimelightAction()
+                        new PedroUpdater()
                 )
                 )
         );

@@ -56,7 +56,10 @@ public class PedroAction implements Action {
                 Robot.INSTANCE.addTelemetryData("RobotPoseY", follower.getPose().getY());
                 follower.update();
             }
+            follower.breakFollowing();
+            follower.holdPoint(follower.getPose());
             follower.update();
+
         }
     }
 }

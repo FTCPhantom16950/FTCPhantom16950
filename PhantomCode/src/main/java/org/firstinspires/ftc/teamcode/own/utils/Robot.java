@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.own.utils.actions.Action;
 import org.firstinspires.ftc.teamcode.own.utils.states.ArtifactColor;
+import org.firstinspires.ftc.teamcode.own.utils.states.MotifState;
 import org.firstinspires.ftc.teamcode.own.utils.states.RevolverStates;
 import org.psilynx.psikit.core.wpi.WPISerializable;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public enum Robot {
 
     INSTANCE;
+    public static final double COEFFICIENT_TO_DEGREE_LAUNCH = 0.09036144578313253;
+    public static MotifState motif = MotifState.UNKNOWN;
+    public static  double startCameraDegree = 0;
     public final Map<String, Integer> sounds = new ConcurrentHashMap<>();
     public final List<String> queueCurrent = new CopyOnWriteArrayList<>();
     /// Map for saving {@link HardwareDevice}

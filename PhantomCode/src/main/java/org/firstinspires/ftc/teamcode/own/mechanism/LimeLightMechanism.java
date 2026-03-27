@@ -15,6 +15,7 @@ public class LimeLightMechanism implements Mechanism {
         limelight3A = hw.get(Limelight3A.class, "LimeLight");
         limelight3A.setPollRateHz(100);
         limelight3A.pipelineSwitch(0);
-        Robot.INSTANCE.addRobotDevice("Limelight", limelight3A);
+        limelight3A.start();
+        Robot.INSTANCE.addRobotDevice("limelight", limelight3A);
     }
 }

@@ -55,6 +55,11 @@ public class ColorDetectorProcessor implements VisionProcessor {
         } else {
             currentColor = ArtifactColor.UNKNOWN;
         }
+        try {
+            Robot.INSTANCE.addTelemetryData(currentColor.getClass().getSimpleName(), currentColor);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 //        try {
 //            Robot.INSTANCE.addTelemetryData("hue", hue);

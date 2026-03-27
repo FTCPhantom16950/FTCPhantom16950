@@ -1,24 +1,23 @@
 package org.firstinspires.ftc.teamcode.own.opmodes.test;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.actions.util.AprilTagFinder;
-import org.firstinspires.ftc.teamcode.own.actions.util.RotateOtnTest;
-import org.firstinspires.ftc.teamcode.own.mechanism.CameraMechanism;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.RotateLongAction;
+import org.firstinspires.ftc.teamcode.own.actions.util.AprilTagAction;
+import org.firstinspires.ftc.teamcode.own.actions.util.IMUTest;
+import org.firstinspires.ftc.teamcode.own.actions.util.TicksToDegreeAction;
 import org.firstinspires.ftc.teamcode.own.mechanism.ImuMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LimeLightMechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
-@Autonomous
-public class RotateOnTestOpMode extends PhantomOpMode {
+
+@TeleOp(group = "test")
+public class RobotSootnOpMode extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new LaunchMechanism());
-        Robot.INSTANCE.addMechanism(new LimeLightMechanism());
-        Robot.INSTANCE.addMechanism(new CameraMechanism());
         Robot.INSTANCE.addMechanism(new ImuMechanism());
-        Robot.INSTANCE.setStartAction(new AprilTagFinder());
+        Robot.INSTANCE.setStartAction(new RotateLongAction());
     }
 }
