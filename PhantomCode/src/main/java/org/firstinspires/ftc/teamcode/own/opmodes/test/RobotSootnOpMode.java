@@ -18,6 +18,6 @@ public class RobotSootnOpMode extends PhantomOpMode {
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new LaunchMechanism());
         Robot.INSTANCE.addMechanism(new ImuMechanism());
-        Robot.INSTANCE.setStartAction(new RotateLongAction());
+        Robot.INSTANCE.setStartAction(new RotateLongAction(true));
     }
 }

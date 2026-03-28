@@ -30,7 +30,7 @@ public class CameraMechanism implements Mechanism {
                 .build();
         Robot.INSTANCE.addData("ColorDetectorProcessor", processor);
 //        FtcDashboard.getInstance().startCameraStream(portal, 30);
-        PanelsCameraStream.INSTANCE.startStream(portal, 60);
+//        PanelsCameraStream.INSTANCE.startStream(portal, 60);
         Robot.INSTANCE.addData("VisionPortal", portal);
     }
 }

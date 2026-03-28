@@ -32,9 +32,7 @@ public class UpperStateSwap implements Action {
             upperState = Robot.INSTANCE.getRobotData("UpperState", org.firstinspires.ftc.teamcode.own.utils.states.UpperState.class);
             switch (upperState) {
                 case UP -> {
-                    if (balls.containsKey(revolverStates)){
-                        balls.remove(revolverStates);
-                    }
+                    revolverStates = Robot.INSTANCE.getRobotData("RevolverState", RevolverStates.class);
                     upper.setPower(upperUpPower);
                     sleep(300);
                 }

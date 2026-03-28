@@ -93,6 +93,8 @@ public class CaptureGamepad implements Action {
             }
             Robot.INSTANCE.addTelemetryData("spinDist", spinDist);
             Robot.INSTANCE.addTelemetryData("balls.size()", balls.size());
+            Robot.INSTANCE.addTelemetryData("balls", balls.toString());
+
             sleep(10);
 
             Robot.INSTANCE.addTelemetryData("AutoLaunch", Robot.INSTANCE.getRobotData("AutoLaunch", Boolean.class));
@@ -103,31 +105,29 @@ public class CaptureGamepad implements Action {
         CapturingState prev = Robot.INSTANCE.getRobotData("CapturingState", CapturingState.class);
         if (upperState != UpperState.UP) {
             if (gamepad1.a) {
-                Robot.INSTANCE.addData("LauncherState", LauncherState.STOP);
+                Robot.INSTANCE.addData("CapturingState", CapturingState.SLOW);
                 Robot.INSTANCE.addData("RevolverState", revolverStates);
                 if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
                     Robot.INSTANCE.queueCurrent.add("baraban");
                     sleep(100);
                 }
-                balls.put(revolverStates, ArtifactColor.UNKNOWN);
                 Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
                 sleep(500);
                 Robot.INSTANCE.addData("CapturingState", prev);
                 sleep(300);
             }
             if (balls.size() < 3 && !Robot.INSTANCE.getRobotData("AutoLaunch", Boolean.class)) {
-                if (spinDist <= 36) {
-                    Robot.INSTANCE.addData("CapturingState", CapturingState.UNCAPTURE);
-                    sleep(100);
-                    Robot.INSTANCE.addData("CapturingState", CapturingState.STOP);
+                if (spinDist <= 27) {
+                    Robot.INSTANCE.addData("CapturingState", CapturingState.SLOW);
                     Robot.INSTANCE.addData("RevolverState", revolverStates);
                     if (!Robot.INSTANCE.queueCurrent.contains("baraban")) {
                         Robot.INSTANCE.queueCurrent.add("baraban");
                         sleep(100);
                     }
-                    balls.put(revolverStates, ArtifactColor.UNKNOWN);
                     sleep(300);
-
+                    if (!balls.containsKey(revolverStates)){
+                        balls.put(revolverStates, ArtifactColor.UNKNOWN);
+                    }
                     sleep(500);
                     Robot.INSTANCE.addData("CapturingState", prev);
                 }

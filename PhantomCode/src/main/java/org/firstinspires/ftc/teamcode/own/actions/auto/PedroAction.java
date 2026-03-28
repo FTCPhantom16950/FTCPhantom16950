@@ -49,16 +49,15 @@ public class PedroAction implements Action {
             follower.followPath(path, true);
             Robot.INSTANCE.addTelemetryData("RobotPoseX", follower.getPose().getX());
             Robot.INSTANCE.addTelemetryData("RobotPoseY", follower.getPose().getY());
-            while(((Math.abs(follower.getPose().getX() - follower.getCurrentPath().endPose().getX()) >= 0.3 &&
-                    Math.abs(follower.getPose().getY() - follower.getCurrentPath().endPose().getY()) >= 0.3 &&
+            while(((Math.abs(follower.getPose().getX() - follower.getCurrentPath().endPose().getX()) >= 0.3 ||
+                    Math.abs(follower.getPose().getY() - follower.getCurrentPath().endPose().getY()) >= 0.3 ||
                     Math.abs(follower.getPose().getHeading() - follower.getCurrentPath().endPose().getHeading()) >= 0.3) || follower.isBusy()) && !follower.isRobotStuck()){
                 Robot.INSTANCE.addTelemetryData("RobotPoseX", follower.getPose().getX());
                 Robot.INSTANCE.addTelemetryData("RobotPoseY", follower.getPose().getY());
                 follower.update();
             }
-            follower.breakFollowing();
-            follower.holdPoint(follower.getPose());
-            follower.update();
+//            follower.holdPoint(follower.getPose());
+//            follower.update();
 
         }
     }

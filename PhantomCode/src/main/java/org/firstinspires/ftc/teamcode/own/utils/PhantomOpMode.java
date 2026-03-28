@@ -138,7 +138,7 @@ public abstract class PhantomOpMode extends LinearOpMode {
                 SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, Robot.INSTANCE.sounds.get("kolya_pridi"));
             }
             requestOpModeStop();
-            RobotLog.ee("PhantomOpMode", e.getCause(), "Внимание! Фоновый поток упал с ошибкой!");
+            RobotLog.ee("PhantomOpMode", "Внимание! Фоновый поток упал с ошибкой!");
             throw new RuntimeException(e);
         } finally {
             executorService.shutdownNow();

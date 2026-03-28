@@ -34,7 +34,7 @@ public class Scheduler {
             try {
                 action.execute();
             } catch (RuntimeException e) {
-                throw new RuntimeException("Error in Mechanism: " + e + " " + action.getClass().getSimpleName());
+                throw new RuntimeException("Error in Action: " + e + " " + action.getClass().getSimpleName());
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

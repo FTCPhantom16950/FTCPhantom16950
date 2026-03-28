@@ -76,6 +76,10 @@ public class LaunchMechanism implements Mechanism {
         Robot.INSTANCE.addData("UpperState", upperState);
         Robot.INSTANCE.addData("angleStartDegree", angleStartDegree);
         Robot.INSTANCE.addData("upperStartDegree", upperStartDegree);
+        Robot.INSTANCE.addData("offsetBLUE", 0.0);
+        Robot.INSTANCE.addData("offsetRED", 0.0);
+        Robot.INSTANCE.addData("RotateInUse", false);
+        Robot.INSTANCE.addData("velocityShooter",  PhantomMath.convertToRPM(launcher.getVelocity(), 28));
 
         Robot.INSTANCE.addRobotDevice("rotate", rotate);
         Robot.INSTANCE.addRobotDevice("launcher", launcher);

@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Config
-public class FollowerMechanismDalniiRed implements Mechanism {
+public class FollowerMechanismBliz implements Mechanism {
     public static Follower follower;
     HardwareMap hw;
-    Pose start = new Pose(123.000, 124.000, Math.toRadians(40));
+    Pose start = new Pose(48, 8, Math.toRadians(90));
 
     @Override
     public void init() throws InterruptedException {

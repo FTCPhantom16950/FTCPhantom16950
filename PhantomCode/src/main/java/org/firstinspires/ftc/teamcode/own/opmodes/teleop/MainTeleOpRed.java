@@ -1,28 +1,32 @@
-package org.firstinspires.ftc.teamcode.own.opmodes.auto;
+package org.firstinspires.ftc.teamcode.own.opmodes.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.own.actions.auto.LaunchAutoAction;
-import org.firstinspires.ftc.teamcode.own.actions.auto.MoveRobotAutoAction;
-import org.firstinspires.ftc.teamcode.own.actions.auto.RazgonAction;
-import org.firstinspires.ftc.teamcode.own.actions.util.SleepAction;
+import org.firstinspires.ftc.teamcode.own.actions.auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.CaptureGamepad;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.LaunchGamepad;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.RotateLongAction;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.StandingGamepad;
+import org.firstinspires.ftc.teamcode.own.actions.gamepadaction.WheelBaseAction;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.AngleStateSwap;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.CaptureStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.LaunchStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;
+import org.firstinspires.ftc.teamcode.own.actions.stateaction.RotateStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.UpperStateSwap;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ColorSensorsMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.ImuMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
+import org.firstinspires.ftc.teamcode.own.mechanism.LimeLightMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.StandingMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.WheelBaseMechanism;
 import org.firstinspires.ftc.teamcode.own.utils.PhantomOpMode;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
-import org.firstinspires.ftc.teamcode.own.utils.actions.LinearGroup;
 import org.firstinspires.ftc.teamcode.own.utils.actions.ParallelGroup;
 
-@Autonomous
-public class AutoRed extends PhantomOpMode {
+@TeleOp
+public class MainTeleOpRed extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new CaptureMechanism());
@@ -31,23 +35,20 @@ public class AutoRed extends PhantomOpMode {
         Robot.INSTANCE.addMechanism(new WheelBaseMechanism());
         Robot.INSTANCE.addMechanism(new ImuMechanism());
         Robot.INSTANCE.addMechanism(new ColorSensorsMechanism());
+        Robot.INSTANCE.addMechanism(new LimeLightMechanism());
         Robot.INSTANCE.setStartAction(new ParallelGroup(
-                new LinearGroup(
-                        new RazgonAction(),
-                        new MoveRobotAutoAction(0,-0.8,0,750),
-                        new ParallelGroup(
-                                new LaunchAutoAction(),
-                                new LinearGroup(
-                                        new SleepAction(500),
-                                        new MoveRobotAutoAction(0,-0.5,0,300)
-                                )
-                        ),
-                        new MoveRobotAutoAction(-1,0,0,750)
-                ),
-                new LaunchStateSwap(),
-                new AngleStateSwap(),
+                new StandingGamepad(),
+                new RotateLongAction(true),
+                new CaptureGamepad(),
                 new RevolverStateSwap(),
-                new UpperStateSwap()
-        ));
+                new CaptureStateSwap(),
+                new LaunchGamepad(),
+                new LaunchStateSwap(),
+                new WheelBaseAction(),
+                new UpperStateSwap(),
+                new RotateStateSwap(),
+                new AngleStateSwap(),
+                new AutoLaunch()
+                ));
     }
 }

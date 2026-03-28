@@ -52,8 +52,9 @@ public class LaunchStateSwap implements Action {
             fullRegulator.setTarget(target);
             output = fullRegulator.calculate();
             launcher.setPower(output);
-            Robot.INSTANCE.addTelemetryData("velovity", PhantomMath.convertToRPM(launcher.getVelocity(), 28));
-            Robot.INSTANCE.addTelemetryData("velovity", PhantomMath.convertToRPM(launcher.getVelocity(), 28));
+            Robot.INSTANCE.addTelemetryData("velocityShooter",  PhantomMath.convertToRPM(launcher.getVelocity(), 28));
+            Robot.INSTANCE.addData("velocityShooter",  PhantomMath.convertToRPM(launcher.getVelocity(), 28));
+
             sleep(10);
         }
     }
