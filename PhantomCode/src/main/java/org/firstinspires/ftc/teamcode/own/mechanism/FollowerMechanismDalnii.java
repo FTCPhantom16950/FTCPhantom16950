@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.own.utils.Mechanism;
 import org.firstinspires.ftc.teamcode.own.utils.Robot;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.pedroPathing.Constants;
 
 @Config
 public class FollowerMechanismDalnii implements Mechanism {
