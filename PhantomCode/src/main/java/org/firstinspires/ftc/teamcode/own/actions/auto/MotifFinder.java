@@ -35,7 +35,9 @@ public class MotifFinder implements Action {
 
                     Robot.INSTANCE.addTelemetryData("Pos", rotate.getCurrentPosition());
                     rotate.setPower(0);
+
                     break;
+
                 }
                 Robot.INSTANCE.addTelemetryData("res", res.isValid());
 
@@ -44,11 +46,12 @@ public class MotifFinder implements Action {
             }
             rotate.setPower(0);
             targ = currPose - 750;
-            while (rotate.getCurrentPosition() >= targ) {
+            while (rotate.getCurrentPosition() >= targ && !(res != null && res.isValid())) {
                 res = limelight3A.getLatestResult();
                 if (res != null && res.isValid()) {
                     aprilTagRes = res.getFiducialResults();
                     aprilTagFound = true;
+                    rotate.setPower(0);
                     break;
                 }
 
@@ -58,10 +61,26 @@ public class MotifFinder implements Action {
                 rotate.setPower(-0.3);
             }
             rotate.setPower(0);
+            if (rotate.getCurrentPosition() > currPose){
+                while (rotate.getCurrentPosition() <= currPose + 10 && rotate.getCurrentPosition() >= currPose -10) {
+
+                    Robot.INSTANCE.addTelemetryData("res", res.isValid());
+                    Robot.INSTANCE.addTelemetryData("Pos", rotate.getCurrentPosition());
+                    rotate.setPower(-0.3);
+                }
+            } else {
+                while (rotate.getCurrentPosition() <= currPose + 10 && rotate.getCurrentPosition() >= currPose -10) {
+
+                    Robot.INSTANCE.addTelemetryData("res", res.isValid());
+                    Robot.INSTANCE.addTelemetryData("Pos", rotate.getCurrentPosition());
+                    rotate.setPower(0.3);
+                }
+            }
+            rotate.setPower(0);
 
         }
         if (aprilTagFound && aprilTagRes != null){
-
+            rotate.setPower(0);
             for (LLResultTypes.FiducialResult result : aprilTagRes){
                 switch (result.getFiducialId()){
                     case 21 -> {

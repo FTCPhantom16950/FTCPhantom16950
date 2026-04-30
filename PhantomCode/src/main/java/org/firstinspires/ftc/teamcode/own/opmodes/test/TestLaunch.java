@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.own.opmodes.auto;
+package org.firstinspires.ftc.teamcode.own.opmodes.test;
 
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.own.actions.stateaction.LaunchStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.RevolverStateSwap;
 import org.firstinspires.ftc.teamcode.own.actions.stateaction.UpperStateSwap;
 import org.firstinspires.ftc.teamcode.own.mechanism.CaptureMechanism;
-import org.firstinspires.ftc.teamcode.own.mechanism.FollowerMechanismBlizRED;
 import org.firstinspires.ftc.teamcode.own.mechanism.FollowerMechanismDalniiRed;
 import org.firstinspires.ftc.teamcode.own.mechanism.LaunchMechanism;
 import org.firstinspires.ftc.teamcode.own.mechanism.LimeLightMechanism;
@@ -24,7 +23,7 @@ import org.firstinspires.ftc.teamcode.own.utils.actions.LinearGroup;
 import org.firstinspires.ftc.teamcode.own.utils.actions.ParallelGroup;
 
 @Autonomous
-public class AutoDalniiStartRed extends PhantomOpMode {
+public class TestLaunch extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
         Robot.INSTANCE.addMechanism(new CaptureMechanism());
@@ -39,22 +38,6 @@ public class AutoDalniiStartRed extends PhantomOpMode {
                         new AngleStateSwap(),
                         new UpperStateSwap(),
                         new LinearGroup(
-                                new PedroAction(
-                                        40,110,
-                                        new BezierLine(
-                                                new Pose(123.000, 124.000),
-                                                new Pose(105.000, 104.000)
-                                        )
-                                ),
-                                new MotifFinder(),
-                                new PedroAction(
-                                        110,40,
-                                        new BezierLine(
-                                                new Pose(105.000, 104.000),
-                                                new Pose(90.000, 100.000)
-                                        )
-                                ),
-                                new RazgonAction(),
                                 new AutoMotifFirstLaunch()
 
                         )

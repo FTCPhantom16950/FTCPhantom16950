@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 public class FollowerMechanismDalnii implements Mechanism {
     public static Follower follower;
     HardwareMap hw;
-    Pose start = new Pose(34.991, 135.701, Math.toRadians(90));
+    Pose start = new Pose(21, 123.7, Math.toRadians(142));
 
     @Override
     public void init() throws InterruptedException {

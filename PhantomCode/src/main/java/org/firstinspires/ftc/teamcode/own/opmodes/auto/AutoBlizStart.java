@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.own.opmodes.auto;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.own.actions.auto.MotifFinder;
 import org.firstinspires.ftc.teamcode.own.actions.auto.PedroAction;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.own.utils.Robot;
 import org.firstinspires.ftc.teamcode.own.utils.actions.LinearGroup;
 
 @Autonomous
+@Disabled
 public class AutoBlizStart extends PhantomOpMode {
     @Override
     public void customOpModeSettings() throws InterruptedException {
